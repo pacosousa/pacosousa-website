@@ -1,0 +1,175 @@
+f<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+
+   <!-- Google tag (gtag.js) -->
+   <script async src="https://www.googletagmanager.com/gtag/js?id=G-88CEX3DZ05"></script>
+   <script>
+     window.dataLayer = window.dataLayer || [];
+     function gtag(){dataLayer.push(arguments);}
+     gtag('js', new Date());
+
+     gtag('config', 'G-88CEX3DZ05');
+   </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diários de um Nômade | Paco Sousa</title>
+
+  <link rel="icon" href="images/favicon.webp" type="image/webp"> 
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Poppins:wght@400;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-main: #FAF8F6;
+      --text-main: #3F3A36;
+      --accent-primary: #B85C38;
+      --accent-secondary: #6A9C89;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-main);
+      color: var(--text-main);
+    }
+    h1, h2, h3, .font-poppins {
+      font-family: 'Poppins', sans-serif;
+    }
+    .section-title {
+      font-size: 2.25rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+    .btn-primary {
+      background-color: var(--accent-primary);
+      color: #fff;
+      padding: 0.75rem 2rem;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    .btn-primary:hover {
+      background-color: #9c4424;
+      transform: translateY(-2px);
+    }
+    .post-card {
+      background-color: white;
+      border-radius: 1rem;
+      box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05), 0 4px 6px -4px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .post-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 30px -5px rgba(0,0,0,0.1);
+    }
+    .brand-text { color: var(--accent-primary); }
+  </style>
+</head>
+<body class="antialiased">
+
+<header class="bg-white/80 backdrop-blur-lg fixed w-full top-0 z-50 shadow">
+  <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+    <a href="index.html?utm_source=blog_page&utm_medium=header_menu&utm_campaign=to_hub" class="flex items-center space-x-2 font-bold text-xl font-poppins brand-text">
+      <img src="images/logo-blog.webp" alt="Logo Paco Sousa" class="h-8 w-8">
+      <span>Paco Sousa</span>
+    </a>
+    
+    <div class="hidden md:flex items-center space-x-8">
+      <a href="#artigos" class="text-gray-600 hover:text-[var(--accent-primary)]">Artigos</a>
+      <a href="#sobre" class="text-gray-600 hover:text-[var(--accent-primary)]">Sobre</a>
+      <a href="index.html?utm_source=blog_page&utm_medium=header_menu&utm_campaign=to_hub" class="text-gray-600 hover:text-[var(--accent-primary)] font-semibold">Voltar ao Hub</a>
+    </div>
+  </nav>
+</header>
+
+
+  <main>
+    <section class="h-[60vh] flex items-center justify-center text-white text-center bg-cover bg-center px-4" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.4)), url('images/viagem.jpeg')">
+      <div>
+        <h1 class="text-5xl md:text-6xl font-extrabold leading-tight text-white drop-shadow-lg">Diários de um Nômade</h1>
+        <h2 class="text-2xl font-light text-white mt-4 max-w-3xl mx-auto">Histórias Reais de um Mundo Sem Roteiro</h2>
+      </div>
+    </section>
+
+    <section id="artigos" class="py-20 px-4">
+      <div class="container mx-auto max-w-6xl text-center">
+        <p class="text-xl text-gray-600 font-light max-w-3xl mx-auto mb-12">
+          Aventuras, perrengues e lições de uma vida em movimento — experiências reais de um nômade digital.
+        </p>
+        <h2 class="section-title mb-12">Últimos Artigos</h2>
+        <div class="flex flex-wrap justify-center gap-8">
+          
+          <div class="post-card w-full max-w-sm">
+            <a href="artigos/argentina-realidade-economica.html?utm_source=blog_page&utm_medium=card_artigo&utm_campaign=artigo_argentina">
+              <img src="images/capa-argentina.webp" class="w-full h-48 object-cover" alt="Bandeira da Argentina e paisagem de Buenos Aires">
+              <div class="p-6">
+                <p class="text-sm brand-text font-semibold mb-2">Análise</p>
+                <h3 class="text-xl font-bold mb-2">A Realidade Econômica da Argentina</h3>
+                <p class="text-gray-600 text-sm">Uma visão real de quem está vivendo a inflação por dentro...</p>
+              </div>
+            </a>
+          </div>
+
+          <div class="post-card w-full max-w-sm">
+            <a href="artigos/lugares-gratis-buenos-aires.html">
+              <img src="images/capa-buenos-aires-gratis.webp" class="w-full h-48 object-cover" alt="Vista do Obelisco de Buenos Aires">
+              <div class="p-6">
+                <p class="text-sm brand-text font-semibold mb-2">Guia</p>
+                <h3 class="text-xl font-bold mb-2">Lugares Gratuitos para Visitar em Buenos Aires</h3>
+                <p class="text-gray-600 text-sm">Um guia completo com as melhores atrações para explorar a cidade sem gastar muito...</p>
+              </div>
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section id="sobre" class="py-20 bg-white px-4">
+      <div class="container mx-auto max-w-4xl text-center">
+        <img src="images/foto-perfil.jpeg" class="rounded-full w-24 h-24 object-cover mx-auto mb-6 border-4 border-white shadow-xl">
+        <h2 class="section-title">Por Trás da Mochila</h2>
+        <div class="mt-8 space-y-6 text-lg text-gray-700 leading-relaxed">
+          <p>Sou o Paco, e este blog é o meu diário real. Aqui você vai encontrar aprendizados de estrada — tudo que eu aprendi e com muitos mapas rabiscados.</p>
+          <p>Viajar não é fuga. É mergulho. Cada destino me ensina algo novo sobre o mundo e sobre mim. Este espaço é para compartilhar essas descobertas com você.</p>
+        </div>
+      </div>
+    </section>
+
+<section class="py-20 px-4">
+  <div class="container mx-auto max-w-2xl text-center bg-[var(--accent-secondary)] bg-opacity-10 p-10 rounded-xl">
+    <h2 class="section-title mb-4">Não Perca a Próxima Jornada</h2>
+    <p class="text-gray-600 mb-8">Receba novos artigos e reflexões direto na sua caixa de entrada. Sem spam, só boas histórias.</p>
+
+    <!-- AQUI está o formulário, com o onsubmit adicionado -->
+    <form 
+      name="newsletter-blog" 
+      method="POST" 
+      data-netlify="true" 
+      action="./obrigado-newsletter.html"
+      onsubmit="gtag('event', 'formulario_newsletter_enviado', {
+        'event_category': 'Formulário',
+        'event_label': 'Newsletter'
+      });"
+      class="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+
+      <input type="hidden" name="form-name" value="newsletter-blog" />
+      <input type="email" name="email" placeholder="Seu melhor e-mail" required class="flex-grow p-3 rounded-md border border-gray-300 focus:ring-2 focus:ring-[var(--accent-primary)] focus:outline-none">
+      <button type="submit" class="btn-primary py-3 px-6">Subscrever</button>
+    </form>
+  </div>
+</section>
+
+  </main>
+
+  <footer class="text-center bg-white py-10 px-4">
+    <p class="font-semibold text-lg mb-4">Me acompanhe nas redes</p>
+    <div class="flex justify-center space-x-6">
+      <a href="https://www.instagram.com/opacosousa/?utm_source=blog_page&utm_medium=footer_link&utm_campaign=to_instagram" class="text-gray-500 hover:text-[var(--accent-primary)]">Instagram</a>
+      <a href="https://www.tiktok.com/@opacosousa/?utm_source=blog_page&utm_medium=footer_link&utm_campaign=to_tiktok" class="text-gray-500 hover:text-[var(--accent-primary)]">TikTok</a>
+    </div>
+    <p class="text-sm text-gray-400 mt-8">&copy; 2025 Paco Sousa. Diários de um Nômade. Todos os direitos reservados.</p>
+  </footer>
+</body>
+</html>

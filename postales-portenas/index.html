@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apresentação Interativa - Consultoria Paco Sousa</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@700;800&display=swap" rel="stylesheet">
+
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #0A192F; color: #FFFFFF; }
+        h1, h2, h3, h4 { font-family: 'Poppins', sans-serif; }
+        .slide { transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out; position: absolute; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 4rem 1rem; }
+        .slide-hidden { opacity: 0; pointer-events: none; transform: translateX(20px); }
+        .slide-visible { opacity: 1; transform: translateX(0); }
+        .slide-previous { transform: translateX(-20px); }
+        .btn-primary { background-color: #0052CC; transition: background-color 0.3s; }
+        .btn-primary:hover { background-color: #00BFFF; }
+        .btn-secondary { border-color: #0052CC; color: #00BFFF; transition: background-color 0.3s, color 0.3s; }
+        .btn-secondary:hover { background-color: #0052CC; color: #FFFFFF; }
+        .progress-bar-fill { background-color: #00BFFF; transition: width 0.5s ease-in-out; }
+        .logo-ps { font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 2rem; color: #FFFFFF; display: flex; align-items: center; }
+        .logo-ps .arrow { color: #00BFFF; margin: 0 -0.2em; transform: translateY(-2px); }
+        .card { background-color: #0F2340; border: 1px solid #1E3A5F; }
+        .contact-card:hover { background-color: #1E3A5F; }
+        .highlight-yellow { color: #FFD700; }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4 overflow-hidden">
+
+    <div class="w-full max-w-5xl mx-auto h-[700px] md:h-[650px] relative">
+        <header class="absolute top-0 left-0 right-0 p-4 z-20">
+            <div class="flex items-center justify-between">
+                <!-- O logo "PS" na header pode ser mantido ou removido, dependendo da sua preferência -->
+                <div class="logo-ps">
+                    <span>P</span>
+                    <svg class="arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 4L12 20M12 4L18 10M12 4L6 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>                        
+                    <span>S</span>
+                </div>
+                <button id="lang-toggle" class="text-white font-semibold py-2 px-4 rounded-lg border-2 border-transparent hover:border-white transition-all">
+                    <span id="lang-pt">PT</span> / <span id="lang-es" class="opacity-50">ES</span>
+                </button>
+            </div>
+            <div class="w-full bg-gray-700 rounded-full h-1.5 mt-4">
+                <div id="progress-bar" class="progress-bar-fill h-1.5 rounded-full" style="width: 20%"></div>
+            </div>
+        </header>
+
+        <main id="slides-container" class="w-full h-full relative">
+            <!-- Nova Slide 1: Página de Abertura com Logo e Nome -->
+            <div id="slide-1" class="slide slide-visible text-center">
+                <img src="logo-oficial-branco.png" alt="Logo da Empresa Paco Sousa" class="max-w-xs mx-auto mb-8">
+                <h1 class="text-6xl md:text-7xl font-extrabold mb-2 text-white">PACO SOUSA</h1>
+                <p id="s_logo_subtitle" class="text-2xl md:text-3xl max-w-2xl text-cyan-400"></p>
+            </div>
+
+            <!-- Nova Slide 2: Biografia -->
+            <div id="slide-2" class="slide slide-hidden text-center">
+                <h2 id="s_bio_h2" class="text-3xl md:text-4xl font-bold mb-8"></h2>
+                <div class="flex flex-col md:flex-row items-center justify-center max-w-4xl mx-auto">
+                    <div class="w-48 h-48 bg-gray-700 rounded-full flex items-center justify-center overflow-hidden mb-8 md:mb-0 md:mr-8">
+                        <!-- Espaço para inserir a foto -->
+                        <img src="foto-perfil.jpeg" alt="Foto de Paco Sousa" class="object-cover w-full h-full"> 
+                    </div>
+                    <p id="s_bio_p" class="text-lg text-white/80 text-left"></p>
+                </div>
+            </div>
+
+            <!-- As slides existentes foram renumeradas e seus IDs ajustados -->
+            <div id="slide-3" class="slide slide-hidden text-center">
+                <h1 id="s1-h1" class="text-4xl md:text-5xl font-extrabold mb-4"></h1>
+                <p id="s1-p1" class="text-lg md:text-xl max-w-2xl mb-8 opacity-80"></p>
+                <button onclick="nextSlide()" class="btn-secondary font-bold py-3 px-8 border-2 rounded-lg text-lg"><span id="s1-btn"></span></button>
+            </div>
+
+            <div id="slide-4" class="slide slide-hidden">
+                <h2 id="s2-h2" class="text-3xl md:text-4xl font-bold mb-2 text-center"></h2>
+                <p id="s2-p1" class="text-lg opacity-80 mb-8 text-center"></p>
+                <div class="grid md:grid-cols-2 gap-8 w-full max-w-4xl">
+                    <div class="card p-6 rounded-lg">
+                        <h3 class="text-xl font-bold mb-4 flex items-center text-green-400">
+                            <svg class="w-6 h-6 mr-2 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <span id="s2-h3-1"></span>
+                        </h3>
+                        <ul id="s2-ul-1" class="space-y-2 text-white/80"></ul>
+                    </div>
+                    <div class="card p-6 rounded-lg">
+                        <h3 class="text-xl font-bold mb-4 flex items-center text-red-400">
+                            <svg class="w-6 h-6 mr-2 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <span id="s2-h3-2"></span>
+                        </h3>
+                        <ul id="s2-ul-2" class="space-y-2 text-white/80"></ul>
+                    </div>
+                </div>
+            </div>
+
+            <div id="slide-5" class="slide slide-hidden">
+                <h2 id="s3-h2" class="text-3xl md:text-4xl font-bold mb-2 text-center"></h2>
+                <p id="s3-p1" class="text-lg opacity-80 mb-8 text-center max-w-3xl"></p>
+                <div class="grid md:grid-cols-2 gap-8 w-full max-w-4xl">
+                    <div class="card p-6 rounded-lg">
+                        <h3 class="text-xl font-bold mb-2 flex items-center highlight-yellow">
+                            <span id="s3-h3-1"></span>
+                        </h3>
+                        <p id="s3-p2" class="text-white/80"></p>
+                    </div>
+                    <div class="card p-6 rounded-lg">
+                        <h3 class="text-xl font-bold mb-2 flex items-center highlight-yellow">
+                            <span id="s3-h3-2"></span>
+                        </h3>
+                        <p id="s3-p3" class="text-white/80"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="slide-6" class="slide slide-hidden">
+                <h2 id="s4-h2" class="text-3xl md:text-4xl font-bold mb-2 text-center"></h2>
+                <p id="s4-p1" class="text-lg opacity-80 mb-8 text-center"></p>
+                <div id="s4-cards" class="grid md:grid-cols-2 gap-6 w-full max-w-4xl"></div>
+            </div>
+
+            <div id="slide-7" class="slide slide-hidden">
+                <h2 id="s5-h2" class="text-3xl md:text-4xl font-bold mb-2 text-center"></h2>
+                <p id="s5-p1" class="text-lg opacity-80 mb-8 text-center"></p>
+                <div id="s5-cards" class="grid md:grid-cols-3 gap-8 w-full max-w-4xl"></div>
+            </div>
+            
+            <div id="slide-8" class="slide slide-hidden">
+                <h2 id="s6-h2" class="text-3xl md:text-4xl font-bold mb-2 text-center"></h2>
+                <p id="s6-p1" class="text-lg opacity-80 mb-8 text-center"></p>
+                <div id="s6-cards" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-5xl"></div>
+            </div>
+
+            <div id="slide-9" class="slide slide-hidden text-center">
+                <div class="w-full max-w-md card p-8 rounded-2xl shadow-lg">
+                    <h2 id="s7-h2" class="text-2xl font-bold mb-2 text-cyan-400"></h2>
+                    <p id="s7-p1" class="text-4xl font-extrabold mb-4"></p>
+                    <p id="s7-p2" class="text-md opacity-80"></p>
+                </div>
+                <footer class="absolute bottom-4 text-center w-full"><p id="s7-footer" class="text-xs opacity-50"></p></footer>
+            </div>
+
+            <div id="slide-10" class="slide slide-hidden text-center">
+                <h2 id="s8-h2" class="text-3xl md:text-4xl font-bold mb-4"></h2>
+                <p id="s8-p1" class="text-lg opacity-80 mb-8 max-w-3xl"></p>
+                <div id="s8-cards" class="grid md:grid-cols-3 gap-6 w-full max-w-4xl"></div>
+            </div>
+        </main>
+        
+        <footer class="absolute bottom-0 left-0 right-0 p-6 z-20 flex justify-center items-center space-x-4">
+            <button id="prev-btn" onclick="prevSlide()" class="p-3 rounded-full bg-gray-800 hover:bg-gray-700 transition"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15 18L9 12L15 6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <button id="next-btn" onclick="nextSlide()" class="p-3 rounded-full bg-gray-800 hover:bg-gray-700 transition"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 18L15 12L9 6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </footer>
+    </div>
+
+    <script>
+        const totalSlides = 10;
+        let currentSlide = 1;
+        let currentLang = 'pt';
+
+        const icons = {
+            email: `<svg class="w-8 h-8 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>`,
+            whatsapp: `<svg class="w-8 h-8 mx-auto" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.894 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01s-.521.074-.792.372c-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.203 5.076 4.487.709.306 1.262.489 1.694.626.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"></path></svg>`,
+            website: `<svg class="w-8 h-8 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>`
+        };
+        const content = {
+            pt: {
+                // Conteúdo para a nova slide 1 (logo e subtítulo)
+                s_logo_subtitle: "Consultoria para Novos Negócios",
+                // Conteúdo para a nova slide 2 (biografia)
+                s_bio_h2: "Quem é Paco Sousa?",
+                s_bio_p: "Brasileiro, formado em Engenharia de Produção pela UFSCar. Possui anos de experiência em análise de mercados e desenvolvimento de novos negócios. Recentemente iniciou uma consultoria focada em dar vida a novas ideias, com a ajuda de ferramentas modernas e com custos que se adaptam à realidade do cliente.",
+                
+                // Conteúdo para a slide original 1 (agora slide 3)
+                s1_h1: "Começar com estrutura é mais leve.", s1_p1: "Proposta de apoio estratégico para organizar, validar e dar os primeiros passos com segurança.", s1_btn: "Conhecer a Proposta",
+                // Conteúdo para a slide original 2 (agora slide 4)
+                s2_h2: "Onde estamos agora", s2_p1: "Um diagnóstico honesto da situação atual do projeto.", s2_h3_1: "O que já existe", s2_list1: ["3 tours definidos: Museu, Histórico, Urbano", "Equipe com 4 integrantes completa", "Primeiro grupo piloto agendado", "Público-alvo definido"], s2_h3_2: "O que ainda falta", s2_list2: ["Agenda estruturada e papéis definidos", "Processos e ferramentas de organização", "Estratégia mínima de marketing", "Controle financeiro básico", "Fluxo de atendimento claro"],
+                // Conteúdo para a slide original 3 (agora slide 5)
+                s3_h2: "O Plano: Validar Antes de Construir", s3_p1: "Usaremos a metodologia Lean Startup para reduzir riscos. Nosso foco é aprender rápido com o mínimo de desperdício.", s3_h3_1: "Business Model Canvas", s3_p2: "Vamos mapear o DNA do seu negócio em uma única página. Isso nos dará clareza sobre como cada parte da sua empresa cria, entrega e captura valor.", s3_h3_2: "MVP (Produto Mínimo Viável)", s3_p3: "Vamos definir e criar a versão mais simples do seu produto, capaz de resolver o problema principal do seu cliente e nos fornecer aprendizado validado.",
+                // Conteúdo para a slide original 4 (agora slide 6)
+                s4_h2: "O que vamos construir juntos", s4_p1: "Soluções práticas e simples, sem complicação.", s4_cards: [{ title: "Um modelo mínimo de operação", desc: "Estrutura básica e funcional para começar a operar com confiança." }, { title: "Ferramentas básicas para organizar e testar", desc: "Excel, Trello, Docs - nada complicado, tudo prático." }, { title: "Clareza sobre funções e próximos passos", desc: "Cada pessoa sabe seu papel e como contribuir para o sucesso." }, { title: "Uma base para aprender com os clientes", desc: "Sistema simples para coletar feedback e melhorar continuamente." }],
+                // Conteúdo para a slide original 5 (agora slide 7)
+                s5_h2: "Nossa Metodologia: O Ciclo Lean", s5_p1: "Aplicamos um ciclo testado e validado para tirar sua ideia do papel.", s5_cards: [{ title: "Construir", desc: "Estrutura mínima e MVP: Processos, agenda, canais." }, { title: "Medir", desc: "Dados básicos: Vendas, feedback, esforço." }, { title: "Aprender", desc: "Insights práticos: O que funcionou, como ajustar, como crescer." }],
+                // Conteúdo para a slide original 6 (agora slide 8)
+                s6_h2: "Ferramentas Entregues", s6_p1: "Lista enxuta e funcional para começar a operar com organização.", s6_cards: [{ title: "Business Model Canvas Preenchido" }, { title: "Planilha de controle financeiro" }, { title: "Trello com fluxo de atendimento" }, { title: "Mini guia de marketing inicial" }, { title: "Roadmap do MVP" }],
+                // Conteúdo para a slide original 7 (agora slide 9)
+                s7_h2: "Investimento e Formato", s7_p1: "Custo: R$ 360", s7_p2: "Investimento acessível para começar com o pé direito.", s7_footer: "",
+                // Conteúdo para a slide original 8 (agora slide 10)
+                s8_h2: "Vamos conversar?", s8_p1: "Vamos organizar, testar, ajustar e preparar o negócio para crescer com segurança, sem pular etapas.", s8_cards: [{ icon: icons.email, title: 'Email', value: 'contato@pacosousa.com', link: 'mailto:contato@pacosousa.com' }, { icon: icons.whatsapp, title: 'WhatsApp', value: '+55 11 98122-0910', link: 'https://wa.me/5511981220910' }, { icon: icons.website, title: 'Website', value: 'pacosousa.com', link: 'https://pacosousa.com' }],
+            },
+            es: {
+                // Conteúdo para a nova slide 1 (logo e subtítulo)
+                s_logo_subtitle: "Consultoría para Nuevos Negocios",
+                // Conteúdo para a nova slide 2 (biografia)
+                s_bio_h2: "¿Quién es Paco Sousa?",
+                s_bio_p: "Brasileño, formado en Ingeniería Industrial por la UFSCar. Posee años de experiencia en análisis de mercados y desarrollo de nuevos negocios. Recientemente inició una consultoría enfocada en dar vida a nuevas ideas, con la ayuda de herramientas modernas y con costos que se adaptan a la realidad del cliente.",
+
+                // Conteúdo para a slide original 1 (agora slide 3)
+                s1_h1: "Empezar con estructura es más liviano.", s1_p1: "Propuesta de apoyo estratégico para organizar, validar y dar los primeros pasos con seguridad.", s1_btn: "Conocer la Propuesta",
+                // Conteúdo para a slide original 2 (agora slide 4)
+                s2_h2: "Dónde estamos ahora", s2_p1: "Un diagnóstico honesto de la situación actual del proyecto.", s2_h3_1: "Lo que ya existe", s2_list1: ["3 tours definidos: Museo, Histórico, Urbano", "Equipo con 4 integrantes completo", "Primer grupo piloto agendado", "Público objetivo definido"], s2_h3_2: "Lo que todavía falta", s2_list2: ["Agenda estructurada y roles definidos", "Procesos y herramientas de organización", "Estrategia mínima de marketing", "Control financiero básico", "Flujo de atención claro"],
+                // Conteúdo para a slide original 3 (agora slide 5)
+                s3_h2: "El Plan: Validar Antes de Construir", s3_p1: "Usaremos la metodología Lean Startup para reducir riesgos. Nuestro foco es aprender rápido con el mínimo desperdicio.", s3_h3_1: "Business Model Canvas", s3_p2: "Vamos a mapear el ADN de tu negocio en una única página. Esto nos dará claridad sobre cómo cada parte de tu empresa crea, entrega y captura valor.", s3_h3_2: "MVP (Producto Mínimo Viable)", s3_p3: "Vamos a definir y crear la versión más simple de tu producto, capaz de resolver el problema principal de tu cliente y darnos aprendizaje validado.",
+                // Conteúdo para a slide original 4 (agora slide 6)
+                s4_h2: "Qué vamos a construir juntos", s4_p1: "Soluciones prácticas y simples, sin complicaciones.", s4_cards: [{ title: "Un modelo mínimo de operación", desc: "Estructura básica y funcional para empezar a operar con confianza." }, { title: "Herramientas básicas para organizar y testear", desc: "Excel, Trello, Docs - nada complicado, todo práctico." }, { title: "Claridad sobre funciones y próximos pasos", desc: "Cada persona sabe su rol y cómo contribuir para el éxito." }, { title: "Una base para aprender de los clientes", desc: "Sistema simple para recolectar feedback y mejorar continuamente." }],
+                // Conteúdo para a slide original 5 (agora slide 7)
+                s5_h2: "Nuestra Metodología: El Ciclo Lean", s5_p1: "Aplicamos un ciclo probado y validado para hacer realidad tu idea.", s5_cards: [{ title: "Construir", desc: "Estructura mínima y MVP: Procesos, agenda, canales." }, { title: "Medir", desc: "Datos básicos: Ventas, feedback, esfuerzo." }, { title: "Aprender", desc: "Insights prácticos: Qué funcionó, cómo ajustar, cómo crecer." }],
+                // Conteúdo para a slide original 6 (agora slide 8)
+                s6_h2: "Herramientas Entregadas", s6_p1: "Una lista concisa y funcional para empezar a operar con organización.", s6_cards: [{ title: "Business Model Canvas completo" }, { title: "Planilla de control financiero" }, { title: "Trello con flujo de atención" }, { title: "Mini guía de marketing inicial" }, { title: "Roadmap del MVP" }],
+                // Conteúdo para a slide original 7 (agora slide 9)
+                s7_h2: "Inversión y Formato", s7_p1: "Costo: ARS$ 78.480", s7_p2: "Inversión accesible para empezar con el pie derecho.", s7_footer: "Conversión realizada considerando un tipo de cambio de R$1 = ARS$218",
+                // Conteúdo para a slide original 8 (agora slide 10)
+                s8_h2: "¿Conversamos?", s8_p1: "Vamos a organizar, testear, ajustar y preparar el negocio para crecer con seguridad, sin saltar etapas.", s8_cards: [{ icon: icons.email, title: 'Email', value: 'contato@pacosousa.com', link: 'mailto:contato@pacosousa.com' }, { icon: icons.whatsapp, title: 'WhatsApp', value: '+55 11 98122-0910', link: 'https://wa.me/5511981220910' }, { icon: icons.website, title: 'Sitio Web', value: 'pacosousa.com', link: 'https://pacosousa.com' }],
+            }
+        };
+
+        function updateTextContent() {
+            const lang = content[currentLang];
+            
+            // Mapeia chaves de conteúdo para IDs de elementos e atualiza o texto
+            const textElements = {
+                s_logo_subtitle: 's_logo_subtitle', // Novo ID para o subtítulo do logo
+                s_bio_h2: 's_bio_h2',             // Novo ID para o título da biografia
+                s_bio_p: 's_bio_p',               // Novo ID para o parágrafo da biografia
+
+                s1_h1: 's1-h1', s1_p1: 's1-p1', s1_btn: 's1-btn',
+                s2_h2: 's2-h2', s2_p1: 's2-p1', s2_h3_1: 's2-h3-1', s2_h3_2: 's2-h3-2',
+                s3_h2: 's3-h2', s3_p1: 's3-p1', s3_h3_1: 's3-h3-1', s3_p2: 's3-p2', s3_h3_2: 's3-h3-2', s3_p3: 's3-p3',
+                s4_h2: 's4-h2', s4_p1: 's4-p1',
+                s5_h2: 's5-h2', s5_p1: 's5-p1',
+                s6_h2: 's6-h2', s6_p1: 's6-p1',
+                s7_h2: 's7-h2', s7_p1: 's7-p1', s7_p2: 's7-p2', s7_footer: 's7-footer',
+                s8_h2: 's8-h2', s8_p1: 's8-p1',
+            };
+
+            for (const key in textElements) {
+                const el = document.getElementById(textElements[key]);
+                if (el) el.textContent = lang[key];
+            }
+
+            // Atualiza elementos de lista
+            const listElements = { s2_list1: 's2-ul-1', s2_list2: 's2-ul-2' };
+            for (const key in listElements) {
+                const el = document.getElementById(listElements[key]);
+                if (el) el.innerHTML = lang[key].map(item => `<li class="flex items-start"><span class="text-cyan-400 mr-2 shrink-0">-</span><span>${item}</span></li>`).join('');
+            }
+            
+            // Atualiza seções de cartão
+            const cardSections = {
+                s4_cards: { id: 's4-cards', tpl: card => `<div class="card p-6 rounded-lg"><h4 class="text-xl font-bold mb-2 text-cyan-400">${card.title}</h4><p class="text-white/80">${card.desc}</p></div>` },
+                s5_cards: { id: 's5-cards', tpl: card => `<div class="card p-6 rounded-lg text-center"><h4 class="text-xl font-bold mb-2 text-cyan-400">${card.title}</h4><p class="text-white/80">${card.desc}</p></div>` },
+                s6_cards: { id: 's6-cards', tpl: card => `<div class="card p-6 rounded-lg text-center"><h4 class="text-lg font-bold text-cyan-400">${card.title}</h4></div>` },
+                s8_cards: { id: 's8-cards', tpl: card => `<a href="${card.link}" target="_blank" rel="noopener noreferrer" class="card contact-card p-6 rounded-lg text-center">${card.icon}<h4 class="text-xl font-bold mt-4 mb-1 text-cyan-400">${card.title}</h4><p class="text-white/80">${card.value}</p></a>` }
+            };
+
+            for (const key in cardSections) {
+                const el = document.getElementById(cardSections[key].id);
+                if (el && lang[key]) el.innerHTML = lang[key].map(cardSections[key].tpl).join('');
+            }
+        }
+
+        function updateSlideView() {
+            const slides = Array.from({ length: totalSlides }, (_, i) => document.getElementById(`slide-${i + 1}`));
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const progressBar = document.getElementById('progress-bar');
+            slides.forEach(slide => { slide.classList.add('slide-hidden'); slide.classList.remove('slide-visible', 'slide-previous'); });
+            const currentSlideElement = slides[currentSlide - 1];
+            currentSlideElement.classList.remove('slide-hidden');
+            currentSlideElement.classList.add('slide-visible');
+            if (currentSlide > 1) { slides[currentSlide - 2].classList.add('slide-previous'); }
+            prevBtn.disabled = currentSlide === 1;
+            nextBtn.disabled = currentSlide === totalSlides;
+            prevBtn.style.display = currentSlide === 1 ? 'none' : 'block';
+            nextBtn.style.display = currentSlide === totalSlides ? 'none' : 'block';
+            progressBar.style.width = `${(currentSlide / totalSlides) * 100}%`;
+        }
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'pt' ? 'es' : 'pt';
+            document.getElementById('lang-es').classList.toggle('opacity-50', currentLang === 'pt');
+            document.getElementById('lang-pt').classList.toggle('opacity-50', currentLang === 'es');
+            updateTextContent();
+        }
+
+        function nextSlide() { if (currentSlide < totalSlides) { currentSlide++; updateSlideView(); } }
+        function prevSlide() { if (currentSlide > 1) { currentSlide--; updateSlideView(); } }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('lang-toggle').addEventListener('click', toggleLanguage);
+            updateTextContent();
+            updateSlideView();
+        });
+    </script>
+</body>
+</html>

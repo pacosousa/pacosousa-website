@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+
+   <!-- Google tag (gtag.js) -->
+   <script async src="https://www.googletagmanager.com/gtag/js?id=G-88CEX3DZ05"></script>
+   <script>
+     window.dataLayer = window.dataLayer || [];
+     function gtag(){dataLayer.push(arguments);}
+     gtag('js', new Date());
+
+     gtag('config', 'G-88CEX3DZ05');
+   </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paco Sousa - Estratégia & Liberdade</title>
+
+  <link rel="icon" href="images/favicon.webp" type="image/webp">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@400;500;700&family=Playfair+Display:ital,wght@1,500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-light: #FBFAF8;
+      --bg-neutral: #EDEAE6;
+      --bg-dark: #0B1D2C;
+      --text-dark: #292524;
+      --text-muted: #3B342F;
+      --accent-terracotta: #C55A11;
+      --accent-terracotta-light: #F0B478;
+      --accent-blue: #0B4F6C;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-neutral);
+      color: var(--text-dark);
+    }
+    h1, h2, h3, .font-poppins {
+      font-family: 'Poppins', sans-serif;
+    }
+    .section-title {
+      font-weight: 700;
+      font-size: 2.5rem;
+      line-height: 1.2;
+    }
+    .bg-texture {
+      background-image: url('images/texture.svg');
+      background-size: cover;
+      background-position: top right;
+    }
+    .btn-primary {
+        background-color: var(--accent-terracotta);
+        color: white;
+        border: 2px solid var(--accent-terracotta); /* Borda adicionada para padronização */
+        transition: all 0.3s ease;
+    }
+    .btn-primary:hover{
+        background-color: #a14f2e;
+        border-color: #a14f2e; /* Consistência no hover */
+        transform: scale(1.05);
+    }
+    .btn-secondary {
+        background-color: transparent;
+        border: 2px solid var(--accent-blue);
+        color: var(--accent-blue);
+        transition: all 0.3s ease;
+    }
+    .btn-secondary:hover {
+        background-color: var(--accent-blue);
+        color: white;
+        transform: scale(1.05);
+    }
+    .carousel-image {
+        display: none;
+    }
+    .carousel-image.active {
+        display: block;
+    }
+  </style>
+</head>
+<body class="antialiased">
+
+  <!-- HEADER -->
+  <header class="bg-white/80 backdrop-blur-lg fixed w-full top-0 z-50 shadow-sm">
+    <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+      <a href="index.html" class="font-bold text-lg font-poppins flex items-center gap-2 text-gray-800">
+        <img src="images/logo-oficial.webp" alt="Logo Paco Sousa" class="h-8 w-8">
+        Paco Sousa
+      </a>
+      <div class="hidden md:flex items-center space-x-8">
+        <a href="#jornadas" class="text-gray-600 hover:text-[--accent-terracotta]">Jornadas</a>
+        <a href="#destaques" class="text-gray-600 hover:text-[--accent-terracotta]">Em Foco</a>
+        <a href="#sobre" class="text-gray-600 hover:text-[--accent-terracotta]">Minha História</a>
+        <a href="#contato" class="bg-gray-800 text-white text-sm py-2 px-4 rounded-full hover:bg-black transition-colors">Contato</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="w-full min-h-[400px] flex items-center justify-center text-white bg-cover bg-center px-4 py-16" style="background-image: linear-gradient(rgba(11, 29, 44, 0.7), rgba(11, 29, 44, 0.7)), url('images/capa-perito-moreno.jpeg');">
+      <div class="container mx-auto max-w-6xl flex flex-col md:flex-row items-center justify-center gap-10 text-center md:text-left">
+    
+        <div class="flex justify-center">
+          <img src="images/foto-perfil.webp" alt="Paco Sousa" class="rounded-full w-48 h-48 object-cover shadow-xl">
+        </div>
+    
+        <div>
+          <h1 class="text-4xl lg:text-5xl font-extrabold leading-tight">
+            Sistemas para <span class="text-[--accent-terracotta-light]">escalar</span>.<br>
+            Estratégias para <span class="text-[--accent-terracotta-light]">explorar</span>.
+          </h1>
+          <p class="mt-6 text-lg text-gray-200">
+            Transformo dados e jornadas em histórias com propósito.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- JORNADAS -->
+    <section id="jornadas" class="py-20 px-4 bg-[var(--bg-dark)]">
+      <div class="container mx-auto max-w-5xl text-center">
+        <h2 class="section-title text-white">Qual jornada você quer seguir?</h2>
+        <div class="grid md:grid-cols-2 gap-8 mt-12">
+          <div class="bg-white rounded-xl shadow-lg p-8 hover:shadow-2xl transition">
+            <div class="text-left">
+              <div class="text-4xl mb-4">📈</div>
+              <h3 class="text-2xl font-bold mb-2">Quero Vender Mais</h3>
+              <p class="text-gray-600">Acesse estratégias práticas para escalar sua loja com inteligência.</p>
+              <a href="consultoria.html?utm_source=hub_page&utm_medium=card_cta&utm_campaign=to_consultoria" class="inline-block mt-6 bg-[var(--accent-blue)] text-white font-semibold py-3 px-6 rounded-lg hover:bg-[var(--accent-terracotta)]">Conhecer a Consultoria</a>
+            </div>
+          </div>
+          <div class="bg-white rounded-xl shadow-lg p-8 hover:shadow-2xl transition">
+            <div class="text-left">
+              <div class="text-4xl mb-4">✈️</div>
+              <h3 class="text-2xl font-bold mb-2">Quero Viajar Mais</h3>
+              <p class="text-gray-600">Explore guias e histórias da vida real como nômade digital.</p>
+              <a href="blog.html?utm_source=hub_page&utm_medium=card_cta&utm_campaign=to_blog" class="inline-block mt-6 bg-[var(--accent-terracotta)] text-white font-semibold py-3 px-6 rounded-lg hover:bg-[var(--accent-blue)]">Explorar o Blog</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EM FOCO -->
+    <section id="destaques" class="py-20 px-4 bg-white">
+      <div class="container mx-auto max-w-5xl text-center">
+        <h2 class="section-title">Em Foco Agora</h2>
+        <div class="flex flex-wrap justify-center gap-8 mt-12">
+          <a href="consultoria.html#ebook?utm_source=hub_page&utm_medium=banner&utm_campaign=lancamento_ebook" class="w-[300px] rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition">
+            <div class="bg-[var(--bg-dark)] text-white p-6 h-full flex flex-col justify-between">
+              <h3 class="text-2xl font-bold mb-2 break-words">📘 Guia: 7 Diagnósticos</h3>
+              <p class="text-sm">Destrave suas vendas com clareza.</p>
+            </div>
+          </a>
+          <a href="desafio-loja-do-zero.html?utm_source=hub_page&utm_medium=banner&utm_campaign=desafio" class="w-[300px] rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition hidden">
+            <div class="bg-[var(--accent-blue)] text-white p-6 h-full flex flex-col justify-between">
+              <h3 class="text-2xl font-bold mb-2 break-words">🛠 Desafio Loja do Zero</h3>
+              <p class="text-sm">Negócio real, em tempo real.</p>
+            </div>
+          </a>
+          <a href="artigos/argentina-realidade-economica.html?utm_source=hub_page&utm_medium=banner&utm_campaign=artigo_argentina" class="w-[300px] rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition">
+            <div class="bg-[var(--accent-terracotta)] text-white p-6 h-full flex flex-col justify-between">
+              <h3 class="text-2xl font-bold mb-2 break-words">🇦🇷 Argentina: A Realidade</h3>
+              <p class="text-sm">Um olhar interno sobre economia e sobrevivência.</p>
+            </div>
+          </a>
+          <a href="artigos/lugares-gratis-buenos-aires.html?utm_source=hub_page&utm_medium=banner&utm_campaign=artigo_lugares_gratis" class="w-[300px] rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition">
+            <div class="bg-[var(--accent-terracotta)] text-white p-6 h-full flex flex-col justify-between">
+              <h3 class="text-2xl font-bold mb-2 break-words">📍 Lugares Gratuitos em BA</h3>
+              <p class="text-sm">Um guia completo para explorar a cidade sem gastar.</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+	
+    <!-- SOBRE MIM -->
+    <section id="sobre" class="py-20 px-4">
+      <div class="container mx-auto max-w-4xl">
+        <div class="text-center">
+          <p class="font-semibold text-[--accent-terracotta] uppercase tracking-widest">Minha Jornada</p>
+          <h2 class="section-title">A Lógica por Trás da Aventura</h2>
+        </div>
+        <div class="mt-10 space-y-6 text-lg text-gray-700 leading-relaxed">
+          <p>Depois de aprender o que realmente escala um negócio na linha de frente de uma gigante do marketplace, decidi que era hora de o meu maior projeto ser a minha própria vida.</p>
+          <p>Desde 2022, eu viajo o mundo sem muito planeamento, apenas com o meu computador e a certeza de que o bem-estar e o crescimento profissional andam de mãos dadas. O que eu partilho aqui é exatamente isso: a lógica que constrói a liberdade.</p>
+          <blockquote class="italic text-[--text-muted] border-l-4 border-[--accent-terracotta] bg-white p-6">
+            "A chave para qualquer jornada? Saber onde você está, para onde quer ir, e o melhor caminho até lá."
+          </blockquote>
+        </div>
+
+        <!-- CARROSSEL DE FOTOS ADICIONADO -->
+        <div class="mt-16">
+            <div id="journey-carousel" class="relative w-full max-w-3xl mx-auto shadow-2xl rounded-xl overflow-hidden">
+                <div class="flex transition-transform duration-500 ease-in-out" id="carousel-inner">
+                    <img src="images/istanbul.jpeg" alt="Paco em um congresso de e-commerce" class="carousel-image w-full flex-shrink-0">
+                    <img src="images/brasov.jpeg" alt="Paco em uma viagem" class="carousel-image w-full flex-shrink-0" style="display: none;">
+                    <img src="images/dubrovnik.jpeg" alt="Paco trabalhando como nômade" class="carousel-image w-full flex-shrink-0" style="display: none;">
+                    <img src="images/capa-argentina.webp" alt="Paco em outra viagem" class="carousel-image w-full flex-shrink-0" style="display: none;">
+                </div>
+                <button id="prev" class="absolute top-1/2 left-4 -translate-y-1/2 bg-white/50 hover:bg-white text-gray-800 p-2 rounded-full shadow-md">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                </button>
+                <button id="next" class="absolute top-1/2 right-4 -translate-y-1/2 bg-white/50 hover:bg-white text-gray-800 p-2 rounded-full shadow-md">
+                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </button>
+            </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- CONTATO -->
+    <section id="contato" class="py-20 px-4 bg-white">
+      <div class="container mx-auto max-w-2xl text-center">
+        <h2 class="section-title">Vamos Construir Juntos?</h2>
+        <p class="text-gray-500 max-w-xl mx-auto mb-12">Seja para escalar seu negócio ou conversar sobre viagens, estou por aqui.</p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a href="mailto:contato@pacosousa.com?subject=Contato%20pelo%20Site" class="btn-primary py-4 px-8 text-lg rounded-lg shadow-lg w-full sm:w-auto">Enviar um E-mail</a>
+            <a href="https://www.instagram.com/opacosousa/?utm_source=hub_page&utm_medium=button_cta&utm_campaign=to_instagram" target="_blank" class="btn-secondary py-4 px-8 text-lg rounded-lg w-full sm:w-auto">Seguir no Instagram</a>
+        </div>
+      </div>
+    </section>
+
+    <footer class="text-center bg-gray-800 text-gray-300 py-12 px-4 text-sm">
+      <p>&copy; 2025 Paco Sousa. Todos os direitos reservados.</p>
+    </footer>
+  </main>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const carouselInner = document.getElementById('carousel-inner');
+        const images = carouselInner ? carouselInner.querySelectorAll('img') : [];
+        const prevButton = document.getElementById('prev');
+        const nextButton = document.getElementById('next');
+        let currentIndex = 0;
+
+        function showImage(index) {
+            if (images.length === 0) return;
+            images.forEach((img, i) => {
+                img.style.display = i === index ? 'block' : 'none';
+            });
+        }
+
+        if(prevButton && nextButton) {
+            prevButton.addEventListener('click', () => {
+                currentIndex = (currentIndex > 0) ? currentIndex - 1 : images.length - 1;
+                showImage(currentIndex);
+            });
+
+            nextButton.addEventListener('click', () => {
+                currentIndex = (currentIndex < images.length - 1) ? currentIndex + 1 : 0;
+                showImage(currentIndex);
+            });
+        }
+        
+        showImage(currentIndex);
+    });
+  </script>
+</body>
+</html>
