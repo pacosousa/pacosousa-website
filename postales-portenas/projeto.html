@@ -627,7 +627,8 @@
             <h3 data-lang="pt">Progresso do Projeto:</h3>
             <h3 data-lang="es">Progreso del Proyecto:</h3>
             <div class="progress-bar-container">
-                <div class="progress-bar" id="progressBar"></div>
+                <!-- A largura da barra de progresso agora é definida diretamente no estilo inline -->
+                <div class="progress-bar" id="progressBar" style="width: 95%;">95%</div>
             </div>
         </div>
 
@@ -664,7 +665,7 @@
                                 <span class="task-time">1.5h</span>
                             </div>
                         </a>
-                        <a href="https://docs.google.com/spreadsheets/d/1AvmcdTGZpukRkCpNPkSfN7mxHU5pARvN3X1pO4xuLhk/edit?gid=0#gid=0" class="card-link" title="Clique para ver o Controle Financeiro" onclick="return false;">
+                        <a href="https://docs.google.com/spreadsheets/d/1AvmcdTGZpukRkCpNPkSfN7mxHU5pARvN3X1pO4xuLhk/edit?gid=0#gid=0" class="card-link" title="Clique para ver o Controle Financeiro (link externo)">
                             <div class="task-card is-link">
                                 <div>
                                     <div class="task-title" data-lang="pt">💰 Controle Financeiro</div>
@@ -675,7 +676,7 @@
                                 <span class="task-time">1h</span>
                             </div>
                         </a>
-                        <a href="https://trello.com/invite/b/6886db9949f4749b1023e91c/ATTI9a761083e58ff3fdced0d4eb3859ae3eE866F12C/sistema-de-atencion-al-cliente" class="card-link" title="Clique para ver o Sistema de Atendimento" onclick="return false;">
+                        <a href="https://trello.com/invite/b/6886db9949f4749b1023e91c/ATTI9a761083e58ff3fdced0d4eb3859ae3eE866F12C/sistema-de-atencion-al-cliente" class="card-link" title="Clique para ver o Sistema de Atendimento (link externo)">
                             <div class="task-card is-link">
                                 <div>
                                     <div class="task-title" data-lang="pt">📋 Sistema de Atendimento</div>
@@ -686,7 +687,7 @@
                                 <span class="task-time">1h</span>
                             </div>
                         </a>
-                        <a href="#" class="card-link" title="Clique para ver a Organização Digital" onclick="return false;">
+                        <a href="https://drive.google.com/drive/u/3/my-drive" class="card-link" title="Clique para ver a Organização Digital (link externo)">
                             <div class="task-card is-link">
                                 <div>
                                     <div class="task-title" data-lang="pt">📁 Organização Digital</div>
@@ -771,7 +772,7 @@
                         <div class="phase-time" data-lang="es">4 horas</div>
                     </div>
                     <div class="tasks-grid">
-                        <a href="./guia_mkt.html" class="card-link" title="Clique para ver o Mini Guia de Marketing" onclick="return false;">
+                        <a href="./guia_mkt.html" class="card-link" title="Clique para ver o Mini Guia de Marketing" (link interno)>
                             <div class="task-card is-link">
                                 <div>
                                     <div class="task-title" data-lang="pt">📖 Mini Guia de Marketing</div>
@@ -782,7 +783,7 @@
                                 <span class="task-time">2h</span>
                             </div>
                         </a>
-                        <a href="https://as-literary-paths.lovable.app" class="card-link" title="Clique para ver a Estratégia Instagram" onclick="return false;">
+                        <a href="https://as-literary-paths.lovable.app" class="card-link" title="Clique para ver a Estratégia Instagram (link externo)">
                             <div class="task-card is-link">
                                 <div>
                                     <div class="task-title" data-lang="pt">📱 Estratégia Instagram</div>
@@ -793,7 +794,7 @@
                                 <span class="task-time">1h</span>
                             </div>
                         </a>
-                        <a href="https://postales-porte.lovable.app" class="card-link" title="Clique para ver o Kit de Ferramentas" onclick="return false;">
+                        <a href="https://postales-porte.lovable.app" class="card-link" title="Clique para ver o Kit de Ferramentas (link externo)">
                             <div class="task-card is-link">
                                 <div>
                                     <div class="task-title" data-lang="pt">🛠️ Kit de Ferramentas</div>
@@ -1130,7 +1131,7 @@
             <p data-lang="es">Fuentes serifadas con personalidad clásica, pero suaves — que remitan a la tradición y la elegancia.</p>
 
             <p data-lang="pt"><strong>Você já tem algum símbolo, forma ou ideia visual em mente?</strong></p>
-            <p data-lang="es"><strong>¿Ya tienes algún símbolo, forma o idea visual en mente?</strong></p>
+            <p data-lang="es"><strong>¿Ya tienes algún símbolo, forma ou idea visual em mente?</strong></p>
             <p data-lang="pt">Elementos inspirados em mapas antigos, selos postais, cartas e cadernos de viagem.</p>
             <p data-lang="es">Elementos inspirados en mapas antiguos, sellos postales, cartas y cuadernos de viaje.</p>
 
@@ -1176,7 +1177,7 @@
             <p data-lang="pt"><strong>Se sua marca fosse um sucesso absoluto, como isso seria?</strong></p>
             <p data-lang="es"><strong>Si tu marca fuera un éxito absoluto, ¿cómo sería?</strong></p>
             <p data-lang="pt">“Maravilhoso. Meu sonho.”</p>
-            <p data-lang="es">“Maravilloso. Mi sueño.”</p>
+            <p data-lang="es">“Maravilhoso. Mi sueño.”</p>
             <a href="#" class="back-button" onclick="openTab('roadmap'); return false;">
                 <span data-lang="pt">Voltar ao Roadmap</span>
                 <span data-lang="es">Volver al Roadmap</span>
@@ -1374,9 +1375,8 @@
 
     <script>
         let currentLang = 'pt'; // Default language is Portuguese
-        const totalHours = 12; // Total hours for the project
-        const hoursUsed = 2; // Hours used so far
-        const progressPercentage = (hoursUsed / totalHours) * 100;
+        // A variável progressPercentage agora é definida diretamente para 95%
+        const progressPercentage = 95; 
 
         // Function to toggle language
         function toggleLanguage() {
@@ -1482,4 +1482,3 @@
     </script>
 </body>
 </html>
- 
