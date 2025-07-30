@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Postales Porteñas | Guía de Marketing</title>
+    <title>Postales Porteñas | Guía Completa de Marca y Marketing</title>
     
     <!-- Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -32,22 +32,49 @@
             font-family: 'Inter', sans-serif;
         }
 
-        /* Custom styles to match the brand identity */
+        /* General Body Styles */
         body {
             background-color: var(--cor-cafe-intenso);
             color: var(--cor-cafe-sombra);
             font-family: 'Inter', sans-serif;
         }
 
-        .brand-guide-container {
+        /* Main container for the guides */
+        .main-container {
             background-color: var(--cor-pergaminho);
             background-image: url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%239C92AC" fill-opacity="0.05"%3E%3Cpath d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');
         }
+        
+        /* Navigation Menu Styles */
+        .guide-nav {
+            border-bottom: 2px solid var(--cor-cafe-cremoso);
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+        }
+        .nav-button {
+            font-family: 'Crimson Text', serif;
+            font-size: 1.25rem;
+            color: var(--cor-cafe-medio);
+            background-color: transparent;
+            border: none;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            border-radius: 0.25rem;
+        }
+        .nav-button:hover {
+            color: var(--cor-cafe-intenso);
+        }
+        .nav-button.active {
+            color: var(--cor-cafe-intenso);
+            font-weight: bold;
+            background-color: var(--cor-bege-quente);
+        }
 
+        /* Shared styles for content sections */
         .main-title {
             color: var(--cor-cafe-intenso);
         }
-        
         .chapter-title {
              font-family: 'Crimson Text', serif;
              color: var(--cor-cafe-intenso);
@@ -57,220 +84,304 @@
              display: flex;
              align-items: center;
         }
-
         .card {
             background-color: var(--cor-bege-quente);
             border: 1px solid var(--cor-cafe-cremoso);
             border-radius: 0.5rem;
             padding: 1.5rem;
         }
-
         .brand-divider {
             height: 1px;
             background-image: linear-gradient(to right, transparent, var(--cor-cafe-medio), transparent);
             margin: 3rem 0;
         }
-        
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 1rem;
         }
-        
         th, td {
             text-align: left;
             padding: 0.75rem;
             border-bottom: 1px solid var(--cor-cafe-cremoso);
         }
-        
         th {
             font-family: 'Crimson Text', serif;
             color: var(--cor-cafe-intenso);
             background-color: var(--cor-bege-quente);
         }
+        
+        /* Styles from Brand Guide */
+        .brand-title {
+            color: var(--cor-cafe-intenso);
+            border-bottom: 2px solid var(--cor-cafe-medio);
+        }
+        .section-title {
+             font-family: 'Crimson Text', serif;
+             color: var(--cor-cafe-intenso);
+             border-bottom: 1px solid hsla(30, 20%, 60%, 0.5);
+             padding-bottom: 0.5rem;
+             margin-bottom: 1rem;
+        }
+        .color-swatch {
+            width: 100%;
+            height: 70px;
+            border-radius: 0.375rem;
+            border: 1px solid hsla(20, 25%, 15%, 0.1);
+        }
+        .icon-display {
+            color: var(--cor-cafe-intenso);
+        }
+        .prompt-container {
+            background-color: var(--cor-bege-quente);
+            border: 1px dashed var(--cor-cafe-medio);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            position: relative;
+        }
+        .copy-button {
+            background-color: var(--cor-cafe-intenso);
+            color: var(--cor-pergaminho);
+            font-family: 'Inter', sans-serif;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+            border: none;
+            margin-top: 1rem;
+        }
+        .copy-button:hover {
+            background-color: hsl(25, 30%, 35%);
+        }
     </style>
 </head>
 <body class="font-sans-contemporanea py-12 px-4 sm:px-6 lg:px-8">
 
-    <main class="brand-guide-container max-w-4xl mx-auto p-8 md:p-12 rounded-lg shadow-2xl">
+    <div class="main-container max-w-5xl mx-auto p-8 md:p-12 rounded-lg shadow-2xl">
         
-        <header class="text-center mb-10">
-            <h1 class="font-serif-literaria text-4xl md:text-5xl font-bold main-title pb-2">
-                Guía de Marketing y Branding
-            </h1>
-            <p class="text-xl" style="color: var(--cor-cafe-medio);">para Postales Porteñas</p>
-        </header>
+        <!-- Navigation Menu -->
+        <nav class="guide-nav text-center">
+            <button id="btn-marca" class="nav-button active">Guía de Marca Visual</button>
+            <button id="btn-marketing" class="nav-button">Guía de Marketing</button>
+        </nav>
 
-        <section id="introduccion">
-            <h2 class="chapter-title text-4xl font-bold"><span class="mr-4">🚩</span>Introducción</h2>
-            <p class="text-lg leading-relaxed">
-                Este documento es una brújula para emprendimientos turísticos como Postales Porteñas, que nacen con una estructura ágil, recursos medidos y un universo de ideas. El objetivo es ofrecer un camino claro para lanzar una estrategia de marketing memorable, construir una marca sólida desde sus cimientos, establecer una presencia digital con alma y conectar de manera genuina con viajeros que buscan la verdadera esencia de Buenos Aires. Aquí encontrarás fundamentos y acciones prácticas, pensadas para equipos reducidos y corazones grandes, sin necesidad de experiencia previa en marketing.
-            </p>
-        </section>
-
-        <div class="brand-divider"></div>
-
-        <section id="branding">
-            <h2 class="chapter-title text-4xl font-bold"><span class="mr-4">🧭</span>Capítulo 1 – Fundamentos de Branding</h2>
-            <p class="mb-4 leading-relaxed">El branding es el alma de tu proyecto. Es la promesa que le haces a cada viajero. Para Postales Porteñas, no se trata de vender tours, sino de ofrecer "fotografías habladas".</p>
-            <div class="card">
-                <h3 class="font-serif-literaria text-2xl mb-2 text-gray-800">Manifiesto de Marca</h3>
-                <p class="italic">"No somos guías. Somos contadores de historias. Somos anfitriones de la memoria."</p>
-                <hr class="my-4 border-gray-300">
-                <h3 class="font-serif-literaria text-2xl mb-2 text-gray-800">Personalidad</h3>
-                <ul class="list-disc list-inside space-y-1">
-                    <li><span class="font-semibold">Culta y accesible:</span> Comparte conocimiento con calidez.</li>
-                    <li><span class="font-semibold">Acogedora:</span> Cada viajero es un invitado.</li>
-                    <li><span class="font-semibold">Apasionada:</span> El amor por Buenos Aires es contagioso.</li>
-                    <li><span class="font-semibold">Empática:</span> Escucha y se adapta a la curiosidad del otro.</li>
-                </ul>
-            </div>
-        </section>
-
-        <div class="brand-divider"></div>
+        <!-- Content Views -->
+        <div id="guia-marca-view" class="content-view">
+            <!-- GUÍA DE MARCA VISUAL CONTENT START -->
+            <main>
+                <header class="text-center mb-12">
+                    <h1 class="font-serif-literaria text-5xl md:text-6xl font-bold brand-title pb-4 inline-block">
+                        POSTALES PORTEÑAS
+                    </h1>
+                </header>
         
-        <section id="identidad-visual">
-            <h2 class="chapter-title text-4xl font-bold"><span class="mr-4">🎨</span>Capítulo 2 – Identidad Visual en la Práctica</h2>
-            <p class="mb-4 leading-relaxed">Tu identidad visual es la primera impresión. Debe comunicar instantáneamente la calidez, la nostalgia y la elegancia de la experiencia. Cada color y cada letra cuentan una parte de la historia.</p>
-             <div class="card">
-                <p class="mb-2"><strong class="font-serif-literaria">Tipografía:</strong> Usa <strong>Crimson Text</strong> para títulos, evocando la elegancia de los libros antiguos. Para el texto principal, <strong>Inter</strong> asegura una lectura clara y moderna.</p>
-                <p><strong class="font-serif-literaria">Colores:</strong> La paleta (Café Cremoso, Intenso, Pergamino) está inspirada en los cafés notables, el papel envejecido y las sombras de las calles de San Telmo. Genera un ambiente acogedor y sofisticado.</p>
-            </div>
-        </section>
+                <section class="mb-12 text-center italic">
+                     <p class="font-serif-literaria text-2xl mb-4" style="color: var(--cor-cafe-intenso);">
+                        "Buenos Aires es un libro abierto, pero la mayoría solo lee las primeras páginas."
+                    </p>
+                    <p class="text-lg" style="color: var(--cor-cafe-sombra);">
+                        No somos guías. Somos contadores de historias. Somos anfitriones de la memoria. Transformamos cada tour en una carta, un recuerdo vivo, una fotografía hablada.
+                    </p>
+                </section>
         
-        <div class="brand-divider"></div>
-
-        <section id="plataformas">
-            <h2 class="chapter-title text-4xl font-bold"><span class="mr-4">📱</span>Capítulo 3 – Plataformas de Marketing Digital</h2>
-            <p class="mb-4 leading-relaxed">Cada canal tiene un propósito. No se trata de estar en todos lados, sino de estar en los lugares correctos de la manera correcta.</p>
-            <ul class="space-y-3">
-                <li><strong>Instagram:</strong> Es tu vidriera principal, tu postal visual. Úsalo para inspirar con fotos evocadoras, videos cortos y carruseles que cuenten micro-historias.</li>
-                <li><strong>WhatsApp Business:</strong> Es tu línea directa, tu mostrador de atención. Ideal para un trato cercano, resolver dudas rápidamente y confirmar reservas de forma personalizada.</li>
-                <li><strong>Sitio Web / Landing Page:</strong> Es tu folleto digital y centro de reservas. Debe ser claro, fácil de navegar y transmitir la propuesta de valor en segundos.</li>
-                <li><strong>YouTube:</strong> Un canal para el futuro. Perfecto para contenido más profundo, como mini-documentales sobre la historia de un barrio o entrevistas a personajes locales.</li>
-            </ul>
-        </section>
-
-        <div class="brand-divider"></div>
-
-        <section id="crecimiento">
-            <h2 class="chapter-title text-4xl font-bold"><span class="mr-4">📣</span>Capítulo 4 – Crecimiento Orgánico</h2>
-            <p class="mb-4 leading-relaxed">El crecimiento orgánico es ganar visibilidad sin pagar por publicidad, construyendo una comunidad real. Es ideal para la etapa inicial por su bajo costo y alto impacto.</p>
-            <h3 class="font-serif-literaria text-2xl mb-2 text-gray-800">Acciones Clave</h3>
-            <ul class="list-disc list-inside space-y-2">
-                <li><strong>Contenido relevante y constante:</strong> Publica al menos 3 veces por semana, alternando formatos. Usa captions que cuenten historias y siempre incluye un llamado a la acción ("Guarda este lugar para tu viaje").</li>
-                <li><strong>Uso estratégico de hashtags:</strong> Mezcla hashtags amplios (#BuenosAires) con específicos (#CafesNotables, #TurismoCulturalBA).</li>
-                <li><strong>Interacción humana:</strong> Responde a todos los comentarios y mensajes. Agradece cada mención. La comunidad se construye conversando.</li>
-                <li><strong>Alianzas con microinfluencers:</strong> Colabora con creadores de contenido locales. Ofrece tours a cambio de publicaciones sinceras.</li>
-            </ul>
-        </section>
+                <div class="brand-divider"></div>
         
-        <div class="brand-divider"></div>
+                <section class="mb-12">
+                    <h2 class="section-title text-4xl font-bold mb-8">Identidad Visual</h2>
+                    <div class="mb-10">
+                        <h3 class="font-serif-literaria text-2xl mb-4" style="color: var(--cor-cafe-intenso);">Paleta de Colores</h3>
+                        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 text-center">
+                            <div>
+                                <div class="color-swatch" style="background-color: var(--cor-cafe-cremoso);"></div>
+                                <p class="mt-2 font-semibold text-sm">Café Cremoso</p><p class="text-xs" style="color: var(--cor-cafe-medio);">Primario</p>
+                            </div>
+                            <div>
+                                <div class="color-swatch" style="background-color: var(--cor-cafe-intenso);"></div>
+                                <p class="mt-2 font-semibold text-sm">Café Intenso</p><p class="text-xs" style="color: var(--cor-cafe-medio);">Primario</p>
+                            </div>
+                            <div>
+                                <div class="color-swatch" style="background-color: var(--cor-pergaminho);"></div>
+                                <p class="mt-2 font-semibold text-sm">Pergamino</p><p class="text-xs" style="color: var(--cor-cafe-medio);">Primario</p>
+                            </div>
+                            <div>
+                                <div class="color-swatch" style="background-color: var(--cor-cafe-medio);"></div>
+                                <p class="mt-2 font-semibold text-sm">Café Medio</p><p class="text-xs" style="color: var(--cor-cafe-medio);">Apoyo</p>
+                            </div>
+                            <div>
+                                <div class="color-swatch" style="background-color: var(--cor-cafe-sombra);"></div>
+                                <p class="mt-2 font-semibold text-sm">Café Sombra</p><p class="text-xs" style="color: var(--cor-cafe-medio);">Apoyo</p>
+                            </div>
+                            <div>
+                                <div class="color-swatch" style="background-color: var(--cor-bege-quente);"></div>
+                                <p class="mt-2 font-semibold text-sm">Beige Cálido</p><p class="text-xs" style="color: var(--cor-cafe-medio);">Apoyo</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-10">
+                        <h3 class="font-serif-literaria text-2xl mb-4" style="color: var(--cor-cafe-intenso);">Tipografía</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div class="p-6 rounded-lg" style="background-color: var(--cor-bege-quente);">
+                                <p class="font-serif-literaria text-3xl font-bold" style="color: var(--cor-cafe-intenso);">Crimson Text</p>
+                                <p class="text-sm mb-4" style="color: var(--cor-cafe-medio);">Uso: Títulos y destacados</p>
+                                <p class="font-serif-literaria text-lg">La elegancia de una Buenos Aires literaria.</p>
+                            </div>
+                            <div class="p-6 rounded-lg" style="background-color: var(--cor-bege-quente);">
+                                <p class="font-sans-contemporanea text-3xl font-bold" style="color: var(--cor-cafe-intenso);">Inter</p>
+                                <p class="text-sm mb-4" style="color: var(--cor-cafe-medio);">Uso: Cuerpo de texto y botones</p>
+                                <p class="font-sans-contemporanea text-lg">Ligera, funcional y moderna para una lectura agradable.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="font-serif-literaria text-2xl mb-4" style="color: var(--cor-cafe-intenso);">Elementos Visuales e Iconografía</h3>
+                        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 text-center">
+                            <div class="icon-display flex flex-col items-center justify-center p-4 card rounded-lg"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h14v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path><line x1="6" y1="1" x2="6" y2="4"></line><line x1="10" y1="1" x2="10" y2="4"></line><line x1="14" y1="1" x2="14" y2="4"></line></svg><p class="mt-2 text-sm font-medium">Taza de café</p></div>
+                            <div class="icon-display flex flex-col items-center justify-center p-4 card rounded-lg"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg><p class="mt-2 text-sm font-medium">Libro</p></div>
+                            <div class="icon-display flex flex-col items-center justify-center p-4 card rounded-lg"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"></path><line x1="16" y1="8" x2="2" y2="22"></line><line x1="17.5" y1="15" x2="9" y2="15"></line></svg><p class="mt-2 text-sm font-medium">Pluma</p></div>
+                            <div class="icon-display flex flex-col items-center justify-center p-4 card rounded-lg"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg><p class="mt-2 text-sm font-medium">Lupa</p></div>
+                            <div class="icon-display flex flex-col items-center justify-center p-4 card rounded-lg"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon><line x1="8" y1="2" x2="8" y2="18"></line><line x1="16" y1="6" x2="16" y2="22"></line></svg><p class="mt-2 text-sm font-medium">Mapa</p></div>
+                            <div class="icon-display flex flex-col items-center justify-center p-4 card rounded-lg"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg><p class="mt-2 text-sm font-medium">Carta</p></div>
+                        </div>
+                    </div>
+                </section>
+        
+                <div class="brand-divider"></div>
+        
+                <section class="mb-12">
+                    <h2 class="section-title text-4xl font-bold mb-8">Identidad Verbal</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="card p-6 rounded-lg"><h3 class="font-serif-literaria text-2xl mb-4" style="color: var(--cor-cafe-intenso);">Tono de Comunicación</h3><ul class="list-disc list-inside space-y-2"><li><span class="font-semibold">Culto y accesible:</span> Demuestra conocimiento sin ser pretenciosa.</li><li><span class="font-semibold">Acogedora:</span> Hace que el visitante se sienta como en casa.</li><li><span class="font-semibold">Apasionada:</span> Demuestra entusiasmo y emoción genuina.</li><li><span class="font-semibold">Empática:</span> Escucha y comprende la perspectiva del otro.</li></ul></div>
+                        <div class="card p-6 rounded-lg"><h3 class="font-serif-literaria text-2xl mb-4" style="color: var(--cor-cafe-intenso);">Palabras Clave</h3><p class="mb-4 text-green-800 font-medium">Usar con frecuencia:</p><p class="text-sm leading-relaxed">Descubrimiento, encanto, historia viva, cultura, auténtico, afectivo, local, verdadero, sorprendente, literatura, café, conversaciones, memoria, narrativa, experiencia.</p><hr class="my-4 border-gray-300"><p class="mb-4 text-red-800 font-medium">Evitar:</p><p class="text-sm leading-relaxed">Jergas turísticas como “imperdible”, “top 10”, “secretos”. Lenguaje excesivamente formal o artificial. Superlativos exagerados.</p></div>
+                    </div>
+                </section>
+        
+                <div class="brand-divider"></div>
+                
+                <section class="mb-12">
+                    <h2 class="section-title text-4xl font-bold mb-8">Prompt para IA</h2>
+                    <div class="prompt-container">
+                        <pre id="ia-prompt-text" class="whitespace-pre-wrap text-sm font-mono" style="color: var(--cor-cafe-sombra);"><code>Estás creando materiales para la marca POSTALES PORTEÑAS, una empresa de tours históricos en Buenos Aires.
 
-        <section id="folletos">
-            <h2 class="chapter-title text-4xl font-bold"><span class="mr-4">🧾</span>Capítulo 5 – Folletos y Material Gráfico</h2>
-            <p class="mb-4 leading-relaxed">En el turismo local, una postal o un folleto en el lugar indicado sigue siendo una herramienta poderosa. Son ideales para hoteles, hostels, cafés, librerías y centros culturales.</p>
-            <div class="card">
-                <h3 class="font-serif-literaria text-2xl mb-2 text-gray-800">¿Qué debe incluir un buen folleto?</h3>
-                 <ul class="list-disc list-inside space-y-1">
-                    <li>Nombre e identidad visual clara.</li>
-                    <li>Frase corta que comunique la esencia del proyecto.</li>
-                    <li>Breve descripción de los tours.</li>
-                    <li>Información de contacto (WhatsApp, Instagram).</li>
-                    <li><strong>Código QR</strong> que lleve directamente al canal de reservas.</li>
-                </ul>
-            </div>
-        </section>
+IDENTIDAD DE MARCA:
+- Empresa de tours culturales e históricos en Buenos Aires.
+- Enfoque en experiencias auténticas, narración de historias y turismo afectivo.
+- Público: turistas culturales de 25-50 años interesados en arte, historia y literatura.
+- Personalidad: culta, acogedora, apasionada por Buenos Aires, empática.
 
-        <div class="brand-divider"></div>
+PALETA DE COLORES (usa solo estos colores HSL):
+- Primario: hsl(35, 25%, 85%) [Café Cremoso]
+- Secundario: hsl(25, 30%, 25%) [Café Intenso]
+- Fondo: hsl(45, 40%, 92%) [Pergamino]
+- Apoyo: hsl(30, 20%, 60%) [Café Medio]
+- Texto: hsl(20, 25%, 15%) [Café Sombra]
+- Alternativo: hsl(40, 30%, 88%) [Beige Cálido]
 
-        <section id="alianzas">
-            <h2 class="chapter-title text-4xl font-bold"><span class="mr-4">🤝</span>Capítulo 6 – Alianzas Estratégicas</h2>
-            <p class="mb-4 leading-relaxed">Las alianzas son una de las formas más efectivas de crecer sin grandes inversiones, especialmente en entornos colaborativos como el turismo local.</p>
-            <h3 class="font-serif-literaria text-2xl mb-2 text-gray-800">¿Con quién asociarse?</h3>
-            <p>Hoteles boutique, cafeterías con identidad, librerías independientes y otros emprendimientos turísticos no competitivos. Prepara una presentación simple, ofrece beneficios mutuos (comisión, visibilidad cruzada) y sé claro en los compromisos.</p>
-        </section>
+TIPOGRAFÍA:
+- Títulos: Crimson Text (serifa elegante, literaria)
+- Textos: Inter (sans-serif limpia y moderna)
 
-        <div class="brand-divider"></div>
+ELEMENTOS VISUALES:
+- Inspiraciones: páginas envejecidas, tazas de café, máquinas de escribir vintage, cuadernos de cuero, sellos postales.
+- Texturas: papel envejecido, manchas sutiles de café, líneas de cuaderno.
+- Iconos: tazas, libros, plumas, lupas, mapas, cartas.
 
-        <section id="herramientas">
-            <h2 class="chapter-title text-4xl font-bold"><span class="mr-4">🧰</span>Capítulo 7 – Herramientas Digitales Gratuitas</h2>
-            <p class="mb-4 leading-relaxed">Aprovechar la tecnología disponible puede acelerar mucho el proceso de organización y difusión.</p>
-            <ul class="list-disc list-inside space-y-2">
-                <li><strong>Para diseño y contenido:</strong> Canva, CapCut (edición de video), Pexels/Unsplash.</li>
-                <li><strong>Para organización:</strong> Google Drive, Google Calendar, Trello.</li>
-                <li><strong>Para comunicación:</strong> WhatsApp Business, Linktree/Beacons.</li>
-            </ul>
-        </section>
+TONO DE COMUNICACIÓN:
+- Lenguaje: inspirador, narrativo, cálido, intelectual.
+- Palabras clave: descubrimiento, encanto, historia viva, cultura, auténtico, literatura, café, memoria.
+- Evitar: jergas turísticas, clichés, lenguaje artificial, superlativos exagerados.
+- Estilo: informal elegante, como un anfitrión culto y acogedor.
 
-        <div class="brand-divider"></div>
+CONTEXTO: [describe aquí el material específico que estás creando]
+Crea el material siguiendo rigurosamente estas directrices de marca.</code></pre>
+                        <button id="copy-prompt-button" class="copy-button">Copiar Prompt</button>
+                    </div>
+                </section>
+            </main>
+            <!-- GUÍA DE MARCA VISUAL CONTENT END -->
+        </div>
 
-        <section id="plan-contenido">
-            <h2 class="chapter-title text-4xl font-bold"><span class="mr-4">📆</span>Capítulo 8 – Plan de Contenido Semanal</h2>
-            <p class="mb-4 leading-relaxed">Una planificación mínima, constante y equilibrada es suficiente para crear una comunidad y aumentar reservas. Planifica con una o dos semanas de anticipación y reutiliza contenido en distintos formatos.</p>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Día</th>
-                        <th>Tipo de contenido</th>
-                        <th>Formato</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Lunes</td>
-                        <td>Historia curiosa de BA</td>
-                        <td>Carrusel</td>
-                    </tr>
-                    <tr>
-                        <td>Miércoles</td>
-                        <td>Foto de tour + testimonio</td>
-                        <td>Imagen + texto</td>
-                    </tr>
-                    <tr>
-                        <td>Viernes</td>
-                        <td>Video detrás de escena</td>
-                        <td>Reel</td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
+        <div id="guia-marketing-view" class="content-view" style="display: none;">
+            <!-- GUÍA DE MARKETING CONTENT START -->
+            <main>
+                <header class="text-center mb-10">
+                    <h1 class="font-serif-literaria text-4xl md:text-5xl font-bold main-title pb-2">
+                        Guía de Marketing y Branding
+                    </h1>
+                </header>
+        
+                <section><h2 class="chapter-title text-4xl font-bold"><span class="mr-4">🚩</span>Introducción</h2><p class="text-lg leading-relaxed">Este documento es una brújula para emprendimientos turísticos como Postales Porteñas, que nacen con una estructura ágil, recursos medidos y un universo de ideas. El objetivo es ofrecer un camino claro para lanzar una estrategia de marketing memorable, construir una marca sólida desde sus cimientos, establecer una presencia digital con alma y conectar de manera genuina con viajeros que buscan la verdadera esencia de Buenos Aires. Aquí encontrarás fundamentos y acciones prácticas, pensadas para equipos reducidos y corazones grandes, sin necesidad de experiencia previa en marketing.</p></section>
+                <div class="brand-divider"></div>
+                <section><h2 class="chapter-title text-4xl font-bold"><span class="mr-4">🧭</span>Capítulo 1 – Fundamentos de Branding</h2><p class="mb-4 leading-relaxed">El branding es el alma de tu proyecto. Es la promesa que le haces a cada viajero. Para Postales Porteñas, no se trata de vender tours, sino de ofrecer "fotografías habladas".</p><div class="card"><h3 class="font-serif-literaria text-2xl mb-2 text-gray-800">Manifiesto de Marca</h3><p class="italic">"No somos guías. Somos contadores de historias. Somos anfitriones de la memoria."</p><hr class="my-4 border-gray-300"><h3 class="font-serif-literaria text-2xl mb-2 text-gray-800">Personalidad</h3><ul class="list-disc list-inside space-y-1"><li><span class="font-semibold">Culta y accesible:</span> Comparte conocimiento con calidez.</li><li><span class="font-semibold">Acogedora:</span> Cada viajero es un invitado.</li><li><span class="font-semibold">Apasionada:</span> El amor por Buenos Aires es contagioso.</li><li><span class="font-semibold">Empática:</span> Escucha y se adapta a la curiosidad del otro.</li></ul></div></section>
+                <div class="brand-divider"></div>
+                <section><h2 class="chapter-title text-4xl font-bold"><span class="mr-4">🎨</span>Capítulo 2 – Identidad Visual en la Práctica</h2><p class="mb-4 leading-relaxed">Tu identidad visual es la primera impresión. Debe comunicar instantáneamente la calidez, la nostalgia y la elegancia de la experiencia. Cada color y cada letra cuentan una parte de la historia.</p><div class="card"><p class="mb-2"><strong class="font-serif-literaria">Tipografía:</strong> Usa <strong>Crimson Text</strong> para títulos, evocando la elegancia de los libros antiguos. Para el texto principal, <strong>Inter</strong> asegura una lectura clara y moderna.</p><p><strong class="font-serif-literaria">Colores:</strong> La paleta (Café Cremoso, Intenso, Pergamino) está inspirada en los cafés notables, el papel envejecido y las sombras de las calles de San Telmo. Genera un ambiente acogedor y sofisticado.</p></div></section>
+                <div class="brand-divider"></div>
+                <section><h2 class="chapter-title text-4xl font-bold"><span class="mr-4">📱</span>Capítulo 3 – Plataformas de Marketing Digital</h2><p class="mb-4 leading-relaxed">Cada canal tiene un propósito. No se trata de estar en todos lados, sino de estar en los lugares correctos de la manera correcta.</p><ul class="space-y-3"><li><strong>Instagram:</strong> Es tu vidriera principal, tu postal visual. Úsalo para inspirar con fotos evocadoras, videos cortos y carruseles que cuenten micro-historias.</li><li><strong>WhatsApp Business:</strong> Es tu línea directa, tu mostrador de atención. Ideal para un trato cercano, resolver dudas rápidamente y confirmar reservas de forma personalizada.</li><li><strong>Sitio Web / Landing Page:</strong> Es tu folleto digital y centro de reservas. Debe ser claro, fácil de navegar y transmitir la propuesta de valor en segundos.</li><li><strong>YouTube:</strong> Un canal para el futuro. Perfecto para contenido más profundo, como mini-documentales sobre la historia de un barrio o entrevistas a personajes locales.</li></ul></section>
+                <div class="brand-divider"></div>
+                <section><h2 class="chapter-title text-4xl font-bold"><span class="mr-4">📣</span>Capítulo 4 – Crecimiento Orgánico</h2><p class="mb-4 leading-relaxed">El crecimiento orgánico es ganar visibilidad sin pagar por publicidad, construyendo una comunidad real. Es ideal para la etapa inicial por su bajo costo y alto impacto.</p><h3 class="font-serif-literaria text-2xl mb-2 text-gray-800">Acciones Clave</h3><ul class="list-disc list-inside space-y-2"><li><strong>Contenido relevante y constante:</strong> Publica al menos 3 veces por semana, alternando formatos. Usa captions que cuenten historias y siempre incluye un llamado a la acción ("Guarda este lugar para tu viaje").</li><li><strong>Uso estratégico de hashtags:</strong> Mezcla hashtags amplios (#BuenosAires) con específicos (#CafesNotables, #TurismoCulturalBA).</li><li><strong>Interacción humana:</strong> Responde a todos los comentarios y mensajes. Agradece cada mención. La comunidad se construye conversando.</li><li><strong>Alianzas con microinfluencers:</strong> Colabora con creadores de contenido locales. Ofrece tours a cambio de publicaciones sinceras.</li></ul></section>
+                <div class="brand-divider"></div>
+                <section><h2 class="chapter-title text-4xl font-bold"><span class="mr-4">🧾</span>Capítulo 5 – Folletos y Material Gráfico</h2><p class="mb-4 leading-relaxed">En el turismo local, una postal o un folleto en el lugar indicado sigue siendo una herramienta poderosa. Son ideales para hoteles, hostels, cafés, librerías y centros culturales.</p><div class="card"><h3 class="font-serif-literaria text-2xl mb-2 text-gray-800">¿Qué debe incluir un buen folleto?</h3><ul class="list-disc list-inside space-y-1"><li>Nombre e identidad visual clara.</li><li>Frase corta que comunique la esencia del proyecto.</li><li>Breve descripción de los tours.</li><li>Información de contacto (WhatsApp, Instagram).</li><li><strong>Código QR</strong> que lleve directamente al canal de reservas.</li></ul></div></section>
+                <div class="brand-divider"></div>
+                <section><h2 class="chapter-title text-4xl font-bold"><span class="mr-4">🤝</span>Capítulo 6 – Alianzas Estratégicas</h2><p class="mb-4 leading-relaxed">Las alianzas son una de las formas más efectivas de crecer sin grandes inversiones, especialmente en entornos colaborativos como el turismo local.</p><h3 class="font-serif-literaria text-2xl mb-2 text-gray-800">¿Con quién asociarse?</h3><p>Hoteles boutique, cafeterías con identidad, librerías independientes y otros emprendimientos turísticos no competitivos. Prepara una presentación simple, ofrece beneficios mutuos (comisión, visibilidad cruzada) y sé claro en los compromisos.</p></section>
+                <div class="brand-divider"></div>
+                <section><h2 class="chapter-title text-4xl font-bold"><span class="mr-4">🧰</span>Capítulo 7 – Herramientas Digitales Gratuitas</h2><p class="mb-4 leading-relaxed">Aprovechar la tecnología disponible puede acelerar mucho el proceso de organización y difusión.</p><ul class="list-disc list-inside space-y-2"><li><strong>Para diseño y contenido:</strong> Canva, CapCut (edición de video), Pexels/Unsplash.</li><li><strong>Para organización:</strong> Google Drive, Google Calendar, Trello.</li><li><strong>Para comunicación:</strong> WhatsApp Business, Linktree/Beacons.</li></ul></section>
+                <div class="brand-divider"></div>
+                <section><h2 class="chapter-title text-4xl font-bold"><span class="mr-4">📆</span>Capítulo 8 – Plan de Contenido Semanal</h2><p class="mb-4 leading-relaxed">Una planificación mínima, constante y equilibrada es suficiente para crear una comunidad y aumentar reservas. Planifica con una o dos semanas de anticipación y reutiliza contenido en distintos formatos.</p><table><thead><tr><th>Día</th><th>Tipo de contenido</th><th>Formato</th></tr></thead><tbody><tr><td>Lunes</td><td>Historia curiosa de BA</td><td>Carrusel</td></tr><tr><td>Miércoles</td><td>Foto de tour + testimonio</td><td>Imagen + texto</td></tr><tr><td>Viernes</td><td>Video detrás de escena</td><td>Reel</td></tr></tbody></table></section>
+                <div class="brand-divider"></div>
+                <section><h2 class="chapter-title text-4xl font-bold"><span class="mr-4">📈</span>Capítulo 9 – Primeros Indicadores de Éxito</h2><p class="mb-4 leading-relaxed">Al inicio, no te obsesiones con el número de seguidores. Concéntrate en las métricas que demuestran interés real.</p><ul class="list-disc list-inside space-y-2"><li><strong>Alcance:</strong> ¿Cuántas personas vieron tu publicación?</li><li><strong>Interacción:</strong> Likes, comentarios, guardados, compartidos.</li><li><strong>Clics y Mensajes recibidos:</strong> ¡El indicador más importante de interés genuino!</li><li><strong>Reservas concretadas:</strong> El objetivo final.</li></ul></section>
+                <div class="brand-divider"></div>
+                <section><h2 class="chapter-title text-4xl font-bold"><span class="mr-4">🧠</span>Capítulo 10 – Siguientes Pasos y Crecimiento</h2><p class="mb-4 leading-relaxed">Una vez que la operación básica esté en marcha, puedes pensar en expandirte.</p><div class="card"><ul class="list-disc list-inside space-y-2"><li><strong>Profesionalización:</strong> Invertir en campañas pagas específicas, crear una landing page profesional, gestionar reputación en TripAdvisor.</li><li><strong>Expansión de contenido:</strong> Crear un blog, ofrecer guías descargables en PDF.</li><li><strong>Nuevas líneas de ingresos:</strong> Merchandising (postales, cuadernos), tours temáticos especiales.</li></ul></div><p class="mt-6 text-lg italic text-center" style="color: var(--cor-cafe-intenso);">Este manual es solo el comienzo. El verdadero crecimiento está en la constancia, en el aprendizaje diario y en el vínculo humano que Postales Porteñas construya con cada visitante.</p></section>
+                <footer class="mt-16 pt-8 border-t text-center" style="border-color: var(--cor-cafe-medio);"><p class="font-serif-literaria text-2xl" style="color: var(--cor-cafe-intenso);">¡Buena suerte y adelante con la historia viva de Buenos Aires! 🇦🇷</p></footer>
+            </main>
+            <!-- GUÍA DE MARKETING CONTENT END -->
+        </div>
 
-        <div class="brand-divider"></div>
+    </div>
 
-        <section id="metricas">
-            <h2 class="chapter-title text-4xl font-bold"><span class="mr-4">📈</span>Capítulo 9 – Primeros Indicadores de Éxito</h2>
-            <p class="mb-4 leading-relaxed">Al inicio, no te obsesiones con el número de seguidores. Concéntrate en las métricas que demuestran interés real.</p>
-            <ul class="list-disc list-inside space-y-2">
-                <li><strong>Alcance:</strong> ¿Cuántas personas vieron tu publicación?</li>
-                <li><strong>Interacción:</strong> Likes, comentarios, guardados, compartidos.</li>
-                <li><strong>Clics y Mensajes recibidos:</strong> ¡El indicador más importante de interés genuino!</li>
-                <li><strong>Reservas concretadas:</strong> El objetivo final.</li>
-            </ul>
-        </section>
+    <script>
+        // --- Navigation Script ---
+        const btnMarca = document.getElementById('btn-marca');
+        const btnMarketing = document.getElementById('btn-marketing');
+        const viewMarca = document.getElementById('guia-marca-view');
+        const viewMarketing = document.getElementById('guia-marketing-view');
 
-        <div class="brand-divider"></div>
+        btnMarca.addEventListener('click', () => {
+            viewMarca.style.display = 'block';
+            viewMarketing.style.display = 'none';
+            btnMarca.classList.add('active');
+            btnMarketing.classList.remove('active');
+        });
 
-        <section id="crecimiento-futuro">
-            <h2 class="chapter-title text-4xl font-bold"><span class="mr-4">🧠</span>Capítulo 10 – Siguientes Pasos y Crecimiento</h2>
-            <p class="mb-4 leading-relaxed">Una vez que la operación básica esté en marcha, puedes pensar en expandirte.</p>
-            <div class="card">
-                <ul class="list-disc list-inside space-y-2">
-                    <li><strong>Profesionalización:</strong> Invertir en campañas pagas específicas, crear una landing page profesional, gestionar reputación en TripAdvisor.</li>
-                    <li><strong>Expansión de contenido:</strong> Crear un blog, ofrecer guías descargables en PDF.</li>
-                    <li><strong>Nuevas líneas de ingresos:</strong> Merchandising (postales, cuadernos), tours temáticos especiales.</li>
-                </ul>
-            </div>
-            <p class="mt-6 text-lg italic text-center" style="color: var(--cor-cafe-intenso);">
-                Este manual es solo el comienzo. El verdadero crecimiento está en la constancia, en el aprendizaje diario y en el vínculo humano que Postales Porteñas construya con cada visitante.
-            </p>
-        </section>
+        btnMarketing.addEventListener('click', () => {
+            viewMarca.style.display = 'none';
+            viewMarketing.style.display = 'block';
+            btnMarketing.classList.add('active');
+            btnMarca.classList.remove('active');
+        });
 
-        <footer class="mt-16 pt-8 border-t text-center" style="border-color: var(--cor-cafe-medio);">
-            <p class="font-serif-literaria text-2xl" style="color: var(--cor-cafe-intenso);">¡Buena suerte y adelante con la historia viva de Buenos Aires! 🇦🇷</p>
-        </footer>
+        // --- Copy Prompt Script (from Brand Guide) ---
+        const copyButton = document.getElementById('copy-prompt-button');
+        const promptTextElement = document.getElementById('ia-prompt-text');
 
-    </main>
-
+        copyButton.addEventListener('click', () => {
+            const textArea = document.createElement('textarea');
+            textArea.value = promptTextElement.textContent.trim();
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                copyButton.textContent = '¡Copiado!';
+                setTimeout(() => {
+                    copyButton.textContent = 'Copiar Prompt';
+                }, 2000);
+            } catch (err) {
+                console.error('No se pudo copiar el texto: ', err);
+                copyButton.textContent = 'Error al copiar';
+                 setTimeout(() => {
+                    copyButton.textContent = 'Copiar Prompt';
+                }, 2000);
+            }
+            document.body.removeChild(textArea);
+        });
+    </script>
 </body>
 </html>
