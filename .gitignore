@@ -1,0 +1,16 @@
+# Executáveis pesados (O culpado pelo erro do Git)
+tailwind.exe
+tailwindcss-windows-x64.exe
+*.exe
+
+# Dependências do Node (Caso você instale algo via npm no futuro)
+node_modules/
+npm-debug.log*
+
+# Arquivos de sistema e cache
+.DS_Store
+Thumbs.db
+.vscode/
+
+# Build do Tailwind (Opcional: você pode escolher não subir o CSS gerado se quiser que ele seja criado no servidor)
+# dist/output.csstailwind.exe

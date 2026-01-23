@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Interrogatório em Gibraltar | Diários de um Nômade">
+    <meta property="og:description" content="Relato de Paco Sousa sobre uma abordagem policial durante visita à Gibraltar.">
+    <meta property="og:url" content="https://pacosousa.com/articles/perrengue-em-gibraltar">
+    <meta property="og:image" content="https://pacosousa.com/images/capa-gibraltar.webp">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Interrogatório em Gibraltar | Diários de um Nômade">
+    <meta name="twitter:description" content="Relato de Paco Sousa sobre uma abordagem policial durante visita à Gibraltar.">
+    <meta name="twitter:image" content="https://pacosousa.com/images/capa-gibraltar.webp">
+
+    <!-- SEO & Favicon -->
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="canonical" href="https://pacosousa.com/articles/perrengue-em-gibraltar">
+
+    <title id="meta_title">Interrogatório em Gibraltar | Diários de um Nômade</title>
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-88CEX3DZ05"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-88CEX3DZ05');
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Poppins:wght@400;700;800&display=swap" rel="stylesheet">
+    <script src="../js/menu.js"></script>
+    <script type="module" src="../js/comments.js"></script>
+
+    <style>
+      :root {
+        --bg-main: #0D0D0D; --text-main: #F0F0F0; --card-bg: #161616; 
+        --accent-primary: #FF3366; --accent-secondary: #6633FF; --accent-tertiary: #4DD0E1; 
+      }
+      body { font-family: 'Inter', sans-serif; background-color: var(--bg-main); color: var(--text-main); }
+      h1, h2, h3, h4 { font-family: 'Poppins', sans-serif; }
+      
+      .drop-cap::first-letter { font-family: 'Poppins', sans-serif; font-size: 5rem; font-weight: 800; float: left; margin-right: 0.75rem; line-height: 0.8; color: var(--accent-primary); }
+      .article-content p { margin-bottom: 1.5rem; line-height: 1.8; color: #BBB; font-size: 1.1rem; }
+      .article-content h2 { color: var(--accent-primary); font-weight: 800; font-size: 1.8rem; margin-top: 4rem; margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: -0.02em; }
+      
+      .mini-gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin: 2.5rem 0; }
+      @media (min-width: 768px) { .mini-gallery { grid-template-columns: repeat(4, 1fr); } }
+
+      .mini-photo { 
+        position: relative; border-radius: 1.5rem; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); 
+        transition: all 0.5s ease; cursor: zoom-in; background: #1a1a1a; aspect-ratio: 9/16;
+      }
+      .mini-photo:hover { transform: translateY(-10px); border-color: var(--accent-primary); box-shadow: 0 10px 30px rgba(255, 51, 102, 0.2); }
+      .mini-photo img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s ease; }
+      .mini-photo:hover img { transform: scale(1.1); }
+
+      #lightbox-modal { display: none; position: fixed; inset: 0; z-index: 1000; background-color: rgba(0, 0, 0, 0.95); backdrop-filter: blur(10px); align-items: center; justify-content: center; cursor: zoom-out; }
+      #lightbox-modal img { max-width: 90%; max-height: 90vh; border-radius: 1.5rem; object-fit: contain; }
+
+      .related-card { background: var(--card-bg); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 1.5rem; transition: all 0.4s ease; overflow: hidden; }
+      .related-card:hover { border-color: var(--accent-primary); transform: translateY(-5px); }
+    </style>
+</head>
+<body>
+    <header id="main-header" class="sticky top-0 z-50"></header>
+
+    <!-- Header Hero -->
+    <header class="relative w-full h-[65vh] flex items-end justify-center overflow-hidden pt-24 group">
+        <div class="absolute inset-0 bg-cover bg-center z-0 transform group-hover:scale-105 transition-transform duration-[20s]" 
+              style="background-image: url('../images/capa-gibraltar.webp');">
+        </div>
+        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent z-10"></div>
+        <div class="relative z-20 container mx-auto px-6 pb-16 max-w-4xl text-center">
+            <span id="category_tag" class="inline-block py-1 px-3 rounded-full bg-[var(--accent-primary)]/20 text-[var(--accent-primary)] text-xs font-bold tracking-widest uppercase mb-4 border border-[var(--accent-primary)] backdrop-blur-sm"></span>
+            <h1 class="text-4xl md:text-6xl font-extrabold text-white leading-tight mb-4 tracking-tight italic drop-shadow-2xl" id="main_title"></h1>
+            <div class="flex items-center justify-center gap-3 text-stone-200 text-sm font-medium">
+                <img src="../images/foto-perfil.webp" onerror="this.src='https://api.dicebear.com/7.x/avataaars/svg?seed=Paco'" alt="Paco Sousa" class="w-8 h-8 rounded-full border-2 border-[var(--accent-primary)] object-cover shadow-md">
+                <span id="author_line" class="text-white"></span>
+            </div>
+        </div>">
+
+    <!-- ADIÇÕES MANUAIS SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://pacosousa.com/articles/perrengue-em-gibraltar"
+    },
+      "headline": "Interrogatório em Gibraltar | Diários de um Nômade",
+      "description": "Relato de Paco Sousa sobre uma abordagem policial durante visita à Gibraltar.",
+      "image": {
+      "@type": "ImageObject",
+      "url": "https://pacosousa.com/images/capa-gibraltar.webp",
+      "width": 2364,
+      "height": 1330
+    },
+      "author": {
+      "@type": "Person",
+      "name": "Paco Sousa",
+      "url": "https://pacosousa.com/"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Diários de um Nômade",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://pacosousa.com/images/logo-blog.webp",
+        "width": 1024,
+        "height": 1024
+      }
+    },
+    "datePublished": "2026-01-16",
+    "dateModified": "2026-01-16",
+  }
+  </script>
+
+    </header>
+
+    <main class="pb-24 px-4">
+        <article class="container mx-auto max-w-3xl article-content mt-20">
+            <p id="p1" class="drop-cap"></p>
+
+            <h2 id="h2_1"></h2>
+            <p id="p2"></p>
+            <p id="p3"></p>
+            <div class="mini-gallery">
+                <div class="mini-photo"><img src="../images/gibraltar/gibraltar-roadtrip-1.webp" alt="Na estrada pela Espanha" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/gibraltar/gibraltar-roadtrip-2.webp" alt="Mirande com vista para Gibraltar" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/gibraltar/gibraltar-roadtrip-3.webp" alt="Chegando em Gibraltar" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/gibraltar/gibraltar-roadtrip-4.webp" alt="Servilha" onclick="openLightbox(this.src)"></div>
+            </div>
+
+            <h2 id="h2_2"></h2>
+            <p id="p4"></p>
+            <p id="p5"></p>
+            <div class="mini-gallery">
+                <div class="mini-photo"><img src="../images/gibraltar/gibraltar-1.webp" alt="Entrada de Gibraltar" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/gibraltar/gibraltar-2.webp" alt="Platade Entrada em Gibraltar" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/gibraltar/gibraltar-3.webp" alt="Praça Principal de Gibraltar" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/gibraltar/gibraltar-4.webp" alt="Castelo de Gibraltar" onclick="openLightbox(this.src)"></div>
+            </div>
+
+            <h2 id="h2_3"></h2>
+            <p id="p6"></p>
+            <p id="p7"></p>
+            <div class="mini-gallery">
+                <div class="mini-photo"><img src="../images/gibraltar/gibraltar-5.webp" alt="Porto de Gibraltar" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/gibraltar/gibraltar-6.webp" alt="Porto de Gibraltar" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/gibraltar/gibraltar-7.webp" alt="Porto de Gibraltar" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/gibraltar/gibraltar-8.webp" alt="Placa" onclick="openLightbox(this.src)"></div>
+            </div>
+
+            <p id="p8"></p>
+            <p id="p9"></p>
+            <p id="p10"></p>
+            <p id="p11"></p>
+            <p id="p12"></p>
+            <p id="p13"></p>
+            <p id="p14"></p>
+
+            <h2 id="h2_4"></h2>
+            <p id="p15"></p>
+            <p id="p16"></p>
+
+            <!-- ARTIGOS RELACIONADOS -->
+            <section class="mt-24 pt-16 border-t border-white/10">
+                <h2 id="related_title" class="text-3xl font-black mb-10 italic text-white uppercase tracking-tighter"></h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <a href="argentina-realidade-economica" class="related-card block group">
+                        <div class="h-48 bg-cover bg-center group-hover:scale-105 transition-transform duration-500" style="background-image: url('../images/capa-argentina-economia.webp');"></div>
+                        <div class="p-6">
+                            <span class="text-[var(--accent-tertiary)] text-[10px] font-bold uppercase tracking-widest mb-2 block" id="rel_cat1"></span>
+                            <h4 class="text-xl font-bold text-white group-hover:text-[var(--accent-tertiary)] transition-colors" id="rel_title1"></h4>
+                        </div>
+                    </a>
+                    <a href="o-deserto-do-atacama" class="related-card block group">
+                        <div class="h-48 bg-cover bg-center group-hover:scale-105 transition-transform duration-500" style="background-image: url('../images/capa-atacama.webp');"></div>
+                        <div class="p-6">
+                            <span class="text-[var(--accent-secondary)] text-[10px] font-bold uppercase tracking-widest mb-2 block" id="rel_cat2"></span>
+                            <h4 class="text-xl font-bold text-white group-hover:text-[var(--accent-secondary)] transition-colors" id="rel_title2"></h4>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- FAQ SECTION -->
+            <section class="mt-24 pt-16 border-t border-white/10">
+                <h2 id="faq_title" class="text-3xl font-black mb-10 italic text-center text-white"></h2>
+                <div class="space-y-4">
+                    <details class="bg-[var(--card-bg)] p-6 rounded-2xl border border-white/5 cursor-pointer group">
+                        <summary class="font-bold text-lg group-hover:text-[var(--accent-primary)] transition-colors list-none flex justify-between items-center">
+                            <span id="faq_q1"></span>
+                            <span class="text-[var(--accent-primary)]">+</span>
+                        </summary>
+                        <p id="faq_a1" class="mt-4 text-gray-400 leading-relaxed"></p>
+                    </details>
+                    <details class="bg-[var(--card-bg)] p-6 rounded-2xl border border-white/5 cursor-pointer group">
+                        <summary class="font-bold text-lg group-hover:text-[var(--accent-primary)] transition-colors list-none flex justify-between items-center">
+                            <span id="faq_q2"></span>
+                            <span class="text-[var(--accent-primary)]">+</span>
+                        </summary>
+                        <p id="faq_a2" class="mt-4 text-gray-400 leading-relaxed"></p>
+                    </details>
+                    <details class="bg-[var(--card-bg)] p-6 rounded-2xl border border-white/5 cursor-pointer group">
+                        <summary class="font-bold text-lg group-hover:text-[var(--accent-primary)] transition-colors list-none flex justify-between items-center">
+                            <span id="faq_q3"></span>
+                            <span class="text-[var(--accent-primary)]">+</span>
+                        </summary>
+                        <p id="faq_a3" class="mt-4 text-gray-400 leading-relaxed"></p>
+                    </details>
+                </div>
+            </section>
+        </article>
+    </main>
+
+    <div id="lightbox-modal" onclick="closeLightbox()"><img id="lightbox-img" src="" alt=""></div>
+
+    <script>
+        const translations = {
+            'pt': {
+                'meta_title': 'Interrogatório em Gibraltar | Diários de um Nômade',
+                'main_title': 'Interrogatório em Gibraltar',
+                'category_tag': 'Perrengue na Estrada',
+                'author_line': 'Por Paco Sousa • 10 min de leitura • Atualizado em 03/01/2026',
+                'p1': 'Pablo e eu decidimos, na noite anterior, fazer uma roadtrip meio no impulso. Definimos que alugaríamos um carro em Marbella, no sul da Espanha, e seguiríamos dirigindo até Portugal. No roteiro, o primeiro ponto de parada seria Gibraltar, um lugar que eu tinha muita vontade de conhecer.',
+                'h2_1': 'Uma roadtrip improvisada pela Espanha',
+                'p2': 'O dia amanheceu ensolarado, algo raro naquele março de 2025 particularmente chuvoso na Costa do Sol espanhola. Alugamos um Fiat 500 com teto conversível, colocamos a música alta e caímos na estrada. O trajeto até Gibraltar foi tranquilo e saímos relativamente cedo.',
+                'p3': 'Como Gibraltar é um território britânico, desde o Brexit é necessário passar pela imigração para entrar. Seguimos o caminho mais comum: deixamos o carro estacionado em La Línea de la Concepción, cidade espanhola que faz fronteira com Gibraltar, e atravessamos a pé. Para entrar no território, além da imigração, é preciso cruzar o aeroporto andando, o que por si só já é uma experiência curiosa.',
+                'h2_2': 'Primeiras impressões de Gibraltar',
+                'p4': 'Já dentro de Gibraltar, começamos a caminhar pelas ruas e observar os arredores. Era minha primeira vez em um lugar onde se dirige pela mão inglesa, o que por si só já causava um estranhamento constante. Em certo momento, lembrei de uma influencer dizendo que viajar para Gibraltar lembrava o Rio de Janeiro. A comparação não é perfeita, mas faz algum sentido, já que no meio da cidade há um grande rochedo cujo formato remete vagamente ao Pão de Açúcar.',
+                'p5': 'Depois de passearmos pelo centro histórico e comermos alguma coisa, seguimos caminhando em direção à região do porto. Até então, tudo seguia perfeitamente bem.',
+                'h2_3': 'O problema no porto de Gibraltar',
+                'p6': 'Do ponto onde estávamos, era possível enxergar o que parecia ser o continente africano. Ao longe, também dava para ver navios entrando no famoso Estreito de Gibraltar. Comecei a tirar algumas fotos, tentando registrar o momento.',
+                'p7': 'Foi quando reparei em uma placa curiosa, informando que era proibido fazer churrascos naquela área. Achei aquilo inusitado e, como tenho o hábito de fotografar placas diferentes, fui lá e tirei uma foto. Já estávamos saindo do local quando, de repente, fomos abordados por dois homens.',
+                'p8': 'Eles se identificaram como policiais e perguntaram se falávamos inglês. Estavam à paisana. Depois que respondi que sim, um deles perguntou por que eu havia fotografado a placa e explicou que aquela era uma área militar, onde fotos eram proibidas. Expliquei o motivo da imagem, mas ele iniciou um interrogatório. Perguntou de onde éramos, por que estávamos viajando juntos e o que fazíamos da vida. O fato de eu ser brasileiro e o Pablo argentino claramente não ajudava a construir uma narrativa simples.',
+                'p9': 'Em determinado momento, precisei explicar como nos conhecemos, o motivo da viagem e até se éramos um casal. Nesse meio-tempo, pediram nossos passaportes, que foram levados para checagem.',
+                'p10': 'O policial que conduzira a conversa parecia relativamente calmo. Ele explicou que, além de ser uma área militar, havia desenvolvimento nuclear na região e que, do ponto de vista deles, parecia que eu estava tentando fotografar uma câmera posicionada acima da placa. Disse que, tecnicamente, deveria nos levar até a delegacia, mas que tentaria evitar isso, desde que conseguisse justificar tudo em um relatório. Em seguida, pediu para ver nossos celulares e checar a galeria de fotos, para confirmar se realmente tínhamos perfil de turistas.',
+                'p11': 'Tentando manter a calma e torcendo para não haver nenhuma foto comprometedora, continuei respondendo às perguntas, lembrando a mim mesmo que não havíamos feito nada de errado. Depois de vários minutos, o outro policial voltou. O primeiro perguntou se estava tudo tranquilo. A resposta foi um simples "não". Naquele momento, eu gelei.',
+                'p12': 'As perguntas passaram a ser direcionadas ao Pablo. Eu sou nômade há cerca de três anos e tenho inúmeras entradas e saídas de diferentes países, o que normalmente torna a checagem do meu passaporte bem tranquila. O Pablo, por sua vez, estava com um visto Work and Holiday alemão, que teoricamente deveria garantir uma passagem tranquila pela Europa. Ainda assim, algo levantou dúvidas durante a verificação.',
+                'p13': 'Depois de muitas perguntas sobre a vida pessoal do Pablo, seus passos recentes e uma checagem detalhada dos nossos celulares, eles concluíram que não representávamos nenhuma ameaça. Deixaram claro que não estavam felizes por terem que preencher uma papelada enorme em um dia tranquilo. Um deles comentou, inclusive, que já estava de olho em nós desde que chegamos ao porto, mas que havia ignorado as fotos iniciais por parecermos turistas. A foto da placa, no entanto, os obrigou a agir.',
+                'p14': 'Após tirarem fotos nossas, dos documentos e até da galeria de imagens, além de perguntarem quais seriam nossos próximos passos, fomos finalmente liberados.',
+                'h2_4': 'O alívio depois do susto',
+                'p15': 'Suando frio e sem a menor vontade de continuar ali, seguimos direto para a fronteira. Ainda atravessei a imigração com certo receio, imaginando que pudesse surgir algum problema adicional, mas felizmente estava tudo certo e conseguimos retornar à Espanha sem mais complicações.',
+                'p16': 'Seguimos viagem em direção a Sevilha, mais aliviados por termos escapado do sufoco, embora ainda um pouco nervosos, pensando na confusão em que tudo aquilo poderia ter se transformado.',
+                'related_title': 'Continue Lendo',
+                'rel_cat1': 'Análise', 'rel_title1': 'Realidade Argentina',
+                'rel_cat2': 'Diário', 'rel_title2': 'Deserto do Atacama',
+                'faq_title': 'Dúvidas Frequentes',
+                'faq_q1': 'É preciso passaporte para entrar em Gibraltar?',
+                'faq_a1': 'Sim, após o Brexit, Gibraltar tornou-se uma fronteira externa para quem vem da Espanha. Viajantes brasileiros e argentinos precisam obrigatoriamente do passaporte físico original para cruzar a imigração, mesmo que morem na Europa ou tenham residência espanhola. Cartões de residência ou DNI não costumam ser aceitos para entrada.',
+                'faq_q2': 'Dá para atravessar a fronteira de carro?',
+                'faq_a2': 'Sim, é possível cruzar dirigindo, mas as filas costumam ser imensas e demoradas tanto na entrada quanto na saída. A recomendação da maioria dos nômades é deixar o carro estacionado em La Línea de la Concepción (o lado espanhol) e cruzar a pé, o que é muito mais rápido e permite caminhar pela pista do aeroporto, uma atração à parte.',
+                'faq_q3': 'Qual é a língua oficial e a moeda usada?',
+                'faq_a3': 'A língua oficial é o inglês, mas a maioria da população é bilíngue e fala espanhol fluentemente. Existe também um dialeto local chamado "Llanito", que mistura as duas línguas. A moeda oficial é a Libra de Gibraltar (GIP), que tem o mesmo valor da Libra Esterlina (GBP). Cartões de crédito internacionais são amplamente aceitos em quase todos os estabelecimentos.'
+            },
+            'es': {
+                'meta_title': 'Interrogatorio en Gibraltar | Diarios de un Nómada',
+                'main_title': 'Interrogatorio en Gibraltar',
+                'category_tag': 'Garrón en la Ruta',
+                'author_line': 'Por Paco Sousa • 10 min de lectura • Actualizado el 03/01/2026',
+                'p1': 'Pablo y yo decidimos, la noche anterior, hacer un roadtrip un poco por impulso. Definimos que alquilaríamos un coche en Marbella, en el sur de España, y seguiríamos conduciendo hasta Portugal. En la ruta, el primer punto de parada sería Gibraltar, un lugar que tenía muchas ganas de conocer.',
+                'h2_1': 'Un roadtrip improvisado por España',
+                'p2': 'El día amaneció soleado, algo raro en aquel marzo de 2025 particularmente lluvioso en la Costa del Sol española. Alquilamos un Fiat 500 con techo convertible, pusimos la música alta y salimos a la carretera. El trayecto hasta Gibraltar fue tranquilo y salimos relativamente temprano.',
+                'p3': 'Como Gibraltar es un territorio británico, desde el Brexit es necesario pasar por inmigración para entrar. Seguimos el camino más común: dejamos el coche aparcado en La Línea de la Concepción, ciudad española que hace frontera con Gibraltar, y cruzamos a pie. Para entrar al territorio, además de inmigración, hay que cruzar el aeropuerto caminando, lo que por sí solo ya es una experiencia curiosa.',
+                'h2_2': 'Primeras impresiones de Gibraltar',
+                'p4': 'Ya dentro de Gibraltar, empezamos a caminar por las calles y observar los alrededores. Era mi primera vez en un lugar donde se conduce por la izquierda, lo que por sí solo ya causaba una extrañeza constante. En cierto momento, recordé a una influencer diciendo que viajar a Gibraltar recordaba a Río de Janeiro. La comparación no es perfecta, pero tiene algún sentido, ya que en medio de la ciudad hay un gran peñón cuya forma remite vagamente al Pan de Azúcar.',
+                'p5': 'Después de pasear por el centro histórico y comer algo, seguimos caminando hacia la zona del puerto. Hasta entonces, todo iba perfectamente bien.',
+                'h2_3': 'El problema en el puerto de Gibraltar',
+                'p6': 'Desde el punto donde estábamos, se podía ver lo que parecía ser el continente africano. A lo lejos, también se veían barcos entrando en el famoso Estrecho de Gibraltar. Empecé a sacar algunas fotos, intentando registrar el momento.',
+                'p7': 'Fue entonces cuando me fijé en un cartel curioso, informando que estaba prohibido hacer barbacoas en esa zona. Me pareció inusual y, como tengo el hábito de fotografiar carteles diferentes, fui allí y saqué una foto. Ya nos estábamos yendo del lugar cuando, de repente, fuimos abordados por dos hombres.',
+                'p8': 'Se identificaron como policías y preguntaron si hablábamos inglés. Iban de paisano. Después de responder que sí, uno de ellos preguntó por qué había fotografiado el cartel y explicó que aquella era una zona militar, donde las fotos estaban prohibidas. Expliqué el motivo de la imagen, pero él inició un interrogatorio. Preguntó de dónde éramos, por qué viajábamos juntos y a qué nos dedicábamos. El hecho de que yo fuera brasileño y Pablo argentino claramente no ayudaba a construir una narrativa sencilla.',
+                'p9': 'En determinado momento, tuve que explicar cómo nos conocimos, el motivo del viaje e incluso si éramos pareja. Mientras tanto, pidieron nuestros pasaportes, que se llevaron para verificación.',
+                'p10': 'El policía que dirigía la conversación parecía relativamente tranquilo. Explicó que, además de ser una zona militar, había desarrollo nuclear en la región y que, desde su punto de vista, parecía que yo estaba intentando fotografiar una cámara posicionada encima del cartel. Dijo que, técnicamente, debería llevarnos a la comisaría, pero que intentaría evitarlo, siempre que pudiera justificar todo en un informe. Luego, pidió ver nuestros teléfonos y revisar la galería de fotos, para confirmar que realmente teníamos perfil de turistas.',
+                'p11': 'Intentando mantener la calma y esperando que no hubiera ninguna foto comprometida, continué respondiendo a las preguntas, recordándome a mí mismo que no habíamos hecho nada malo. Después de varios minutos, el otro policía volvió. El primero preguntó si todo estaba tranquilo. La respuesta fue un simplemente "no". En ese momento, me quedé helado.',
+                'p12': 'Las preguntas pasaron a estar dirigidas a Pablo. Soy nómada desde hace unos tres años y tengo numerosas entradas y salidas de diferentes países, lo que normalmente hace que la verificación de mi pasaporte sea bastante tranquila. Pablo, por su parte, tenía un visado Work and Holiday alemán, que teóricamente debería garantizar un paso tranquilo por Europa. Aun así, algo levantó dudas durante la verificación.',
+                'p13': 'Después de muchas preguntas sobre la vida personal de Pablo, sus pasos recientes y una revisión detallada de nuestros teléfonos, concluyeron que no representábamos ninguna amenaza. Dejaron claro que no estaban felices por tener que rellenar un montón de papeleo en un día tranquilo. Uno de ellos comentó incluso que ya nos estaban vigilando desde que llegamos al puerto, pero que habían ignorado las fotos iniciales por parecer turistas. El foto del cartel, sin embargo, los obligó a actuar.',
+                'p14': 'Después de hacernos fotos a nosotros, a los documentos e incluso a la galería de imágenes, además de preguntar cuáles serían nuestros próximos pasos, fuimos finalmente liberados.',
+                'h2_4': 'El alivio después del susto',
+                'p15': 'Sudando frío y sin las más mínimas ganas de continuar allí, fuimos directos a la frontera. Todavía crucé inmigración con cierto recelo, imaginando que pudiera surgir algún problema adicional, pero afortunadamente todo estaba bien y pudimos regresar a España sin más complicaciones.',
+                'p16': 'Seguimos viaje hacia Sevilla, más aliviados por haber escapado del apuro, aunque todavía un poco nerviosos, pensando en el lío en el que todo aquello podría haberse convertido.',
+                'related_title': 'Sigue Leyendo',
+                'rel_cat1': 'Análisis', 'rel_title1': 'Realidad Argentina',
+                'rel_cat2': 'Diario', 'rel_title2': 'Desierto de Atacama',
+                'faq_title': 'Preguntas Frecuentes',
+                'faq_q1': '¿Es necesario el pasaporte para entrar en Gibraltar?',
+                'faq_a1': 'Sí, tras el Brexit, Gibraltar se ha convertido en una frontera externa para quienes vienen de España. Los viajeros brasileños y argentinos necesitan obligatoriamente el pasaporte físico original para cruzar inmigración, aunque vivan en Europa o tengan residencia española. Las tarjetas de residencia o DNI no suelen ser aceptadas para la entrada.',
+                'faq_q2': '¿Se puede cruzar la frontera en coche?',
+                'faq_a2': 'Sí, es posible cruzar conduciendo, pero las colas suelen ser inmensas y lentas tanto a la entrada como a la salida. La recomendación de la mayoría de los nómadas es dejar el coche aparcado en La Línea de la Concepción (el lado español) y cruzar a pie, lo que es mucho más rápido y permite caminar por la pista del aeropuerto.',
+                'faq_q3': '¿Cuál es el idioma oficial y la moneda usada?',
+                'faq_a3': 'El idioma oficial es el inglés, pero la mayoría de la población es bilingüe y habla español con fluidez. También existe un dialecto local llamado "Llanito", que mezcla ambos idiomas. La moneda oficial es la Libra de Gibraltar (GIP), que tiene el mismo valor que la Libra Esterlina (GBP). Las tarjetas de crédito internacionales son ampliamente aceptadas.'
+            },
+            'en': {
+                'meta_title': 'Interrogation in Gibraltar | Nomad Diaries',
+                'main_title': 'Interrogation in Gibraltar',
+                'category_tag': 'Road trip Struggles',
+                'author_line': 'By Paco Sousa • 10 min read • Updated on 01/03/2026',
+                'p1': 'Pablo and I decided, the night before, to go on a road trip somewhat on a whim. We decided we would rent a car in Marbella, in southern Spain, and continue driving to Portugal. On the route, the first stop would be Gibraltar, a place I really wanted to visit.',
+                'h2_1': 'An improvised road trip through Spain',
+                'p2': 'The day dawned sunny, something rare in that particularly rainy March of 2025 on the Spanish Costa del Sol. We rented a Fiat 500 with a convertible roof, put the music up loud, and hit the road. The journey to Gibraltar was smooth, and we left relatively early.',
+                'p3': 'Since Gibraltar is a British territory, since Brexit, it is necessary to go through immigration to enter. We followed the most common path: we left the car parked in La Línea de la Concepción, a Spanish city that borders Gibraltar, and crossed on foot. To enter the territory, in addition to immigration, you have to cross the airport on foot, which in itself is a curious experience.',
+                'h2_2': 'First impressions of Gibraltar',
+                'p4': 'Once inside Gibraltar, we began to walk through the streets and observe the surroundings. It was my first time in a place where they drive on the left, which in itself caused a constant sense of strangeness. At one point, I remembered an influencer saying that traveling to Gibraltar reminded her of Rio de Janeiro. The comparison isn\'t perfect, but it makes some sense, as in the middle of the city there is a large rock whose shape vaguely resembles Sugarloaf Mountain.',
+                'p5': 'After strolling through the historic center and eating something, we continued walking toward the port area. Until then, everything was going perfectly well.',
+                'h2_3': 'The problem at the port of Gibraltar',
+                'p6': 'From where we were standing, it was possible to see what appeared to be the African continent. In the distance, we could also see ships entering the famous Strait of Gibraltar. I started taking some photos, trying to capture the moment.',
+                'p7': 'That\'s when I noticed a curious sign, stating that barbecues were prohibited in that area. I found that unusual and, as I have the habit of photographing different signs, I went there and took a photo. We were already leaving the place when, suddenly, we were approached by two men.',
+                'p8': 'They identified themselves as police officers and asked if we spoke English. They were in plain clothes. After I replied yes, one of them asked why I had photographed the sign and explained that it was a military area where photos were prohibited. I explained the reason for the image, but he initiated an interrogation. He asked where we were from, why we were traveling together, and what we did for a living. The fact that I am Brazilian and Pablo is Argentine clearly did not help build a simple narrative.',
+                'p9': 'At one point, I had to explain how we met, the reason for the trip, and even if we were a couple. In the meantime, they asked for our passports, which were taken for checking.',
+                'p10': 'The officer who conducted the conversation seemed relatively calm. He explained that, besides being a military area, there was nuclear development in the region and that, from their point of view, it looked like I was trying to photograph a camera positioned above the sign. He said that, technically, he should take us to the police station but that he would try to avoid that, provided he could justify everything in a report. Then, he asked to see our phones and check the photo gallery, to confirm that we really had a tourist profile.',
+                'p11': 'Trying to stay calm and hoping there weren\'t any compromising photos, I continued answering the questions, reminding myself that we hadn\'t done anything wrong. After several minutes, the other officer returned. The first one asked if everything was alright. The answer was a simple "no." At that moment, I froze.',
+                'p12': 'The questions began to be directed at Pablo. I have been a nomad for about three years and have numerous entries and exits from different countries, which normally makes my passport check quite smooth. Pablo, in turn, had a German Work and Holiday visa, which theoretically should have guaranteed smooth passage through Europe. Still, something raised doubts during the verification.',
+                'p13': 'After many questions about Pablo\'s personal life, his recent steps, and a detailed check of our phones, they concluded that we represented no threat. They made it clear that they were not happy about having to fill out a huge amount of paperwork on a quiet day. One of them even commented that he had been watching us since we arrived at the port, but had ignored the initial photos because we looked like tourists. The photo of the sign, however, forced them to act.',
+                'p14': 'After taking photos of us, our documents, and even the image gallery, as well as asking what our next steps would be, we were finally released.',
+                'h2_4': 'Relief after the scare',
+                'p15': 'Sweating cold and with no desire to stay there, we went straight to the border. I still crossed immigration with some concern, imagining that some additional problem might arise, but fortunately everything was fine and we managed to return to Spain without further complications.',
+                'p16': 'We continued our journey toward Seville, relieved to have escaped the ordeal, although still a bit nervous thinking about the mess it all could have turned into.',
+                'related_title': 'Keep Reading',
+                'rel_cat1': 'Analysis', 'rel_title1': 'Argentina Reality',
+                'rel_cat2': 'Diary', 'rel_title2': 'Atacama Desert',
+                'faq_title': 'Frequently Asked Questions',
+                'faq_q1': 'Is a passport required to enter Gibraltar?',
+                'faq_a1': 'Yes, after Brexit, Gibraltar has become an external border for those coming from Spain. Brazilian and Argentine travelers must have their original physical passport to cross immigration, even if they live in Europe or have Spanish residency. Residency cards or DNI are usually not accepted for entry.',
+                'faq_q2': 'Can you cross the border by car?',
+                'faq_a2': 'Yes, it is possible to cross by driving, but queues are usually huge and slow both on entry and exit. The recommendation for most nomads is to leave the car parked in La Línea de la Concepción (the Spanish side) and cross on foot, which is much faster and allows you to walk across the airport runway.',
+                'faq_q3': 'What is the official language and currency used?',
+                'faq_a3': 'The official language is English, but most of the population is bilingual and speaks Spanish fluently. There is also a local dialect called "Llanito," which is a mix of both languages. The official currency is the Gibraltar Pound (GIP), which has the same value as the British Pound (GBP). International credit cards are widely accepted.'
+            }
+        };
+
+        window.changeLanguage = function(lang) {
+            if (window.updateNavTranslations) window.updateNavTranslations(lang);
+            const elements = document.querySelectorAll('[id]');
+            elements.forEach(el => {
+                const id = el.id;
+                if (translations[lang] && translations[lang][id]) {
+                    el.innerHTML = translations[lang][id];
+                }
+            });
+            document.documentElement.lang = lang;
+            localStorage.setItem('paco_blog_lang', lang);
+        };
+
+        window.openLightbox = function(src) {
+            const modal = document.getElementById('lightbox-modal');
+            const img = document.getElementById('lightbox-img');
+            img.src = src;
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        };
+
+        window.closeLightbox = function() {
+            document.getElementById('lightbox-modal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('paco_blog_lang') || 'pt';
+            window.changeLanguage(savedLang);
+            document.addEventListener('keydown', (e) => { if (e.key === 'Escape') window.closeLightbox(); });
+        });
+    </script>
+</body>
+</html>

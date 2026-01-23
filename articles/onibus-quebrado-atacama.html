@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Perrengue no Atacama: Ônibus Quebrado | Diários de um Nômade">
+    <meta property="og:description" content="Relato de Paco Sousa sobre o dia em que o ônibus quebrou no meio do Deserto do Atacama.">
+    <meta property="og:url" content="https://pacosousa.com/articles/onibus-quebrado-atacama">
+    <meta property="og:image" content="https://pacosousa.com/images/capa-onibus-quebrado-atacama.webp">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Perrengue no Atacama: Ônibus Quebrado | Diários de um Nômade">
+    <meta name="twitter:description" content="Relato de Paco Sousa sobre o dia em que o ônibus quebrou no meio do Deserto do Atacama.">
+    <meta name="twitter:image" content="https://pacosousa.com/images/capa-onibus-quebrado-atacama.webp">
+
+    <!-- SEO & Favicon -->
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="canonical" href="https://pacosousa.com/articles/onibus-quebrado-atacama">
+
+    <title id="meta_title">Perrengue no Atacama: Ônibus Quebrado | Diários de um Nômade</title>
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-88CEX3DZ05"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-88CEX3DZ05');
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Poppins:wght@400;700;800&display=swap" rel="stylesheet">
+    <script src="../js/menu.js"></script>
+    <script type="module" src="../js/comments.js"></script>
+
+    <style>
+      :root {
+        --bg-main: #0D0D0D; --text-main: #F0F0F0; --card-bg: #161616; 
+        --accent-primary: #FF3366; --accent-secondary: #6633FF; --accent-tertiary: #EAB308; 
+      }
+      body { font-family: 'Inter', sans-serif; background-color: var(--bg-main); color: var(--text-main); }
+      h1, h2, h3, h4 { font-family: 'Poppins', sans-serif; }
+      
+      .drop-cap::first-letter { font-family: 'Poppins', sans-serif; font-size: 5rem; font-weight: 800; float: left; margin-right: 0.75rem; line-height: 0.8; color: var(--accent-tertiary); }
+      .article-content p { margin-bottom: 1.5rem; line-height: 1.8; color: #BBB; font-size: 1.1rem; }
+      .article-content h2 { color: var(--accent-tertiary); font-weight: 800; font-size: 1.8rem; margin-top: 4rem; margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: -0.02em; }
+      .article-content h3 { color: white; font-weight: 700; font-size: 1.3rem; margin-top: 2.5rem; margin-bottom: 1rem; }
+
+
+      /* Estilo Geral da Galeria */
+      .mini-gallery { display: grid; gap: 1rem; margin: 2.5rem 0; }
+      
+      /* Grid para 4 fotos */
+      .gallery-grid-4 { grid-template-columns: repeat(2, 1fr); }
+      @media (min-width: 768px) { .gallery-grid-4 { grid-template-columns: repeat(4, 1fr); } }
+
+      /* Grid para 2 fotos (maiores e centralizadas) */
+      .gallery-grid-2 { 
+        grid-template-columns: repeat(2, 1fr); 
+        max-width: 700px; 
+        margin-left: auto; 
+        margin-right: auto; 
+        gap: 1.5rem;
+      }
+
+      .mini-photo { 
+        position: relative; border-radius: 1.5rem; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); 
+        transition: all 0.5s ease; cursor: zoom-in; background: #1a1a1a; aspect-ratio: 9/16;
+      }
+
+      .mini-photo:hover { transform: translateY(-10px); border-color: var(--accent-tertiary); box-shadow: 0 10px 30px rgba(102, 51, 255, 0.2); }
+      .mini-photo img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s ease; }
+      .mini-photo:hover img { transform: scale(1.1); }
+
+      .mini-photo-square {
+      position: relative; border-radius: 1.5rem; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); 
+        transition: all 0.5s ease; cursor: zoom-in; background: #1a1a1a; aspect-ratio: 1/1;
+      }
+
+      .mini-photo-square:hover { transform: translateY(-10px); border-color: var(--accent-tertiary); box-shadow: 0 10px 30px rgba(102, 51, 255, 0.2); }
+      .mini-photo-square img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s ease; }
+      .mini-photo-square:hover img { transform: scale(1.1); }
+
+      /* Lightbox Modal */
+      #lightbox-modal { display: none; position: fixed; inset: 0; z-index: 1000; background-color: rgba(0, 0, 0, 0.95); backdrop-filter: blur(10px); align-items: center; justify-content: center; cursor: zoom-out; }
+      #lightbox-modal img { max-width: 90%; max-height: 90vh; border-radius: 1.5rem; object-fit: contain; }
+
+      .video-container { position: relative; border-radius: 1.5rem; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); margin: 2.5rem 0; background: #000; }
+      video { width: 100%; height: auto; display: block; }
+
+      .single-photo-container { border-radius: 1.5rem; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); margin: 2.5rem 0; width: 100%; }
+      .single-photo-container img { width: 100%; height: 100%; display: block; cursor: zoom-in; }
+
+      .related-card { background: var(--card-bg); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 1.5rem; transition: all 0.4s ease; overflow: hidden; }
+      .related-card:hover { border-color: var(--accent-terciary); transform: translateY(-5px); }
+    </style>
+
+    <!-- ADIÇÕES MANUAIS SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://pacosousa.com/articles/onibus-quebrado-atacama"
+    },
+      "headline": "Perrengue no Atacama: Ônibus Quebrado | Diários de um Nômade",
+      "description": "Relato de Paco Sousa sobre o dia em que o ônibus quebrou no meio do Deserto do Atacama.",
+      "image": {
+      "@type": "ImageObject",
+      "url": "https://pacosousa.com/images/capa-onibus-quebrado-atacama.webp",
+      "width": 1648,
+      "height": 527
+    },
+      "author": {
+      "@type": "Person",
+      "name": "Paco Sousa",
+      "url": "https://pacosousa.com/"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Diários de um Nômade",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://pacosousa.com/images/logo-blog.webp",
+        "width": 1024,
+        "height": 1024
+      }
+    },
+    "datePublished": "2026-01-16",
+    "dateModified": "2026-01-16",
+  }
+  </script>
+
+</head>
+<body>
+    <header id="main-header" class="sticky top-0 z-50"></header>
+
+    <!-- Modal Lightbox -->
+    <div id="lightbox-modal" onclick="closeLightbox()">
+        <img id="lightbox-img" src="" alt="Zoom Image">
+    </div>
+
+    <header class="relative w-full h-[65vh] flex items-end justify-center overflow-hidden pt-24">
+        <div class="absolute inset-0 bg-cover bg-center z-0" style="background-image: url('../images/capa-onibus-quebrado-atacama.webp');"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent z-10"></div>
+        <div class="relative z-20 container mx-auto px-6 pb-16 max-w-4xl text-center">
+            <span id="category_tag" class="inline-block py-1 px-3 rounded-full bg-[var(--accent-primary)]/20 text-[var(--accent-primary)] text-xs font-bold tracking-widest uppercase mb-4 border border-[var(--accent-primary)] backdrop-blur-sm"></span>
+            <h1 class="text-3xl md:text-5xl font-extrabold text-white leading-tight mb-4 tracking-tight italic" id="main_title"></h1>
+            <p id="subtitle_text" class="text-zinc-300 text-lg md:text-xl font-medium mb-6 italic max-w-2xl mx-auto"></p>
+            <div class="flex items-center justify-center gap-3 text-stone-200 text-sm font-medium">
+                <img src="../images/foto-perfil.webp" onerror="this.src='https://api.dicebear.com/7.x/avataaars/svg?seed=Paco'" alt="Paco Sousa" class="w-8 h-8 rounded-full border-2 border-[var(--accent-primary)] object-cover shadow-md">
+                <span id="author_line">Paco Sousa • 15 min de leitura • Escrito em 11/01/2026</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="pb-24 px-4">
+        <article class="container mx-auto max-w-3xl article-content mt-12">
+            <div id="diary_date" class="text-[var(--accent-primary)] font-bold tracking-[0.2em] uppercase text-xs mb-8 text-center md:text-left border-b border-white/10 pb-4"></div>
+            
+            <h2 id="h2_1"></h2>
+            <p id="p1" class="drop-cap"></p>
+            <p id="p2"></p>
+            <p id="p3"></p>
+            <p id="p4"></p>
+            <p id="p5"></p>
+
+            <!-- mini galeria com duas fotos -->
+            <div class="mini-gallery gallery-grid-2">
+                <div class="mini-photo"><img src="../images/chile/atacama/atacama-rodoviaria-1.webp" alt="Esperando o Ônibus no Deserto do Atacama" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/chile/atacama/atacama-rodoviaria-2.webp" alt="Esperando o Ônibus no Deserto do Atacama" onclick="openLightbox(this.src)"></div>
+            </div>
+
+            <h2 id="h2_2"></h2>
+            <p id="p6"></p>
+
+            <!-- mini galeria com duas fotos -->
+            <div class="mini-gallery gallery-grid-2">
+                <div class="mini-photo"><img src="../images/chile/atacama/atacama-estrada-1.webp" alt="Cruzando de Ônibus o Deserto do Atacama" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/chile/atacama/atacama-estrada-2.webp" alt="Cruzando de Ônibus o Deserto do Atacama" onclick="openLightbox(this.src)"></div>
+            </div>
+
+            <p id="p7"></p>
+            <p id="p8"></p>
+            <p id="p9"></p>
+
+            <h2 id="h2_3"></h2>
+            <p id="p10"></p>
+            <p id="p11"></p>
+            <p id="p12"></p>
+            <p id="p13"></p>
+
+            <!-- mini galeria com 2 fotos -->
+            <div class="mini-gallery gallery-grid-2">
+                <div class="mini-photo"><img src="../images/chile/atacama/atacama-bus-quebrado-1.webp" alt="Ônibus Quebrado no Deserto do Atacama" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/chile/atacama/atacama-bus-quebrado-2.webp" alt="Ônibus Quebrado no Deserto do Atacama" onclick="openLightbox(this.src)"></div>
+            </div>
+
+            <h2 id="h2_4"></h2>
+            <p id="p14"></p>
+
+            <!-- mini galeria com 2 fotos -->
+            <div class="mini-gallery gallery-grid-2">
+                <div class="mini-photo"><img src="../images/chile/atacama/atacama-bus-quebrado-3.webp" alt="Ônibus Quebrado no Deserto do Atacama" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/chile/atacama/atacama-bus-quebrado-4.webp" alt="Ônibus Quebrado no Deserto do Atacama" onclick="openLightbox(this.src)"></div>
+            </div>
+
+            <p id="p15"></p>
+            <p id="p16"></p>
+            <p id="p17"></p>
+            <p id="p18"></p>
+            <p id="p19"></p>
+
+            <!-- [VÍDEO NO DESERTO] 
+            <div class="video-container">
+                <video controls preload="metadata">
+                    <source src="../videos/onibus-quebrado-atacama.mov" type="video/mov">
+                    [VÍDEO NO DESERTO]
+                </video>
+            </div>-->
+
+            <p id="p20"></p>
+
+            <h2 id="h2_5"></h2>
+            <p id="p21"></p>
+
+            <!-- [uma foto] -->
+            <div class="single-photo-container">
+                <div class="mini-photo-square"><img src="../images/chile/atacama/atacama-imigracao.webp" alt="Posto de Imigração no Deserto do Atacama" onclick="openLightbox(this.src)"></div>
+            </div>
+
+            <p id="p22"></p>
+            <p id="p23"></p>
+
+            <h2 id="h2_6"></h2>
+            <p id="p24"></p>
+            <p id="p25"></p>
+            <p id="p26"></p>
+            <p id="p27"></p>
+            <p id="p28"></p>
+
+            <h2 id="h2_7"></h2>
+            <p id="p29"></p>
+            <p id="p30"></p>
+            <p id="p31"></p>
+
+            <!-- mini galeria com 4 fotos -->
+            <div class="mini-gallery gallery-grid-4">
+                <div class="mini-photo"><img src="../images/chile/atacama/atacama-estrada-3.webp" alt="Cruzando a Cordilheira  dos Andes de Ônibus" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/chile/atacama/atacama-estrada-4.webp" alt="Cruzando a Cordilheira  dos Andes de Ônibus" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/chile/atacama/atacama-estrada-5.webp" alt="Cruzando a Cordilheira  dos Andes de Ônibus" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/chile/atacama/atacama-estrada-6.webp" alt="Cruzando a Cordilheira  dos Andes de Ônibus" onclick="openLightbox(this.src)"></div>
+            </div>
+
+            <h2 id="h2_8"></h2>
+            <p id="p32"></p>
+            <p id="p33"></p>
+            <p id="p34"></p>
+            <p id="p35"></p>
+
+            <h2 id="h2_9"></h2>
+            <p id="p36"></p>
+            <p id="p37"></p>
+            <p id="p38"></p>
+            <p id="p39"></p>
+            <p id="p40"></p>
+
+            <!-- RELATED -->
+            <section class="mt-24 pt-16 border-t border-white/10">
+                <h2 id="related_title" class="text-3xl font-black mb-10 italic"></h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <a href="o-deserto-do-atacama" class="related-card block group">
+                        <div class="h-48 bg-cover bg-center group-hover:scale-105 transition-transform duration-500" style="background-image: url('../images/capa-atacama.webp');"></div>
+                        <div class="p-6">
+                            <span class="text-[var(--accent-tertiary)] text-[10px] font-bold uppercase tracking-widest mb-2 block">Guia</span>
+                            <h4 id="rel_title1" class="text-xl font-bold text-white group-hover:text-[var(--accent-tertiary)] transition-colors"></h4>
+                        </div>
+                    </a>
+                    <a href="primeira-viagem-santiago-chile" class="related-card block group">
+                        <div class="h-48 bg-cover bg-center group-hover:scale-105 transition-transform duration-500" style="background-image: url('../images/capa-santiago.webp');"></div>
+                        <div class="p-6">
+                            <span class="text-[var(--accent-tertiary)] text-[10px] font-bold uppercase tracking-widest mb-2 block">Guia</span>
+                            <h4 id="rel_title2" class="text-xl font-bold text-white group-hover:text-[var(--accent-tertiary)] transition-colors"></h4>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- FAQ -->
+            <section class="mt-24 pt-16 border-t border-white/10">
+                <h2 id="faq_title" class="text-3xl font-black mb-10 italic text-center"></h2>
+                <div class="space-y-4">
+                    <details class="bg-[var(--card-bg)] p-6 rounded-2xl border border-white/5 cursor-pointer group">
+                        <summary class="font-bold text-lg group-hover:text-[var(--accent-primary)] transition-colors list-none flex justify-between items-center">
+                            <span id="faq_q1"></span>
+                            <span class="text-[var(--accent-primary)]">+</span>
+                        </summary>
+                        <p id="faq_a1" class="mt-4 text-gray-400 leading-relaxed"></p>
+                    </details>
+                    <details class="bg-[var(--card-bg)] p-6 rounded-2xl border border-white/5 cursor-pointer group">
+                        <summary class="font-bold text-lg group-hover:text-[var(--accent-primary)] transition-colors list-none flex justify-between items-center">
+                            <span id="faq_q2"></span>
+                            <span class="text-[var(--accent-primary)]">+</span>
+                        </summary>
+                        <p id="faq_a2" class="mt-4 text-gray-400 leading-relaxed"></p>
+                    </details>
+                </div>
+            </section>
+        </article>
+    </main>
+
+    <script>
+        function openLightbox(src) {
+            const modal = document.getElementById('lightbox-modal');
+            const img = document.getElementById('lightbox-img');
+            img.src = src;
+            modal.style.display = 'flex';
+        }
+        function closeLightbox() {
+            document.getElementById('lightbox-modal').style.display = 'none';
+        }
+
+        const translations = {
+            'pt': {
+                'main_title': 'Meu ônibus quebrou no meio do Deserto do Atacama',
+                'subtitle_text': '"Priscila, a rainha do deserto" ou: a história de uma travessia do deserto que não saiu como planejada',
+                'diary_date': 'San Pedro de Atacama, Chile. 17 de abril de 2023.',
+                'category_tag': 'Perrengue na Estrada',
+                'h2_1': 'A partida de San Pedro de Atacama rumo à Argentina',
+                'p1': 'Acordei cedo no calor do Deserto do Atacama para iniciar minha jornada até a cidade de Salta, na Argentina. No dia anterior, eu havia comprado minha passagem de ônibus. Existiam duas opções de horário, com uma hora de diferença entre elas. Escolhi a que saía um pouco mais tarde, para conseguir aproveitar o café da manhã no hostel.',
+                'p2': 'Depois do banho e do café tomados, fiz o check-out e segui até a rodoviária, uma estrutura pequena que ficava a cerca de cinco minutos de caminhada.',
+                'p3': 'Após algum tempo de espera, finalmente o ônibus chegou. Os passageiros eram uma mistura curiosa: famílias, viajantes locais, gringos que, assim como eu, buscavam a próxima aventura e eu, o único brasileiro do ônibus. Ainda sem falar espanhol naquela época, contava com o inglês caso precisasse me comunicar.',
+                'p4': 'Por dentro, o ônibus era bastante precário. Por sorte, havia bastante espaço e eu estava sentado sozinho. Em compensação, a saída de ar era antiga e não havia entradas para carregar aparelhos eletrônicos.',
+                'p5': 'Eu havia comprado alguns snacks básicos no quiosque da rodoviária, levava uma garrafa de água, um livro em espanhol que tinha comprado na cidade e meu celular. Não possuía carregador portátil, um detalhe que eu perceberia muito em breve o quanto fazia falta.',
+                'h2_2': 'A estrada pelo Deserto do Atacama e a promessa da Cordilheira dos Andes',
+                'p6': 'Seguíamos pela estrada, no meio do deserto. Para ambos os lados, a paisagem era composta por montanhas, vegetação baixa ou inexistente e, vez ou outra, alguma manada de lhamas.',
+                'p7': 'Eu estava feliz. Era minha primeira longa viagem de ônibus daquela jornada e estava animado por ser durante o dia, o que permitiria apreciar a paisagem. Alguns guias de viagem que eu havia consultado descreviam como magnífica a vista da Cordilheira dos Andes ao alcançar a extensa estrada que faz a descida já em território argentino. São centenas de curvas em zigue-zague pela encosta da cordilheira, passando pelo ponto mais alto da Argentina, cruzando a província de Jujuy e, por fim, chegando ao destino final em Salta.',
+                'p8': 'A previsão era de cerca de 12 horas de viagem.',
+                'p9': 'Não durou nem uma hora para o problema começar.',
+                'h2_3': 'Quando o ônibus quebra no meio do Deserto do Atacama',
+                'p10': 'Estávamos em uma subida não muito íngreme quando o motor começou a fazer um barulho estranho. Dava para sentir claramente que não tinha força para continuar. Em determinado momento, o ônibus simplesmente desligou.',
+                'p11': 'O motorista tentou dar partida por alguns minutos, sem sucesso, até que desistiu e puxou o freio de mão.',
+                'p12': 'Depois de descer e aparentemente checar algo por alguns minutos, vi pela janela que ele estava ao telefone. Naquele instante, eu já tinha entendido o que estava acontecendo, mesmo ainda sendo ingênuo em relação à minha futura sina com ônibus quebrados no meio da estrada.',
+                'p13': 'Pouco depois, ele entrou no ônibus, disse algo em espanhol que entendi apenas parcialmente e saiu novamente. O essencial era claro: teríamos que esperar outro ônibus para seguir viagem.',
+                'h2_4': 'Esperando socorro no meio do nada, sem internet e com pouco recurso',
+                'p14': 'Com o tempo passando e o calor aumentando dentro do ônibus, decidi descer para tentar entender melhor a situação e saber quanto tempo ficaríamos ali.',
+                'p15': 'Uma das meninas gringas que eu havia visto antes, aparentemente fluente em espanhol, me explicou que precisaríamos esperar um ônibus vindo de Calama para continuar a viagem. Isso levaria mais de duas horas.',
+                'p16': 'Comecei então um processo mental de racionamento. Bateria do celular, comida e água passaram a ser recursos estratégicos.',
+                'p17': 'Aqui vale uma explicação. No Brasil, viagens longas de ônibus são muito comuns. Mesmo em regiões mais remotas, geralmente há paradas na estrada para comprar comida, os ônibus costumam ter água disponível e, na maioria dos casos, contam com ar-condicionado eficiente, assentos confortáveis e entradas para carregadores. Infelizmente, não era o caso do meu ônibus chileno.',
+                'p18': 'Sendo bem sincero, dadas as condições, não me surpreendeu tanto que ele tivesse quebrado.',
+                'p19': 'Revisando meus arquivos para escrever este texto, encontrei um vídeo que gravei naquele momento:',
+                'p20': 'Depois do que pareceu uma eternidade, sem internet, no meio do nada e morrendo de calor, finalmente chegou o novo ônibus. Ele parecia um pouco mais moderno, embora ainda bastante básico.',
+                'h2_5': 'Travessia Chile Argentina: problemas no posto de imigração',
+                'p21': 'Após várias horas de estrada, finalmente chegamos ao posto de imigração entre o Chile e a Argentina. Eram cerca de 15h.',
+                'p22': 'Descemos do ônibus e pegamos o mochilão no bagageiro, já que o Chile exige que você passe pela imigração com toda a bagagem. Entrei em uma fila que claramente levaria pelo menos quarenta minutos. Eu estava mais ou menos no meio e havia um segundo ônibus passando pelo mesmo processo.',
+                'p23': 'Quando você entra no Chile, recebe um papel parecido com um extrato bancário, que precisa ser guardado. Hoje isso já não funciona assim. Após entregar esse papel e ter o passaporte carimbado na saída, passei tranquilamente pela imigração argentina.',
+                'h2_6': 'O papel perdido, a fila parada e mais horas de espera',
+                'p24': 'Enquanto isso, notei uma movimentação estranha na fila e vi uma mulher chorando. Ao sair da imigração, descobri que ela havia perdido o tal papel chileno. Não faço ideia até hoje do que exatamente isso implicava, mas claramente era um problema.',
+                'p25': 'Ao voltar para o ônibus, soube que, por causa dela, não poderíamos seguir viagem. O ônibus só parte quando todos os passageiros estão liberados. Depois de mais de uma hora de espera, finalmente a situação foi resolvida.',
+                'p26': 'Achei que agora tudo estaria resolvido. Não estava.',
+                'p27': 'Além da moça sem o papel, havia uma mãe cujo filho estava em situação irregular. Ficamos mais uma hora aguardando até que resolvessem a documentação e liberassem a família.',
+                'p28': 'Somando tudo, além das mais de duas horas parados pela manhã, ficamos quase três horas na imigração.',
+                'h2_7': 'A descida da Cordilheira dos Andes já de noite',
+                'p29': 'Quando finalmente o ônibus partiu, já estava começando a escurecer. A tão esperada descida da Cordilheira dos Andes, com paisagens cinematográficas, não aconteceria à luz do dia.',
+                'p30': 'A viagem foi extremamente longa. Para piorar, no Chile e na Argentina parece ser comum colocar um filme para todos assistirem, com som alto e luzes acesas. Depois de tantas horas de estrada, aquilo me irritava profundamente.',
+                'p31': 'Mesmo no escuro, a descida não deixou de ser impressionante. Confesso que estava bastante apreensivo e torcendo para que o motorista tivesse dormido bem. É uma serra gigantesca, com curvas intermináveis, que dão a sensação de que o caminho nunca vai acabar.',
+                'h2_8': 'Chegada em Salta de madrugada e sem internet',
+                'p32': 'Quando finalmente chegamos em Salta, já eram quase duas da manhã.',
+                'p33': 'Chegar nesse horário significava fazer check-in no meio da madrugada. Por sorte, havia Wi-Fi no posto de imigração e eu havia avisado previamente no hostel que chegaria muito tarde, embora sem horário definido.',
+                'p34': 'No Chile, eu havia comprado um chip local. No futuro, eu saberia que não possuía internet argentina logo de cara. Sim, você pode se perguntar como eu não pensei nisso.',
+                'p35': 'Ao chegar na rodoviária de Salta, imaginei que haveria Wi-Fi. Não havia.',
+                'h2_9': 'O último perrengue antes de finalmente dormir',
+                'p36': 'Era quase duas da manhã, minha primeira vez na cidade, sem falar espanhol, com o hostel a quase dois quilômetros de distância e o celular com pouca bateria. Pensei em ir andando, mas entre o cansaço, a mochila grande e o risco de circular por ruas desconhecidas e escuras, descartei a ideia.',
+                'p37': 'Avistei um posto de gasolina ao longe e resolvi tentar a sorte. Havia uma loja de conveniência aberta. Comprei algo para comer, pagando caro, já que ainda não tinha pesos argentinos e precisei usar o cartão.',
+                'p38': 'Pedi o Wi-Fi em um portunhol sofrido, avisei no hostel que chegaria em breve e chamei um Uber, igualmente caro.',
+                'p39': 'Nunca agradeci tanto por colocar os pés dentro de um hostel. O banho daquela noite lavou a alma.',
+                'p40': 'Fui dormir para, no dia seguinte, finalmente começar a explorar a cidade de Salta.',
+                'rel_title1': 'O Deserto do Atacama',
+                'rel_title2': 'Primeira vez em Santiago',
+                'faq_title': 'Dúvidas Frequentes',
+                'faq_q1': 'O que fazer se o ônibus quebrar?',
+                'faq_a1': 'Mantenha a calma e poupe bateria. No deserto não há sinal, você dependerá do motorista.',
+                'faq_q2': 'Como funciona a imigração?',
+                'faq_a2': 'É obrigatório descer com toda a bagagem para raio-x. Guarde sempre o comprovante PDI.'
+            },
+            'es': {
+                'main_title': 'Mi autobús se averió en medio del Desierto de Atacama',
+                'subtitle_text': '"Priscilla, la reina del desierto" o: la historia de una travesía del desierto que no salió como se planeó',
+		'category_tag': 'Garrón en la Ruta',
+                'author_line': 'Por Paco Sousa • 15 min de lectura • Escrito el 11/01/2026',
+                'diary_date': 'San Pedro de Atacama, Chile. 17 de abril de 2023.',
+                'h2_1': 'La partida de San Pedro de Atacama rumbo a Argentina',
+                'p1': 'Me desperté temprano en el calor del Desierto de Atacama para iniciar mi jornada hasta la ciudad de Salta, en Argentina. El día anterior, había comprado mi pasaje de autobús. Había dos opciones de horario, con una hora de diferencia entre ellas. Elegí la que salía un poco más tarde, para poder aprovechar el desayuno en el hostel.',
+                'p2': 'Después de bañarme y desayunar, hice el check-out y seguí hasta la terminal, una estructura pequeña que quedaba a unos cinco minutos de caminata.',
+                'p3': 'Después de un tiempo de espera, finalmente el autobús llegó. Los pasajeros eran una mezcla curiosa: familias, viajeros locales, gringos que, al igual que yo, buscaban la próxima aventura y yo, el único brasileño del autobús. Aún sin hablar español en aquella época, contaba con el inglés por si necesitaba comunicarme.',
+                'p4': 'Por dentro, el autobús era bastante precario. Por suerte, había bastante espacio y estaba sentado solo. En compensación, la salida de aire era antigua y no había entradas para cargar aparatos electrónicos.',
+                'p5': 'Había comprado algunos snacks básicos en el quiosco de la terminal, llevaba una botella de agua, un libro en español que había comprado en la ciudad y mi celular. No poseía cargador portátil, un detalle que percibiría muy pronto de cuánto me hacía falta.',
+                'h2_2': 'La carretera por el Desierto de Atacama y la promesa de la Cordillera de los Andes',
+                'p6': 'Seguíamos por la carretera, en medio del desierto. Para ambos lados, el paisaje estaba compuesto por montañas, vegetación baja o inexistente y, de vez en cuando, alguna manada de llamas.',
+                'p7': 'Estaba feliz. Era mi primer viaje largo en autobús de aquella jornada y estaba emocionado por ser durante el día, lo que permitiría apreciar el paisaje. Algunos guías de viaje que había consultado describían como magnífica la vista de la Cordillera de los Andes al alcanzar la extensa carretera que hace el descenso ya en territorio argentino. Son cientos de curvas en zigzag por la ladera de la cordillera, pasando por el punto más alto de Argentina, cruzando la provincia de Jujuy y, finalmente, llegando al destino final en Salta.',
+                'p8': 'La previsión era de cerca de 12 horas de viaje.',
+                'p9': 'No duró ni una hora para que el problema comenzara.',
+                'h2_3': 'Cuando el autobús se avería en medio del Desierto de Atacama',
+                'p10': 'Estábamos en una subida no muy empinada cuando el motor comenzó a hacer un ruido extraño. Se sentía claramente que no tenía fuerza para continuar. En determinado momento, el autobús simplemente se apagó.',
+                'p11': 'El conductor intentó arrancar por algunos minutos, sin éxito, hasta que desistió y puso el freno de mano.',
+                'p12': 'Después de bajar y aparentemente chequear algo por algunos minutos, vi por la ventana que estaba al teléfono. En aquel instante, ya había entendido lo que estaba pasando, aun siendo ingenuo en relación a mi futura suerte con autobuses averiados en medio de la carretera.',
+                'p13': 'Poco después, entró al autobús, dijo algo en español que entendí solo parcialmente y salió nuevamente. Lo esencial era claro: tendríamos que esperar otro autobús para seguir viaje.',
+                'h2_4': 'Esperando auxilio en medio de la nada, sin internet y con poco recurso',
+                'p14': 'Con el tiempo pasando y el calor aumentando dentro del autobús, decidí bajar para intentar entender mejor la situación y saber cuánto tiempo estaríamos allí.',
+                'p15': 'Una de las chicas gringas que había visto antes, aparentemente fluida en español, me explicó que necesitaríamos esperar un autobús viniendo de Calama para continuar el viaje. Eso llevaría más de dos horas.',
+                'p16': 'Comencé entonces un proceso mental de racionamiento. Batería del celular, comida y agua pasaron a ser recursos estratégicos.',
+                'p17': 'Aquí vale una explicación. En Brasil, viajes largos en autobús son muy comunes. Incluso en regiones más remotas, generalmente hay paradas en la carretera para comprar comida, los autobuses suelen tener agua disponible y, en la mayoría de los casos, cuentan con aire acondicionado eficiente, asientos cómodos y entradas para cargadores. Lamentablemente, no era el caso de mi autobús chileno.',
+                'p18': 'Siendo muy sincero, dadas las condiciones, no me sorprendió tanto que se hubiera averiado.',
+                'p19': 'Revisando mis archivos para escribir este texto, encontré un vídeo que grabé en aquel momento:',
+                'p20': 'Después de lo que pareció una eternidad, sin internet, en medio de la nada y muriendo de calor, finalmente llegó el nuevo autobús. Parecía un poco más moderno, aunque aún bastante básico.',
+                'h2_5': 'Travesía Chile Argentina: problemas en el puesto de inmigración',
+                'p21': 'Tras varias horas de carretera, finalmente llegamos al puesto de inmigración entre Chile y Argentina. Eran cerca de las 15h.',
+                'p22': 'Bajamos del autobús y tomamos la mochila grande del maletero, ya que Chile exige que pases por la inmigración con todo el equipaje. Entré en una fila que claramente llevaría al menos cuarenta minutos. Estaba más o menos en el medio y había un segundo autobús pasando por el mismo proceso.',
+                'p23': 'Cuando entras a Chile, recibes un papel parecido a un ticket bancario, que debe guardarse. Hoy esto ya no funciona así. Tras entregar ese papel y tener el pasaporte sellado a la salida, pasé tranquilamente por la inmigración argentina.',
+                'h2_6': 'El papel perdido, la fila parada y más horas de espera',
+                'p24': 'Mientras tanto, noté un movimiento extraño en la fila y vi a una mujer llorando. Al salir de la inmigración, descubrí que ella había perdido el famoso papel chileno. No tengo idea hasta hoy de qué exactamente eso implicaba, pero claramente era un problema.',
+                'p25': 'Al volver al autobús, supe que, por causa de ella, no podríamos seguir viaje. El autobús solo parte cuando todos los pasajeros están liberados. Después de más de una hora de espera, finalmente la situación fue resuelta.',
+                'p26': 'Pensé que ahora todo estaría resuelto. No lo estaba.',
+                'p27': 'Además de la chica sin el papel, había una madre cuyo hijo estaba en situación irregular. Nos quedamos más de una hora esperando hasta que resolvieran la documentación y liberaran a la familia.',
+                'p28': 'Sumando todo, además de las más de dos horas parados por la mañana, nos quedamos casi tres horas en la inmigración.',
+                'h2_7': 'El descenso de la Cordillera de los Andes ya de noche',
+                'p29': 'Cuando finalmente el autobús partió, ya estaba empezando a oscurecer. El tan esperado descenso de la Cordillera de los Andes, con paisajes cinematográficos, no sucedería a la luz del día.',
+                'p30': 'El viaje fue extremadamente largo. Para peor, en Chile y Argentina parece ser común poner una película para que todos vean, con sonido alto y luces encendidas. Tras tantas horas de carretera, aquello me irritaba profundamente.',
+                'p31': 'Incluso en lo oscuro, el descenso no dejó de ser impresionante. Confieso que estaba bastante aprensivo y esperando que el conductor hubiera dormido bien. Es una sierra gigantesca, con curvas interminables, que dan la sensación de que el camino nunca va a acabar.',
+                'h2_8': 'Llegada a Salta de madrugada y sin internet',
+                'p32': 'Cuando finalmente llegamos a Salta, ya eran casi las dos de la mañana.',
+                'p33': 'Llegar en ese horario significaba hacer check-in en medio de la madrugada. Por suerte, había Wi-Fi en el puesto de inmigración y había avisado previamente en el hostel que llegaría muy tarde, aunque sin horario definido.',
+                'p34': 'En Chile, había comprado un chip local. No poseía internet argentina. Sí, puedes preguntarte cómo no pensé en eso.',
+                'p35': 'Al llegar a la terminal de Salta, imaginé que habría Wi-Fi. No lo había.',
+                'h2_9': 'El último problema antes de finalmente dormir',
+                'p36': 'Eran casi las dos de la mañana, mi primera vez en la ciudad, sin hablar español, con el hostel a casi dos kilómetros de distancia y el celular con poca batería. Pensé en ir caminando, mas entre el cansancio, la mochila grande y el riesgo de circular por calles desconocidas y oscuras, descartei a ideia.',
+                'p37': 'Vi una estación de servicio a lo lejos y decidí probar suerte. Había una tienda de conveniencia abierta. Compré algo para comer, pagando caro, ya que aún no tenía pesos argentinos y necesité usar la tarjeta.',
+                'p38': 'Pedí el Wi-Fi en un "portuñol" sufrido, avisé al hostel que llegaría pronto y pedí un Uber, igualmente caro.',
+                'p39': 'Nunca agradecí tanto poner los pies dentro de un hostel. El baño de esa noche lavó el alma.',
+                'p40': 'Me fui a dormir para, al día siguiente, finalmente comenzar a explorar la ciudad de Salta.',
+                'rel_title1': 'El Desierto de Atacama',
+                'rel_title2': 'Primera vez en Santiago',
+                'faq_title': 'Preguntas Frecuentes',
+                'faq_q1': '¿Qué hacer si el bus se avería?',
+                'faq_a1': 'Mantén la calma. Sin señal en el desierto, dependerás del conductor.',
+                'faq_q2': '¿Cómo funciona la inmigración?',
+                'faq_a2': 'Es obligatorio bajar todo el equipaje. Guarda siempre el papel PDI.'
+            },
+            'en': {
+                'main_title': 'My bus broke down in the middle of the Atacama Desert',
+                'subtitle_text': '"Priscilla, Queen of the Desert" or: the story of a desert crossing that didn\'t go as planned',
+                'diary_date': 'San Pedro de Atacama, Chile. April 17, 2023.',
+                'category_tag': 'Road Trip Struggles',
+                'h2_1': 'Departure from San Pedro de Atacama towards Argentina',
+                'p1': 'I woke up early in the heat of the Atacama Desert to start my journey to the city of Salta, Argentina. The day before, I had bought my bus ticket. There were two schedule options, one hour apart. I chose the one that left a bit later, to be able to enjoy breakfast at the hostel.',
+                'p2': 'After showering and having breakfast, I checked out and headed to the bus station, a small structure about a five-minute walk away.',
+                'p3': 'After some waiting, the bus finally arrived. The passengers were a curious mix: families, local travelers, foreigners who, like me, were looking for the next adventure, and me, the only Brazilian on the bus. Not speaking Spanish at the time, I relied on English if I needed to communicate.',
+                'p4': 'Inside, the bus was quite precarious. Luckily, there was plenty of space and I was sitting alone. On the other hand, the air vent was old and there were no ports to charge electronic devices.',
+                'p5': 'I had bought some basic snacks at the station kiosk, I had a bottle of water, a Spanish book I had bought in town, and my phone. I didn\'t have a portable charger, a detail I would very soon realize how much I missed.',
+                'h2_2': 'The road through the Atacama Desert and the promise of the Andes Mountains',
+                'p6': 'We followed the road in the middle of the desert. On both sides, the landscape was composed of mountains, low or non-existent vegetation, and, every now and then, a herd of llamas.',
+                'p7': 'I was happy. It was my first long bus trip of that journey and I was excited that it was during the day, which would allow me to appreciate the landscape. Some travel guides I had consulted described the view of the Andes as magnificent when reaching the extensive road that descends into Argentine territory.',
+                'p8': 'There are hundreds of zigzag turns down the slope of the mountain range, passing through the highest point of Argentina, crossing the province of Jujuy and, finally, arriving at the final destination in Salta.',
+                'p9': 'The forecast was about 12 hours of travel. It didn\'t even last an hour before the problem started.',
+                'h2_3': 'When the bus breaks down in the middle of the Atacama Desert',
+                'p10': 'We were on a climb that wasn\'t very steep when the engine started making a strange noise. You could clearly feel it didn\'t have the strength to continue. At one point, the bus simply shut off.',
+                'p11': 'The driver tried to start it for a few minutes, unsuccessfully, until he gave up and pulled the handbrake.',
+                'p12': 'After getting off and apparently checking something for a few minutes, I saw through the window that he was on the phone. At that moment, I already understood what was happening, even though I was still naive regarding my future fate with broken buses in the middle of the road.',
+                'p13': 'Shortly after, he entered the bus, said something in Spanish that I only partially understood, and left again. The essential was clear: we would have to wait for another bus to continue the journey.',
+                'h2_4': 'Waiting for help in the middle of nowhere, without internet and with few resources',
+                'p14': 'As time passed and the heat increased inside the bus, I decided to get off to try to better understand the situation and know how long we would be there.',
+                'p15': 'One of the foreign girls I had seen before, apparently fluent in Spanish, explained that we would need to wait for a bus coming from Calama to continue the trip. This would take more than two hours.',
+                'p16': 'I then began a mental process of rationing. Phone battery, food, and water became strategic resources.',
+                'p17': 'Here an explanation is needed. In Brazil, long bus trips are very common. Even in more remote regions, there are usually stops on the road to buy food, buses usually have water available, and, in most cases, have efficient air conditioning, comfortable seats, and charging ports. Unfortunately, that was not the case with my Chilean bus.',
+                'p18': 'To be honest, given the conditions, it didn\'t surprise me much that it had broken down.',
+                'p19': 'Reviewing my files to write this text, I found a video I recorded at that moment:',
+                'p20': 'After what seemed like an eternity, without internet, in the middle of nowhere and dying of heat, the new bus finally arrived. It looked a bit more modern, although still quite basic.',
+                'h2_5': 'Chile-Argentina Crossing: problems at the immigration post',
+                'p21': 'After several hours on the road, we finally arrived at the immigration post between Chile and Argentina. It was about 3 PM.',
+                'p22': 'We got off the bus and grabbed our large backpacks from the luggage compartment, as Chile requires you to go through immigration with all your luggage. I entered a line that would clearly take at least forty minutes. I was more or less in the middle and there was a second bus going through the same process.',
+                'p23': 'When you enter Chile, you receive a paper similar to a bank statement, which must be kept. Today it no longer works like that. After handing in this paper and getting the passport stamped on the exit, I calmly passed through Argentine immigration.',
+                'h2_6': 'The lost paper, the stopped line and more hours of waiting',
+                'p24': 'Meanwhile, I noticed strange movement in the line and saw a woman crying. Upon leaving immigration, I found out she had lost that Chilean paper. I have no idea to this day what exactly that implied, but it was clearly a problem.',
+                'p25': 'Upon returning to the bus, I learned that, because of her, we couldn\'t continue the trip. The bus only leaves when all passengers are cleared. After more than an hour of waiting, the situation was finally resolved.',
+                'p26': 'I thought that now everything would be resolved. It wasn\'t.',
+                'p27': 'Besides the lady without the paper, there was a mother whose son was in an irregular situation. We spent another hour waiting until they resolved the documentation and cleared the family.',
+                'p28': 'Summing it all up, besides the more than two hours stopped in the morning, we spent almost three hours at immigration.',
+                'h2_7': 'The descent of the Andes Mountains already at night',
+                'p29': 'When the bus finally left, it was already starting to get dark. The long-awaited descent of the Andes, with cinematic landscapes, would not happen in daylight.',
+                'p30': 'The trip was extremely long. To make matters worse, in Chile and Argentina it seems common to put on a movie for everyone to watch, with loud sound and lights on. After so many hours on the road, that irritated me deeply.',
+                'p31': 'Even in the dark, the descent did not cease to be impressive. I confess I was quite apprehensive and hoping the driver had slept well. It\'s a gigantic mountain range, with endless curves, that give the feeling that the path will never end.',
+                'h2_8': 'Arrival in Salta in the early morning and without internet',
+                'p32': 'When we finally arrived in Salta, it was almost two in the morning.',
+                'p33': 'Arriving at that time meant checking in in the middle of the night. Luckily, there was Wi-Fi at the immigration post and I had previously notified the hostel that I would arrive very late, although without a defined time.',
+                'p34': 'In Chile, I had bought a local SIM card. I would find out later that I didn\'t have Argentine internet right away. Yes, you might ask yourself how I didn\'t think of that.',
+                'p35': 'Upon arriving at the Salta bus station, I imagined there would be Wi-Fi. There wasn\'t.',
+                'h2_9': 'The last ordeal before finally sleeping',
+                'p36': 'It was almost two in the morning, my first time in the city, not speaking Spanish, with the hostel nearly two kilometers away and my phone with low battery. I thought about walking, but between the tiredness, the large backpack, and the risk of moving through unknown and dark streets, I discarded the idea.',
+                'p37': 'I spotted a gas station in the distance and decided to try my luck. There was an open convenience store. I bought something to eat, paying dearly, since I didn\'t have Argentine pesos yet and needed to use the card.',
+                'p38': 'I asked for the Wi-Fi in a struggling "portuñol", notified the hostel that I would arrive soon, and called an Uber, equally expensive.',
+                'p39': 'I never thanked so much for stepping inside a hostel. That night\'s shower washed the soul.',
+                'p40': 'I went to sleep so that the next day, I could finally start exploring the city of Salta.',
+                'rel_title1': 'Atacama Desert',
+                'rel_title2': 'First time in Santiago',
+                'faq_title': 'FAQ',
+                'faq_q1': 'What to do if the bus breaks down?',
+                'faq_a1': 'Stay calm. No signal in the desert; you will depend on the driver.',
+                'faq_q2': 'How is land immigration?',
+                'faq_a2': 'You must take all luggage out. Keep your PDI paper safe.'
+            }
+        };
+
+        window.changeLanguage = function(lang) {
+            if (window.updateNavTranslations) window.updateNavTranslations(lang);
+            const elements = document.querySelectorAll('[id]');
+            elements.forEach(el => {
+                const id = el.id;
+                if (translations[lang] && translations[lang][id]) {
+                    el.innerHTML = translations[lang][id];
+                }
+            });
+            document.documentElement.lang = lang;
+            localStorage.setItem('paco_blog_lang', lang);
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('paco_blog_lang') || 'pt';
+            window.changeLanguage(savedLang);
+        });
+    </script>
+</body>
+</html>

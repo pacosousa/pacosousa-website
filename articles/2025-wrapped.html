@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A retrospectiva real de 2025: Desafios, trabalhos, voluntariados e a jornada de Paco Sousa pelo mundo.">
+    <meta name="author" content="Paco Sousa">
+    <meta name="revised" content="Paco Sousa, 03/01/2026">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="2025 Wrapped: A Jornada Completa | Paco Sousa">
+    <meta property="og:description" content="Reviva 2025 comigo: desafios, trabalhos, voluntariados e viagens pelo mundo em fotos e histórias!">
+    <meta property="og:url" content="https://pacosousa.com/articles/2025-wrapped">
+    <meta property="og:image" content="https://pacosousa.com/images/capa-wrapped.jpg">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="2025 Wrapped: A Jornada Completa | Paco Sousa">
+    <meta name="twitter:description" content="Reviva 2025 comigo: desafios, trabalhos, voluntariados e viagens pelo mundo em fotos e histórias!">
+    <meta name="twitter:image" content="https://pacosousa.com/images/capa-wrapped.jpg">
+
+    <!-- SEO & Favicon -->
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="canonical" href="https://pacosousa.com/articles/2025-wrapped">
+
+    <title data-i18n="meta_title">2025 Wrapped: A Jornada Completa | Paco Sousa</title>
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-88CEX3DZ05"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-88CEX3DZ05');
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Poppins:wght@400;700;800&display=swap" rel="stylesheet">
+    <script src="../js/menu.js"></script>
+    
+    <style>
+      :root {
+        --bg-main: #0D0D0D; --text-main: #F0F0F0; --card-bg: #161616; 
+        --accent-primary: #FF3366; --accent-secondary: #6633FF; --accent-tertiary: #4DD0E1; 
+      }
+      body { font-family: 'Inter', sans-serif; background-color: var(--bg-main); color: var(--text-main); }
+      h1, h2, h3, h4 { font-family: 'Poppins', sans-serif; }
+      
+      .timeline-container { border-left: 2px solid rgba(255,255,255,0.05); padding-left: 1.5rem; margin: 2rem 0; }
+      .timeline-item { position: relative; margin-bottom: 5rem; }
+      .timeline-item::before { content: ''; position: absolute; left: -1.95rem; top: 0.5rem; width: 12px; height: 12px; border-radius: 50%; background: var(--accent-secondary); border: 2px solid var(--bg-main); }
+      
+      .mini-gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; margin: 2rem 0; }
+      @media (min-width: 768px) { .mini-gallery { grid-template-columns: repeat(4, 1fr); } }
+      .mini-photo { border-radius: 1rem; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); aspect-ratio: 2/3; cursor: zoom-in; }
+      .mini-photo img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+      .mini-photo:hover img { transform: scale(1.1); }
+
+      /* Formato Story (9:16) para os cards do Wrapped */
+      .wrapped-card { position: relative; border-radius: 1.5rem; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); transition: all 0.5s ease; cursor: zoom-in; }
+      .wrapped-card:hover { transform: translateY(-10px); border-color: var(--accent-primary); }
+      .wrapped-card img { width: 100%; height: 100%; object-fit: cover; aspect-ratio: 9/16; }
+
+      .drop-cap::first-letter { font-family: 'Poppins', sans-serif; font-size: 5rem; font-weight: 800; float: left; margin-right: 0.75rem; line-height: 0.8; color: var(--accent-primary); }
+      .article-content p { margin-bottom: 1.5rem; line-height: 1.8; color: #BBB; font-size: 1.1rem; }
+
+      /* Lightbox Modal Styles */
+      #lightbox-modal {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 1000;
+        background-color: rgba(0, 0, 0, 0.95);
+        backdrop-filter: blur(10px);
+        align-items: center;
+        justify-content: center;
+        cursor: zoom-out;
+      }
+      #lightbox-modal img {
+        max-width: 90%;
+        max-height: 90vh;
+        border-radius: 1rem;
+        box-shadow: 0 0 50px rgba(0,0,0,0.5);
+        object-fit: contain;
+      }
+    </style>
+
+    <!-- ADIÇÕES MANUAIS SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://pacosousa.com/articles/2025-wrapped"
+    },
+      "headline": "2025 Wrapped: A Jornada Completa",
+      "description": "A retrospectiva real de 2025: Desafios, trabalhos, voluntariados e a jornada de Paco Sousa pelo mundo.",
+      "image": {
+      "@type": "ImageObject",
+      "url": "https://pacosousa.com/images/capa-wrapped.jpg",
+      "width": 1080,
+      "height": 577
+    },
+      "author": {
+      "@type": "Person",
+      "name": "Paco Sousa",
+      "url": "https://pacosousa.com/"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Diários de um Nômade",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://pacosousa.com/images/logo-blog.webp",
+        "width": 1024,
+        "height": 1024
+      }
+    },
+    "datePublished": "2026-01-16",
+    "dateModified": "2026-01-16",
+  }
+  </script>
+
+</head>
+<body>
+    <header id="main-header" class="bg-[#0D0D0D]/90 backdrop-blur-md fixed w-full top-0 z-50 border-b border-white/5"></header>
+
+    <header class="relative w-full h-[75vh] flex items-end justify-center overflow-hidden">
+        <div class="absolute inset-0 bg-cover bg-center z-0" style="background-image: url('../images/capa-wrapped.jpg');"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-[#0D0D0D] via-transparent to-transparent z-10"></div>
+        <div class="relative z-20 container mx-auto px-6 pb-20 max-w-4xl text-center">
+            <h1 class="text-7xl md:text-9xl font-black text-white leading-[0.8] mb-6 tracking-tighter italic uppercase" id="main_title">2025<br>Wrapped</h1>
+            <p class="text-lg md:text-xl text-white-400 font-light max-w-3xl mx-auto italic leading-relaxed" id="main_subtitle"></p>
+        </div>
+    </header>
+
+    <main class="pb-24 px-4">
+        <article class="container mx-auto max-w-4xl article-content mt-20">
+            
+            <div id="intro-text" class="drop-cap mb-16"></div>
+
+            <div class="timeline-container">
+                <div class="timeline-item">
+                    <h3 class="text-2xl font-black text-white mb-4" id="time_inicio"></h3>
+                    <div id="text_inicio"></div>
+                    <div class="mini-gallery">
+                        <div class="mini-photo"><img src="../images/milhouse.webp" alt="Hostel Life em Buenos Aires"></div>
+                        <div class="mini-photo"><img src="../images/buenos-aires.webp" alt="Buenos Aires"></div>
+                        <div class="mini-photo"><img src="../images/carnaval.webp" alt="Carnaval"></div>
+                        <div class="mini-photo"><img src="../images/carnaval2.webp" alt="Carnaval" style="filter: brightness(0.7);"></div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <h3 class="text-2xl font-black text-white mb-4" id="time_mar"></h3>
+                    <div id="text_mar"></div>
+                    <div class="mini-gallery">
+                        <div class="mini-photo"><img src="../images/puerto-banus.webp" alt="Marbella"></div>
+                        <div class="mini-photo"><img src="../images/me-lalala.webp" alt="Trabalhando em um bar de Puerto Banús"></div>
+                        <div class="mini-photo"><img src="../images/malaga.webp" alt="Málaga"></div>
+                        <div class="mini-photo"><img src="../images/servilla.webp" alt="Servilha"></div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <h3 class="text-2xl font-black text-white mb-4" id="time_jul"></h3>
+                    <div id="text_jul"></div>
+                    <div class="mini-gallery">
+                        <div class="mini-photo"><img src="../images/me-frio.webp" alt="Eu na Rua com Frio"></div>
+                        <div class="mini-photo"><img src="../images/ba-calle.webp" alt="BA Streets"></div>
+                        <div class="mini-photo"><img src="../images/me-cafe.webp" alt="Um Café em Buenos Aires" style="filter: brightness(0.6);"></div>
+                        <div class="mini-photo"><img src="../images/hospitales.webp" alt="BA Hospital" style="filter: grayscale(0.5);"></div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <h3 class="text-2xl font-black text-white mb-4" id="time_out"></h3>
+                    <div id="text_out"></div>
+                    <div class="mini-gallery">
+                        <div class="mini-photo"><img src="../images/me-brandenburg.webp" alt="Portão de Brandenburgo"></div>
+                        <div class="mini-photo"><img src="../images/me-trabalhando.webp" alt="Trabalhando em Berlim"></div>
+                        <div class="mini-photo"><img src="../images/street-outono.webp" alt="Folhas de outono em Berlim"></div>
+                        <div class="mini-photo"><img src="../images/me-street.webp" alt="Grafites em Berlim"></div>
+                        <div class="mini-photo"><img src="../images/zurich.webp" alt="Zurich"></div>
+                        <div class="mini-photo"><img src="../images/me-zurich.webp" alt="Em Zurich, de frente ao rio"></div>
+                        <div class="mini-photo"><img src="../images/coliseo.webp" alt="Coliseu Romano"></div>
+                        <div class="mini-photo"><img src="../images/foro-romano.webp" alt="Fórum Romano" style="filter: contrast(1.2);"></div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <h3 class="text-2xl font-black text-white mb-4" id="time_dez"></h3>
+                    <div id="text_dez"></div>
+                    <div class="mini-gallery">
+                        <div class="mini-photo"><img src="../images/sala-tv.webp" alt="Relax em Sorocaba"></div>
+                        <div class="mini-photo"><img src="../images/me-padrinho.webp" alt="Best Man" style="filter: sepia(0.2);"></div>
+                        <div class="mini-photo"><img src="../images/ben-vitoria.webp" alt="Os noivos" style="filter: brightness(0.8);"></div>
+                        <div class="mini-photo"><img src="../images/me-ana.webp" alt="Padrinhos" style="filter: grayscale(0.3);"></div>
+                    </div>
+                </div>
+            </div>
+
+            <section class="mt-32 pt-20 border-t border-white/10">
+                <h2 class="text-4xl md:text-6xl font-black text-center mb-4 text-white uppercase italic tracking-tighter" id="wrapped_section_title">A Essência de 2025</h2>
+                <p class="text-center text-gray-500 mb-16 text-lg" id="wrapped_section_subtitle"></p>
+
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    <div class="wrapped-card"><img src="../images/1.jpg" alt="W1"></div>
+                    <div class="wrapped-card"><img src="../images/2.jpg" alt="W2"></div>
+                    <div class="wrapped-card"><img src="../images/3.jpg" alt="W3"></div>
+                    <div class="wrapped-card"><img src="../images/4.jpg" alt="W4"></div>
+                    <div class="wrapped-card"><img src="../images/5.jpg" alt="W5"></div>
+                    <div class="wrapped-card"><img src="../images/6.jpg" alt="W6"></div>
+                    <div class="wrapped-card"><img src="../images/7.jpg" alt="W7"></div>
+                    <div class="wrapped-card"><img src="../images/8.jpg" alt="W8"></div>
+                    <div class="wrapped-card"><img src="../images/9.jpg" alt="W9"></div>
+                    <div class="wrapped-card"><img src="../images/10.jpg" alt="W10"></div>
+                    <div class="wrapped-card"><img src="../images/11.jpg" alt="W11"></div>
+                    <div class="wrapped-card"><img src="../images/12.jpg" alt="W12"></div>
+                </div>
+            </section>
+
+            <!-- ARTIGOS RELACIONADOS -->
+            <section id="related" class="mt-32 pt-20 border-t border-white/5">
+                <h2 class="text-3xl font-black mb-10 text-white uppercase tracking-widest text-center" id="related_title">Continue Explorando</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <a href="argentina-realidade-economica.html" class="group block bg-[var(--card-bg)] rounded-2xl overflow-hidden border border-white/5 hover:border-[var(--accent-primary)] transition-all">
+                        <div class="h-40 bg-cover bg-center" style="background-image: url('../images/capa-argentina-economia.webp');"></div>
+                        <div class="p-4">
+                            <span class="text-[var(--accent-primary)] text-[10px] font-bold uppercase tracking-widest" id="rel_cat_1">Argentina</span>
+                            <h4 class="text-white font-bold mt-1 group-hover:text-[var(--accent-primary)] transition-colors" id="rel_title_1">Realidade Argentina 2026</h4>
+                        </div>
+                    </a>
+                    <a href="lugares-gratis-buenos-aires.html" class="group block bg-[var(--card-bg)] rounded-2xl overflow-hidden border border-white/5 hover:border-[var(--accent-primary)] transition-all">
+                        <div class="h-40 bg-cover bg-center" style="background-image: url('../images/capa-buenos-aires-gratis.webp');"></div>
+                        <div class="p-4">
+                            <span class="text-[var(--accent-primary)] text-[10px] font-bold uppercase tracking-widest" id="rel_cat_2">Argentina</span>
+                            <h4 class="text-white font-bold mt-1 group-hover:text-[var(--accent-primary)] transition-colors" id="rel_title_2">Buenos Aires Grátis</h4>
+                        </div>
+                    </a>
+                    <a href="perrengue-em-gibraltar.html" class="group block bg-[var(--card-bg)] rounded-2xl overflow-hidden border border-white/5 hover:border-[var(--accent-secondary)] transition-all">
+                        <div class="h-40 bg-cover bg-center" style="background-image: url('../images/capa-gibraltar.webp');"></div>
+                        <div class="p-4">
+                            <span class="text-[var(--accent-secondary)] text-[10px] font-bold uppercase tracking-widest" id="rel_cat_3">Europa</span>
+                            <h4 class="text-white font-bold mt-1 group-hover:text-[var(--accent-secondary)] transition-colors" id="rel_title_3">Perrengue em Gibraltar</h4>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+        </article>
+
+        <section id="newsletter-area"></section>
+
+        <section id="faq" class="container mx-auto max-w-3xl mt-20 pt-20 border-t border-white/5">
+            <h2 class="text-3xl font-black mb-12 text-center text-white uppercase tracking-tighter" id="faq_titulo"></h2>
+            <div class="space-y-4">
+                <details class="bg-[var(--card-bg)] p-6 rounded-2xl border border-white/5 cursor-pointer group">
+                    <summary class="font-bold text-xl group-hover:text-[var(--accent-primary)] transition-colors" id="faqQ1"></summary>
+                    <p class="mt-4 text-gray-400" id="faqA1"></p>
+                </details>
+                <details class="bg-[var(--card-bg)] p-6 rounded-2xl border border-white/5 cursor-pointer group">
+                    <summary class="font-bold text-xl group-hover:text-[var(--accent-primary)] transition-colors" id="faqQ2"></summary>
+                    <p class="mt-4 text-gray-400" id="faqA2"></p>
+                </details>
+                <details class="bg-[var(--card-bg)] p-6 rounded-2xl border border-white/5 cursor-pointer group">
+                    <summary class="font-bold text-xl group-hover:text-[var(--accent-primary)] transition-colors" id="faqQ3"></summary>
+                    <p class="mt-4 text-gray-400" id="faqA3"></p>
+                </details>
+                <details class="bg-[var(--card-bg)] p-6 rounded-2xl border border-white/5 cursor-pointer group">
+                    <summary class="font-bold text-xl group-hover:text-[var(--accent-primary)] transition-colors" id="faqQ4"></summary>
+                    <p class="mt-4 text-gray-400" id="faqA4"></p>
+                </details>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal do Lightbox -->
+    <div id="lightbox-modal" onclick="closeLightbox()">
+        <img id="lightbox-img" src="" alt="Ampliada">
+        <button class="absolute top-8 right-8 text-white hover:text-[var(--accent-primary)] transition-colors">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        </button>
+    </div>
+
+    <footer id="main-footer"></footer>
+
+    <script>
+        const translations = {
+            'pt': {
+                'meta_title': '2025 Wrapped: A Jornada Completa | Paco Sousa',
+                'main_title': '2025<br>Wrapped',
+                'main_subtitle': '“É um negócio perigoso, Frodo, sair pela sua porta. Você pisa na estrada e, se não se cuidar, não há como saber para onde você pode ser levado.” (Bilbo Bolseiro)',
+                'intro-text': '<p>O ano de 2025 foi um exercício de resiliência. Foi o meu primeiro ano, em muito tempo, sem um emprego fixo. Usei este tempo para aproveitar a liberdade da oportunidade, o que me levou a diferentes desafios durante o ano. Consequentemente, esses desafios me levaram a explorar um pouco mais deste mundo, me conduzindo a experiências incríveis!</p>',
+                'time_inicio': 'Janeiro e Fevereiro: Tango e Samba',
+                'text_inicio': '<p>Fiz um voluntariado de um mês em um hostel na Argentina! Teve muita festa, aprendi a arte de ser barman e vivi um intenso "amor de verano". Voltei para o Brasil para um ótimo Carnaval no Rio e segui para a Espanha, onde já havia aceitado um novo desafio.</p>',
+                'time_mar': 'Março e Abril: Chuva na Costa do Sol',
+                'text_mar': '<p>Após uns dias curtindo Madrid, passei 40 dias trabalhando em um bar na cidade de Marbella, em Puerto Banús. Para quem não conhece, essa localidade é frequentada pelos mais ricos da Europa: uma marina com bares e lojas de grife. Apesar da localização paradisíaca, foi um mês de chuvas intensas, o que estragou a vibe e ajudou na deprê. O ponto alto foi a roadtrip que fiz no meio, indo até Portugal.</p>',
+                'time_jul': 'Maio a Julho: La Vida en Buenos Aires',
+                'text_jul': '<p>Voei diretamente da Espanha para Buenos Aires. Depois de tantas vezes passando por lá e com o começo de ano que tive, ansiava por voltar. A vida na capital argentina não foi exatamente como esperava, por falta de oportunidade laboral, mas foi de aprendizado, bons amigos e muito desenvolvimento pessoal e muuuito, muuuito frio.</p>',
+                'time_out': 'Agosto a Outubro: Berlin Days + Zurique e Roma',
+                'text_out': '<p>Após uma rápida passagem pela Cidade Luz, teve início a minha fase alemã. Fiz um longo voluntariado em um hostel de refugiados, uma ótima experiência de vida! Além disso, tive alguns trabalhos esporádicos de pintura, o que me fez entender o quanto de dinheiro esse tipo de trabalho pode fazer na Europa. Vivi uma vida noturna intensa, vivenciei a mudança do clima do verão para o outono europeu, com muita caminhada e encontros surpreendentes. Berlim segue sendo uma cidade que amo. Para finalizar, no caminho de volta pude conhecer a Suíça e finalmente conhecer Roma! Foi um lindo encerramento para esta viagem.</p>',
+                'time_dez': 'Novembro e Dezembro: Lá e de Volta Outra Vez',
+                'text_dez': '<p>O fim de ano foi praticamente de descanso, depois de 10 meses intensos. O destaque foi o ponto principal da minha volta: ser padrinho de casamento do meu amigo! Foi uma experiência linda, casando um amigo que amo muito. Por fim, passei as festas de fim de ano em Sorocaba mesmo. 2025 definitivamente será um ano para ser lembrado, o 3º da minha vida nômade.</p>',
+                'wrapped_section_title': 'A Essência de 2025',
+                'wrapped_section_subtitle': 'Um resumo do que foi este ano.',
+                'related_title': 'Continue Explorando',
+                'rel_cat_1': 'Argentina', 'rel_title_1': 'Realidade Argentina 2026',
+                'rel_cat_2': 'Argentina', 'rel_title_2': 'Buenos Aires Grátis',
+                'rel_cat_3': 'Europa', 'rel_title_3': 'Perrengue em Gibraltar',
+                'faq_titulo': 'Dúvidas e Bastidores',
+                'faqQ1': 'Como você financiou o ano sem um emprego fixo?',
+                'faqA1': 'Combinei minhas economias com trabalhos temporários. Os voluntariados em hostels ajudaram a zerar o custo de moradia, e os trabalhos de pintura na Alemanha pagaram as passagens para a fase final do ano.',
+                'faqQ2': 'Qual foi o maior desafio emocional de 2025?',
+                'faqA2': 'A fase de Marbella. Estava com a minha cabeça em outro lugar, além de estar em um lugar de extremo luxo enquanto trabalhava pesado e enfrentava um mês de chuva constante... foi um teste de resiliência mental, mas de certa forma me ensinou a lidar com a melancolia na estrada e a me entender melhor.',
+                'faqQ3': 'Valeu a pena o voluntariado com refugiados em Berlim?',
+                'faqA3': 'Totalmente. Foi a experiência mais transformadora do ano. Ver a realidade de quem perdeu tudo coloca qualquer "perrengue de viagem" em perspectiva. Além de me integrar na cultura local de forma profunda.',
+                'faqQ4': 'O que esperar de 2026?',
+                'faqA4': 'O plano é seguir o fluxo. 2025 me provou que a estrada me leva para onde eu preciso estar. Quero focar mais em contar essas histórias aqui no blog e nas redes.',
+                'footer_copy': '© 2026 Diários de um Nômade. Por Paco Sousa.'
+            },
+            'es': {
+                'meta_title': '2025 Wrapped: La Jornada Completa | Paco Sousa',
+                'main_title': '2025<br>Wrapped',
+                'main_subtitle': '“Es un negocio peligroso, Frodo, salir por tu puerta. Pisas el camino y, si no te cuidas, no se sabe a dónde te pueden llevar.” (Bilbo Bolsón)',
+                'intro-text': '<p>El año 2025 fue un ejercicio de resiliencia. Fue mi primer año, en mucho tiempo, sin un empleo fijo. Usé este tiempo para aprovechar la libertad de la oportunidad, lo que me llevó a diferentes desafíos durante el año. Consecuentemente, estos desafíos me llevaron a explorar un poco más de este mundo, conduciéndome a experiencias increíbles!</p>',
+                'time_inicio': 'Enero y Febrero: Tango y Samba',
+                'text_inicio': '<p>Hice un voluntariado de un mes en un hostel en Argentina! Hubo mucha fiesta, aprendí el arte de ser barman y viví un intenso "amor de verano". Volví a Brasil para un excelente carnaval en Río y seguí hacia España, donde ya había aceptado un nuevo desafío.</p>',
+                'time_mar': 'Marzo y Abril: Lluvia en la Costa del Sol',
+                'text_mar': '<p>Después de unos días disfrutando de Madrid, pasé 40 días trabajando en un bar en la ciudad de Marbella, en Puerto Banús. Para quienes no conocen, esta localidad es frecuentada por los más ricos de Europa: una marina con bares y tiendas de lujo. A pesar de la ubicación paradisíaca, fue un mes de intensas lluvias, lo que arruinó la vibra y ayudó a la melancolía. El punto alto fue la roadtrip que hice en el medio, yendo hasta Portugal.</p>',
+                'time_jul': 'Mayo a Julio: La Vida en Buenos Aires',
+                'text_jul': '<p>Volé directamente de España a Buenos Aires. Después de tantas veces pasando por allí y con el comienzo de año que tuve, ansiaba volver. La vida en la capital argentina no fue exactamente como esperaba, por falta de oportunidad laboral, pero fue de aprendizaje, buenos amigos y mucho desarrollo personal y mucho, mucho frío.</p>',
+                'time_out': 'Agosto a Octubre: Berlin Days + Zurich y Roma',
+                'text_out': '<p>Después de un rápido paso por la Ciudad de la Luz, comenzó mi fase alemana. Hice un largo voluntariado en un hostel de refugiados, una gran experiencia de vida! Además, tuve alguns trabajos esporádicos de pintura, lo que me hace entender cuánto dinero este tipo de trabajo puede generar en Europa. Viví una vida nocturna intensa, experimenté el cambio del clima de verano a otoño europeo, con muchas caminatas y encuentros sorprendentes. Berlín sigue siendo una ciudad que amo. Para finalizar, en el camino de vuelta pude conocer Suiza y finalmente conocer Roma! Fue un lindo cierre para este viaje.</p>',
+                'time_dez': 'Noviembre y Diciembre: Allá y de Regreso',
+                'text_dez': '<p>El fin de año fue prácticamente de descanso, después de 10 meses intensos. El destaque fue el punto principal de mi regreso: ser padrino de bodas de mi amigo! Fue una experiencia linda, casando a un amigo que quiero mucho. Por último, pasé las fiestas de fin de año en Sorocaba. 2025 definitivamente será un año para recordar, el 3º de mi vida nómada.</p>',
+                'wrapped_section_title': 'La Esencia de 2025',
+                'wrapped_section_subtitle': 'Un resumen de lo que fue este año.',
+                'related_title': 'Sigue Explorando',
+                'rel_cat_1': 'Argentina', 'rel_title_1': 'Realidade Argentina 2026',
+                'rel_cat_2': 'Argentina', 'rel_title_2': 'Buenos Aires Gratis',
+                'rel_cat_3': 'Europa', 'rel_title_3': 'Perrengue en Gibraltar',
+                'faq_titulo': 'Preguntas y Entretelones',
+                'faqQ1': '¿Cómo financiaste el año sin empleo fijo?',
+                'faqA1': 'Combiné ahorros con trabajos temporales. Los voluntariados en hostels ayudaron a eliminar el costo de vivienda, y los trabajos de pintura en Alemania pagaron los vuelos de la fase final del año.',
+                'faqQ2': '¿Cuál fue el mayor desafío emocional de 2025?',
+                'faqA2': 'La fase de Marbella. Tenía la cabeza en otro lugar, además de estar en un sitio de extremo lujo mientras trabajaba duro y enfrentaba un mes de lluvia constante... fue una prueba de resiliencia mental, pero de cierta forma me enseñó a lidiar con la melancolíal en el camino y a entenderme mejor.',
+                'faqQ3': '¿Valió la pena el voluntariado en Berlín?',
+                'faqA3': 'Totalmente. Ver la realidad de quienes perdieron todo pone cualquier "problema de viaje" en perspectiva. Fue la experiencia más transformadora del año.',
+                'faqQ4': '¿Qué esperar de 2026?',
+                'faqA4': 'Seguir el flujo. El camino me lleva a donde necesito estar. Me enfocaré en contar estas historias aquí en el blog y en redes sociales.',
+                'footer_copy': '© 2026 Diarios de un Nómada. Por Paco Sousa.'
+            },
+            'en': {
+                'meta_title': '2025 Wrapped: The Complete Journey | Paco Sousa',
+                'main_title': '2025<br>Wrapped',
+                'main_subtitle': '“It\'s a dangerous business, Frodo, going out your door. You step onto the road, and if you don\'t keep your feet, there\'s no knowing where you might be swept off to.” (Bilbo Baggins)',
+                'intro-text': '<p>2025 was an exercise in resilience. It was my first year, in a long time, without a steady job. I used this time to embrace the freedom of opportunity, which led me to different challenges throughout the year. Consequently, these challenges led me to explore a bit more of this world, leading me to incredible experiences!</p>',
+                'time_inicio': 'January and February: Tango and Samba',
+                'text_inicio': '<p>I did a one-month volunteer stint at a hostel in Argentina! There was plenty of partying, I learned the art of bartending, and I lived through an intense "summer love". I returned to Brazil for a great Carnival in Rio and then headed to Spain, where I had already accepted a new challenge.</p>',
+                'time_mar': 'March and April: Rain on the Sun Coast',
+                'text_mar': '<p>After a few days enjoying Madrid, I spent 40 days working at a bar in the city of Marbella, in Puerto Banús. For those who don\'t know, this area is frequented by the wealthiest in Europe: a marina with bars and designer shops. Despite the paradisiacal location, it was a month of heavy rain, which ruined the vibe and added to the gloom. The highlight was the road trip I did in the middle, going all the way to Portugal.</p>',
+                'time_jul': 'May to July: La Vida en Buenos Aires',
+                'text_jul': '<p>I flew directly from Spain to Buenos Aires. After passing through there so many times and with the start of the year I had, I was looking forward to returning. Life in the Argentine capital wasn\'t exactly as I expected due to a length of work opportunities, but it was a period of learning, good friends, and a lot of personal development (and a lot, lot of cold).</p>',
+                'time_out': 'August to October: Berlin Days + Zurich and Rome',
+                'text_out': '<p>After a quick stop in the City of Light, my German phase began. I did a long volunteer stint at a refugee hostel, a great life experience! Additionally, I had some sporadic painting jobs, which made me realize how much money this type of work can make in Europe. An intense nightlife, experiencing the weather change from summer to European autumn, lots of walking, and surprising encounters. Berlin remains a city I love. To finish, on the way back I visited Switzerland and finally saw Rome! It was a beautiful conclusion to this trip.</p>',
+                'time_dez': 'November and December: There and Back Again',
+                'text_dez': '<p>The end of the year was mostly for resting after 10 intense months. The highlight was the main reason for my return: being the best man at my friend\'s wedding! It was a beautiful experience, witnessing the marriage of a friend I love dearly. Finally, I spent the holidays in Sorocaba. 2025 will definitely be a year to remember, the 3rd of my nomadic life.</p>',
+                'wrapped_section_title': 'The Essence of 2025',
+                'wrapped_section_subtitle': 'A summary of what this year was about.',
+                'related_title': 'Keep Exploring',
+                'rel_cat_1': 'Argentina', 'rel_title_1': 'Argentina Reality 2026',
+                'rel_cat_2': 'Argentina', 'rel_title_2': 'Buenos Aires Free',
+                'rel_cat_3': 'Europa', 'rel_title_3': 'Trouble in Gibraltar',
+                'faq_titulo': 'FAQ and Behind the Scenes',
+                'faqQ1': 'How did you fund the year without a steady job?',
+                'faqA1': 'I combined savings with temporary jobs. Volunteering in hostels eliminated housing costs, and painting jobs in Germany paid for flights for the final phase of the year.',
+                'faqQ2': 'What was the biggest emotional challenge of 2025?',
+                'faqA2': 'The Marbella phase. My head was somewhere else, plus I was in a place of extreme luxury while working hard and facing a month of constant rain... it was a test of mental resilience, but in a way, it taught me how to deal with melancholy on the road and to understand myself better.',
+                'faqQ3': 'Was the refugee hostel volunteer work in Berlin worth it?',
+                'faqA3': 'Totally. It was the most transformative experience of the year. Seeing the reality of those who lost everything puts any "travel trouble" into perspective.',
+                'faqQ4': 'What to expect in 2026?',
+                'faqA4': 'Going with the flow. 2025 proved to me that the road takes me where I need to be. I want to focus more on sharing these stories on the blog and social media.',
+                'footer_copy': '© 2026 Nomad Diaries. By Paco Sousa.'
+            }
+        };
+
+        window.changeLanguage = function(lang) {
+            if (window.updateNavTranslations) window.updateNavTranslations(lang);
+            const elements = document.querySelectorAll('[id]');
+            elements.forEach(el => {
+                const id = el.id;
+                if (translations[lang] && translations[lang][id]) {
+                    el.innerHTML = translations[lang][id];
+                }
+            });
+            document.documentElement.lang = lang;
+        };
+
+        // Funções do Lightbox
+        window.openLightbox = function(src) {
+            const modal = document.getElementById('lightbox-modal');
+            const img = document.getElementById('lightbox-img');
+            img.src = src;
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden'; // Trava o scroll
+        };
+
+        window.closeLightbox = function() {
+            const modal = document.getElementById('lightbox-modal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto'; // Destrava o scroll
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            window.changeLanguage('pt');
+            
+            // Adiciona evento de clique em todas as imagens de galeria
+            const galleryImages = document.querySelectorAll('.mini-photo img, .wrapped-card img');
+            galleryImages.forEach(img => {
+                img.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    window.openLightbox(img.src);
+                });
+            });
+
+            // Fecha no ESC
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') window.closeLightbox();
+            });
+        });
+    </script>
+</body>
+</html>

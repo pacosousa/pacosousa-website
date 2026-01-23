@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Salta, la linda | Diários de um Nômade">
+    <meta property="og:description" content="Guia completo de lugares para visitar na cidade de Salta, Argentina. Dicas reais de Paco Sousa para economizar nesta cidade argentina.">
+    <meta property="og:url" content="https://pacosousa.com/articles/salta">
+    <meta property="og:image" content="https://pacosousa.com/images/capa-salta.webp">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Salta, la linda | Diários de um Nômade">
+    <meta name="twitter:description" content="Guia completo de lugares para visitar na cidade de Salta, Argentina. Dicas reais de Paco Sousa para economizar nesta cidade argentina.">
+    <meta name="twitter:image" content="https://pacosousa.com/images/capa-salta.webp">
+
+    <title id="meta_title">Salta, la linda | Diários de um Nômade</title>
+
+    <!-- SEO & Favicon -->
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="canonical" href="https://pacosousa.com/articles/salta">
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-88CEX3DZ05"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-88CEX3DZ05');
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Poppins:wght@400;700;800&display=swap" rel="stylesheet">
+    <!-- Caminho corrigido para a pasta js -->
+    <script src="../js/menu.js"></script>
+
+    <style>
+      :root {
+        --bg-main: #0D0D0D; --text-main: #F0F0F0; --card-bg: #161616; 
+        --accent-primary: #FF3366; /* Vermelho para a data */
+        --accent-tertiary: #74ACDF; /* Azul Argentina */
+      }
+      body { font-family: 'Inter', sans-serif; background-color: var(--bg-main); color: var(--text-main); }
+      h1, h2, h3, h4 { font-family: 'Poppins', sans-serif; }
+      
+      .drop-cap::first-letter { font-family: 'Poppins', sans-serif; font-size: 5rem; font-weight: 800; float: left; margin-right: 0.75rem; line-height: 0.8; color: var(--accent-tertiary); }
+      .article-content p { margin-bottom: 1.5rem; line-height: 1.8; color: #BBB; font-size: 1.1rem; }
+      .article-content h2 { color: var(--accent-tertiary); font-weight: 800; font-size: 1.8rem; margin-top: 4rem; margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: -0.02em; }
+      .article-content h3 { color: white; font-weight: 700; font-size: 1.3rem; margin-top: 2.5rem; margin-bottom: 1rem; }
+
+      /* Galerias de 4 fotos */
+      .mini-gallery { display: grid; gap: 1rem; margin: 2.5rem 0; }
+      .gallery-grid-4 { grid-template-columns: repeat(2, 1fr); }
+      @media (min-width: 768px) { .gallery-grid-4 { grid-template-columns: repeat(4, 1fr); } }
+
+      .mini-photo { 
+        position: relative; border-radius: 1.5rem; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); 
+        transition: all 0.5s ease; cursor: zoom-in; background: #1a1a1a; aspect-ratio: 9/16;
+      }
+      .mini-photo:hover { transform: translateY(-10px); border-color: var(--accent-tertiary); box-shadow: 0 10px 30px rgba(116, 172, 223, 0.2); }
+      .mini-photo img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s ease; }
+      .mini-photo:hover img { transform: scale(1.1); }
+
+      /* Lightbox */
+      #lightbox-modal { display: none; position: fixed; inset: 0; z-index: 1000; background-color: rgba(0, 0, 0, 0.95); backdrop-filter: blur(10px); align-items: center; justify-content: center; cursor: zoom-out; }
+      #lightbox-modal img { max-width: 90%; max-height: 90vh; border-radius: 1.5rem; object-fit: contain; }
+
+      /* Cards Quadrados para Lugares Extras */
+      .location-square { 
+        background: var(--card-bg); 
+        border: 1px solid rgba(255, 255, 255, 0.05); 
+        border-radius: 2rem; 
+        padding: 2rem; 
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        aspect-ratio: 1 / 1;
+      }
+      .location-square:hover { border-color: var(--accent-tertiary); transform: scale(1.03); background: #1a1a1a; box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+
+      .related-card { background: var(--card-bg); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 1.5rem; transition: all 0.4s ease; overflow: hidden; }
+      .related-card:hover { border-color: var(--accent-tertiary); transform: translateY(-5px); }
+    </style>
+</head>
+<body>
+    <!-- O menu.js irá injetar o conteúdo aqui -->
+    <header id="main-header" class="sticky top-0 z-50"></header>
+
+    <div id="lightbox-modal" onclick="closeLightbox()">
+        <img id="lightbox-img" src="" alt="Zoom Image">
+    </div>
+
+    <!-- Header Hero Model -->
+    <header class="relative w-full h-[65vh] flex items-end justify-center overflow-hidden pt-24">
+        <div class="absolute inset-0 bg-cover bg-center z-0" style="background-image: url('../images/capa-salta.webp');"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent z-10"></div>
+        <div class="relative z-20 container mx-auto px-6 pb-16 max-w-4xl text-center">
+            <span id="category_tag" class="inline-block py-1 px-3 rounded-full bg-[var(--accent-tertiary)]/20 text-[var(--accent-tertiary)] text-xs font-bold tracking-widest uppercase mb-4 border border-[var(--accent-tertiary)] backdrop-blur-sm"></span>
+            <h1 class="text-4xl md:text-6xl font-extrabold text-white leading-tight mb-8 tracking-tight italic" id="main_title"></h1>
+            <div class="flex items-center justify-center gap-3 text-stone-200 text-sm font-medium">
+                <img src="../images/foto-perfil.webp" onerror="this.src='https://api.dicebear.com/7.x/avataaars/svg?seed=Paco'" alt="Paco Sousa" class="w-8 h-8 rounded-full border-2 border-[var(--accent-tertiary)] object-cover shadow-md">
+                <span id="author_line"></span>
+            </div>
+        </div>
+
+    <!-- ADIÇÕES MANUAIS SEO -->
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://pacosousa.com/articles/salta"
+    },
+      "headline": "Salta, la linda | Diários de um Nômade",
+      "description": "Guia completo de lugares para visitar na cidade de Salta, Argentina. Dicas reais de Paco Sousa para economizar nesta cidade argentina.",
+      "image": {
+      "@type": "ImageObject",
+      "url": "https://pacosousa.com/images/capa-salta.webp",
+      "width": 4032,
+      "height": 2268
+    },
+      "author": {
+      "@type": "Person",
+      "name": "Paco Sousa",
+      "url": "https://pacosousa.com/"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Diários de um Nômade",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://pacosousa.com/images/logo-blog.webp",
+        "width": 1024,
+        "height": 1024
+      }
+    },
+    "datePublished": "2026-01-16",
+    "dateModified": "2026-01-16",
+  }
+  </script>
+
+    </header>
+
+    <main class="pb-24 px-4">
+        <article class="container mx-auto max-w-3xl article-content mt-12 text-justify">
+            <!-- Data em Vermelho conforme pedido -->
+            <div id="diary_date" class="text-[var(--accent-primary)] font-bold tracking-[0.2em] uppercase text-xs mb-8 text-center md:text-left border-b border-white/10 pb-4"></div>
+            
+            <p id="p1" class="drop-cap"></p>
+            <p id="p2"></p>
+            <p id="p3"></p>
+            <p id="p4"></p>
+
+            <h2 id="h2_1"></h2>
+            <p id="p5"></p>
+
+            <!-- Galeria 1: Salta Norte -->
+            <div class="mini-gallery gallery-grid-4">
+                <div class="mini-photo"><img src="../images/argentina/salta/salta-1.webp" alt="Montanhas Salta" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/argentina/salta/salta-2.webp" alt="Noroeste Argentino" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/argentina/salta/salta-3.webp" alt="Paisagem Salta" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/argentina/salta/salta-4.webp" alt="Horizonte Norte" onclick="openLightbox(this.src)"></div>
+            </div>
+
+            <h2 id="h2_2"></h2>
+            <p id="p6"></p>
+            <p id="p7"></p>
+            <p id="p8"></p>
+
+            <h2 id="h2_3"></h2>
+            <p id="p9"></p>
+            <p id="p10"></p>
+            <p id="p11"></p>
+
+            <!-- Galeria 2: Cerro San Bernardo -->
+            <div class="mini-gallery gallery-grid-4">
+                <div class="mini-photo"><img src="../images/argentina/salta/cerro-1.webp" alt="Teleférico Salta" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/argentina/salta/cerro-2.webp" alt="Vista Cerro" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/argentina/salta/cerro-3.webp" alt="San Bernardo" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/argentina/salta/cerro-4.webp" alt="Salta do topo" onclick="openLightbox(this.src)"></div>
+            </div>
+
+            <p id="p12"></p>
+            <p id="p13"></p>
+
+            <h2 id="h2_4"></h2>
+            <p id="p14"></p>
+            <p id="p15"></p>
+            <p id="p16"></p>
+
+            <!-- Galeria 3: Centro Histórico -->
+            <div class="mini-gallery gallery-grid-4">
+                <div class="mini-photo"><img src="../images/argentina/salta/centro-1.webp" alt="Plaza 9 de Julio" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/argentina/salta/centro-2.webp" alt="Arquitetura Colonial" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/argentina/salta/centro-3.webp" alt="Catedral Rosa" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/argentina/salta/centro-4.webp" alt="Ruas de Salta" onclick="openLightbox(this.src)"></div>
+            </div>
+
+            <h3 id="sh1"></h3>
+            <p id="p17"></p>
+            <h3 id="sh2"></h3>
+            <p id="p18"></p>
+            <h3 id="sh3"></h3>
+            <p id="p19"></p>
+
+            <!-- Galeria 4: Catedral e etc -->
+            <div class="mini-gallery gallery-grid-4">
+                <div class="mini-photo"><img src="../images/argentina/salta/centro-5.webp" alt="MAAM Entrada" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/argentina/salta/centro-6.webp" alt="Crianças Inca" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/argentina/salta/centro-7.webp" alt="Exposição MAAM" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/argentina/salta/centro-8.webp" alt="História de Llullaillaco" onclick="openLightbox(this.src)"></div>
+            </div>
+
+            <h2 id="h2_5"></h2>
+            <p id="p20"></p>
+            <p id="p21"></p>
+            <p id="p22"></p>
+
+            <h2 id="h2_6"></h2>
+            <p id="p23"></p>
+            <p id="p24"></p>
+            <p id="p25"></p>
+            <p id="p26"></p>
+
+            <h2 id="h2_7"></h2>
+            <p id="p27"></p>
+
+            <!-- Lugares Extras (Cards Quadrados 2 colunas) -->
+            <h2 id="h2_8"></h2>
+            <p id="p28" class="mb-10"></p>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div class="location-square">
+                    <h4 id="l1_t" class="text-[var(--accent-tertiary)] font-extrabold text-xl mb-3 uppercase tracking-tighter italic leading-none"></h4>
+                    <p id="l1_d" class="text-gray-400 text-sm leading-relaxed overflow-hidden"></p>
+                </div>
+                <div class="location-square">
+                    <h4 id="l2_t" class="text-[var(--accent-tertiary)] font-extrabold text-xl mb-3 uppercase tracking-tighter italic leading-none"></h4>
+                    <p id="l2_d" class="text-gray-400 text-sm leading-relaxed overflow-hidden"></p>
+                </div>
+                <div class="location-square">
+                    <h4 id="l3_t" class="text-[var(--accent-tertiary)] font-extrabold text-xl mb-3 uppercase tracking-tighter italic leading-none"></h4>
+                    <p id="l3_d" class="text-gray-400 text-sm leading-relaxed overflow-hidden"></p>
+                </div>
+                <div class="location-square">
+                    <h4 id="l4_t" class="text-[var(--accent-tertiary)] font-extrabold text-xl mb-3 uppercase tracking-tighter italic leading-none"></h4>
+                    <p id="l4_d" class="text-gray-400 text-sm leading-relaxed overflow-hidden"></p>
+                </div>
+                <div class="location-square">
+                    <h4 id="l5_t" class="text-[var(--accent-tertiary)] font-extrabold text-xl mb-3 uppercase tracking-tighter italic leading-none"></h4>
+                    <p id="l5_d" class="text-gray-400 text-sm leading-relaxed overflow-hidden"></p>
+                </div>
+                <div class="location-square">
+                    <h4 id="l6_t" class="text-[var(--accent-tertiary)] font-extrabold text-xl mb-3 uppercase tracking-tighter italic leading-none"></h4>
+                    <p id="l6_d" class="text-gray-400 text-sm leading-relaxed overflow-hidden"></p>
+                </div>
+                <div class="location-square">
+                    <h4 id="l7_t" class="text-[var(--accent-tertiary)] font-extrabold text-xl mb-3 uppercase tracking-tighter italic leading-none"></h4>
+                    <p id="l7_d" class="text-gray-400 text-sm leading-relaxed overflow-hidden"></p>
+                </div>
+            </div>
+
+            <!-- RELATED (3 Cards - Santiago, Atacama, Broken Bus) -->
+            <section class="mt-32 pt-16 border-t border-white/10">
+                <h2 id="related_title" class="text-3xl font-black mb-10 italic text-white uppercase tracking-tighter"></h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <a href="primeira-viagem-santiago-chile" class="related-card block group">
+                        <div class="h-40 bg-cover bg-center group-hover:scale-105 transition-transform duration-500" style="background-image: url('../images/capa-santiago.webp');"></div>
+                        <div class="p-4">
+                            <span class="text-[var(--accent-tertiary)] text-[10px] font-bold uppercase tracking-widest mb-2 block">Cidade</span>
+                            <h4 id="rel_title1" class="text-sm font-bold text-white group-hover:text-[var(--accent-tertiary)] transition-colors"></h4>
+                        </div>
+                    </a>
+                    <a href="o-deserto-do-atacama" class="related-card block group">
+                        <div class="h-40 bg-cover bg-center group-hover:scale-105 transition-transform duration-500" style="background-image: url('../images/capa-atacama.webp');"></div>
+                        <div class="p-4">
+                            <span class="text-[var(--accent-tertiary)] text-[10px] font-bold uppercase tracking-widest mb-2 block">Guia</span>
+                            <h4 id="rel_title2" class="text-sm font-bold text-white group-hover:text-[var(--accent-tertiary)] transition-colors"></h4>
+                        </div>
+                    </a>
+                    <a href="onibus-quebrado-atacama" class="related-card block group">
+                        <div class="h-40 bg-cover bg-center group-hover:scale-105 transition-transform duration-500" style="background-image: url('../images/capa-onibus-quebrado-atacama.webp');"></div>
+                        <div class="p-4">
+                            <span class="text-[var(--accent-tertiary)] text-[10px] font-bold uppercase tracking-widest mb-2 block">Perrengue</span>
+                            <h4 id="rel_title3" class="text-sm font-bold text-white group-hover:text-[var(--accent-tertiary)] transition-colors"></h4>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- FAQ Estendida -->
+            <section class="mt-24 pt-16 border-t border-white/10 pb-20">
+                <h2 id="faq_title" class="text-3xl font-black mb-10 italic text-center text-white uppercase tracking-tighter"></h2>
+                <div class="space-y-4">
+                    <details class="bg-[var(--card-bg)] p-6 rounded-2xl border border-white/5 cursor-pointer group">
+                        <summary class="font-bold text-lg group-hover:text-[var(--accent-tertiary)] transition-colors list-none flex justify-between items-center">
+                            <span id="faq_q1"></span>
+                            <span class="text-[var(--accent-tertiary)]">+</span>
+                        </summary>
+                        <p id="faq_a1" class="mt-4 text-gray-400 leading-relaxed"></p>
+                    </details>
+                    <details class="bg-[var(--card-bg)] p-6 rounded-2xl border border-white/5 cursor-pointer group">
+                        <summary class="font-bold text-lg group-hover:text-[var(--accent-tertiary)] transition-colors list-none flex justify-between items-center">
+                            <span id="faq_q2"></span>
+                            <span class="text-[var(--accent-tertiary)]">+</span>
+                        </summary>
+                        <p id="faq_a2" class="mt-4 text-gray-400 leading-relaxed"></p>
+                    </details>
+                    <details class="bg-[var(--card-bg)] p-6 rounded-2xl border border-white/5 cursor-pointer group">
+                        <summary class="font-bold text-lg group-hover:text-[var(--accent-tertiary)] transition-colors list-none flex justify-between items-center">
+                            <span id="faq_q3"></span>
+                            <span class="text-[var(--accent-tertiary)]">+</span>
+                        </summary>
+                        <p id="faq_a3" class="mt-4 text-gray-400 leading-relaxed"></p>
+                    </details>
+                    <details class="bg-[var(--card-bg)] p-6 rounded-2xl border border-white/5 cursor-pointer group">
+                        <summary class="font-bold text-lg group-hover:text-[var(--accent-tertiary)] transition-colors list-none flex justify-between items-center">
+                            <span id="faq_q4"></span>
+                            <span class="text-[var(--accent-tertiary)]">+</span>
+                        </summary>
+                        <p id="faq_a4" class="mt-4 text-gray-400 leading-relaxed"></p>
+                    </details>
+                    <details class="bg-[var(--card-bg)] p-6 rounded-2xl border border-white/5 cursor-pointer group">
+                        <summary class="font-bold text-lg group-hover:text-[var(--accent-tertiary)] transition-colors list-none flex justify-between items-center">
+                            <span id="faq_q5"></span>
+                            <span class="text-[var(--accent-tertiary)]">+</span>
+                        </summary>
+                        <p id="faq_a5" class="mt-4 text-gray-400 leading-relaxed"></p>
+                    </details>
+                    <details class="bg-[var(--card-bg)] p-6 rounded-2xl border border-white/5 cursor-pointer group">
+                        <summary class="font-bold text-lg group-hover:text-[var(--accent-tertiary)] transition-colors list-none flex justify-between items-center">
+                            <span id="faq_q6"></span>
+                            <span class="text-[var(--accent-tertiary)]">+</span>
+                        </summary>
+                        <p id="faq_a6" class="mt-4 text-gray-400 leading-relaxed"></p>
+                    </details>
+                </div>
+            </section>
+        </article>
+    </main>
+
+    <!-- Rodapé minimalista -->
+    <footer class="py-12 border-t border-white/5 text-center mt-10">
+        <p id="footer_text" class="text-xs text-gray-600 font-bold uppercase tracking-widest"></p>
+    </footer>
+
+    <script>
+        function openLightbox(src) {
+            const modal = document.getElementById('lightbox-modal');
+            const img = document.getElementById('lightbox-img');
+            img.src = src;
+            modal.style.display = 'flex';
+        }
+        function closeLightbox() {
+            document.getElementById('lightbox-modal').style.display = 'none';
+        }
+
+        const translations = {
+            'pt': {
+                'main_title': 'Salta, la linda',
+                'author_line': 'Paco Sousa • 15 min de leitura • Escrito em 11/01/2026',
+                'diary_date': 'Salta, Argentina. 18 de abril de 2023.',
+                'category_tag': 'Argentina',
+                'p1': 'Depois de todo o <a href="./onibus-quebrado-atacama" class="text-[#FF3366] hover:underline">perrengue para chegar a Salta</a>, vindo do <a href="./o-deserto-do-atacama" class="text-[#FF3366] hover:underline">Deserto do Atacama</a> no dia anterior, me permiti acordar um pouco mais tarde. Não muito. O café da manhã estava incluso e eu não ia desperdiçar esse pequeno luxo.',
+                'p2': 'Eu teria apenas um dia e meio para conhecer a cidade. No dia seguinte, seguiria viagem rumo a San Miguel de Tucumán. Enquanto tomava café, fui organizando o roteiro ali mesmo, na base do tempo disponível e da curiosidade.',
+                'p3': 'Antes de sair para explorar Salta, precisei resolver uma questão básica: dinheiro. Olhando no mapa, encontrei um Carrefour relativamente perto que tinha uma unidade da Western Union. Eu já havia feito a transferência na noite anterior, então foi só sacar e sair de lá com um bolo considerável de pesos argentinos, algo que se tornaria tradição ao longo daquele ano. Para quem viaja pela Argentina, a Western Union costuma ser a solução mais prática para lidar com o câmbio paralelo.',
+                'p4': 'Com isso resolvido, finalmente comecei a conhecer a cidade.',
+                'h2_1': 'Salta, no norte da Argentina',
+                'p5': 'Salta é a capital da província de mesmo nome e fica no norte da Argentina, cercada por montanhas e paisagens que já entregam bastante do que é o noroeste do país. Apesar de ser capital, tem um ritmo tranquilo, arquitetura colonial bem preservada e uma sensação constante de que tudo acontece sem pressa.',
+                'h2_2': 'O plano que não aconteceu: o Tren a las Nubes',
+                'p6': 'Logo no início, descobri que o passeio que eu mais queria fazer não estava disponível: o <a href="https://www.argentina.gob.ar/jefatura/turismo/viaja-por-argentina/viajar-las-nubes-en-tren" target="_blank" rel="noopener noreferrer" class="text-[#75AADB] hover:underline">Tren a las Nubes</a>, um dos passeios mais famosos da Argentina. O trem cruza viadutos a mais de 4.000 metros de altitude e costuma ser vendido como uma experiência única.',
+                'p7': 'O problema era o preço. Pelo site oficial, só aceitavam cartão, e na época o valor já estava inflado pela diferença entre o câmbio oficial e o paralelo. Deixei para tentar comprar pessoalmente, mas nos pontos oficiais já estava esgotado. Nas agências, custava praticamente a mesma coisa.',
+                'p8': 'Depois de insistir um pouco além do razoável, aceitei que não fazia sentido seguir atrás disso. Ajustei o roteiro e segui com o que Salta oferecia ali, no nível da rua.',
+                'h2_3': 'Subida ao Cerro San Bernardo',
+                'p9': 'Decidi explorar a cidade a pé. Saí do microcentro em direção à estação do teleférico que leva ao Cerro San Bernardo. Era uma terça-feira de abril e não havia praticamente fila.',
+                'p10': 'Não lembro exatamente quanto paguei na época, mas o valor atualizado gira em torno de ARS 25.000, algo próximo de R$ 90,00 considerando o câmbio de janeiro de 2026.',
+                'p11': 'A subida foi especial. Era a minha primeira vez em um teleférico desse tipo, com cabines pequenas que não param totalmente. A vista vai se abrindo aos poucos, sem impacto, sem susto.',
+                'p12': 'Diferente de Santiago, no Chile, que mistura prédios altos com montanhas, Salta mantém um perfil baixo, colonial, com a Cordilheira dos Andes ao fundo.',
+                'p13': 'Lá em cima, sentei numa cafeteria e fiquei apenas olhando a cidade. Sem pressa nenhuma.',
+                'h2_4': 'Caminhada pelo centro histórico',
+                'p14': 'De volta à parte baixa da cidade, já perto do horário de almoço, caminhei em direção à Plaza 9 de Julio, o centro de tudo. A ideia era simples: almoçar em algum lugar pelo caminho e depois seguir explorando.',
+                'p15': 'Entrei no restaurante por um motivo nada técnico. Vi um garçom bonito e entrei. Felizmente, a comida era boa, embora eu tenha ficado alguns segundos tentando entender como começar a comer aquilo.',
+                'p16': 'Depois do almoço, segui caminhando ao redor da praça, onde estão alguns dos edifícios mais importantes da cidade.',
+                'sh1': 'Catedral Basílica de Salta',
+                'p17': 'Imponente, rosada e impossível de ignorar. Fica de frente para a praça e é um dos cartões-postais da cidade. Vale entrar nem que seja só para sentir o contraste entre o movimento externo e o silêncio lá dentro.',
+                'sh2': 'Cabildo Histórico',
+                'p18': 'Do outro lado da praça, hoje funciona como museu. É um bom resumo da história colonial de Salta e do norte argentino, sem exageros.',
+                'sh3': 'Museu de Arqueologia de Alta Montanha (MAAM)',
+                'p19': 'Para mim, um dos pontos mais fortes da cidade. O museu abriga as famosas crianças de Llullaillaco, múmias incas encontradas a mais de 6.700 metros de altitude. Forte, impactante e essencial para entender a cultura andina.',
+                'h2_5': 'Dentro do MAAM',
+                'p20': 'A visita ao museu acontece em camadas. Aos poucos, o espaço vai preparando ao visitante para o que está por vir. Quando fui, apenas a múmia da menina estava exposta, e o estado de conservação impressiona. Séculos preservada pelas temperaturas extremas da montanha.',
+                'p21': 'O museu trata tudo com muito respeito. Existe uma antesala inteira dedicada à preparação do visitante, contextualizando a história e deixando claro que não se trata de curiosidade, mas de memória.',
+                'p22': 'É um lugar silencioso, denso e marcante.',
+                'h2_6': 'A siesta e uma cidade vazia',
+                'p23': 'Descobrir a siesta foi um pequeno choque cultural. Voltei ao hostel para descansar um pouco e, quando saí novamente, o centro estava completamente vazio. Lojas fechadas, ruas desertas. Por um momento, achei que fosse algum feriado esquisito.',
+                'p24': 'Andando sem rumo, encontrei uma loja com uma placa explicando o horário. Havia uma pausa diária, geralmente entre 15h ou 16h até perto das 18h.',
+                'p25': 'Quando saí de novo à noite, estava tudo funcionando normalmente. As lojas reabrem e seguem até 20h ou 21h. Em uma cidade quente como Salta, faz bastante sentido. Para quem trabalha, deve ser estranho. Para quem viaja, é só adaptar o ritmo.',
+                'p26': 'Terminei o dia bebendo em um barzinho da região, conversando com um local. Numa terça-feira, não havia muito movimento. Talvez tenha sido melhor assim.',
+                'h2_7': 'Hora de seguir viagem',
+                'p27': 'No dia seguinte, aproveitei para passar em algumas lojas de lembranças. À tarde, depois do check-out, segui caminhando até a rodoviária, que é bem fácil de acessar a pé. O próximo destino era San Miguel de Tucumán, onde ficaria cerca de 15 dias na casa de um amigo e voltaria a trabalhar, agora vivendo oficialmente a vida de nômade digital.',
+                'h2_8': 'Outros lugares em Salta que ficaram para outra viagem',
+                'p28': 'Mesmo com pouco tempo, Salta entregou bastante. Ainda assim, alguns lugares importantes ficaram de fora e entram facilmente em um roteiro mais longo.',
+                'l1_t': 'Convento San Bernardo', 'l1_d': 'Um dos edifícios mais antigos da cidade, conhecido pela fachada branca e pela porta de madeira esculpida.',
+                'l2_t': 'Mercado Artesanal de Salta', 'l2_d': 'Bom lugar para conhecer o artesanato local e produtos típicos da região.',
+                'l3_t': 'San Lorenzo', 'l3_d': 'Pequena localidade próxima à cidade, com trilhas, verde e clima mais fresco.',
+                'l4_t': 'Museu Güemes', 'l4_d': 'Dedicado a Martín Miguel de Güemes, figura central da história argentina.',
+                'l5_t': 'Cafayate e a Quebrada de las Conchas', 'l5_d': 'Bate-volta clássico, combinando paisagens impressionantes e vinícolas.',
+                'l6_t': 'Cachi e o Parque Nacional Los Cardones', 'l6_d': 'Estradas cênicas, formações naturais e aquele cenário que parece infinito.',
+                'l7_t': 'Salinas Grandes', 'l7_d': 'O deserto de sal branco, surreal e fotogênico, geralmente combinado com Purmamarca.',
+                'related_title': 'Leia também',
+                'rel_title1': 'Primeira vez em Santiago',
+                'rel_title2': 'Guia do Deserto do Atacama',
+                'rel_title3': 'Ônibus quebrado no Atacama',
+                'faq_title': 'Informações Práticas (FAQ)',
+                'faq_q1': 'Onde sacar dinheiro em Salta?', 'faq_a1': 'Procure a Western Union dentro do Carrefour no centro. É seguro e oferece o melhor câmbio paralelo.',
+                'faq_q2': 'Quanto custa o Cerro San Bernardo?', 'faq_a2': 'O teleférico custa cerca de 25.000 pesos argentinos (ida e volta), mas você pode subir os degraus de graça se tiver disposição.',
+                'faq_q3': 'É seguro caminhar sozinho?', 'faq_a3': 'Sim, Salta é uma capital muito segura no microcentro. Tome os cuidados básicos de qualquer cidade grande.',
+                'faq_q4': 'A siesta acontece todos os dias?', 'faq_a4': 'Sim, de segunda a sábado. O centro praticamente para entre as 16h e as 19h. Planeje seu almoço cedo!',
+                'faq_q5': 'Como se locomover em Salta?', 'faq_a5': 'O centro é totalmente caminhável. Para lugares mais distantes, os táxis são baratos e o sistema de ônibus (SAETA) funciona bem.',
+                'faq_q6': 'Qual o melhor chip de celular?', 'faq_a6': 'A operadora Claro costuma ter a melhor cobertura no norte. Você pode comprar o chip em qualquer "kiosco" e ativar com o passaporte.',
+                'footer_text': '© 2026 Paco Sousa · Diários de um Nômade'
+            },
+            'en': {
+                'main_title': 'Salta, the beautiful',
+                'author_line': 'Paco Sousa • 15 min read • Written on Jan 11, 2026',
+                'diary_date': 'Salta, Argentina. April 18, 2023.',
+                'category_tag': 'Argentina',
+                'p1': 'After all the <a href="./onibus-quebrado-atacama" class="text-[#FF3366] hover:underline">trouble to reach Salta</a>, coming from the <a href="./o-deserto-do-atacama" class="text-[#FF3366] hover:underline">Atacama Desert</a> the day before, I allowed myself to wake up a bit later. Not too late. Breakfast was included and I wasn\'t going to waste that small luxury.',
+                'p2': 'I would have only a day and a half to see the city. The next day, I would continue my journey towards San Miguel de Tucumán. While having breakfast, I organized the itinerary right there, based on the available time and curiosity.',
+                'p3': 'Before going out to explore Salta, I needed to resolve a basic issue: money. Looking at the map, I found a Carrefour relatively close that had a Western Union unit. I had already made the transfer the night before, so I just withdrew it and left there with a considerable pile of Argentine pesos, something that would become a tradition throughout that year. For those traveling through Argentina, Western Union is usually the most practical solution for dealing with the parallel exchange rate.',
+                'p4': 'With that resolved, I finally started to get to know the city.',
+                'h2_1': 'Salta, in Northern Argentina',
+                'p5': 'Salta is the capital of the province of the same name and is located in northern Argentina, surrounded by mountains and landscapes that already deliver a lot of what the northwest of the country is about. Despite being a capital, it has a quiet pace, well-preserved colonial architecture, and a constant feeling that everything happens without haste.',
+                'h2_2': 'The plan that didn\'t happen: the Tren a las Nubes',
+                'p6': 'Right at the beginning, I discovered that the tour I most wanted to do was not available: the <a href="https://www.argentina.gob.ar/jefatura/turismo/viaja-por-argentina/viajar-las-nubes-en-tren" target="_blank" rel="noopener noreferrer" class="text-[#75AADB] hover:underline">Tren a las Nubes</a>, one of Argentina\'s most famous tours. The train crosses viaducts at more than 4,000 meters above sea level and is usually sold as a unique experience.',
+                'p7': 'The problem was the price. Through the official website, they only accepted cards, and at the time the value was already inflated by the difference between the official and parallel exchange rates. I decided to try to buy it in person, but at the official points it was already sold out. At the agencies, it cost practically the same thing.',
+                'p8': 'After insisting a bit beyond reasonable, I accepted that it made no sense to keep chasing it. I adjusted the itinerary and went on with what Salta offered there, at street level.',
+                'h2_3': 'Climb to Cerro San Bernardo',
+                'p9': 'I decided to explore the city on foot. I left the microcenter towards the cable car station that leads to Cerro San Bernardo. It was a Tuesday in April and there was practically no line.',
+                'p10': 'I don\'t remember exactly how much I paid at the time, but the updated value is around ARS 25,000, something close to R$ 90.00 considering the exchange rate of January 2026.',
+                'p11': 'The climb was special. It was my first time in a cable car of this type, with small cabins that don\'t stop completely. The view opens up gradually, without impact, without shock.',
+                'p12': 'Unlike Santiago, Chile, which mixes high-rise buildings with mountains, Salta maintains a low, colonial profile, with the Andes Mountains in the background.',
+                'p13': 'Up there, I sat in a cafeteria and just looked at the city. No rush at all.',
+                'h2_4': 'Walk through the historical center',
+                'p14': 'Back to the lower part of the city, already close to lunchtime, I walked towards Plaza 9 de Julio, the center of everything. The idea was simple: have lunch somewhere along the way and then keep exploring.',
+                'p15': 'I entered the restaurant for a non-technical reason. I saw a handsome waiter and went in. Fortunately, the food was good, although I spent a few seconds trying to figure out how to start eating it.',
+                'p16': 'After lunch, I continued walking around the square, where some of the city\'s most important buildings are located.',
+                'sh1': 'Catedral Basílica de Salta',
+                'p17': 'Imposing, pink, and impossible to ignore. It faces the square and is one of the city\'s postcards. It\'s worth going inside if only to feel the contrast between the external movement and the silence inside.',
+                'sh2': 'Cabildo Histórico',
+                'p18': 'On the other side of the square, it functions as a museum today. It is a good summary of the colonial history of Salta and northern Argentina, without exaggeration.',
+                'sh3': 'Museum of High Altitude Archaeology (MAAM)',
+                'p19': 'For me, one of the strongest points of the city. The museum houses the famous Llullaillaco children, Inca mummies found at more than 6,700 meters above sea level. Strong, impactful, and essential for understanding Andean culture.',
+                'h2_5': 'Inside the MAAM',
+                'p20': 'The visit to the museum happens in layers. Gradually, the space prepares the visitor for what is to come. When I went, only the girl\'s mummy was on display, and the state of conservation is impressive. Preserved for centuries by the extreme temperatures of the mountain.',
+                'p21': 'The museum treats everything with great respect. There is an entire anteroom dedicated to preparing the visitor, contextualizing the history and making it clear that it is not about curiosity, but about memory.',
+                'p22': 'It is a silent, dense, and remarkable place.',
+                'h2_6': 'The siesta and an empty city',
+                'p23': 'Discovering the siesta was a small cultural shock. I went back to the hostel to rest for a bit and, when I went out again, the center was completely empty. Shops closed, deserted streets. For a moment, I thought it was some weird holiday.',
+                'p24': 'Walking aimlessly, I found a shop with a sign explaining the hours. There was a daily break, usually between 4 pm or 5 pm until near 6 pm or 7 pm.',
+                'p25': 'When I went out again at night, everything was functioning normally. The shops reopen and stay until 8 pm or 9 pm. In a city as hot as Salta, it makes a lot of sense. For those who work, it must be strange. For those who travel, you just adapt the rhythm.',
+                'p26': 'I ended the day drinking at a small bar in the region, talking to a local. On a Tuesday, there wasn\'t much movement. Maybe it was better that way.',
+                'h2_7': 'Time to move on',
+                'p27': 'The next day, I took the opportunity to stop at some souvenir shops. In the afternoon, after check-out, I walked to the bus station, which is quite easy to access on foot. The next destination was San Miguel de Tucumán, where I would stay for about 15 days at a friend\'s house and go back to work, now officially living the life of a digital nomad.',
+                'h2_8': 'Other places in Salta left for another trip',
+                'p28': 'Even with little time, Salta delivered a lot. Still, some important places were left out and easily fit into a longer itinerary.',
+                'l1_t': 'Convento San Bernardo', 'l1_d': 'One of the oldest buildings in the city, known for its white facade and carved wooden door.',
+                'l2_t': 'Mercado Artesanal de Salta', 'l2_d': 'Good place to get to know local crafts and typical products of the region.',
+                'l3_t': 'San Lorenzo', 'l3_d': 'Small town near the city, with trails, greenery, and a cooler climate.',
+                'l4_t': 'Museu Güemes', 'l4_d': 'Dedicated to Martín Miguel de Güemes, a central figure in Argentine history.',
+                'l5_t': 'Cafayate and Quebrada de las Conchas', 'l5_d': 'Classic day trip, combining impressive landscapes and wineries.',
+                'l6_t': 'Cachi and P.N. Los Cardones', 'l6_d': 'Scenic roads, natural formations, and that scenery that seems infinite.',
+                'l7_t': 'Salinas Grandes', 'l7_d': 'The white salt desert, surreal and photogenic, usually combined with Purmamarca.',
+                'related_title': 'Read also', 
+                'rel_title1': 'First time in Santiago', 
+                'rel_title2': 'Atacama Desert Guide', 
+                'rel_title3': 'Broken bus in Atacama',
+                'faq_title': 'Practical Information (FAQ)', 
+                'faq_q1': 'How to withdraw money?', 'faq_a1': 'Western Union inside Carrefour is the best option for the parallel exchange rate.',
+                'faq_q2': 'Is the cable car worth it?', 'faq_a2': 'Yes, for the panoramic view of the Andes and the city layout.',
+                'faq_q3': 'What is the siesta?', 'faq_a3': 'A traditional break where shops close from 4pm to 7pm. Plan accordingly!',
+                'faq_q4': 'Is Salta safe?', 'faq_a4': 'Generally yes, especially in the historic center. Just take basic precautions.',
+                'faq_q5': 'How to get around?', 'faq_a5': 'The city center is walkable. For further areas, taxis are cheap and buses work well.',
+                'faq_q6': 'Which SIM card to buy?', 'faq_a6': 'Claro has the best coverage in the north. You can get one at any "kiosco".',
+                'footer_text': '© 2026 Paco Sousa · Nomad Diaries'
+            },
+            'es': {
+                'main_title': 'Salta, la linda',
+                'author_line': 'Paco Sousa • 15 min de lectura • Escrito el 11/01/2026',
+                'diary_date': 'Salta, Argentina. 18 de abril de 2023.',
+                'category_tag': 'Argentina',
+                'p1': 'Después de todo el <a href="./onibus-quebrado-atacama" class="text-[#FF3366] hover:underline">lío para llegar a Salta</a>, viniendo del <a href="./o-deserto-do-atacama" class="text-[#FF3366] hover:underline">Desierto de Atacama</a> el día anterior, me permití despertar un poco más tarde. No mucho. El desayuno estaba incluido y no iba a desperdiciar ese pequeño lujo.',
+                'p2': 'Tendría apenas un día y medio para conocer la ciudad. Al día siguiente, seguiría viaje rumbo a San Miguel de Tucumán. Mientras desayunaba, fui organizando el itinerario allí mismo, en base al tiempo disponible y la curiosidad.',
+                'p3': 'Antes de salir a explorar Salta, necesité resolver una cuestión básica: el dinero. Mirando en el mapa, encontré un Carrefour relativamente cerca que tenía una unidad de Western Union. Ya había hecho la transferencia la noche anterior, así que solo fue retirar y salir de allí con un fajo considerable de pesos argentinos, algo que se volvería tradición a lo largo de aquel año. Para quien viaja por Argentina, Western Union suele ser la solución más práctica para lidiar con el cambio paralelo.',
+                'p4': 'Con eso resuelto, finalmente comencé a conocer la ciudad.',
+                'h2_1': 'Salta, en el norte de Argentina',
+                'p5': 'Salta es la capital de la provincia del mismo nombre y queda en el norte de Argentina, rodeada por montañas y paisajes que ya entregan bastante de lo que es el noroeste del país. A pesar de ser capital, tiene un ritmo tranquilo, arquitectura colonial bien preservada y una sensación constante de que todo sucede sin prisa.',
+                'h2_2': 'El plan que no sucedió: el Tren a las Nubes',
+                'p6': 'Ya al inicio, descubrí que el paseo que más quería hacer no estaba disponible: el <a href="https://www.argentina.gob.ar/jefatura/turismo/viaja-por-argentina/viajar-las-nubes-en-tren" target="_blank" rel="noopener noreferrer" class="text-[#75AADB] hover:underline">Tren a las Nubes</a>, uno de los paseos más famosos de Argentina. El tren cruza viaductos a más de 4.000 metros de altitud y suele venderse como una experiencia única.',
+                'p7': 'El problema era el precio. Por el sitio oficial, solo aceptaban tarjeta, y en la época el valor ya estaba inflado por la diferencia entre el cambio oficial y el paralelo. Decidí intentar comprarlo personalmente, pero en los puntos oficiales ya estava agotado. En las agencias, costaba prácticamente lo mismo.',
+                'p8': 'Después de insistir un poco más de lo razonable, acepté que no tenía sentido seguir tras eso. Ajusté el itinerario y seguí con lo que Salta ofrecía allí, al nivel de la calle.',
+                'h2_3': 'Subida ao Cerro San Bernardo',
+                'p9': 'Decidi explorar a cidade a pé. Saí do microcentro em direção à estação do teleférico que leva ao Cerro San Bernardo. Era uma terça-feira de abril e não havia praticamente fila.',
+                'p10': 'No recuerdo exactamente cuánto pagué en la época, mas el valor actualizado ronda los ARS 25.000, algo cercano a R$ 90,00 considerando el cambio de enero de 2026.',
+                'p11': 'La subida fue especial. Era mi primera vez en un teleférico de este tipo, con cabines pequeñas que no se detienen totalmente. La vista se va abriendo poco a poco, sin impacto, sin sustos.',
+                'p12': 'Diferente de Santiago, en Chile, que mezcla edificios altos con montañas, Salta mantiene un perfil bajo, colonial, con la Cordillera de los Andes al fondo.',
+                'p13': 'Allí arriba, me senté en una cafetería y me quedé solo mirando la ciudad. Sin prisa alguna.',
+                'h2_4': 'Caminata por el centro histórico',
+                'p14': 'De vuelta a la parte baja de la ciudad, ya cerca de la hora del almuerzo, caminé en dirección a la Plaza 9 de Julio, el centro de todo. La idea era simple: almorzar en algún lugar por el camino y después seguir explorando.',
+                'p15': 'Entré en el restaurante por un motivo nada técnico. Vi a un camarero guapo y entré. Afortunadamente, la comida era buena, aunque me quedé algunos segundos intentando entender cómo empezar a comer aquello.',
+                'p16': 'Después del almuerzo, seguí caminando alrededor de la plaza, donde están algunos de los edificios más importantes de la ciudad.',
+                'sh1': 'Catedral Basílica de Salta',
+                'p17': 'Imponente, rosada e imposible de ignorar. Queda frente a la plaza y es una de las postales de la ciudad. Vale la pena entrar aunque sea solo para sentir el contraste entre el movimiento externo y el silencio allí dentro.',
+                'sh2': 'Cabildo Histórico',
+                'p18': 'Al otro lado de la plaza, hoy funciona como museo. Es un buen resumen de la historia colonial de Salta y del norte argentino, sin exageraciones.',
+                'sh3': 'Museo de Arqueologia de Alta Montaña (MAAM)',
+                'p19': 'Para mí, uno de los puntos más fuertes de la ciudad. El museo alberga a los famosos niños de Llullaillaco, momias incas encontradas a más de 6.700 metros de altitud. Fuerte, impactante y esencial para entender la cultura andina.',
+                'h2_5': 'Dentro del MAAM',
+                'p20': 'La visita al museo sucede en capas. Poco a poco, el espacio va preparando al visitante para lo que está por venir. Cuando fui, solo la momia de la niña estaba expuesta, y el estado de conservación impresiona. Siglos preservada por las temperaturas extremas de la montaña.',
+                'p21': 'El museo trata todo con mucho respeto. Existe una antesala entera dedicada a la preparación del visitante, contextualizando la historia y dejando claro que no se trata de curiosidad, sino de memoria.',
+                'p22': 'Es un lugar silencioso, denso y marcado.',
+                'h2_6': 'A siesta y una ciudad vacía',
+                'p23': 'Descubrir la siesta fue un pequeño choque cultural. Volví al hostel para descansar un poco y, cuando salí nuevamente, el centro estaba completamente vacío. Tiendas cerradas, calles desiertas. Por un momento, pensé que era algún feriado extraño.',
+                'p24': 'Andando sin rumbo, encontré una tienda con una placa explicando el horario. Había una pausa diaria, generalmente entre las 16h o 17h hasta cerca de las 18h ou 19h.',
+                'p25': 'Cuando salí de nuevo por la noche, estaba todo funcionando normalmente. Las tiendas reabren y siguen hasta las 20h o 21h. En una ciudad caliente como Salta, tiene mucho sentido. Para quien trabaja, debe ser extraño. Para quien viaja, es solo adaptar el ritmo.',
+                'p26': 'Terminé el día bebiendo en un barzinho da região, conversando com um local. Un martes, no había mucho movimiento. Tal vez fue mejor así.',
+                'h2_7': 'Hora de seguir viaje',
+                'p27': 'Al día siguiente, aproveché para pasar por algunas tiendas de recuerdos. Por la tarde, después del check-out, seguí caminando hasta la terminal de ómnibus, que es muy fácil de acceder a pie. El próximo destino era San Miguel de Tucumán, donde me quedaría cerca de 15 días en la casa de un amigo y volvería a trabajar, ahora viviendo oficialmente la vida de nómada digital.',
+                'h2_8': 'Otros lugares em Salta que ficaram para outra viagem',
+                'p28': 'Incluso con poco tiempo, Salta entregó mucho. Aun así, algunos lugares importantes quedaron fuera y entran fácilmente en un itinerario más largo.',
+                'l1_t': 'Convento San Bernardo', 'l1_d': 'Uno de los edificios más antiguos de la ciudad, conocido por su fachada blanca y su puerta de madera tallada.',
+                'l2_t': 'Mercado Artesanal de Salta', 'l2_d': 'Buen lugar para conocer la artesanía local y productos típicos de la región.',
+                'l3_t': 'San Lorenzo', 'l3_d': 'Pequeña localidad cercana a la ciudad, con senderos, verde y clima más fresco.',
+                'l4_t': 'Museu Güemes', 'l4_d': 'Dedicado a Martín Miguel de Güemes, figura central de la historia argentina.',
+                'l5_t': 'Cafayate y Quebrada de las Conchas', 'l5_d': 'Viaje clásico de un día, combinando paisajes impresionantes y bodegas.',
+                'l6_t': 'Cachi y P.N. Los Cardones', 'l6_d': 'Rutas escénicas, formaciones naturales y ese escenario que parece infinito.',
+                'l7_t': 'Salinas Grandes', 'l7_d': 'El desierto de sal blanco, surrealista y fotogénico, generalmente combinado con Purmamarca.',
+                'related_title': 'Leer también', 
+                'rel_title1': 'Primera vez en Santiago', 
+                'rel_title2': 'Guia del Deserto de Atacama', 
+                'rel_title3': 'Autobús roto en Atacama',
+                'faq_title': 'Preguntas Frecuentes (FAQ)', 
+                'faq_q1': '¿Dónde sacar dinero?', 'faq_a1': 'Western Union en el Carrefour del centro es la mejor opción para el cambio paralelo.',
+                'faq_q2': '¿Vale la pena el teleférico?', 'faq_a2': 'Sí, para ver la ciudad desde las alturas y entender su geografía.',
+                'faq_q3': '¿Qué es la siesta?', 'faq_a3': 'El descanso comercial de 16h a 19h. ¡Planea tus museos en ese horario!',
+                'faq_q4': '¿Es seguro Salta?', 'faq_a4': 'Sí, es muy segura para turistas, especialmente el microcentro.',
+                'faq_q5': '¿Cómo moverse?', 'faq_a5': 'El centro se camina. Para Cafayate o Salinas, mejor contratar excursión o alquilar auto.',
+                'faq_q6': '¿Chip de celular?', 'faq_a6': 'Claro tiene buena cobertura. Compra el chip en cualquier kiosco con tu pasaporte.',
+                'footer_text': '© 2026 Paco Sousa · Diarios de un Nómada'
+            }
+        };
+
+        window.changeLanguage = function(lang) {
+            if (window.updateNavTranslations) window.updateNavTranslations(lang);
+            const elements = document.querySelectorAll('[id]');
+            elements.forEach(el => {
+                const id = el.id;
+                if (translations[lang] && translations[lang][id]) {
+                    el.innerHTML = translations[lang][id];
+                }
+            });
+            document.documentElement.lang = lang;
+            localStorage.setItem('paco_blog_lang', lang);
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('paco_blog_lang') || 'pt';
+            window.changeLanguage(savedLang);
+        });
+    </script>
+</body>
+</html>

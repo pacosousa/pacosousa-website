@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-5XSQKSQ8');</script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-88CEX3DZ05"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-88CEX3DZ05');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Acompanhe as aventuras de Paco Sousa pelo mundo. Dicas de viagem, roteiros e diários de um nômade digital.">
+    <title id="meta_title">Diários de um Nômade | Paco Sousa</title>
+
+    <!-- Favicons -->
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    
+    <link href="./dist/output.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Poppins:wght@400;700;800&display=swap" rel="stylesheet">
+    <script src="js/menu.js" defer></script>
+
+    <style>
+      :root {
+        --bg-main: #111111; 
+        --text-main: #F0F0F0; 
+        --card-bg: #1B1B1B; 
+  
+        /* Ajustamos os tons para passar no teste de contraste WCAG */
+        --color-chile: #FF4D7D;       /* Um vermelho mais vibrante */
+        --color-argentina: #89C3F5;   /* Um azul um pouco mais claro para destacar no fundo preto */
+        --color-reino-unido: #7C4DFF; /* Roxo mais visível */
+        --color-portugal: #058546;    /* Verde mais sólido */
+        --color-diario: #8B5CF6; 
+        --color-analise: #4ADE80; 
+        --color-guia: #FDE047; 
+  
+         --accent-primary: var(--color-chile); 
+      }
+
+      body { font-family: 'Inter', sans-serif; background-color: var(--bg-main); color: var(--text-main); }
+      h1, h2, h3 { font-family: 'Poppins', sans-serif; }
+      
+    .article-tag { 
+        font-size: 0.65rem; 
+        padding: 0.2rem 0.6rem; 
+         border-radius: 9999px; 
+         background: rgba(255, 255, 255, 0.15); /* Aumentamos levemente a opacidade do fundo */
+        border: 1px solid rgba(255, 255, 255, 0.2); 
+        color: #FFFFFF; /* Mudamos de #999 para branco puro para contraste máximo */
+        font-weight: 700; 
+        text-transform: uppercase; 
+    }
+      .division-tag { 
+        font-size: 0.65rem; 
+        padding: 0.2rem 0.6rem; 
+        border-radius: 4px; 
+        color: #000000; /* Texto preto sobre a etiqueta colorida costuma ter contraste melhor */
+        font-weight: 900; /* Peso máximo para legibilidade */
+        text-transform: uppercase; 
+    }
+      
+      .article-card { transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1); border: 1px solid rgba(255, 255, 255, 0.05); }
+      .banner-horizontal { position: relative; overflow: hidden; border-radius: 2.5rem; transition: all 0.5s; border: 1px solid rgba(255, 255, 255, 0.05); }
+      .banner-bg { position: absolute; inset: 0; background-size: cover; background-position: center 30%; transition: transform 1.5s; }
+      
+      details summary::-webkit-details-marker { display:none; }
+      details[open] summary span:last-child { transform: rotate(45deg); }
+    </style>
+
+    <link rel="canonical" href="https://pacosousa.com/">
+    <link rel="preload" as="image" href="/images/viagem.webp">
+
+</head>
+<body>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5XSQKSQ8" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+    <header id="main-header"></header>
+
+    <main>
+      <!-- Hero -->
+      <section id="hero" class="relative h-[55vh] flex items-center justify-center">
+        <img
+          src="images/viagem.webp"
+          alt="balões sobrevoando a Capadócia, na Turquia"
+          fetchpriority="high"
+          class="absolute inset-0 w-full h-full object-cover"
+        >
+        <div class="absolute inset-0 bg-black/60"></div>
+
+        <div class="relative z-10 text-center px-4 pt-16">
+          <h1 class="text-5xl md:text-6xl font-black italic tracking-tighter" style="color: var(--color-chile);" id="heroTitle"></h1>
+          <h2 class="text-2xl font-light text-white mt-4" id="heroSubtitle"></h2>
+        </div>
+      </section>
+
+      <!-- Banner Destaque -->
+      <section class="container mx-auto px-6 -mt-12 relative z-10">
+        <a href="articles/minha-vida-nomade.html" class="banner-horizontal block h-auto md:h-32 relative group shadow-2xl">
+          <div class="banner-bg" style="background-image: url('images/capa-vida-nomade.webp');"></div>
+          <div class="absolute inset-0 bg-black/80"></div>
+          <div class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6 px-8 py-6 h-full">
+            <div>
+              <span class="inline-block px-3 py-1 rounded-full bg-[var(--color-diario)] text-white text-[10px] font-black uppercase tracking-widest mb-3" id="bannerTag"></span>
+              <h2 class="text-xl md:text-3xl font-black text-white italic" id="bannerTitle"></h2>
+            </div>
+            <div class="text-right">
+              <p class="text-gray-300 text-xs md:text-sm mb-2" id="bannerDesc"></p>
+              <span class="text-[var(--color-chile)] font-bold uppercase text-[10px]" id="bannerBtn"></span>
+            </div>
+          </div>
+        </a>
+      </section>
+
+      <!-- Redes Sociais -->
+      <section id="redes" class="py-12 border-b border-white/5">
+        <div class="container mx-auto px-6 flex flex-wrap justify-center gap-8 md:gap-12 text-center">
+            <a href="https://instagram.com/opacosousa" aria-label="Siga o Paco Sousa no Instagram" target="_blank" class="flex items-center gap-2 text-gray-500 hover:text-[var(--color-chile)] transition-colors group">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.332 3.608 1.308.975.975 1.245 2.242 1.308 3.607.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.063 1.366-.333 2.633-1.308 3.608-.975.975-2.242 1.245-3.607 1.308-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.063-2.633-.333-3.608-1.308-.975-.975-1.245-2.242-1.308-3.607-.058-1.266-.07-1.646-.07-4.85s.012-3.584.07-4.85c.062-1.366.332-2.633 1.308-3.608.975-.975 2.242-1.245 3.607-1.308 1.266-.058 1.646-.07 4.85-.07zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-4.78 4.702-4.78 4.78-.058 1.281-.072 1.688-.072 4.948s.014 3.667.072 4.947c.078 4.358 4.58 4.78 4.78 4.78 1.281.058 1.688.072 4.948.072s3.667-.014 4.947-.072c4.358-.2 4.78-4.702 4.78-4.78.058-1.281.072-1.688.072-4.948s-.014-3.667-.072-4.947c-.078-4.358-4.58-4.78-4.78-4.78-1.281-.058-1.688-.072-4.948-.072zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                <span class="font-bold text-[10px] uppercase tracking-widest">Instagram</span>
+            </a>
+            <a href="https://tiktok.com/@opacosousa" aria-label="Siga o Paco Sousa no TikTok" target="_blank" class="flex items-center gap-2 text-gray-400 hover:text-white transition-colors group">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.17-2.89-.6-4.13-1.47-.13 5.35-.14 10.71-.13 16.06-1.49.28-3.04.24-4.53-.12-3.14-.71-5.32-3.8-5.06-6.99.23-3.14 2.82-5.73 5.96-5.96.38-.03.76-.02 1.14.02v4.03c-.34-.05-.7-.06-1.05-.03-1.44.13-2.67 1.25-2.88 2.68-.31 2.05 1.48 3.99 3.49 3.65.91-.15 1.61-.88 1.83-1.77.16-1.12.1-2.25.1-3.37V0l.33.02z"/></svg>
+                <span class="font-bold text-[10px] uppercase tracking-widest">TikTok</span>
+            </a>
+            <a href="mailto:paco@ayan.house" class="flex items-center gap-2 text-gray-400 hover:text-[var(--color-guia)] transition-colors group">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                <span class="font-bold text-[10px] uppercase tracking-widest" id="labelEmail"></span>
+            </a>
+        </div>
+      </section>
+
+      <!-- Grade de Artigos -->
+      <div id="artigos" class="py-20 container mx-auto px-6">
+        <h2 class="text-3xl font-black mb-12 text-center italic uppercase tracking-tighter" id="artigosTitulo"></h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+            <!-- Card Lisboa -->
+            <div class="article-card group bg-[var(--card-bg)] rounded-3xl overflow-hidden hover:border-[var(--color-portugal)] transition-all duration-500 hover:-translate-y-2">
+                <a href="articles/roteiro-3-dias-lisboa">
+                    <div class="h-56 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style="background-image: url('images/capa-lisboa.webp');"></div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-[var(--color-diario)] text-xs font-bold uppercase tracking-widest" id="catLisboa"></span>
+                            <span class="division-tag" style="background: var(--color-portugal);" id="divLisboa"></span>
+                        </div>
+                        <h3 class="text-xl font-bold mt-2 article-title" id="titleLisboa"></h3>
+                        <p class="text-gray-400 mt-2 text-sm line-clamp-2 article-desc" id="descLisboa"></p>
+                        <div class="flex flex-wrap gap-2 mt-4">
+                            <span class="article-tag" id="tagLisboa1"></span>
+                            <span class="article-tag" id="tagLisboa2"></span>
+                            <span class="article-tag" id="tagLisboa3"></span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+	    <!-- CARD BOOKING (NATIVE AD DINÂMICO) -->
+	    <div id="ad-booking" class="article-card group bg-[var(--card-bg)] rounded-3xl overflow-hidden hover:border-blue-500 transition-all duration-500 hover:-translate-y-2 border border-white/10 hidden">
+	        <a id="ad-link" rel="sponsored" href="https://www.awin1.com/cread.php?s=4655925&v=18120&q=593889&r=2730940" target="_blank">
+	            <div class="h-56 overflow-hidden bg-white flex items-center justify-center">
+            	    <!-- Imagem local para evitar AdBlockers -->
+	                <img id="ad-img" src="images/booking-banner-pt.png" 
+            	        alt="Booking.com" 
+                        class="w-full h-full object-cover object-left transition-transform duration-700 group-hover:scale-105">
+   	            </div>
+	            <div class="p-6">
+  	                <div class="flex justify-between items-center mb-3">
+ 	                    <!-- ID para categoria (ex: Hospedagem) -->
+            	            <span class="text-blue-500 text-[10px] font-black uppercase tracking-widest" id="labelAd"></span>
+                            <!-- ID para etiqueta de aviso (ex: Publicidade) -->
+            	            <span class="division-tag bg-white/10 text-gray-400 border border-white/10" style="font-size: 0.5rem;" id="badgeAd"></span>
+     	                </div>
+       	                <h3 class="text-xl font-bold mt-2 italic text-white" id="titleAd"></h3>
+    	                <p class="text-gray-400 mt-2 text-sm line-clamp-2" id="descAd"></p>
+       	                <div class="mt-6 flex justify-between items-center">
+       	                    <span class="text-blue-500 font-bold text-xs uppercase tracking-tighter" id="btnAd"></span>
+      	                    <img src="https://upload.wikimedia.org/wikipedia/commons/b/be/Booking.com_logo.svg" alt="Booking" class="h-3 opacity-50">
+           	        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Card Salta -->
+            <div class="article-card group bg-[var(--card-bg)] rounded-3xl overflow-hidden hover:border-[var(--color-argentina)] transition-all duration-500 hover:-translate-y-2">
+                <a href="articles/salta.html">
+                    <div class="h-56 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style="background-image: url('images/capa-salta.webp');"></div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-[var(--color-diario)] text-xs font-bold uppercase tracking-widest" id="catSalta"></span>
+                            <span class="division-tag" style="background: var(--color-argentina);" id="divSalta"></span>
+                        </div>
+                        <h3 class="text-xl font-bold mt-2 article-title" id="titleSalta"></h3>
+                        <p class="text-gray-400 mt-2 text-sm line-clamp-2 article-desc" id="descSalta"></p>
+                        <div class="flex flex-wrap gap-2 mt-4">
+                            <span class="article-tag" id="tagS1"></span>
+                            <span class="article-tag" id="tagS2"></span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Card Perrengue no Deserto -->
+            <div class="article-card group bg-[var(--card-bg)] rounded-3xl overflow-hidden hover:border-[var(--color-chile)] transition-all duration-500 hover:-translate-y-2">
+                <a href="articles/onibus-quebrado-atacama.html">
+                    <div class="h-56 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style="background-image: url('images/capa-onibus-quebrado-atacama.webp');"></div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-[var(--color-diario)] text-xs font-bold uppercase tracking-widest" id="catPerrengue"></span>
+                            <span class="division-tag" style="background: var(--color-chile);" id="divPerrengue"></span>
+                        </div>
+                        <h3 class="text-xl font-bold mt-2 article-title" id="titlePerrengue"></h3>
+                        <p class="text-gray-400 mt-2 text-sm line-clamp-2 article-desc" id="descPerrengue"></p>
+                        <div class="flex flex-wrap gap-2 mt-4">
+                            <span class="article-tag" id="tagP1"></span>
+                            <span class="article-tag" id="tagP2"></span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Card Atacama -->
+            <div class="article-card group bg-[var(--card-bg)] rounded-3xl overflow-hidden hover:border-[var(--color-chile)] transition-all duration-500 hover:-translate-y-2">
+                <a href="articles/o-deserto-do-atacama.html">
+                    <div class="h-56 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style="background-image: url('images/capa-atacama.webp');"></div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-[var(--color-diario)] text-xs font-bold uppercase tracking-widest" id="catAtacama"></span>
+                            <span class="division-tag" style="background: var(--color-chile);" id="divAtacama"></span>
+                        </div>
+                        <h3 class="text-xl font-bold mt-2 article-title" id="titleAtacama"></h3>
+                        <p class="text-gray-400 mt-2 text-sm line-clamp-2 article-desc" id="descAtacama"></p>
+                        <div class="flex flex-wrap gap-2 mt-4">
+                            <span class="article-tag" id="tagAt1"></span>
+                            <span class="article-tag" id="tagAt2"></span>
+                            <span class="article-tag" id="tagAt3"></span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Card Santiago -->
+            <div class="article-card group bg-[var(--card-bg)] rounded-3xl overflow-hidden hover:border-[var(--color-chile)] transition-all duration-500 hover:-translate-y-2">
+                <a href="articles/primeira-viagem-santiago-chile.html">
+                    <div class="h-56 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style="background-image: url('images/capa-santiago.webp');"></div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-[var(--color-diario)] text-xs font-bold uppercase tracking-widest" id="catSantiago"></span>
+                            <span class="division-tag" style="background: var(--color-chile);" id="divSantiago"></span>
+                        </div>
+                        <h3 class="text-xl font-bold mt-2 article-title" id="titleSantiago"></h3>
+                        <p class="text-gray-400 mt-2 text-sm line-clamp-2 article-desc" id="descSantiago"></p>
+                        <div class="flex flex-wrap gap-2 mt-4">
+                            <span class="article-tag" id="tagStgo1"></span>
+                            <span class="article-tag" id="tagStgo2"></span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Card Realidade Argentina -->
+            <div class="article-card group bg-[var(--card-bg)] rounded-3xl overflow-hidden hover:border-[var(--color-argentina)] transition-all duration-500 hover:-translate-y-2">
+                <a href="articles/argentina-realidade-economica.html">
+                    <div class="h-56 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style="background-image: url('images/capa-argentina-economia.webp');"></div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-[var(--color-analise)] text-xs font-bold uppercase tracking-widest" id="catArgentina"></span>
+                            <span class="division-tag" style="background: var(--color-argentina);" id="divArgentina"></span>
+                        </div>
+                        <h3 class="text-xl font-bold mt-2 article-title" id="titleArgentina"></h3>
+                        <p class="text-gray-400 mt-2 text-sm line-clamp-2 article-desc" id="descArgentina"></p>
+                        <div class="flex flex-wrap gap-2 mt-4">
+                            <span class="article-tag" id="tagArg1"></span>
+                            <span class="article-tag" id="tagArg2"></span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Card BA Grátis -->
+            <div class="article-card group bg-[var(--card-bg)] rounded-3xl overflow-hidden hover:border-[var(--color-argentina)] transition-all duration-500 hover:-translate-y-2">
+                <a href="articles/lugares-gratis-buenos-aires">
+                    <div class="h-56 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style="background-image: url('images/capa-buenos-aires-gratis.webp');"></div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-[var(--color-guia)] text-xs font-bold uppercase tracking-widest" id="catBA"></span>
+                            <span class="division-tag" style="background: var(--color-argentina);" id="divBA"></span>
+                        </div>
+                        <h3 class="text-xl font-bold mt-2 article-title" id="titleBA"></h3>
+                        <p class="text-gray-400 mt-2 text-sm line-clamp-2 article-desc" id="descBA"></p>
+                        <div class="flex flex-wrap gap-2 mt-4">
+                            <span class="article-tag" id="tagBA1"></span>
+                            <span class="article-tag" id="tagBA2"></span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Card Gibraltar -->
+            <div class="article-card group bg-[var(--card-bg)] rounded-3xl overflow-hidden hover:border-[var(--color-reino-unido)] transition-all duration-500 hover:-translate-y-2">
+                <a href="articles/perrengue-em-gibraltar">
+                    <div class="h-56 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style="background-image: url('images/capa-gibraltar.webp');"></div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-[var(--color-diario)] text-xs font-bold uppercase tracking-widest" id="catGibraltar"></span>
+                            <span class="division-tag" style="background: var(--color-reino-unido);" id="divGibraltar"></span>
+                        </div>
+                        <h3 class="text-xl font-bold mt-2 article-title" id="titleGibraltar"></h3>
+                        <p class="text-gray-400 mt-2 text-sm line-clamp-2 article-desc" id="descGibraltar"></p>
+                        <div class="flex flex-wrap gap-2 mt-4">
+                            <span class="article-tag" id="tagGibraltar1"></span>
+                            <span class="article-tag" id="tagGibraltar2"></span>
+                            <span class="article-tag" id="tagGibraltar3"></span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+        </div>
+      </div>
+
+      <!-- FAQ Section -->
+      <section id="faq" class="py-24 border-t border-white/5 bg-black/20">
+          <div class="container mx-auto px-6 max-w-3xl">
+              <h2 class="text-4xl font-black mb-12 text-center italic uppercase tracking-tighter" id="faq_titulo"></h2>
+              <div class="space-y-4">
+                  <!-- FAQ 1 -->
+                  <details class="group bg-[var(--card-bg)] p-6 rounded-3xl border border-white/5 cursor-pointer">
+                      <summary class="list-none flex justify-between items-center font-bold text-white transition-colors group-hover:text-[var(--color-chile)]">
+                          <span id="faqQ1"></span>
+                          <span class="text-2xl transition-transform duration-300">+</span>
+                      </summary>
+                      <p class="mt-4 text-gray-400 leading-relaxed text-sm" id="faqA1"></p>
+                  </details>
+                  <!-- FAQ 2 -->
+                  <details class="group bg-[var(--card-bg)] p-6 rounded-3xl border border-white/5 cursor-pointer">
+                      <summary class="list-none flex justify-between items-center font-bold text-white transition-colors group-hover:text-[var(--color-chile)]">
+                          <span id="faqQ2"></span>
+                          <span class="text-2xl transition-transform duration-300">+</span>
+                      </summary>
+                      <p class="mt-4 text-gray-400 leading-relaxed text-sm" id="faqA2"></p>
+                  </details>
+                  <!-- FAQ 3 -->
+                  <details class="group bg-[var(--card-bg)] p-6 rounded-3xl border border-white/5 cursor-pointer">
+                    <summary class="list-none flex justify-between items-center font-bold text-white transition-colors group-hover:text-[var(--color-chile)]">
+                        <span id="faqQ3"></span>
+                        <span class="text-2xl transition-transform duration-300">+</span>
+                    </summary>
+                    <p class="mt-4 text-gray-400 leading-relaxed text-sm" id="faqA3"></p>
+                </details>
+                <!-- FAQ 4 -->
+                <details class="group bg-[var(--card-bg)] p-6 rounded-3xl border border-white/5 cursor-pointer">
+                    <summary class="list-none flex justify-between items-center font-bold text-white transition-colors group-hover:text-[var(--color-chile)]">
+                        <span id="faqQ4"></span>
+                        <span class="text-2xl transition-transform duration-300">+</span>
+                    </summary>
+                    <p class="mt-4 text-gray-400 leading-relaxed text-sm" id="faqA4"></p>
+                </details>
+                <!-- FAQ 5 -->
+                <details class="group bg-[var(--card-bg)] p-6 rounded-3xl border border-white/5 cursor-pointer">
+                    <summary class="list-none flex justify-between items-center font-bold text-white transition-colors group-hover:text-[var(--color-chile)]">
+                        <span id="faqQ5"></span>
+                        <span class="text-2xl transition-transform duration-300">+</span>
+                    </summary>
+                    <p class="mt-4 text-gray-400 leading-relaxed text-sm" id="faqA5"></p>
+                </details>
+                <!-- FAQ 6 -->
+                <details class="group bg-[var(--card-bg)] p-6 rounded-3xl border border-white/5 cursor-pointer">
+                    <summary class="list-none flex justify-between items-center font-bold text-white transition-colors group-hover:text-[var(--color-chile)]">
+                        <span id="faqQ6"></span>
+                        <span class="text-2xl transition-transform duration-300">+</span>
+                    </summary>
+                    <p class="mt-4 text-gray-400 leading-relaxed text-sm" id="faqA6"></p>
+                </details>
+              </div>
+          </div>
+      </section>
+    </main>
+
+    <!-- Footer removido pois é injetado pelo menu.js -->
+
+    <script>
+
+	// Configuração das campanhas por idioma
+	const adConfig = {
+  	  'pt': {
+   	     link: "https://www.awin1.com/cread.php?s=4655925&v=18120&q=593889&r=2730940",
+   	     img: "images/booking-banner-pt.png"
+ 	   },
+ 	   'es': {
+        	link: "https://www.awin1.com/cread.php?s=4655937&v=18119&q=593890&r=2730940",
+     	   img: "images/booking-banner-es.png"
+   	 }
+	};
+
+
+
+
+        const translations = {
+            'pt': {
+                'heroTitle': 'Diários de um Nômade',
+                'heroSubtitle': 'Descubra o mundo sem roteiro fixo',
+                'bannerTag': 'Destaque',
+                'bannerTitle': 'Minha Vida Nômade: O Resumo',
+                'bannerDesc': 'De 2023 a 2025: Uma jornada de autodescoberta e movimento constante.',
+                'bannerBtn': 'Explorar Jornada',
+                'artigosTitulo': 'Últimas Aventuras',
+		'labelAd': 'Hospedagem',
+      	        'badgeAd': 'Publicidade',
+   	        'titleAd': 'Aonde você vai dormir?',
+  	        'descAd': 'Encontre as melhores ofertas no Booking para a tua próxima viagem!',
+ 	        'btnAd': 'Reservar Agora →',
+  	        'artigosTitulo': 'Últimas Aventuras',
+  	        'labelEmail': 'E-mail',
+                'faq_titulo': 'Dúvidas Frequentes',
+                'faqQ1': 'Como se tornar um nômade digital?',
+                'faqA1': 'A chave é ter um trabalho remoto estável e uma reserva financeira sólida. Comece devagar, testando períodos curtos antes de vender tudo e cair na estrada definitivamente. É preciso disciplina para trabalhar enquanto o mundo te chama lá fora.',
+                'faqQ2': 'Quais os melhores destinos para começar?',
+                'faqA2': 'América do Sul (especialmente Argentina e Chile pelo custo-benefício) e o Sudeste Asiático (Tailândia, Vietnã) são as portas de entrada ideais por causa das comunidades vibrantes de nômades e infraestrutura de coworkings.',
+                'faqQ3': 'Como lidar com a saudade e a distância?',
+                'faqA3': 'A tecnologia ajuda muito, mas nada substitui criar novas rotinas e amizades nos lugares por onde passar. O segredo é encontrar o equilíbrio entre manter o contato com quem ficou e mergulhar na nova cultura.',
+                'faqQ4': 'É seguro viajar sozinho?',
+                'faqA4': 'Sim, com planejamento e atenção redobrada. Pesquise sempre sobre os bairros, evite áreas de risco à noite e, acima de tudo, confie nos seus instintos. Viajar sozinho te obriga a estar mais atento e aberto ao novo.',
+                'faqQ5': 'Como organizar as finanças em diferentes moedas?',
+                'faqA5': 'Utilize bancos digitais globais (como Wise) que oferecem taxas de câmbio justas. Eu uso planilhas para rastrear gastos e sempre mantenho cartões de reserva de bancos diferentes. Acompanhar a inflação local e o câmbio é vital para não estourar o orçamento.',
+                'faqQ6': 'Qual o maior desafio psicológico da vida nômade?',
+                'faqA6': 'Sem dúvida é a "fadiga da decisão". Escolher o próximo destino, onde comer e como se locomover gasta muita energia mental. Alternar períodos de movimento intenso com períodos de "slow travel" (ficar 1 ou 2 meses no mesmo lugar) é fundamental para a saúde mental.',
+                'catSalta': 'Diário de Bordo', 'divSalta': 'Argentina', 'titleSalta': 'Salta, la linda', 'descSalta': 'Descobre a capital do norte argentino, entre montanhas e cultura andina.', 'tagS1': 'Norte', 'tagS2': 'Cultura',
+                'catPerrengue': 'Diário de Bordo', 'divPerrengue': 'Chile', 'titlePerrengue': 'Ônibus Quebrado no Atacama', 'descPerrengue': 'O relato de quando minha travessia para a Argentina deu errado no meio do deserto.', 'tagP1': 'Perrengue', 'tagP2': 'Aventura',
+                'catAtacama': 'Diário de Bordo', 'divAtacama': 'Chile', 'titleAtacama': 'Atacama: Uma Jornada Mágica', 'descAtacama': 'Piedras Rojas, Geysers e festas clandestinas no deserto mais árido do mundo.', 'tagAt1': 'Roteiro', 'tagAt2': 'Dicas', 'tagAt3': 'Aventura',
+                'catArgentina': 'Análise', 'divArgentina': 'Argentina', 'titleArgentina': 'Realidade Argentina 2026', 'descArgentina': 'A economia sob a gestão de Milei e como viajar barato por Buenos Aires.', 'tagArg1': 'Dicas', 'tagArg2': 'Economia',
+                'catSantiago': 'Diário de Bordo', 'divSantiago': 'Chile', 'titleSantiago': 'Primeira vez em Santiago', 'descSantiago': 'Dicas essenciais de transporte, hospedagem e mirantes na capital chilena.', 'tagStgo1': 'Roteiro', 'tagStgo2': 'Dicas',
+                'catBA': 'Guia', 'divBA': 'Argentina', 'titleBA': 'Buenos Aires: Gastando Pouco', 'descBA': 'Conheça o melhor da capital portenha sem gastar um único peso.', 'tagBA1': 'Roteiro', 'tagBA2': 'Dicas',
+                'catGibraltar': 'Diário de Bordo', 'divGibraltar': 'Reino Unido', 'titleGibraltar': 'Perrengue em Gibraltar', 'descGibraltar': 'Quase fomos presos durante a nossa roadtrip!', 'tagGibraltar1': 'Europa', 'tagGibraltar2': 'Perrengue', 'tagGibraltar3': 'Problemas',
+                'catLisboa': 'Diário de Bordo', 'divLisboa': 'Portugal', 'titleLisboa': 'Lisboa e Sintra', 'descLisboa': 'Um roteiro de 3 dias a pé, com um bate-volta a Sintra', 'tagLisboa1': 'Europa', 'tagLisboa2': 'Roteiro', 'tagLisboa3': 'Dicas'
+
+            },
+            'es': {
+                'heroTitle': 'Diarios de un Nómada',
+                'heroSubtitle': 'Descubre el mundo sin itinerario fijo',
+                'bannerTag': 'Destacado',
+                'bannerTitle': 'Mi Vida Nómada: El Resumen',
+                'bannerDesc': 'De 2023 a 2025: Un viaje de autodescubrimiento y movimiento constante.',
+                'bannerBtn': 'Explorar Jornada',
+                'artigosTitulo': 'Últimas Aventuras',
+      	        'labelAd': 'Alojamiento',
+   	        'badgeAd': 'Publicidad',
+  	        'titleAd': '¿Dónde vas a dormir?',
+  	        'descAd': '¡Encuentra las mejores ofertas en Booking para tu próximo viaje!',
+    	        'btnAd': 'Reservar Ahora →',
+    	        'artigosTitulo': 'Últimas Aventuras',
+   	        'labelEmail': 'Correo',
+                'faq_titulo': 'Preguntas Frecuentes',
+                'faqQ1': '¿Cómo convertirse en nómada digital?',
+                'faqA1': 'La clave es tener un trabajo remoto estable y una reserva financiera sólida. Comienza despacio, probando periodos cortos antes de vender todo y lanzarte definitivamente. Se necesita disciplina para trabajar mientras el mundo te llama afuera.',
+                'faqQ2': '¿Mejores destinos para empezar?',
+                'faqA2': 'América del Sur (especialmente Argentina y Chile por costo-beneficio) y el Sudeste Asiático (Tailandia, Vietnam) son las puertas de entrada ideales por sus comunidades nómadas e infraestructura de coworkings.',
+                'faqQ3': '¿Cómo lidiar con la nostalgia?',
+                'faqA3': 'La tecnología ayuda mucho, pero nada reemplaza crear nuevas rutinas y amistades en los lugares por donde pases. El secreto es encontrar el equilibrio entre mantener el contacto con los que se quedaron y sumergirse en la nueva cultura.',
+                'faqQ4': '¿Es seguro viajar solo?',
+                'faqA4': 'Sí, con planificación y atención redoblada. Investiga siempre los barrios, evita zonas de riesgo de noche y, sobre todo, confía en tus instintos. Viajar solo te obliga a estar más atento y abierto a lo nuevo.',
+                'faqQ5': '¿Cómo organizar las finanzas?',
+                'faqA5': 'Usa bancos digitales globales como Wise que ofrecen tipos de cambio justos. Uso planillas para rastrear gastos y siempre tengo tarjetas de respaldo de distintos bancos. Monitorear la inflación local y el tipo de cambio es vital para no exceder el presupuesto.',
+                'faqQ6': '¿Cuál es el mayor desafío psicológico?',
+                'faqA6': 'Sin duda es la "fatiga de decisión". Elegir el próximo destino, dónde comer y cómo moverse consume mucha energía mental. Alternar viajes intensos con estancias largas (slow travel) es fundamental para la salud mental.',
+                'catSalta': 'Diario de a Bordo', 'divSalta': 'Argentina', 'titleSalta': 'Salta, la linda', 'descSalta': 'Descubre la capital del norte argentino, entre montañas y cultura andina.', 'tagS1': 'Norte', 'tagS2': 'Cultura',
+                'catPerrengue': 'Diario de a Bordo', 'divPerrengue': 'Chile', 'titlePerrengue': 'Autobús Averiado en Atacama', 'descPerrengue': 'El relato de cuando mi travesía hacia Argentina salió mal en el desierto.', 'tagP1': 'Garrón en la ruta', 'tagP2': 'Aventura',
+                'catAtacama': 'Diario de a Bordo', 'divAtacama': 'Chile', 'titleAtacama': 'Atacama: Una Jornada Mágica', 'descAtacama': 'Piedras Rojas, Géiseres y fiestas clandestinas en el desierto más árido del mundo.', 'tagAt1': 'Ruta', 'tagAt2': 'Consejos', 'tagAt3': 'Aventura',
+                'catArgentina': 'Análisis', 'divArgentina': 'Argentina', 'titleArgentina': 'Realidad Argentina 2026', 'descArgentina': 'La economía bajo la gestión de Milei y cómo viajar barato por Buenos Aires.', 'tagArg1': 'Consejos', 'tagArg2': 'Economía',
+                'catSantiago': 'Diario de a Bordo', 'divSantiago': 'Chile', 'titleSantiago': 'Primera vez en Santiago', 'descSantiago': 'Consejos esenciales de transporte, alojamiento y miradores en la capital chilena.', 'tagStgo1': 'Ruta', 'tagStgo2': 'Consejos',
+                'catBA': 'Guia', 'divBA': 'Argentina', 'titleBA': 'Buenos Aires Gratis', 'descBA': 'Conoce lo mejor de la capital porteña sin gastar un solo peso.', 'tagBA1': 'Ruta', 'tagBA2': 'Consejos',
+                'catGibraltar': 'Diario de a Bordo', 'divGibraltar': 'Reino Unido', 'titleGibraltar': 'Garrón en Gibraltar', 'descGibraltar': '¡Casi nos arrestan durante nuestro roadtrip!', 'tagGibraltar1': 'Europa', 'tagGibraltar2': 'Garrón', 'tagGibraltar3': 'Problemas',
+                'catLisboa': 'Diario de a Bordo', 'divLisboa': 'Portugal', 'titleLisboa': 'Lisboa y Sintra', 'descLisboa': 'Un itinerario de 3 días a pie, con una escapada a Sintra', 'tagLisboa1': 'Europa', 'tagLisboa2': 'Itinerario', 'tagLisboa3': 'Consejos'
+
+            },
+            'en': {
+                'heroTitle': 'Nomad Diaries',
+                'heroSubtitle': 'Discover the world without a fixed itinerary',
+                'bannerTag': 'Featured',
+                'bannerTitle': 'My Nomad Life: The Summary',
+                'bannerDesc': 'From 2023 to 2025: A journey of self-discovery and constant movement.',
+                'bannerBtn': 'Explore Journey',
+                'artigosTitulo': 'Latest Adventures',
+                'labelEmail': 'Email',
+                'faq_titulo': 'Frequently Asked Questions',
+                'faqQ1': 'How to become a digital nomad?',
+                'faqA1': 'The key is having a stable remote job and a solid financial reserve. Start slow, testing short periods before selling everything and hitting the road for good. Discipline is needed to work while the world calls you outside.',
+                'faqQ2': 'Best destinations to start?',
+                'faqA2': 'South America (especially Argentina and Chile for cost-benefit) and Southeast Asia (Thailand, Vietnam) are ideal entry points because of their vibrant nomad communities and infrastructure.',
+                'faqQ3': 'How to deal with homesickness?',
+                'faqA3': 'Technology helps a lot, but nothing replaces creating new routines and local friendships. The secret is finding the balance between staying in touch with home and immersing yourself in the new culture.',
+                'faqQ4': 'Is it safe to travel alone?',
+                'faqA4': 'Yes, with planning and double attention. Always research neighborhoods, avoid high-risk areas at night, and above all, trust your instincts. Traveling alone forces you to be more alert and open.',
+                'faqQ5': 'How to manage finances?',
+                'faqA5': 'Use global digital banks like Wise for fair exchange rates. Use spreadsheets to track spending and keep backup cards. Monitoring local inflation and rates is vital to stay within budget.',
+                'faqQ6': 'Biggest challenge?',
+                'faqA6': 'Undoubtedly "decision fatigue." Choosing the next destination, where to eat, and how to get around consumes a lot of mental energy. Alternating moving periods with "slow travel" is key to mental health.',
+                'catSalta': 'Logbook', 'divSalta': 'Argentina', 'titleSalta': 'Salta, the beautiful', 'descSalta': 'Discover northern Argentina\'s capital, set between mountains and Andean culture.', 'tagS1': 'North', 'tagS2': 'Culture',
+                'catPerrengue': 'Logbook', 'divPerrengue': 'Chile', 'titlePerrengue': 'Broken Bus in Atacama', 'descPerrengue': 'The story of when my crossing to Argentina went wrong in the middle of the desert.', 'tagP1': 'Road trip ordeal', 'tagP2': 'Adventure',
+                'catAtacama': 'Logbook', 'divAtacama': 'Chile', 'titleAtacama': 'Atacama: A Magical Journey', 'descAtacama': 'Piedras Rojas, Geysers and underground parties in the world\'s driest desert.', 'tagAt1': 'Itinerary', 'tagAt2': 'Tips', 'tagAt3': 'Adventure',
+                'catArgentina': 'Analysis', 'divArgentina': 'Argentina', 'titleArgentina': 'Argentina Reality 2026', 'descArgentina': 'The economy under Milei\'s management and how to travel cheaply in Buenos Aires.', 'tagArg1': 'Tips', 'tagArg2': 'Economy',
+                'catSantiago': 'Logbook', 'divSantiago': 'Chile', 'titleSantiago': 'First time in Santiago', 'descSantiago': 'Essential tips on transport, accommodation and viewpoints in the Chilean capital.', 'tagStgo1': 'Itinerary', 'tagStgo2': 'Tips',
+                'catBA': 'Guide', 'divBA': 'Argentina', 'titleBA': 'Free Buenos Aires', 'descBA': 'Discover the best of the city without spending a single peso.', 'tagBA1': 'Itinerary', 'tagBA2': 'Tips',
+                'catGibraltar': 'Logbook', 'divGibraltar': 'United Kingdom', 'titleGibraltar': 'Road Trip Trouble in Gibraltar', 'descGibraltar': 'We almost got arrested during our road trip!','tagGibraltar1': 'Europe', 'tagGibraltar2': 'Mishap', 'tagGibraltar3': 'Problems',
+                'catLisboa': 'Logbook', 'divLisboa': 'Portugal', 'titleLisboa': 'Lisbon and Sintra', 'descLisboa': 'A 3-day walking itinerary, with a day trip to Sintra', 'tagLisboa1': 'Europe', 'tagLisboa2': 'Itinerary', 'tagLisboa3': 'Tips'
+
+            }
+        };
+
+window.changeLanguage = function(lang) {
+    const t = translations[lang] || translations['pt'];
+    
+    // 1. Atualiza todos os textos que possuem ID correspondente
+    Object.keys(t).forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.innerText = t[id];
+    });
+
+    // 2. Lógica Dinâmica de Links e Imagens
+    const bookingCard = document.getElementById('ad-booking');
+    const adLink = document.getElementById('ad-link');
+    const adImg = document.getElementById('ad-img');
+
+    if (bookingCard && adConfig[lang]) {
+        bookingCard.classList.remove('hidden');
+        if (adLink) adLink.href = adConfig[lang].link;
+        if (adImg) adImg.src = adConfig[lang].img;
+    } else if (bookingCard) {
+        bookingCard.classList.add('hidden');
+    }
+
+    document.documentElement.lang = lang;
+    localStorage.setItem('paco_blog_lang', lang);
+};
+
+// Inicialização
+document.addEventListener('DOMContentLoaded', () => {
+    const savedLang = localStorage.getItem('paco_blog_lang') || 'pt';
+    window.changeLanguage(savedLang);
+});
+
+    </script>
+</body>
+</html>

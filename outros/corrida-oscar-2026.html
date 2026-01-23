@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="pt-pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Paco Awards 2026 - Road to Oscars</title>
+    <!-- React & ReactDOM -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    <!-- Babel para JSX no navegador -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #020202; 
+            color: #f5f5f5; 
+            overflow-x: hidden;
+            width: 100%;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* FIX DEFINITIVO PARA O CORTE DO 'S' ITÁLICO */
+        .safe-italic {
+            display: table; 
+            font-style: italic;
+            padding-right: 0.5em; 
+            margin-right: -0.4em;
+            overflow: visible !important;
+            white-space: nowrap;
+        }
+
+        .header-gradient {
+            background: linear-gradient(to bottom right, #ffffff 30%, #d97706 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Scrollbar estilizada */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #d97706; border-radius: 10px; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade { animation: fadeIn 0.6s ease-out forwards; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        const Icon = ({ name, size = 18, className = "" }) => {
+            useEffect(() => {
+                if (window.lucide) window.lucide.createIcons();
+            }, [name]);
+            return <i data-lucide={name} style={{ width: size, height: size }} className={className}></i>;
+        };
+
+        const App = () => {
+            const [activeTab, setActiveTab] = useState('calendar');
+            const [searchTerm, setSearchTerm] = useState("");
+            const [watchedIds, setWatchedIds] = useState([]);
+            const [openAwards, setOpenAwards] = useState([1]);
+
+            // Base de Dados de Média Completa
+            const mediaItems = [
+                { id: 1, en: "The Battle After", pt: "Uma Batalha Após a Outra", dir: "Paul Thomas Anderson" },
+                { id: 2, en: "The Secret Agent", pt: "O Agente Secreto", dir: "Kleber Mendonça Filho" },
+                { id: 3, en: "Sinners", pt: "Pecadores", dir: "Ryan Coogler" },
+                { id: 4, en: "Frankenstein", pt: "Frankenstein", dir: "Guillermo del Toro" },
+                { id: 5, en: "Hamnet", pt: "Hamnet", dir: "Chloé Zhao" },
+                { id: 6, en: "Marty Supreme", pt: "Marty Supreme", dir: "Josh Safdie" },
+                { id: 7, en: "Sentimental Value", pt: "Valor Sentimental", dir: "Joachim Trier" },
+                { id: 8, en: "Bugonia", pt: "Bugonia", dir: "Yorgos Lanthimos" },
+                { id: 9, en: "Wicked: Part Two", pt: "Wicked: Parte Dois", dir: "Jon M. Chu" },
+                { id: 10, en: "Zootopia 2", pt: "Zootopia 2", dir: "Byron Howard" },
+                { id: 11, en: "It Was Just An Accident", pt: "Foi Apenas Um Acidente", dir: "Jafar Panahi" },
+                { id: 12, en: "Elio", pt: "Elio", dir: "Domee Shi" },
+                { id: 13, en: "Blue Moon", pt: "Blue Moon", dir: "Ethan Hawke" },
+                { id: 14, en: "The Last Dance", pt: "A Última Dança", dir: "Greta Gerwig" },
+                { id: 15, en: "No Other Choice", pt: "No Other Choice", dir: "Lee Byung-hun" },
+                { id: 16, en: "Nouvelle Vague", pt: "Nouvelle Vague", dir: "Richard Linklater" },
+                { id: 17, en: "Train Dreams", pt: "Sonhos de Trem", dir: "Andrew Dominik" },
+                { id: 18, en: "The Smashing Machine", pt: "Coração de Lutador: The Smashing Machine", dir: "Benny Safdie" },
+                { id: 19, en: "Deliver Me from Nowhere", pt: "Springsteen: Salve-me do Desconhecido", dir: "Scott Cooper" },
+                { id: 20, en: "Die, My Love", pt: "Morra, Amor", dir: "Lynne Ramsay" },
+                { id: 21, en: "After the Hunt", pt: "Depois da Caçada", dir: "Luca Guadagnino" },
+                { id: 22, en: "Hedda", pt: "Hedda", dir: "Nia DaCosta" },
+                { id: 23, en: "Sorry, Baby", pt: "Sorry, Baby", dir: "Eva Victor" },
+                { id: 24, en: "Jay Kelly", pt: "Jay Kelly", dir: "Noah Baumbach" },
+                { id: 25, en: "If I Had Legs I'd Kick You", pt: "Se Eu Tivesse Pernas, Eu Te Chutaria", dir: "Mary Bronstein" },
+                { id: 26, en: "Song Sung Blue", pt: "Song Sung Blue: Um Sonho a Dois", dir: "Craig Gillespie" },
+                { id: 27, en: "The Testament of Ann Lee", pt: "O Testamento de Ann Lee", dir: "Amanda Seyfried" },
+                { id: 28, en: "The Ritual", pt: "A Hora do Mal", dir: "Ishana Night Shyamalan" },
+                { id: 29, en: "Avatar: Fire and Ash", pt: "Avatar: Fogo e Cinzas", dir: "James Cameron" },
+                { id: 30, en: "F1", pt: "F1", dir: "Joseph Kosinski" },
+                { id: 31, en: "K-Pop Warriors", pt: "Guerreiras do K-pop", dir: "Vários" },
+                { id: 32, en: "Mission: Impossible - Dead Reckoning Part Two", pt: "Missão: Impossível - O Acerto Final", dir: "Christopher McQuarrie" },
+                { id: 33, en: "Sirät", pt: "Sirät", dir: "Vários" },
+                { id: 34, en: "The Voice Of Hind Rajab", pt: "The Voice Of Hind Rajab", dir: "Documentário" },
+                { id: 35, en: "Arco", pt: "Arco", dir: "Animação" },
+                { id: 36, en: "Demon Slayer: Infinity Castle", pt: "Demon Slayer: Kimetsu no Yaiba Infinity Castle", dir: "Haruo Sotozaki" },
+                { id: 37, en: "Little Amélie", pt: "Little Amélie or the Character of Rain", dir: "Liane-Cho Han" },
+                // TV
+                { id: 101, en: "The Diplomat", pt: "A Diplomata", dir: "Netflix" },
+                { id: 102, en: "The Pitt", pt: "Pitt", dir: "HBO" },
+                { id: 103, en: "Pluribus", pt: "Pluribus", dir: "Apple TV+" },
+                { id: 104, en: "Severance", pt: "Ruptura", dir: "Apple TV+" },
+                { id: 105, en: "Slow Horses", pt: "Slow Horses", dir: "Apple TV+" },
+                { id: 106, en: "The White Lotus", pt: "The White Lotus", dir: "HBO" },
+                { id: 107, en: "The Bear", pt: "O Urso", dir: "FX/Hulu" },
+                { id: 108, en: "Abbott Elementary", pt: "Abbott Elementary", dir: "ABC" },
+                { id: 109, en: "Hacks", pt: "Hacks", dir: "HBO" },
+                { id: 110, en: "Nobody Wants This", pt: "Ninguém Quer", dir: "Netflix" },
+                { id: 111, en: "Only Murders in the Building", pt: "Only Murders in the Building", dir: "Hulu" },
+                { id: 112, en: "The Studio", pt: "O Estúdio", dir: "Apple TV+" },
+                { id: 113, en: "Adolescence", pt: "Adolescência", dir: "Série Limitada" },
+                { id: 114, en: "All Her Fault", pt: "All Her Fault", dir: "Série Limitada" },
+                { id: 115, en: "The Monster in Me", pt: "O Monstro em Mim", dir: "Série Limitada" },
+                { id: 116, en: "Black Mirror", pt: "Black Mirror", dir: "Netflix" },
+                { id: 117, en: "Dying for Sex", pt: "Morrendo por Sexo", dir: "Hulu" },
+                { id: 118, en: "The Girl Friend", pt: "A Namorada", dir: "Série Limitada" },
+                { id: 119, en: "Paradise", pt: "Paradise", dir: "Hulu" },
+                { id: 120, en: "Andor", pt: "Andor", dir: "Disney+" },
+                { id: 121, en: "Task", pt: "Task", dir: "HBO" },
+                { id: 122, en: "Matlock", pt: "Matlock", dir: "CBS" },
+                { id: 123, en: "Terra da Máfia", pt: "Terra da Máfia", dir: "Série TV" },
+                { id: 124, en: "The Last Of Us", pt: "The Last Of Us", dir: "HBO" },
+                { id: 125, en: "Chad Powers", pt: "Chad Powers", dir: "Hulu" },
+                { id: 126, en: "Poker Face", pt: "Poker Face", dir: "Peacock" },
+                { id: 127, en: "Wandinha", pt: "Wandinha", dir: "Netflix" },
+                { id: 128, en: "The Narrow Road to the Deep North", pt: "O Caminho Estreito Para os Confins do Norte", dir: "Série TV" },
+                { id: 129, en: "Monster: Ed Gein", pt: "Monster: A História de Ed Gein", dir: "Netflix" },
+                { id: 130, en: "Black Rabbit", pt: "Black Rabbit", dir: "Netflix" },
+                { id: 131, en: "Long Bright River", pt: "Long Bright River", dir: "Série TV" },
+                { id: 132, en: "The Morning Show", pt: "The Morning Show", dir: "Apple TV+" },
+                // Podcasts & Comediantes
+                { id: 201, en: "Armchair Expert With Dax Shepard", pt: "Armchair Expert With Dax Shepard", dir: "Podcast" },
+                { id: 202, en: "Call Her Daddy", pt: "Call Her Daddy", dir: "Podcast" },
+                { id: 203, en: "Good Hang With Amy Poehler", pt: "Good Hang With Amy Poehler", dir: "Podcast" },
+                { id: 204, en: "The Mel Robbins Podcast", pt: "The Mel Robbins Podcast", dir: "Podcast" },
+                { id: 205, en: "Smartless", pt: "Smartless", dir: "Podcast" },
+                { id: 206, en: "Up First", pt: "Up First", dir: "NPR" },
+                // Comediantes
+                { id: 301, en: "Is Anyone Else Seeing This?", pt: "Is Anyone Else Seeing This?", dir: "Bill Maher" },
+                { id: 302, en: "The Second Best Night Of Your Life", pt: "The Second Best Night Of Your Life", dir: "Brett Goldstein" },
+                { id: 303, en: "Acting My Age", pt: "Acting My Age", dir: "Kevin Hart" },
+                { id: 304, en: "Night Thoughts", pt: "Night Thoughts", dir: "Kumail Nanjiani" },
+                { id: 305, en: "Mortality", pt: "Mortality", dir: "Ricky Gervais" },
+                { id: 306, en: "Postmortem", pt: "Postmortem", dir: "Sarah Silverman" },
+            ];
+
+            const awardsData = [
+                {
+                    name: "Critics Choice Awards",
+                    date: "04 de Jan",
+                    status: "Concluído",
+                    color: "text-blue-400",
+                    categories: [
+                        { name: "Melhor Filme", nominees: [{id: 1, person: ""}, {id: 2, person: ""}, {id: 3, person: ""}, {id: 4, person: ""}, {id: 5, person: ""}, {id: 8, person: ""}], winner: 1 },
+                        { name: "Melhor Direção", nominees: [{id: 1, person: "Paul Thomas Anderson"}, {id: 2, person: "Kleber Mendonça Filho"}, {id: 4, person: "Guillermo del Toro"}], winner: 1 },
+                        { name: "Melhor Filme Internacional", nominees: [{id: 2, person: ""}, {id: 7, person: ""}, {id: 11, person: ""}, {id: 17, person: ""}], winner: 2 }
+                    ]
+                },
+                {
+                    name: "Golden Globe Awards",
+                    date: "11 de Janeiro",
+                    status: "Próximo Domingo",
+                    color: "text-amber-400",
+                    categories: [
+                        { name: "Melhor Filme de Drama", nominees: [{id: 4, person: ""}, {id: 5, person: ""}, {id: 11, person: ""}, {id: 2, person: ""}, {id: 7, person: ""}, {id: 3, person: ""}] },
+                        { name: "Melhor Filme de Comédia ou Musical", nominees: [{id: 13, person: ""}, {id: 8, person: ""}, {id: 6, person: ""}, {id: 15, person: ""}, {id: 16, person: ""}, {id: 1, person: ""}] },
+                        { name: "Melhor Direção", nominees: [{id: 1, person: "Paul Thomas Anderson"}, {id: 3, person: "Ryan Coogler"}, {id: 4, person: "Guillermo del Toro"}, {id: 11, person: "Jafar Panahi"}, {id: 7, person: "Joachim Trier"}, {id: 5, person: "Chloé Zhao"}] },
+                        { name: "Melhor Ator em Filme de Drama", nominees: [{id: 17, person: "Joel Edgerton"}, {id: 4, person: "Oscar Isaac"}, {id: 18, person: "Dwayne Johnson"}, {id: 3, person: "Michael B. Jordan"}, {id: 2, person: "Wagner Moura"}, {id: 19, person: "Jeremy Allen White"}] },
+                        { name: "Melhor Atriz em Filme de Drama", nominees: [{id: 5, person: "Jessie Buckley"}, {id: 20, person: "Jennifer Lawrence"}, {id: 7, person: "Renate Reinsve"}, {id: 21, person: "Julia Roberts"}, {id: 22, person: "Tessa Thompson"}, {id: 23, person: "Eva Victor"}] },
+                        { name: "Melhor Ator em Filme de Comédia ou Musical", nominees: [{id: 6, person: "Timothée Chalamet"}, {id: 24, person: "George Clooney"}, {id: 1, person: "Leonardo DiCaprio"}, {id: 13, person: "Ethan Hawke"}, {id: 15, person: "Lee Byung-Hun"}, {id: 8, person: "Jesse Plemons"}] },
+                        { name: "Melhor Atriz em Filme de Comédia ou Musical", nominees: [{id: 34, person: "Rose Byrne"}, {id: 9, person: "Cynthia Erivo"}, {id: 26, person: "Kate Hudson"}, {id: 1, person: "Chase Infiniti"}, {id: 27, person: "Amanda Seyfried"}, {id: 8, person: "Emma Stone"}] },
+                        { name: "Melhor Ator Coadjuvante", nominees: [{id: 1, person: "Benicio del Toro"}, {id: 4, person: "Jacob Elordi"}, {id: 5, person: "Paul Mescal"}, {id: 1, person: "Sean Penn"}, {id: 24, person: "Adam Sandler"}, {id: 7, person: "Stellan Skarsgård"}] },
+                        { name: "Melhor Atriz Coadjuvante", nominees: [{id: 18, person: "Emily Blunt"}, {id: 7, person: "Elle Fanning"}, {id: 9, person: "Ariana Grande"}, {id: 7, person: "Inga Ibsdotter Lilleass"}, {id: 28, person: "Amy Madigan"}] },
+                        { name: "Melhor Roteiro", nominees: [{id: 1, person: ""}, {id: 6, person: ""}, {id: 3, person: ""}, {id: 11, person: ""}, {id: 7, person: ""}, {id: 5, person: ""}] },
+                        { name: "Melhor Filme de Língua Não-Inglesa", nominees: [{id: 11, person: ""}, {id: 15, person: ""}, {id: 2, person: ""}, {id: 7, person: ""}, {id: 33, person: ""}, {id: 34, person: ""}] },
+                        { name: "Melhor Filme de Animação", nominees: [{id: 35, person: ""}, {id: 36, person: ""}, {id: 12, person: ""}, {id: 31, person: ""}, {id: 37, person: ""}, {id: 10, person: ""}] },
+                        { name: "Melhor Série de Drama", nominees: [{id: 101, person: ""}, {id: 102, person: ""}, {id: 103, person: ""}, {id: 104, person: ""}, {id: 105, person: ""}, {id: 106, person: ""}] },
+                        { name: "Melhor Ator de Drama - TV", nominees: [{id: 119, person: "Sterling K. Brown"}, {id: 120, person: "Diego Luna"}, {id: 105, person: "Gary Oldman"}, {id: 121, person: "Mark Ruffalo"}, {id: 104, person: "Adam Scott"}, {id: 102, person: "Noah Wyle"}] },
+                        { name: "Melhor Comediante", nominees: [{id: 301, person: "Bill Maher"}, {id: 302, person: "Brett Goldstein"}, {id: 303, person: "Kevin Hart"}] },
+                        { name: "Melhor Podcast", nominees: [{id: 201, person: ""}, {id: 202, person: ""}, {id: 205, person: ""}] }
+                    ]
+                },
+                {
+                    name: "BAFTA Film Awards",
+                    date: "15 de Fevereiro",
+                    status: "Aguardando",
+                    color: "text-orange-500",
+                    categories: [
+                        { name: "Melhor Filme", nominees: [{id: 1, person: ""}, {id: 2, person: ""}, {id: 4, person: ""}, {id: 6, person: ""}, {id: 8, person: ""}] },
+                        { name: "Melhor Filme Britânico", nominees: [{id: 5, person: ""}, {id: 8, person: ""}, {id: 1, person: ""}] },
+                        { name: "Melhor Direção", nominees: [{id: 1, person: "Paul Thomas Anderson"}, {id: 2, person: "Kleber Mendonça Filho"}, {id: 4, person: "Guillermo del Toro"}] },
+                        { name: "Melhor Fotografia", nominees: [{id: 1, person: ""}, {id: 4, person: ""}, {id: 8, person: ""}] }
+                    ]
+                },
+                {
+                    name: "SAG Awards",
+                    date: "22 de Fevereiro",
+                    status: "Aguardando",
+                    color: "text-purple-400",
+                    categories: [
+                        { name: "Melhor Elenco em Filme", nominees: [{id: 1, person: ""}, {id: 3, person: ""}, {id: 9, person: ""}, {id: 14, person: ""}] },
+                        { name: "Melhor Ator Principal", nominees: [{id: 3, person: "Michael B. Jordan"}, {id: 6, person: "Timothée Chalamet"}, {id: 1, person: "Leonardo DiCaprio"}] },
+                        { name: "Melhor Atriz Principal", nominees: [{id: 5, person: "Jessie Buckley"}, {id: 9, person: "Cynthia Erivo"}] }
+                    ]
+                },
+                {
+                    name: "98th Academy Awards (Oscars)",
+                    date: "08 de Março",
+                    status: "O Grande Final",
+                    color: "text-amber-600",
+                    categories: [
+                        { name: "Melhor Filme", nominees: [{id: 1, person: ""}, {id: 2, person: ""}, {id: 3, person: ""}, {id: 4, person: ""}, {id: 5, person: ""}, {id: 6, person: ""}, {id: 8, person: ""}, {id: 9, person: ""}] },
+                        { name: "Melhor Direção", nominees: [{id: 1, person: "Paul Thomas Anderson"}, {id: 2, person: "Kleber Mendonça Filho"}, {id: 3, person: "Ryan Coogler"}, {id: 4, person: "Guillermo del Toro"}] },
+                        { name: "Melhor Filme Internacional", nominees: [{id: 2, person: ""}, {id: 7, person: ""}, {id: 11, person: ""}] },
+                        { name: "Melhor Documentário", nominees: [{id: 34, person: ""}] }
+                    ]
+                }
+            ];
+
+            useEffect(() => {
+                const saved = localStorage.getItem('paco_cine_ultimate_v10');
+                if (saved) setWatchedIds(JSON.parse(saved));
+                if (window.lucide) window.lucide.createIcons();
+            }, []);
+
+            useEffect(() => {
+                localStorage.setItem('paco_cine_ultimate_v10', JSON.stringify(watchedIds));
+            }, [watchedIds]);
+
+            const toggleWatched = (id) => {
+                setWatchedIds(prev => prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]);
+            };
+
+            const toggleAward = (index) => {
+                setOpenAwards(prev => prev.includes(index) ? prev.filter(i => i !== index) : [...prev, index]);
+            };
+
+            const getMediaById = (id) => mediaItems.find(m => m.id === id) || { en: "??", pt: "??", dir: "N/A" };
+            const progress = Math.round((watchedIds.length / mediaItems.length) * 100);
+
+            const filteredMedia = mediaItems.filter(m => 
+                m.en.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                m.pt.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+
+            return (
+                <div className="w-full min-h-screen pb-24 md:pb-12 flex flex-col items-center">
+                    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-black/95 backdrop-blur-xl border-t border-white/5 flex justify-around p-3 md:top-0 md:bottom-auto md:w-24 md:h-screen md:flex-col md:border-r md:border-t-0">
+                        <button onClick={() => setActiveTab('calendar')} className={`p-4 rounded-2xl transition-all ${activeTab === 'calendar' ? 'bg-amber-500 text-black shadow-lg shadow-amber-500/30' : 'text-neutral-600 hover:text-white'}`}>
+                            <Icon name="calendar" size={20} />
+                        </button>
+                        <button onClick={() => setActiveTab('all-media')} className={`p-4 rounded-2xl transition-all ${activeTab === 'all-media' ? 'bg-amber-500 text-black shadow-lg shadow-amber-500/30' : 'text-neutral-600 hover:text-white'}`}>
+                            <Icon name="monitor" size={20} />
+                        </button>
+                    </nav>
+
+                    <main className="w-full max-w-5xl px-4 md:px-12 md:ml-24">
+                        <header className="py-16 md:py-24 overflow-visible animate-fade">
+                            <div className="flex items-center gap-3 mb-6 text-amber-500 text-[10px] md:text-xs font-black tracking-[0.4em] uppercase opacity-80">
+                                <Icon name="sparkles" size={14} /> Award Season 2026
+                            </div>
+                            
+                            <div className="flex flex-col gap-0 overflow-visible">
+                                <span className="text-4xl md:text-6xl font-black text-white leading-none tracking-tighter">
+                                    PACO
+                                </span>
+                                <span className="safe-italic text-6xl sm:text-8xl md:text-[10rem] font-black italic uppercase leading-[0.85] tracking-tighter header-gradient">
+                                    AWARDS
+                                </span>
+                            </div>
+
+                            <p className="text-neutral-500 font-bold tracking-widest text-[11px] md:text-sm uppercase mt-8 border-l-2 border-amber-600 pl-6 max-w-lg">
+                                Checklist para a Award Season 2026
+                            </p>
+                        </header>
+
+                        <section className="bg-neutral-900/40 border border-white/10 p-6 md:p-12 rounded-[2.5rem] md:rounded-[4rem] mb-16 backdrop-blur-3xl shadow-2xl relative overflow-hidden animate-fade">
+                            <div className="flex flex-col md:flex-row justify-between items-center md:items-end gap-8 mb-10">
+                                <div className="space-y-2 text-center md:text-left">
+                                    <p className="text-neutral-500 text-[10px] md:text-xs uppercase font-black tracking-[0.3em]">Status da Maratona</p>
+                                    <h2 className="text-4xl md:text-7xl font-black tracking-tighter">{watchedIds.length} <span className="text-neutral-800 text-2xl md:text-4xl">/ {mediaItems.length}</span></h2>
+                                </div>
+                                <div className="text-7xl md:text-9xl font-black italic text-amber-500 drop-shadow-2xl">{progress}%</div>
+                            </div>
+                            <div className="h-3 md:h-5 bg-black/60 rounded-full overflow-hidden p-1 border border-white/5">
+                                <div className="h-full bg-gradient-to-r from-amber-700 via-amber-500 to-amber-200 rounded-full transition-all duration-1000 ease-out shadow-[0_0_15px_rgba(245,158,11,0.5)]" style={{ width: `${progress}%` }} />
+                            </div>
+                        </section>
+
+                        {activeTab === 'calendar' && (
+                            <div className="space-y-8 md:space-y-12 animate-fade">
+                                {awardsData.map((award, aIndex) => (
+                                    <div key={aIndex} className="bg-neutral-900/20 border border-white/5 rounded-[2.5rem] md:rounded-[3rem] overflow-hidden shadow-2xl transition-all hover:bg-neutral-900/30">
+                                        <button onClick={() => toggleAward(aIndex)} className="w-full p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8 text-left">
+                                            <div className="flex items-center gap-6 md:gap-10 w-full">
+                                                <div className={`p-4 md:p-8 rounded-[1.5rem] md:rounded-[2rem] bg-neutral-900 flex-shrink-0 shadow-xl ${award.color}`}>
+                                                    <Icon name={award.status === 'Concluído' ? 'medal' : 'trophy'} size={32} />
+                                                </div>
+                                                <div className="min-w-0 flex-grow">
+                                                    <h3 className="text-2xl md:text-5xl font-black uppercase tracking-tighter break-words">{award.name}</h3>
+                                                    <div className="flex flex-wrap gap-4 text-xs md:text-base text-neutral-500 mt-2">
+                                                        <span className="font-bold flex items-center gap-2"><Icon name="clock" size={14} /> {award.date}</span>
+                                                        <span className="uppercase tracking-[0.2em] font-black text-[10px] bg-white/5 px-3 py-1 rounded-full">{award.status}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <Icon name={openAwards.includes(aIndex) ? "chevron-up" : "chevron-down"} size={28} className="text-neutral-700 md:block hidden" />
+                                        </button>
+
+                                        {openAwards.includes(aIndex) && (
+                                            <div className="px-6 md:px-12 pb-12 pt-4 border-t border-white/5 space-y-12">
+                                                {award.categories.map((cat, cIndex) => (
+                                                    <div key={cIndex}>
+                                                        <h4 className="text-[10px] md:text-xs font-black uppercase tracking-[0.5em] text-amber-500/40 mb-10 flex items-center gap-6">
+                                                            <span className="flex-grow h-px bg-white/10" /> <span className="text-center">{cat.name}</span> <span className="flex-grow h-px bg-white/10" />
+                                                        </h4>
+                                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                                                            {cat.nominees.map((nom, nIdx) => {
+                                                                const m = getMediaById(nom.id);
+                                                                const watched = watchedIds.includes(nom.id);
+                                                                const isWinner = cat.winner === nom.id;
+                                                                return (
+                                                                    <div key={nIdx} onClick={() => toggleWatched(nom.id)} 
+                                                                         className={`p-6 md:p-8 rounded-[2rem] md:rounded-[2.5rem] border transition-all cursor-pointer flex items-center justify-between gap-4 ${isWinner ? 'bg-amber-500/10 border-amber-500/40 shadow-lg' : watched ? 'bg-white/5 border-white/10' : 'bg-transparent border-white/5 hover:border-amber-500/20'}`}>
+                                                                        <div className="flex items-center gap-5 min-w-0">
+                                                                            <div className={`w-8 h-8 rounded-xl flex-shrink-0 flex items-center justify-center transition-all ${watched ? 'bg-amber-500 text-black scale-110 shadow-lg shadow-amber-500/20' : 'border-2 border-neutral-800'}`}>
+                                                                                {watched && <Icon name="check-circle" size={18} strokeWidth={3} />}
+                                                                            </div>
+                                                                            <div className="flex flex-col min-w-0">
+                                                                                <span className={`text-base md:text-xl font-black leading-tight break-words text-balance ${watched && !isWinner ? 'text-neutral-600 line-through opacity-50' : 'text-white'}`}>{m.en}</span>
+                                                                                {nom.person && <span className="text-[10px] md:text-xs text-amber-500 font-black uppercase mt-1 italic tracking-[0.1em] break-words">{nom.person}</span>}
+                                                                            </div>
+                                                                        </div>
+                                                                        {isWinner && <Icon name="trophy" size={20} className="text-amber-500 flex-shrink-0 drop-shadow-lg" />}
+                                                                    </div>
+                                                                );
+                                                            })}
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+
+                        {activeTab === 'all-media' && (
+                            <div className="space-y-8 animate-fade">
+                                <div className="relative mb-12">
+                                    <Icon name="search" className="absolute left-6 top-1/2 -translate-y-1/2 text-neutral-600" />
+                                    <input 
+                                        type="text" 
+                                        placeholder="FILTRAR LISTA..." 
+                                        className="w-full bg-neutral-900/50 border border-white/10 rounded-[2rem] py-6 md:py-8 pl-16 md:pl-20 pr-10 focus:ring-4 focus:ring-amber-500/20 outline-none text-xl md:text-3xl font-black italic uppercase placeholder:text-neutral-800 tracking-tighter"
+                                        value={searchTerm}
+                                        onChange={(e) => setSearchTerm(e.target.value)}
+                                    />
+                                </div>
+                                <div className="grid gap-4 md:gap-6">
+                                    {filteredMedia.map(item => (
+                                        <div key={item.id} onClick={() => toggleWatched(item.id)} className={`p-6 md:p-10 rounded-[2rem] md:rounded-[3.5rem] border transition-all cursor-pointer flex items-center gap-6 md:gap-12 ${watchedIds.includes(item.id) ? 'bg-neutral-900 border-amber-500/40 shadow-2xl' : 'bg-neutral-900/20 border-white/5'}`}>
+                                            <div className={`w-12 h-12 md:w-16 md:h-16 rounded-[1.2rem] md:rounded-[1.8rem] flex-shrink-0 flex items-center justify-center transition-all ${watchedIds.includes(item.id) ? 'bg-amber-500 text-black scale-110 shadow-xl shadow-amber-500/20' : 'border-2 border-neutral-800'}`}>
+                                                {watchedIds.includes(item.id) ? <Icon name="check-circle" size={28} strokeWidth={3} /> : <Icon name="film" size={28} className="text-neutral-800" />}
+                                            </div>
+                                            <div className="min-w-0">
+                                                <h3 className={`text-2xl md:text-5xl font-black uppercase italic tracking-tighter leading-none break-words ${watchedIds.includes(item.id) ? 'text-neutral-700 line-through' : 'text-white'}`}>{item.en}</h3>
+                                                <p className="text-neutral-500 font-bold italic text-lg md:text-2xl mt-2 underline decoration-amber-500/20 underline-offset-8 break-words">{item.pt}</p>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        <footer className="mt-40 py-24 border-t border-white/5 text-center">
+                            <p className="text-neutral-800 text-[10px] md:text-xs uppercase font-black tracking-[1em] mb-4 opacity-40">Paco Sousa • Nomadic Visionary</p>
+                        </footer>
+                    </main>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>

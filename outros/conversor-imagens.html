@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebP Studio - Conversor de Imagens</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Bibliotecas externas para suporte a HEIC e criação de ZIP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/heic2any/0.0.4/heic2any.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .drop-zone--over { border-color: #3b82f6; background-color: #eff6ff; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen text-slate-900">
+
+    <div class="max-w-4xl mx-auto px-4 py-12">
+        <!-- Header -->
+        <header class="text-center mb-12">
+            <h1 class="text-4xl font-extrabold text-slate-900 mb-2 tracking-tight">WebP Studio</h1>
+            <p class="text-slate-600 text-lg">Converta JPG, PNG e HEIC para WebP instantaneamente. Alta compatibilidade para seu blog.</p>
+        </header>
+
+        <!-- Drop Zone -->
+        <div id="drop-zone" class="bg-white border-2 border-dashed border-slate-300 rounded-2xl p-12 text-center transition-all cursor-pointer hover:border-blue-400 group relative">
+            <input type="file" id="file-input" multiple accept="image/jpeg,image/png,image/heic" class="hidden">
+            <div class="flex flex-col items-center">
+                <div class="w-16 h-16 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                    </svg>
+                </div>
+                <p class="text-xl font-semibold mb-1">Arraste suas fotos aqui</p>
+                <p class="text-slate-500">ou clique para selecionar arquivos do computador</p>
+                <p class="mt-4 text-xs text-slate-400 uppercase tracking-widest font-medium">Suporta PNG, JPG, JPEG e HEIC</p>
+            </div>
+        </div>
+
+        <!-- Controls (Hidden by default) -->
+        <div id="controls" class="hidden mt-8 flex flex-col sm:flex-row justify-between items-center gap-4 bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+            <div>
+                <span id="file-count" class="font-medium text-slate-700">0 arquivos selecionados</span>
+            </div>
+            <div class="flex gap-3">
+                <button id="clear-btn" class="px-4 py-2 text-slate-600 hover:text-red-600 transition-colors font-medium">Limpar Tudo</button>
+                <button id="download-all-btn" class="px-6 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-shadow shadow-md disabled:opacity-50">Baixar Tudo (.zip)</button>
+            </div>
+        </div>
+
+        <!-- Files List -->
+        <div id="files-list" class="mt-6 space-y-3 custom-scrollbar max-h-[500px] overflow-y-auto pr-2">
+            <!-- Items serão inseridos aqui -->
+        </div>
+
+        <!-- Footer Info -->
+        <footer class="mt-16 text-center text-slate-400 text-sm">
+            <p>Processamento 100% local e seguro.</p>
+        </footer>
+    </div>
+
+    <script>
+        const dropZone = document.getElementById('drop-zone');
+        const fileInput = document.getElementById('file-input');
+        const filesList = document.getElementById('files-list');
+        const controls = document.getElementById('controls');
+        const fileCountText = document.getElementById('file-count');
+        const clearBtn = document.getElementById('clear-btn');
+        const downloadAllBtn = document.getElementById('download-all-btn');
+
+        let queue = [];
+
+        dropZone.addEventListener('click', () => fileInput.click());
+        
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('drop-zone--over');
+        });
+
+        ['dragleave', 'dragend'].forEach(type => {
+            dropZone.addEventListener(type, () => {
+                dropZone.classList.remove('drop-zone--over');
+            });
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('drop-zone--over');
+            if (e.dataTransfer.files.length) {
+                handleFiles(e.dataTransfer.files);
+            }
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length) {
+                handleFiles(e.target.files);
+            }
+        });
+
+        clearBtn.addEventListener('click', () => {
+            queue = [];
+            renderList();
+        });
+
+        // Função para limpar o nome do arquivo para o ZIP - Máxima compatibilidade
+        function sanitizeFilename(name) {
+            // Remove tudo que não for letra, número, ponto ou hífen
+            return name.replace(/[^\w\.-]/gi, '_');
+        }
+
+        downloadAllBtn.addEventListener('click', async () => {
+            const readyFiles = queue.filter(f => f.status === 'ready');
+            if (readyFiles.length === 0) return;
+
+            const zip = new JSZip();
+            
+            readyFiles.forEach(f => {
+                const base64Data = f.result.split(',')[1];
+                // Remove extensão original e garante .webp com nome limpo
+                const cleanBaseName = sanitizeFilename(f.name.split('.')[0]);
+                const cleanName = cleanBaseName + ".webp";
+                zip.file(cleanName, base64Data, {base64: true});
+            });
+
+            // Gerando o arquivo com configurações de compatibilidade para Windows
+            try {
+                const content = await zip.generateAsync({
+                    type: "blob",
+                    platform: "DOS", // Garante compatibilidade de sistema de arquivos com Windows
+                    compression: "DEFLATE",
+                    compressionOptions: { level: 5 }
+                });
+
+                const url = URL.createObjectURL(content);
+                const link = document.createElement('a');
+                link.href = url;
+                // Nome padrão solicitado pelo usuário
+                link.download = "pacosousa_imagens.zip";
+                link.click();
+                
+                setTimeout(() => URL.revokeObjectURL(url), 1000);
+            } catch (err) {
+                console.error("Erro ao gerar ZIP:", err);
+            }
+        });
+
+        function handleFiles(files) {
+            Array.from(files).forEach(file => {
+                const fileId = Math.random().toString(36).substr(2, 9);
+                const fileObj = {
+                    id: fileId,
+                    name: file.name,
+                    size: (file.size / 1024).toFixed(1) + ' KB',
+                    status: 'processing',
+                    result: null,
+                    originalFile: file
+                };
+                queue.push(fileObj);
+                processImage(fileObj);
+            });
+            renderList();
+        }
+
+        async function processImage(fileObj) {
+            try {
+                let blob = fileObj.originalFile;
+
+                if (blob.name.toLowerCase().endsWith('.heic')) {
+                    const converted = await heic2any({
+                        blob: blob,
+                        toType: "image/jpeg"
+                    });
+                    blob = Array.isArray(converted) ? converted[0] : converted;
+                }
+
+                const url = URL.createObjectURL(blob);
+                const img = new Image();
+                
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0);
+                    
+                    // WebP com qualidade alta
+                    const webpData = canvas.toDataURL('image/webp', 0.92);
+                    
+                    fileObj.status = 'ready';
+                    fileObj.result = webpData;
+                    renderList();
+                    URL.revokeObjectURL(url);
+                };
+
+                img.onerror = () => {
+                    fileObj.status = 'error';
+                    renderList();
+                };
+
+                img.src = url;
+
+            } catch (error) {
+                console.error(error);
+                fileObj.status = 'error';
+                renderList();
+            }
+        }
+
+        function renderList() {
+            if (queue.length === 0) {
+                controls.classList.add('hidden');
+                filesList.innerHTML = '';
+                return;
+            }
+
+            controls.classList.remove('hidden');
+            fileCountText.textContent = `${queue.length} arquivo(s) na lista`;
+            downloadAllBtn.disabled = !queue.some(f => f.status === 'ready');
+
+            filesList.innerHTML = queue.map(file => `
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100 flex items-center justify-between">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 bg-slate-100 rounded flex items-center justify-center text-slate-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="font-medium text-slate-800 text-sm truncate max-w-[180px] sm:max-w-xs">${file.name}</p>
+                            <p class="text-xs text-slate-500">${file.size}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center gap-3">
+                        ${getStatusBadge(file.status)}
+                        ${file.status === 'ready' ? `
+                            <button onclick="downloadSingle('${file.id}')" class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                </svg>
+                            </button>
+                        ` : ''}
+                        <button onclick="removeItem('${file.id}')" class="p-2 text-slate-400 hover:text-red-500 rounded-lg transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function getStatusBadge(status) {
+            switch(status) {
+                case 'processing': return `<span class="px-2 py-1 bg-amber-50 text-amber-600 text-[10px] font-bold uppercase rounded tracking-wider animate-pulse">Lendo...</span>`;
+                case 'ready': return `<span class="px-2 py-1 bg-emerald-50 text-emerald-600 text-[10px] font-bold uppercase rounded tracking-wider">OK</span>`;
+                case 'error': return `<span class="px-2 py-1 bg-red-50 text-red-600 text-[10px] font-bold uppercase rounded tracking-wider">Erro</span>`;
+                default: return '';
+            }
+        }
+
+        window.removeItem = (id) => {
+            queue = queue.filter(f => f.id !== id);
+            renderList();
+        };
+
+        window.downloadSingle = (id) => {
+            const file = queue.find(f => f.id === id);
+            if (!file || !file.result) return;
+            const link = document.createElement('a');
+            link.href = file.result;
+            link.download = sanitizeFilename(file.name.split('.')[0]) + ".webp";
+            link.click();
+        };
+
+    </script>
+</body>
+</html>

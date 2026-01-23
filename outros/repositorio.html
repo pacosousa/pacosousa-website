@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paco Sousa | Studio de Posts</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #0f0f0f;
+            color: #e5e5e5;
+            font-family: 'Inter', sans-serif;
+        }
+        .sidebar { background-color: #1a1a1a; }
+        
+        /* Área de preview com contraste para ver o post preto */
+        .preview-area { 
+            background-color: #1c1c1c; 
+            background-image: radial-gradient(#333 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        
+        .post-container {
+            background-color: #000000;
+            position: relative;
+            box-sizing: border-box;
+            overflow: hidden;
+            flex-shrink: 0;
+            margin: auto;
+            /* Sombra para destacar o post do fundo da área de trabalho */
+            box-shadow: 0 0 0 1px rgba(255,255,255,0.1), 0 30px 60px -12px rgba(0,0,0,0.5);
+        }
+        
+        .format-post { width: 1080px; height: 1350px; padding: 160px 140px; }
+        .format-story { width: 1080px; height: 1920px; padding: 280px 120px; }
+
+        .text-accent-red { color: #FF3366; }
+        
+        #zoom-container {
+            transform-origin: top center;
+            transition: transform 0.1s ease-out;
+        }
+
+        input[type="text"], textarea, select {
+            background: #262626;
+            border: 1px solid #333;
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            width: 100%;
+            margin-bottom: 12px;
+            font-size: 0.85rem;
+        }
+        
+        input[type="range"] {
+            width: 100%;
+            accent-color: #FF3366;
+            margin-bottom: 15px;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 20px;
+        }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #333;
+            transition: .4s;
+            border-radius: 20px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 14px; width: 14px;
+            left: 3px; bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider { background-color: #FF3366; }
+        input:checked + .slider:before { transform: translateX(20px); }
+
+        label { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; color: #555; margin-bottom: 5px; display: block; letter-spacing: 0.05em; }
+        
+        .lang-btn {
+            background: #262626;
+            border: 1px solid #333;
+            padding: 8px;
+            border-radius: 8px;
+            flex: 1;
+            font-size: 0.7rem;
+            font-weight: 700;
+            transition: all 0.2s;
+        }
+        .lang-btn.active {
+            background: #FF3366;
+            border-color: #FF3366;
+            color: white;
+        }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden">
+
+    <!-- Sidebar: Controles -->
+    <aside class="sidebar w-80 flex flex-col p-6 border-r border-white/5 overflow-y-auto shrink-0">
+        <div class="mb-8">
+            <h1 class="text-xl font-black italic tracking-tighter text-white uppercase">Paco Studio</h1>
+            <p class="text-[10px] text-gray-500 uppercase tracking-widest">Post Designer v3.3</p>
+        </div>
+
+        <div class="space-y-5">
+            <!-- Tradução de Idioma -->
+            <div>
+                <label>Idioma do Post</label>
+                <div class="flex gap-2">
+                    <button onclick="setLanguage('pt')" id="btn-pt" class="lang-btn active">PT</button>
+                    <button onclick="setLanguage('es')" id="btn-es" class="lang-btn">ES</button>
+                    <button onclick="setLanguage('en')" id="btn-en" class="lang-btn">EN</button>
+                </div>
+            </div>
+
+            <div>
+                <label>Formato</label>
+                <select id="templateSelect" onchange="switchTemplate()">
+                    <option value="comeco">Feed (4:5) - Memórias</option>
+                    <option value="news-post">Feed (4:5) - Newsletter</option>
+                    <option value="news-story">Stories (9:16) - Newsletter</option>
+                </select>
+            </div>
+
+            <div id="editor-fields">
+                <label>Título / Localização</label>
+                <input type="text" id="input-header" value="" oninput="updatePreview()">
+                
+                <label>Conteúdo Principal</label>
+                <textarea id="input-content" rows="6" oninput="updatePreview()"></textarea>
+            </div>
+
+            <div class="pt-4 border-t border-white/5 space-y-4">
+                <div class="flex items-center justify-between">
+                    <label class="mb-0">Mostrar Caixa de Link</label>
+                    <label class="switch">
+                        <input type="checkbox" id="toggle-footer" onchange="updatePreview()">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div id="link-input-area">
+                    <input type="text" id="input-link-url" value="pacosousa.com/news" oninput="updatePreview()" placeholder="Texto do link...">
+                </div>
+            </div>
+
+            <div class="pt-4 border-t border-white/5">
+                <label class="text-[#FF3366]">🔍 Zoom do Preview</label>
+                <input type="range" id="size-preview-zoom" min="0.1" max="1" step="0.05" value="0.4" oninput="manualZoom()">
+                
+                <label>Tamanho: Nome Blog</label>
+                <input type="range" id="size-title-blog" min="40" max="120" value="60" oninput="updatePreview()">
+                
+                <label>Tamanho: Localização</label>
+                <input type="range" id="size-header-text" min="15" max="60" value="24" oninput="updatePreview()">
+                
+                <label>Tamanho: Texto</label>
+                <input type="range" id="size-content" min="20" max="100" value="30" oninput="updatePreview()">
+            </div>
+
+            <button onclick="saveImage()" id="btn-save" class="w-full bg-[#FF3366] hover:bg-[#ff4d7a] text-white font-black py-4 rounded-xl transition-all shadow-lg shadow-[#FF3366]/20 uppercase tracking-widest text-sm">
+                Salvar Imagem
+            </button>
+        </div>
+    </aside>
+
+    <!-- Área de Preview -->
+    <main class="flex-grow flex flex-col items-center justify-start p-10 overflow-y-auto preview-area">
+        <div id="zoom-container">
+            <div id="capture-area" class="post-container format-post">
+                <!-- Header -->
+                <div class="mb-20 text-left">
+                    <h1 id="blog-name" class="font-black italic tracking-tighter text-white mb-6">Diários de um Nômade</h1>
+                    <p id="preview-header-text" class="text-accent-red font-bold uppercase tracking-[0.25em]"></p>
+                    <div id="news-line" class="hidden h-1.5 w-32 bg-[#FF3366] mt-4"></div>
+                </div>
+
+                <!-- Conteúdo -->
+                <div id="preview-content-area" class="flex flex-col space-y-9 text-left"></div>
+
+                <!-- Footer Link Box -->
+                <div id="preview-footer-news" class="hidden w-full mt-auto">
+                    <p id="footer-label" class="text-gray-500 text-xl font-bold uppercase tracking-widest mb-6">Acesse agora:</p>
+                    <div class="bg-white/5 border border-white/10 rounded-2xl p-8 flex items-center justify-between">
+                        <span id="preview-link-url" class="text-white text-4xl font-black italic tracking-tight">pacosousa.com/news</span>
+                        <span class="text-[#FF3366] text-4xl">→</span>
+                    </div>
+                </div>
+
+                <!-- Elementos Decorativos -->
+                <div class="absolute -bottom-20 -right-20 w-96 h-96 bg-[#FF3366]/5 blur-[120px] rounded-full"></div>
+                <div class="absolute -top-20 -left-20 w-96 h-96 bg-[#6633FF]/5 blur-[120px] rounded-full opacity-40"></div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const translations = {
+            'pt': { blogName: 'Diários de um Nômade', footerLabel: 'Acesse agora:' },
+            'es': { blogName: 'Diarios de un Nómada', footerLabel: 'Accede ahora:' },
+            'en': { blogName: 'Nomad Diaries', footerLabel: 'Access now:' }
+        };
+
+        const templates = {
+            'comeco': { format: 'format-post', header: 'Sorocaba, Brasil. 17 de Janeiro de 2026.', content: 'Já se passaram quase três anos desde que decidi viver como nômade.\n\nVou seguir assim? Ainda é incerto.\n\nIndependentemente do que vem pela frente, finalmente resolvi começar a escrever as minhas memórias.', showFooter: false, defaultContentSize: 30, defaultHeaderSize: 24 },
+            'news-post': { format: 'format-post', header: 'Newsletter #01', content: 'Quer acompanhar a minha vida na estrada e conhecer por onde eu já passei?\n\nToda semana, envio um relato exclusivo.', showFooter: true, defaultContentSize: 56, defaultHeaderSize: 32 },
+            'news-story': { format: 'format-story', header: 'Novidade no Ar', content: 'Quer acompanhar a minha vida na estrada e conhecer por onde eu já passei?', showFooter: true, defaultContentSize: 72, defaultHeaderSize: 40 }
+        };
+
+        let currentLang = 'pt';
+
+        function manualZoom() {
+            const val = document.getElementById('size-preview-zoom').value;
+            document.getElementById('zoom-container').style.transform = `scale(${val})`;
+        }
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(`btn-${lang}`).classList.add('active');
+            updatePreview();
+        }
+
+        function switchTemplate() {
+            const selected = document.getElementById('templateSelect').value;
+            const template = templates[selected];
+            document.getElementById('input-header').value = template.header;
+            document.getElementById('input-content').value = template.content;
+            document.getElementById('size-content').value = template.defaultContentSize;
+            document.getElementById('size-header-text').value = template.defaultHeaderSize;
+            document.getElementById('toggle-footer').checked = template.showFooter;
+            document.getElementById('capture-area').className = `post-container ${template.format}`;
+            
+            // Auto-ajuste de zoom inicial baseado no formato
+            document.getElementById('size-preview-zoom').value = selected.includes('story') ? 0.35 : 0.45;
+            manualZoom();
+            updatePreview();
+        }
+
+        function updatePreview() {
+            const headerText = document.getElementById('input-header').value;
+            const contentText = document.getElementById('input-content').value;
+            const linkUrlText = document.getElementById('input-link-url').value;
+            const showFooterManual = document.getElementById('toggle-footer').checked;
+            const selected = document.getElementById('templateSelect').value;
+
+            document.getElementById('blog-name').innerText = translations[currentLang].blogName;
+            document.getElementById('footer-label').innerText = translations[currentLang].footerLabel;
+
+            const titleScale = document.getElementById('size-title-blog').value;
+            const headerScale = document.getElementById('size-header-text').value;
+            const contentScale = document.getElementById('size-content').value;
+
+            document.getElementById('blog-name').style.fontSize = titleScale + 'px';
+            document.getElementById('preview-header-text').style.fontSize = headerScale + 'px';
+            document.getElementById('preview-header-text').innerText = headerText;
+            document.getElementById('preview-link-url').innerText = linkUrlText;
+            
+            const contentArea = document.getElementById('preview-content-area');
+            const paragraphs = contentText.split('\n\n');
+            const isNews = selected.includes('news');
+            const fontWeight = isNews ? 'font-bold' : 'font-normal';
+
+            contentArea.innerHTML = paragraphs.map(p => 
+                `<p class="text-gray-400 ${fontWeight} leading-relaxed" style="font-size: ${contentScale}px;">${p.replace(/\n/g, '<br>')}</p>`
+            ).join('');
+
+            const footer = document.getElementById('preview-footer-news');
+            const newsLine = document.getElementById('news-line');
+            if (showFooterManual) {
+                footer.classList.remove('hidden');
+                newsLine.classList.remove('hidden');
+            } else {
+                footer.classList.add('hidden');
+                newsLine.classList.add('hidden');
+            }
+        }
+
+        async function saveImage() {
+            const element = document.getElementById('capture-area');
+            const zoomContainer = document.getElementById('zoom-container');
+            const selected = document.getElementById('templateSelect').value;
+            const btn = document.getElementById('btn-save');
+
+            const originalTransform = zoomContainer.style.transform;
+            zoomContainer.style.transform = 'none';
+            btn.innerText = "Processando...";
+            btn.disabled = true;
+
+            await new Promise(r => setTimeout(r, 100));
+
+            html2canvas(element, {
+                scale: 2,
+                backgroundColor: "#000000",
+                useCORS: true,
+                width: 1080,
+                height: selected.includes('story') ? 1920 : 1350
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = `paco-${selected}-${Date.now()}.png`;
+                link.href = canvas.toDataURL('image/png', 1.0);
+                link.click();
+                zoomContainer.style.transform = originalTransform;
+                btn.innerText = "Salvar Imagem";
+                btn.disabled = false;
+            }).catch(() => {
+                zoomContainer.style.transform = originalTransform;
+                btn.innerText = "Erro ao salvar";
+                btn.disabled = false;
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', switchTemplate);
+    </script>
+</body>
+</html>

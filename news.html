@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Newsletter | Diários de um Nômade</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #0f0f0f;
+            color: #e5e5e5;
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        .bg-card { background-color: #1a1a1a; }
+        .text-accent { color: #FF3366; }
+        .bg-accent { background-color: #FF3366; }
+
+        input, select {
+            background: #262626 !important;
+            border: 1px solid #333 !important;
+            color: white !important;
+            transition: all 0.3s ease;
+        }
+        input:focus, select:focus {
+            border-color: #FF3366 !important;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(255, 51, 102, 0.2);
+        }
+        
+        .fade-up {
+            animation: fadeUp 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Estilo para bandeira ativa (Mobile) */
+        .flag-btn {
+            filter: grayscale(100%);
+            opacity: 0.4;
+            transition: all 0.3s ease;
+        }
+        .flag-btn.active {
+            filter: grayscale(0%);
+            opacity: 1;
+            transform: scale(1.2);
+        }
+
+        /* Estilo para texto ativo (PC) */
+        .text-lang-btn {
+            opacity: 0.4;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .text-lang-btn.active {
+            opacity: 1;
+            color: #FF3366;
+        }
+        .text-lang-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #FF3366;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-6">
+
+    <!-- Fundo Decorativo -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none">
+        <div class="absolute -top-24 -right-24 w-96 h-96 bg-[#FF3366]/10 blur-[120px] rounded-full"></div>
+        <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-[#6633FF]/10 blur-[120px] rounded-full"></div>
+    </div>
+
+    <main class="w-full max-w-md z-10 fade-up">
+        <!-- Logo/Voltar -->
+        <div class="text-center mb-10">
+            <a href="index.html" class="inline-block mb-4 hover:opacity-80 transition-opacity">
+                <h1 class="text-3xl font-black italic tracking-tighter text-white">
+                    DIÁRIOS DE UM NÔMADE
+                </h1>
+            </a>
+            <div class="h-1 w-12 bg-accent mx-auto"></div>
+        </div>
+
+        <!-- Card de Inscrição -->
+        <div class="bg-card p-8 md:p-10 rounded-[2.5rem] border border-white/5 shadow-2xl">
+            
+            <!-- Seleção de Idioma MOBILE (Bandeiras) -->
+            <div class="flex md:hidden justify-center gap-8 mb-8 border-b border-white/5 pb-6">
+                <button onclick="changeLanguage('pt')" id="flag-pt" class="flag-btn text-3xl" title="Português">🇧🇷</button>
+                <button onclick="changeLanguage('es')" id="flag-es" class="flag-btn text-3xl" title="Español">🇪🇸</button>
+                <button onclick="changeLanguage('en')" id="flag-en" class="flag-btn text-3xl" title="English">🇺🇸</button>
+            </div>
+
+            <!-- Seleção de Idioma PC (Por Extenso) -->
+            <div class="hidden md:flex justify-center gap-8 mb-8 border-b border-white/5 pb-6">
+                <button onclick="changeLanguage('pt')" id="text-pt" class="text-lang-btn text-[10px] font-black uppercase tracking-[0.2em]">Português</button>
+                <button onclick="changeLanguage('es')" id="text-es" class="text-lang-btn text-[10px] font-black uppercase tracking-[0.2em]">Español</button>
+                <button onclick="changeLanguage('en')" id="text-en" class="text-lang-btn text-[10px] font-black uppercase tracking-[0.2em]">English</button>
+            </div>
+
+            <div class="mb-8">
+                <h2 class="text-2xl font-black text-white mb-2" id="form-title">
+                    Relatos de estrada.
+                </h2>
+                <p class="text-gray-400 text-sm leading-relaxed" id="form-desc">
+                    Receba toda semana um novo capítulo da jornada, perrengues reais e o que aprendi vivendo em movimento.
+                </p>
+            </div>
+
+            <form id="newsletter-form" class="space-y-5">
+                <!-- E-mail -->
+                <div>
+                    <label class="block text-[10px] font-black uppercase tracking-widest text-gray-500 mb-2" id="label-email">E-mail</label>
+                    <input type="email" id="email" required placeholder="seu@email.com" 
+                           class="w-full p-4 rounded-2xl text-base">
+                </div>
+
+                <!-- Campo Idioma (Invisível, mas enviado no formulário) -->
+                <input type="hidden" id="language" name="language" value="pt">
+
+                <!-- Botão -->
+                <button type="submit" id="submit-btn" 
+                        class="w-full bg-accent hover:bg-[#ff4d7a] text-white font-black py-5 rounded-2xl transition-all shadow-lg shadow-[#FF3366]/20 uppercase tracking-widest text-sm mt-4 active:scale-95">
+                    Inscrever-se agora
+                </button>
+            </form>
+
+            <!-- Mensagem de Sucesso -->
+            <div id="success-msg" class="hidden text-center py-4">
+                <div class="w-16 h-16 bg-[#4DD0E1]/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <span class="text-3xl">✉️</span>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-2" id="success-title">Bem-vindo a bordo!</h3>
+                <p class="text-gray-400 text-sm" id="success-desc">Verifique sua caixa de entrada para confirmar a inscrição.</p>
+                <a href="index.html" class="inline-block mt-6 text-accent text-xs font-black uppercase tracking-widest hover:underline" id="back-link">
+                    Voltar para o blog
+                </a>
+            </div>
+        </div>
+
+        <p class="text-center text-gray-600 text-[10px] mt-8 uppercase tracking-[0.3em]">
+            © 2026 PACO SOUSA · SEM SPAM, APENAS HISTÓRIAS.
+        </p>
+    </main>
+
+    <script>
+        const form = document.getElementById('newsletter-form');
+        const successMsg = document.getElementById('success-msg');
+        const submitBtn = document.getElementById('submit-btn');
+        const hiddenLangInput = document.getElementById('language');
+
+        const uiText = {
+            'pt': { 
+                title: 'Relatos de estrada.', 
+                desc: 'Receba toda semana um novo capítulo da jornada, perrengues reais e o que aprendi vivendo em movimento.', 
+                btn: 'Inscrever-se agora!',
+                labelEmail: 'E-mail',
+                successTitle: 'Bem-vindo a bordo!',
+                successDesc: 'Verifique sua caixa de entrada para confirmar a inscrição.',
+                back: 'Voltar para o blog'
+            },
+            'es': { 
+                title: 'Relatos de ruta.', 
+                desc: 'Recibe cada semana un nuevo capítulo del viaje, problemas reales y lo que aprendí viviendo en movimiento.', 
+                btn: '¡Suscríbete ahora!',
+                labelEmail: 'Correo electrónico',
+                successTitle: '¡Bienvenido a bordo!',
+                successDesc: 'Revisa tu bandeja de entrada para confirmar la suscripción.',
+                back: 'Volver al blog'
+            },
+            'en': { 
+                title: 'Road stories.', 
+                desc: 'Receive every week a new chapter of the journey, real struggles and what I learned living on the move.', 
+                btn: 'Subscribe now!',
+                labelEmail: 'Email Address',
+                successTitle: 'Welcome aboard!',
+                successDesc: 'Check your inbox to confirm your subscription.',
+                back: 'Back to blog'
+            }
+        };
+
+        function changeLanguage(lang) {
+            const t = uiText[lang] || uiText['pt'];
+            
+            // Atualiza Textos
+            document.getElementById('form-title').innerText = t.title;
+            document.getElementById('form-desc').innerText = t.desc;
+            document.getElementById('submit-btn').innerText = t.btn;
+            document.getElementById('label-email').innerText = t.labelEmail;
+            document.getElementById('success-title').innerText = t.successTitle;
+            document.getElementById('success-desc').innerText = t.successDesc;
+            document.getElementById('back-link').innerText = t.back;
+
+            // Atualiza Input Escondido
+            hiddenLangInput.value = lang;
+
+            // Atualiza Bandeiras (Visual Mobile)
+            document.querySelectorAll('.flag-btn').forEach(btn => btn.classList.remove('active'));
+            const flag = document.getElementById(`flag-${lang}`);
+            if (flag) flag.classList.add('active');
+
+            // Atualiza Textos (Visual PC)
+            document.querySelectorAll('.text-lang-btn').forEach(btn => btn.classList.remove('active'));
+            const textBtn = document.getElementById(`text-${lang}`);
+            if (textBtn) textBtn.classList.add('active');
+
+            // Salva preferência
+            localStorage.setItem('paco_blog_lang', lang);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('paco_blog_lang') || 'pt';
+            changeLanguage(savedLang);
+        });
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const lang = hiddenLangInput.value;
+
+            submitBtn.innerText = "Enviando...";
+            submitBtn.disabled = true;
+
+            try {
+                const response = await fetch("https://formspree.io/f/mojvkdve", {
+                    method: 'POST',
+                    headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        email: email, 
+                        language: lang, 
+                        origem: "Landing Page /news" 
+                    })
+                });
+
+                if (response.ok) {
+                    form.classList.add('hidden');
+                    // Esconde os menus de idiomas no sucesso
+                    document.querySelector('.md\\:hidden').classList.add('hidden');
+                    const pcMenu = document.querySelector('.hidden.md\\:flex');
+                    if (pcMenu) pcMenu.style.display = 'none';
+                    successMsg.classList.remove('hidden');
+                } else {
+                    throw new Error();
+                }
+            } catch (err) {
+                alert("Ocorreu um erro. Tente novamente em instantes.");
+                submitBtn.innerText = uiText[lang].btn;
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>

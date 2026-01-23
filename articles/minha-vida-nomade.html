@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Um resumo detalhado da jornada nômade de Paco Sousa pelo mundo: de 2023 a 2025.">
+    <meta name="author" content="Paco Sousa">
+    <meta name="revised" content="Paco Sousa, 16/01/2026">
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Minha Vida Nômade: O Resumo (2023-2025) | Diários de um Nômade">
+    <meta property="og:description" content="Um resumo detalhado da jornada nômade de Paco Sousa pelo mundo: de 2023 a 2025.">
+    <meta property="og:url" content="https://pacosousa.com/articles/minha-vida-nomade">
+    <meta property="og:image" content="https://pacosousa.com/images/capa-vida-nomade.webp">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Minha Vida Nômade: O Resumo (2023-2025) | Diários de um Nômade">
+    <meta name="twitter:description" content="Um resumo detalhado da jornada nômade de Paco Sousa pelo mundo: de 2023 a 2025.">
+    <meta name="twitter:image" content="https://pacosousa.com/images/capa-vida-nomade.webp">
+
+    <!-- SEO & Favicon -->
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="canonical" href="https://pacosousa.com/articles/minha-vida-nomade">
+
+    <title id="meta_title">Minha Vida Nômade: O Resumo (2023-2025) | Diários de um Nômade</title>
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-88CEX3DZ05"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-88CEX3DZ05');
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Poppins:wght@400;700;800&display=swap" rel="stylesheet">
+    <script src="../js/menu.js"></script>
+    
+    <style>
+      :root {
+        --bg-main: #0D0D0D; --text-main: #F0F0F0; --card-bg: #161616; 
+        --accent-primary: #FF3366; --accent-secondary: #6633FF; --accent-tertiary: #4DD0E1; 
+      }
+      body { font-family: 'Inter', sans-serif; background-color: var(--bg-main); color: var(--text-main); }
+      h1, h2, h3, h4 { font-family: 'Poppins', sans-serif; }
+      
+      /* Estilização da Timeline do Wrapped */
+      .timeline-container { border-left: 2px solid rgba(255,255,255,0.05); padding-left: 1.5rem; margin: 2rem 0; }
+      .timeline-item { position: relative; margin-bottom: 5rem; }
+      .timeline-item::before { 
+        content: ''; position: absolute; left: -1.95rem; top: 0.5rem; 
+        width: 12px; height: 12px; border-radius: 50%; 
+        background: var(--accent-secondary); border: 2px solid var(--bg-main); 
+      }
+      
+      /* Mini Galeria - PROPORÇÃO 2:3 GARANTIDA */
+      .mini-gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; margin: 1.5rem 0; }
+      @media (min-width: 768px) { .mini-gallery { grid-template-columns: repeat(4, 1fr); } }
+      .mini-photo { border-radius: 1rem; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); aspect-ratio: 2/3; cursor: zoom-in; }
+      .mini-photo img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+      .mini-photo:hover img { transform: scale(1.1); }
+
+      /* Tipografia do Artigo */
+      .drop-cap::first-letter { font-family: 'Poppins', sans-serif; font-size: 5rem; font-weight: 800; float: left; margin-right: 0.75rem; line-height: 0.8; color: var(--accent-primary); }
+      .article-content p { margin-bottom: 1.5rem; line-height: 1.8; color: #BBB; font-size: 1.1rem; }
+      .article-content a { color: #3b82f6; font-weight: 700; text-decoration: none; }
+      .article-content a:hover { text-decoration: underline; }
+
+      .note-box { background: rgba(255, 51, 102, 0.05); border-left: 4px solid var(--accent-primary); padding: 1.5rem; border-radius: 0 1rem 1rem 0; margin: 2rem 0; color: #DDD; font-style: italic; }
+
+      /* Lightbox */
+      #lightbox-modal {
+        display: none; position: fixed; inset: 0; z-index: 1000;
+        background-color: rgba(0, 0, 0, 0.95); backdrop-filter: blur(10px);
+        align-items: center; justify-content: center; cursor: zoom-out;
+      }
+      #lightbox-modal img { max-width: 90%; max-height: 90vh; border-radius: 1rem; box-shadow: 0 0 50px rgba(0,0,0,0.5); object-fit: contain; }
+    </style>
+</head>
+<body>
+    <header id="main-header" class="bg-[#111111]/90 backdrop-blur-md fixed w-full top-0 z-50 border-b border-white/5"></header>
+
+    <header class="relative w-full h-[65vh] flex items-end justify-center overflow-hidden pt-24 group">
+        <div class="absolute inset-0 bg-cover bg-center z-0 transform group-hover:scale-105 transition-transform duration-[20s]" 
+              style="background-image: url('../images/capa-vida-nomade.webp');">
+        </div>
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-10"></div>
+
+        <div class="relative z-20 container mx-auto px-6 pb-16 max-w-3xl text-center">
+            <span id="tag_lifestyle" class="inline-block py-1 px-3 rounded-full bg-[var(--accent-secondary)]/20 text-[var(--accent-tertiary)] text-xs font-bold tracking-widest uppercase mb-4 border border-[var(--accent-secondary)] backdrop-blur-sm">
+                Estilo de Vida
+            </span>
+            <h1 class="text-4xl md:text-6xl font-extrabold text-white leading-tight mb-4 tracking-tight italic" id="main_title">
+                Minha vida nômade: Um resumo geral (2023-2025)
+            </h1>
+            <div class="flex items-center justify-center gap-3 text-stone-200 text-sm font-medium">
+                <img src="../images/foto-perfil.webp" onerror="this.src='https://placehold.co/32x32/6633FF/FFF?text=PS'" alt="Paco Sousa" class="w-8 h-8 rounded-full border-2 border-[var(--accent-primary)] object-cover">
+                <span id="author_line" class="text-white">Por Paco Sousa • 10 min de leitura • Escrito em 06/01/2026</span>
+            </div>
+        </div>
+
+    <!-- ADIÇÕES MANUAIS SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://pacosousa.com/articles/minha-vida-nomade"
+    },
+      "headline": "Minha Vida Nômade: O Resumo (2023-2025) | Diários de um Nômade",
+      "description": "Um resumo detalhado da jornada nômade de Paco Sousa pelo mundo: de 2023 a 2025.",
+      "image": {
+      "@type": "ImageObject",
+      "url": "https://pacosousa.com/images/capa-vida-nomade.webp",
+      "width": 1536,
+      "height": 785
+    },
+      "author": {
+      "@type": "Person",
+      "name": "Paco Sousa",
+      "url": "https://pacosousa.com/"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Diários de um Nômade",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://pacosousa.com/images/logo-blog.webp",
+        "width": 1024,
+        "height": 1024
+      }
+    },
+    "datePublished": "2026-01-16",
+    "dateModified": "2026-01-16",
+  }
+  </script>
+
+    </header>
+
+    <main class="pb-24 px-4">
+        <article class="container mx-auto max-w-4xl article-content mt-20">
+            
+            <!-- Introdução -->
+            <div id="intro_p" class="drop-cap mb-16">
+                <p>Estou constantemente viajando desde abril de 2023. Desde então, não tenho uma casa fixa e estou sempre em movimento. Depois de dois anos vivendo em São Paulo (SP) e três anos no Rio de Janeiro (RJ), essas duas cidades, junto com Sorocaba (SP), onde nasci e minha família vive, acabaram se tornando parte da minha rota oficial de retorno. Todo o resto acontece entre idas e vindas. Minhas viagens, nos últimos anos, passaram a acontecer em períodos geralmente de dois a três meses.</p>
+            </div>
+
+            <div class="timeline-container">
+                
+                <!-- Argentina 2023 Parte 1 -->
+                <div class="timeline-item">
+                    <h3 id="t1_title" class="text-2xl font-black text-white mb-4 italic uppercase tracking-tighter">Argentina 2023, parte 1</h3>
+                    <p id="t1_p1">A minha primeira grande viagem foi de cerca de dois meses, passando principalmente pela Argentina. No Chile, estive em <a href="primeira-viagem-santiago-chile">Santiago</a> → <a href="o-deserto-do-atacama">San Pedro de Atacama</a>.</p>
+                    <p id="t1_p2">Na Argentina, passei por <a href="salta>Salta</a> → San Miguel de Tucumán → Tafí del Valle → Termas de Río Hondo → Buenos Aires → San Carlos de Bariloche → San Martín de los Andes → Buenos Aires novamente → La Plata → Córdoba → Resistencia. No Paraguai, estive em Assunção. De Assunção, fui para Foz do Iguaçu (PR), mas estava chovendo muito. Acabei comprando uma passagem de ônibus para o dia seguinte e voltei para Sorocaba (SP).</p>
+                    <div class="mini-gallery">
+                        <div class="mini-photo"><img src="../images/vida-nomade/2023-part1-atacama.webp" alt="Atacama" onclick="openLightbox(this.src)"></div>
+                        <div class="mini-photo"><img src="../images/vida-nomade/2023-part1-ba.webp" alt="Buenos Aires" onclick="openLightbox(this.src)"></div>
+                        <div class="mini-photo"><img src="../images/vida-nomade/2023-part1-bariloche.webp" alt="Bariloche" onclick="openLightbox(this.src)"></div>
+                        <div class="mini-photo"><img src="../images/vida-nomade/2023-part1-laplata.webp" alt="La Plata" onclick="openLightbox(this.src)"></div>
+                    </div>
+                </div>
+
+                <!-- Argentina 2023 Parte 2 -->
+                <div class="timeline-item">
+                    <h3 id="t2_title" class="text-2xl font-black text-white mb-4 italic uppercase tracking-tighter">Argentina 2023, parte 2</h3>
+                    <p id="t2_p1">A primeira parte serviu como um teste para entender se eu conseguiria viajar e trabalhar ao mesmo tempo. Como deu certo e eu queria continuar, deixei oficialmente meu apartamento no Rio de Janeiro (RJ) e voltei para a estrada. Isso ainda em 2023, quando o peso argentino estava muito desvalorizado, o que acabou facilitando bastante a decisão de ficar mais tempo no país.</p>
+                    <p id="t2_p2">Passei por Buenos Aires → San Miguel de Tucumán → Córdoba → Cosquín → Villa Carlos Paz → Villa General Belgrano → San Miguel de Tucumán novamente → Buenos Aires → Mar del Plata → Bahía Blanca → Puerto Madryn → Puerto Pirámides → Península Valdés → Esquel → Trevelin → Buenos Aires mais uma vez.</p>
+                    <div id="t2_note" class="note-box">Perceba que, já neste ponto, Buenos Aires havia se tornado o meu lar na Argentina. Desde a primeira viagem, foi onde eu sempre voltava e fui construindo uma comunidade, encontrando os lugares que eu mais gostava de ir e etc. Isso impactou muito nas decisões futuras de voltar para lá.</div>
+                    <p id="t2_p3">No meio da viagem, tirei férias. Minha amiga Carol foi me encontrar em Buenos Aires e viajamos juntos para Mendoza (AR) → Santiago (CH) → Montevidéu (UY), retornando depois para Buenos Aires. Após um período de descanso, segui novamente para a Patagônia, passando por Ushuaia → Río Gallegos → El Calafate → El Chaltén, antes de voltar para Buenos Aires. Já em dezembro, passei duas semanas no Paraguai, em Assunção, visitando o Marcelo, que eu havia conhecido na viagem anterior. De lá, voltei para o Brasil, encerrando essa segunda temporada.</p>
+                    <div class="mini-gallery">
+                        <div class="mini-photo"><img src="../images/vida-nomade/2023-part2-trevelin.webp" alt="Trevelin" onclick="openLightbox(this.src)"></div>
+                        <div class="mini-photo"><img src="../images/vida-nomade/2023-part2-madryn.webp" alt="Puerto Madryn" onclick="openLightbox(this.src)"></div>
+                        <div class="mini-photo"><img src="../images/vida-nomade/2023-part2-elcalafate.webp" alt="El Calafate" onclick="openLightbox(this.src)"></div>
+                        <div class="mini-photo"><img src="../images/vida-nomade/2023-part2-elchalten.webp" alt="El Chaltén" onclick="openLightbox(this.src)"></div>
+                    </div>
+                </div>
+
+                <!-- Verão 2024 -->
+                <div class="timeline-item">
+                    <h3 id="t3_title" class="text-2xl font-black text-white mb-4 italic uppercase tracking-tighter">Verão brasileiro, início de 2024</h3>
+                    <p id="t3_p1">O fato de não ter uma casa fixa e já morar há anos fora da casa dos meus pais faz com que eu me sinta um pouco visitante ali (fora as crianças gritando e o calor que faz). Com isso, depois de pouco tempo, já tenho vontade de viajar novamente.</p>
+                    <p id="t3_p2">Logo no começo do ano, fiz uma viagem curta para Ilhabela (SP), onde fiquei alguns dias com amigos. Depois veio o principal evento do período, o carnaval no Rio de Janeiro (RJ). Minha amiga Lauren, americana que conheci no Atacama, veio passar o carnaval comigo. Depois de dias intensos, planejamos um descanso em Florianópolis (SC). Como de costume, eu não tinha passagem de volta comprada e, de última hora, consegui uma saindo de Curitiba (PR). Saí de Florianópolis → Curitiba → Sorocaba (SP).</p>
+                    <div class="mini-gallery">
+                        <div class="mini-photo"><img src="../images/vida-nomade/2024-verao-ilhabella.webp" alt="Ilhabela" onclick="openLightbox(this.src)"></div>
+                        <div class="mini-photo"><img src="../images/vida-nomade/2024-verao-rio.webp" alt="Rio" onclick="openLightbox(this.src)"></div>
+                        <div class="mini-photo"><img src="../images/vida-nomade/2024-verao-floripa.webp" alt="Floripa" onclick="openLightbox(this.src)"></div>
+                        <div class="mini-photo"><img src="../images/vida-nomade/2024-verao-curitiba.webp" alt="Curitiba" onclick="openLightbox(this.src)"></div>
+                    </div>
+                </div>
+
+                <!-- Argentina 2024 -->
+                <div class="timeline-item">
+                    <h3 id="t4_title" class="text-2xl font-black text-white mb-4 italic uppercase tracking-tighter">Argentina 2024</h3>
+                    <p id="t4_p1">Mais uma vez sem vontade de ficar parado, com saudades da Argentina e com a desculpa de ir ao Lollapalooza Argentina, voltei para lá. Passei por Buenos Aires → San Miguel de Tucumán → San Salvador de Jujuy → Purmamarca → Salta → San Miguel de Tucumán novamente → Buenos Aires.</p>
+                    <p id="t4_p2">Essa viagem terminou mal. Eu não havia contratado serviço viagem e acabei pegando dengue. Com os hospitais lotados em Buenos Aires, comprei uma passagem para o dia seguinte para Puerto Iguazú, atravessou a fronteira e fui atendido em Foz do Iguaçu (PR). Fiquei dois dias passando muito mal em um quarto de hotel e depois consegui voltar para Sorocaba (SP) para me recuperar. Em cerca de vinte dias, começaria a minha primeira Eurotrip.</p>
+                    <div class="mini-gallery">
+                        <div class="mini-photo"><img src="../images/vida-nomade/2024-arg-purmamarca.webp" alt="Purmamarca" onclick="openLightbox(this.src)"></div>
+                        <div class="mini-photo"><img src="../images/vida-nomade/2024-arg-jujuy.webp" alt="Jujuy" onclick="openLightbox(this.src)"></div>
+                        <div class="mini-photo"><img src="../images/vida-nomade/2024-arg-nafta.webp" alt="Pedindo Gasolina em Jujuy" onclick="openLightbox(this.src)"></div>
+                        <div class="mini-photo"><img src="../images/vida-nomade/2024-arg-salar.webp" alt="Salar de Jujuy" onclick="openLightbox(this.src)"></div>
+                    </div>
+                </div>
+
+                <!-- Europa 2024 -->
+                <div class="timeline-item">
+                    <h3 id="t5_title" class="text-2xl font-black text-white mb-4 italic uppercase tracking-tighter">Europa 2024</h3>
+                    <p id="t5_p1">Fui para a Europa sem passagem de volta e sem data definida para retornar. A ideia era aproveitar ao máximo. Passei por Lisboa (PT) → Madrid (ES) → Barcelona (ES) → Paris (FR) → Berlim (DE) → Praga (CZ) → Brno (CZ) → Linz (AT) → Salzburgo (AT) → Budapeste (HU) → Escópia (MK) → Tessalônica (GR) → Atenas (GR) → Chios (GR).</p>
+                    <p id="t5_p2">A partir de Chios, segui para a Turquia, onde passei cerca de um mês entre Esmirna → Istambul → Göreme → Avanos → Nevşehir → Antalya, retornando depois para Istambul. Depois disso, voltei para o leste europeu, passando por Bucareste (RO) → Brașov (RO) → Prejmer (RO) → Bran (RO) → Bucareste novamente → Sófia (BG) → Escópia (MK) → Pristina (XK) → Tirana (AL) → Podgorica (ME) → Sarajevo (BA) → Dubrovnik (HR). Foi em Dubrovnik que decidi voltar para o Brasil. Comprei uma passagem saindo de Paris dali a vinte dias. Nesse intervalo, passei por Poznań (PL) → Berlim novamente → Paris (FR). A Eurotrip terminou após quatro meses.</p>
+                    <div class="mini-gallery">
+                        <div class="mini-photo"><img src="../images/vida-nomade/2024-euro-istanbul.webp" alt="Istanbul" onclick="openLightbox(this.src)"></div>
+                        <div class="mini-photo"><img src="../images/vida-nomade/2024-euro-gorome.webp" alt="Capadócia" onclick="openLightbox(this.src)"></div>
+                        <div class="mini-photo"><img src="../images/vida-nomade/2024-euro-kosovo.webp" alt="Kosovo" onclick="openLightbox(this.src)"></div>
+                        <div class="mini-photo"><img src="../images/vida-nomade/2024-euro-dubrovnik.webp" alt="Dubrovnik" onclick="openLightbox(this.src)"></div>
+                    </div>
+                </div>
+
+                <!-- Foz e Nordeste -->
+                <div class="timeline-item">
+                    <h3 id="t6_title" class="text-2xl font-black text-white mb-4 italic uppercase tracking-tighter">Nordeste do Brasil, 2024</h3>
+                    <p id="t6_p1">Uma viagem que deveria ser rápida para Salvador (BA) acabou se estendendo por quase cinquenta dias pelo Nordeste. Passei por Salvador (BA) → Maceió (AL) → Barra de Camaragibe (AL) → São Miguel dos Milagres (AL) → Maragogi (AL) → Praia de Tamandaré (PE) → Praia dos Carneiros (PE) → Porto de Galinhas (PE) → Recife (PE) → Olinda (PE) → Praia de Pipa (RN) → Natal (RN) → Fortaleza (CE) → Jericoacoara (CE) → Parnaíba (PI) → Barreirinhas (MA) → São Luís (MA).</p>
+                    <p id="t6_p2">Eu tinha uma passagem comprada saindo de Belém (PA), mas não faria sentido correr. De São Luís (MA), segui de ônibus até Natal (RN), depois para Praia de Pipa (RN), onde reencontrei o Eloi, amigo francês que havia conhecido em Jericoacoara. Ficamos uma semana juntos e seguimos para João Pessoa (PB), de onde voltei para São Paulo (SP) para passar o Natal em família.</p>
+                    <div class="mini-gallery">
+                        <div class="mini-photo"><img src="../images/vida-nomade/2024-br-pipa.webp" alt="Praia de Pipa" onclick="openLightbox(this.src)"></div>
+                        <div class="mini-photo"><img src="../images/vida-nomade/2024-br-maragogi.webp" alt="Maragogi" onclick="openLightbox(this.src)"></div>
+                        <div class="mini-photo"><img src="../images/vida-nomade/2024-br-jp.webp" alt="João Pessoa" onclick="openLightbox(this.src)"></div>
+                        <div class="mini-photo"><img src="../images/vida-nomade/2024-br-parnaiba.webp" alt="Delta do Parnaiba" onclick="openLightbox(this.src)"></div>
+                    </div>
+                </div>
+
+                <!-- Foz do Iguaçu -->
+                <div class="timeline-item">
+                    <h3 id="t7_title" class="text-2xl font-black text-white mb-4 italic uppercase tracking-tighter">Foz do Iguaçu, outubro de 2024</h3>
+                    <p id="t7_p1">Em outubro de 2024, fiz uma viagem curta de Sorocaba (SP) para Foz do Iguaçu (PR), ida e volta, para passar cerca de uma semana com o Marcelo. Apesar de já ter passado duas vezes por Foz anteriormente, essa foi a primeira vez em que consegui parar de fato. Finalmente visitei as Cataratas do Iguaçu e atravessei a fronteira para conhecer Ciudad del Este (PY).</p>
+                </div>
+
+                <!-- 2025 -->
+                <div class="timeline-item">
+                    <h3 id="t8_title" class="text-2xl font-black text-white mb-4 italic uppercase tracking-tighter">2025</h3>
+                    <p id="t8_p1">Como explico no <a href="2025-wrapped">Travel Nomad Wrapped 2025</a>, este foi um ano em que estive em menos localidades, mas por mais tempo. Ainda assim, fiz duas temporadas em Buenos Aires e duas viagens para a Europa.</p>
+                </div>
+            </div>
+
+            <!-- O que esperar de 2026? -->
+            <section class="mt-20 pt-20 border-t border-white/10">
+                <h2 id="title_2026" class="text-3xl font-black text-white mb-8 uppercase italic tracking-tighter">O que esperar de 2026?</h2>
+                <p id="p1_2026">Principalmente um novo emprego.</p>
+                <p id="p2_2026">No momento, estou focado em empreender em um negócio próprio, mas sigo aberto a trabalho remoto, oportunidades presenciais ou projetos temporários, modelo que acabou definindo boa parte de 2025.</p>
+                <p id="p3_2026">Independentemente do formato, sigo otimista com o que vem pela frente.</p>
+            </section>
+
+            <!-- Stats Squares -->
+            <section class="mt-20">
+                <h2 id="stats_title" class="text-3xl font-black text-white mb-10 uppercase italic tracking-tighter">A jornada em números</h2>
+                <p id="stats_desc" class="text-zinc-400 mb-8">Entre 2023 e 2025, passei por cerca de trinta países, mais de noventa cidades e três continentes. A Argentina foi o país em que mais estive, com Buenos Aires funcionando como uma base recorrente.</p>
+                <div class="flex flex-wrap justify-center gap-6">
+                    <div class="bg-[var(--card-bg)] w-[170px] h-[170px] flex flex-col items-center justify-center rounded-2xl border border-white/5">
+                        <span class="text-4xl font-black text-[var(--accent-primary)]">30</span>
+                        <label id="lbl_paises" class="text-[10px] uppercase tracking-widest text-zinc-500 font-bold mt-2">Países</label>
+                    </div>
+                    <div class="bg-[var(--card-bg)] w-[170px] h-[170px] flex flex-col items-center justify-center rounded-2xl border border-white/5">
+                        <span class="text-4xl font-black text-[var(--accent-primary)]">90+</span>
+                        <label id="lbl_cidades" class="text-[10px] uppercase tracking-widest text-zinc-500 font-bold mt-2">Cidades</label>
+                    </div>
+                    <div class="bg-[var(--card-bg)] w-[170px] h-[170px] flex flex-col items-center justify-center rounded-2xl border border-white/5">
+                        <span class="text-4xl font-black text-[var(--accent-primary)]">03</span>
+                        <label id="lbl_continentes" class="text-[10px] uppercase tracking-widest text-zinc-500 font-bold mt-2">Continentes</label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ARTIGOS RELACIONADOS -->
+            <section class="mt-32 pt-20 border-t border-white/10">
+                <h2 id="related_title" class="text-3xl font-black mb-12 text-white uppercase tracking-widest text-center">Continue Explorando</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <a href="o-comeco-de-uma-jornada" class="group block bg-[#161616] rounded-3xl overflow-hidden border border-white/5 hover:border-[var(--accent-primary)] transition-all">
+                        <div class="h-48 bg-cover bg-center" style="background-image: url('../images/capa-jornada.webp');"></div>
+                        <div class="p-6">
+                            <span id="cat_lifestyle" class="text-[var(--accent-primary)] text-[10px] font-bold uppercase tracking-widest mb-2 block">Lifestyle</span>
+                            <h4 id="art_title_1" class="text-xl font-bold text-white group-hover:text-[var(--accent-primary)] transition-colors">O Começo de uma Jornada</h4>
+                        </div>
+                    </a>
+                    <a href="2025-wrapped" class="group block bg-[#161616] rounded-3xl overflow-hidden border border-white/5 hover:border-[var(--accent-secondary)] transition-all">
+                        <div class="h-48 bg-cover bg-center" style="background-image: url('../images/capa-wrapped.jpg');"></div>
+                        <div class="p-6">
+                            <span id="cat_wrapped" class="text-[var(--accent-secondary)] text-[10px] font-bold uppercase tracking-widest mb-2 block">Retrospectiva</span>
+                            <h4 id="art_title_2" class="text-xl font-bold text-white group-hover:text-[var(--accent-secondary)] transition-colors">Wrapped 2025: A Jornada</h4>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- FAQ SECTION -->
+            <section id="faq" class="mt-32 pt-20 border-t border-white/10">
+                <h2 id="faq_title" class="text-4xl font-black text-white mb-12 uppercase italic tracking-tighter text-center">Perguntas Frequentes</h2>
+                <div class="max-w-3xl mx-auto space-y-4">
+                    <details class="group bg-[#161616] rounded-2xl border border-white/5 overflow-hidden">
+                        <summary class="flex items-center justify-between p-6 cursor-pointer hover:bg-white/5 transition-colors">
+                            <span id="faq_q1" class="font-bold text-lg">Como você financia suas viagens?</span>
+                            <svg class="w-5 h-5 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </summary>
+                        <div id="faq_a1" class="p-6 pt-0 text-zinc-400 leading-relaxed border-t border-white/5 mt-2">
+                            Trabalho remotamente como freelancer e produtor de conteúdo. Além disso, os voluntariados (ajudar em hostels em troca de cama e café) ajudam a esticar o orçamento por meses.
+                        </div>
+                    </details>
+                    <details class="group bg-[#161616] rounded-2xl border border-white/5 overflow-hidden">
+                        <summary class="flex items-center justify-between p-6 cursor-pointer hover:bg-white/5 transition-colors">
+                            <span id="faq_q2" class="font-bold text-lg">Qual o maior desafio de viver sem casa fixa?</span>
+                            <svg class="w-5 h-5 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </summary>
+                        <div id="faq_a2" class="p-6 pt-0 text-zinc-400 leading-relaxed border-t border-white/5 mt-2">
+                            Lidar com a rotina de despedidas e a logística de saúde. Depois do susto com a dengue na Argentina, aprendi que seguro viagem e um fundo de emergência são inegociáveis.
+                        </div>
+                    </details>
+                </div>
+            </section>
+
+        </article>
+    </main>
+
+    <div id="lightbox-modal" onclick="closeLightbox()">
+        <img id="lightbox-img" src="" alt="Ampliada">
+    </div>
+
+    <footer class="bg-black py-10 border-t border-white/5 text-center">
+        <p id="footerText" class="text-zinc-500 text-sm">© 2026 Diários de um Nômade. Por Paco Sousa.</p>
+    </footer>
+
+    <script>
+        const translations = {
+            'pt': {
+                'meta_title': 'Minha Vida Nômade: O Resumo (2023-2025) | Diários de um Nômade',
+                'tag_lifestyle': 'Estilo de Vida',
+                'main_title': 'Minha vida nômade: Um resumo geral (2023-2025)',
+                'author_line': 'Por Paco Sousa • 10 min de leitura • Escrito em 06/01/2026',
+                'intro_p': '<p>Estou constantemente viajando desde abril de 2023. Desde então, não tenho uma casa fixa e estou sempre em movimento. Depois de dois anos vivendo em São Paulo (SP) e três anos no Rio de Janeiro (RJ), essas duas cidades, junto com Sorocaba (SP), onde nasci e minha família vive, acabaram se tornando parte da minha rota oficial de retorno. Todo o resto acontece entre idas e vindas. Minhas viagens, nos últimos anos, passaram a acontecer em períodos geralmente de dois a três meses.</p>',
+                't1_title': 'Argentina 2023, parte 1',
+                't1_p1': 'A minha primeira grande viagem foi de cerca de dois meses, passando principalmente pela Argentina. No Chile, estive em <a href="primeira-viagem-santiago-chile">Santiago</a> → <a href="o-deserto-do-atacama">San Pedro de Atacama</a>.',
+                't1_p2': 'Na Argentina, passei por <a href="salta">Salta</a> → San Miguel de Tucumán → Tafí del Valle → Termas de Río Hondo → Buenos Aires → San Carlos de Bariloche → San Martín de los Andes → Buenos Aires novamente → La Plata → Córdoba → Resistencia. No Paraguai, estive em Assunção. De Assunção, fui para Foz do Iguaçu (PR), mas estava chovendo muito. Acabei comprando uma passagem de ônibus para o dia seguinte e voltei para Sorocaba (SP).',
+                't2_title': 'Argentina 2023, parte 2',
+                't2_p1': 'A primeira parte serviu como um teste para entender se eu conseguiria viajar e trabalhar ao mesmo tempo. Como deu certo e eu queria continuar, deixei oficialmente meu apartamento no Rio de Janeiro (RJ) e voltei para a estrada. Isso ainda em 2023, quando o peso argentino estava muito desvalorizado, o que acabou facilitando bastante a decisão de ficar mais tempo no país.',
+                't2_p2': 'Passei por Buenos Aires → San Miguel de Tucumán → Córdoba → Cosquín → Villa Carlos Paz → Villa General Belgrano → San Miguel de Tucumán novamente → Buenos Aires → Mar del Plata → Bahía Blanca → Puerto Madryn → Puerto Pirámides → Península Valdés → Esquel → Trevelin → Buenos Aires mais uma vez.',
+                't2_note': 'Perceba que, já neste ponto, Buenos Aires havia se tornado o meu lar na Argentina. Desde a primeira viagem, foi onde eu sempre voltava e fui construindo uma comunidade, encontrando os lugares que eu mais gostava de ir e etc. Isso impactou muito nas decisões futuras de voltar para lá.',
+                't2_p3': 'No meio da viagem, tirei férias. Minha amiga Carol foi me encontrar em Buenos Aires e viajamos juntos para Mendoza (AR) → Santiago (CH) → Montevidéu (UY), retornando depois para Buenos Aires. Após um período de descanso, segui novamente para a Patagônia, passando por Ushuaia → Río Gallegos → El Calafate → El Chaltén, antes de voltar para Buenos Aires. Já em dezembro, passei duas semanas no Paraguai, em Assunção, visitando o Marcelo, que eu havia conhecido na viagem anterior. De lá, voltei para o Brasil, encerrando essa segunda temporada.',
+                't3_title': 'Verão brasileiro, início de 2024',
+                't3_p1': 'O fato de não ter uma casa fixa e já morar há anos fora da casa dos meus pais faz com que eu me sinta um pouco visitante ali (fora as crianças gritando e o calor que faz). Com isso, depois de pouco tempo, já tenho vontade de viajar novamente.',
+                't3_p2': 'Logo no começo do ano, fiz uma viagem curta para Ilhabela (SP), onde fiquei alguns dias com amigos. Depois veio o principal evento do período, o carnaval no Rio de Janeiro (RJ). Minha amiga Lauren, americana que conheci no Atacama, veio passar o carnaval comigo. Depois de dias intensos, planejamos um descanso em Florianópolis (SC). Como de costume, eu não tinha passagem de volta comprada e, de última hora, consegui uma saindo de Curitiba (PR). Saí de Florianópolis → Curitiba → Sorocaba (SP).',
+                't4_title': 'Argentina 2024',
+                't4_p1': 'Mais uma vez sem vontade de ficar parado, com saudades da Argentina e com a desculpa de ir ao Lollapalooza Argentina, voltei para lá. Passei por Buenos Aires → San Miguel de Tucumán → San Salvador de Jujuy → Purmamarca → Salta → San Miguel de Tucumán novamente → Buenos Aires.',
+                't4_p2': 'Essa viagem terminou mal. Eu não havia contratado serviço viagem e acabei pegando dengue. Com os hospitais lotados em Buenos Aires, comprei uma passagem para o dia seguinte para Puerto Iguazú, atravessou a fronteira e fui atendido em Foz do Iguaçu (PR). Fiquei dois dias passando muito mal em um quarto de hotel e depois consegui voltar para Sorocaba (SP) para me recuperar. Em cerca de vinte dias, começaria a minha primeira Eurotrip.',
+                't5_title': 'Europa 2024',
+                't5_p1': 'Fui para a Europa sem passagem de volta e sem data definida para retornar. A ideia era aproveitar ao máximo. Passei por Lisboa (PT) → Madrid (ES) → Barcelona (ES) → Paris (FR) → Berlim (DE) → Praga (CZ) → Brno (CZ) → Linz (AT) → Salzburgo (AT) → Budapeste (HU) → Escópia (MK) → Tessalônica (GR) → Atenas (GR) → Chios (GR).',
+                't5_p2': 'A partir de Chios, segui para a Turquia, onde passei cerca de um mês entre Esmirna → Istambul → Göreme → Avanos → Nevşehir → Antalya, retornando depois para Istambul. Depois disso, voltei para o leste europeu, passando por Bucareste (RO) → Brașov (RO) → Prejmer (RO) → Bran (RO) → Bucareste novamente → Sófia (BG) → Escópia (MK) → Pristina (XK) → Tirana (AL) → Podgorica (ME) → Sarajevo (BA) → Dubrovnik (HR). Foi em Dubrovnik que decidi voltar para o Brasil. Comprei uma passagem saindo de Paris dali a vinte dias. Nesse intervalo, passei por Poznań (PL) → Berlim novamente → Paris (FR). A Eurotrip terminou após quatro meses.',
+                't6_title': 'Nordeste do Brasil, 2024',
+                't6_p1': 'Uma viagem que deveria ser rápida para Salvador (BA) acabou se estendendo por quase cinquenta dias pelo Nordeste. Passei por Salvador (BA) → Maceió (AL) → Barra de Camaragibe (AL) → São Miguel dos Milagres (AL) → Maragogi (AL) → Praia de Tamandaré (PE) → Praia dos Carneiros (PE) → Porto de Galinhas (PE) → Recife (PE) → Olinda (PE) → Praia de Pipa (RN) → Natal (RN) → Fortaleza (CE) → Jericoacoara (CE) → Parnaíba (PI) → Barreirinhas (MA) → São Luís (MA).',
+                't6_p2': 'Eu tinha uma passagem comprada saindo de Belém (PA), mas não faria sentido correr. De São Luís (MA), segui de ônibus até Natal (RN), depois para Praia de Pipa (RN), onde reencontrei o Eloi, amigo francês que havia conhecido em Jericoacoara. Ficamos uma semana juntos e seguimos para João Pessoa (PB), de onde voltei para São Paulo (SP) para passar o Natal em família.',
+                't7_title': 'Foz do Iguaçu, outubro de 2024',
+                't7_p1': 'Em outubro de 2024, fiz uma viagem curta de Sorocaba (SP) para Foz do Iguaçu (PR), ida e volta, para passar cerca de uma semana com o Marcelo. Apesar de já ter passado duas vezes por Foz anteriormente, essa foi a primeira vez em que consegui parar de fato. Finalmente visitei as Cataratas do Iguaçu e atravessei a fronteira para conhecer Ciudad del Este (PY).',
+                't8_title': '2025',
+                't8_p1': 'Como explico no <a href="2025-wrapped">Travel Nomad Wrapped 2025</a>, este foi um ano em que estive em menos localidades, mas por mais tempo. Ainda assim, fiz duas temporadas em Buenos Aires e duas viagens para a Europa.',
+                'title_2026': 'O que esperar de 2026?',
+                'p1_2026': 'Principalmente um novo emprego.',
+                'p2_2026': 'No momento, estou focado em empreender em um negócio próprio, mas sigo aberto a trabalho remoto, oportunidades presenciais ou projetos temporários, modelo que acabou definindo boa parte de 2025.',
+                'p3_2026': 'Independentemente do formato, sigo otimista com o que vem pela frente.',
+                'stats_title': 'A jornada em números',
+                'stats_desc': 'Entre 2023 e 2025, passei por cerca de trinta países, mais de noventa cidades e três continentes. A Argentina foi o país em que mais estive, com Buenos Aires funcionando como uma base recorrente.',
+                'lbl_paises': 'Países',
+                'lbl_cidades': 'Cidades',
+                'lbl_continentes': 'Continentes',
+                'related_title': 'Continue Explorando',
+                'cat_lifestyle': 'Lifestyle',
+                'cat_wrapped': 'Retrospectiva',
+                'art_title_1': 'O Começo de uma Jornada',
+                'art_title_2': 'Wrapped 2025: A Jornada',
+                'faq_title': 'Perguntas Frequentes',
+                'faq_q1': 'Como você financia suas viagens?',
+                'faq_a1': 'Trabalho remotamente como freelancer e produtor de conteúdo. Além disso, os voluntariados (ajudar em hostels em troca de cama e café) ajudam a esticar o orçamento por meses.',
+                'faq_q2': 'Qual o maior desafio de viver sem casa fixa?',
+                'faq_a2': 'Lidar com a rotina de despedidas e a logística de saúde. Depois do susto com a dengue na Argentina, aprendi que seguro viagem e um fundo de emergência são inegociáveis.',
+                'footer_copy': '© 2026 Diários de um Nômade. Por Paco Sousa.'
+            },
+            'es': {
+                'meta_title': 'Mi Vida Nómada: El Resumen (2023-2025) | Diarios de un Nómada',
+                'tag_lifestyle': 'Estilo de Vida',
+                'main_title': 'Mi vida nómada: Un resumen general (2023-2025)',
+                'author_line': 'Por Paco Sousa • 10 min de lectura • Escrito el 06/01/2026',
+                'intro_p': '<p>He estado viajando constantemente desde abril de 2023. Desde entonces, no tengo una casa fija y siempre estoy en movimiento. Después de dos años viviendo en São Paulo (SP) y tres años en Río de Janeiro (RJ), estas dos ciudades, junto con Sorocaba (SP), donde nací y vive mi familia, terminaron convirtiéndose en parte de mi ruta oficial de regreso. Todo lo demás sucede entre idas y venidas. Mis viajes, en los últimos años, han ocurrido en periodos generalmente de dos a tres meses.</p>',
+                't1_title': 'Argentina 2023, parte 1',
+                't1_p1': 'Mi primer gran viaje duró unos dos meses, pasando principalmente por Argentina. En Chile, estuve en <a href="primeira-viagem-santiago-chile">Santiago</a> → <a href="o-deserto-do-atacama">San Pedro de Atacama</a>.',
+                't1_p2': 'En Argentina, pasé por <a href="salta">Salta</a> → San Miguel de Tucumán → Tafí del Valle → Termas de Río Hondo → Buenos Aires → San Carlos de Bariloche → San Martín de los Andes → Buenos Aires nuevamente → La Plata → Córdoba → Resistencia. En Paraguay, estuve en Asunción. Desde Asunción, fui a Foz do Iguaçu (PR), pero llovía mucho. Terminé comprando un boleto de autobús para el día siguiente y volví a Sorocaba (SP).',
+                't2_title': 'Argentina 2023, parte 2',
+                't2_p1': 'La primera parte sirvió como prueba para entender si podía viajar y trabajar al mismo tiempo. Como funcionó y quería continuar, dejé oficialmente mi departamento en Río de Janeiro (RJ) y volví al camino. Esto fue aún en 2023, cuando el peso argentino estaba muy devaluado, lo que facilitó mucho la decisión de quedarme más tiempo en el país.',
+                't2_p2': 'Pasé por Buenos Aires → San Miguel de Tucumán → Córdoba → Cosquín → Villa Carlos Paz → Villa General Belgrano → San Miguel de Tucumán nuevamente → Buenos Aires → Mar del Plata → Bahía Blanca → Puerto Madryn → Puerto Pirámides → Península Valdés → Esquel → Trevelin → Buenos Aires una vez más.',
+                't2_note': 'Noten que, ya en este punto, Buenos Aires se había convertido en mi hogar en Argentina. Desde el primer viaje, fue donde siempre regresaba y fui construyendo una comunidad, encontrando los lugares que más me gustaban, etc. Esto impactó mucho en las futuras decisiones de volver allí.',
+                't2_p3': 'A mitad del viaje, tomé vacaciones. Mi amiga Carol fue a encontrarme en Buenos Aires y viajamos juntos a Mendoza (AR) → Santiago (CH) → Montevideo (UY), regresando después a Buenos Aires. Tras un periodo de descanso, seguí nuevamente hacia la Patagonia, pasando por Ushuaia → Río Gallegos → El Calafate → El Chaltén, antes de volver a Buenos Aires. Ya en diciembre, pasé dos semanas en Paraguay, en Asunción, visitando a Marcelo, a quien había conocido en el viaje anterior. De allí, volví a Brasil, cerrando esta segunda temporada.',
+                't3_title': 'Verano brasileño, inicio de 2024',
+                't3_p1': 'El hecho de no tener casa fija y vivir hace años fuera de casa de mis padres hace que me sienta un poco como visitante allí (además de los niños gritando y el calor que hace). Por eso, después de poco tiempo, ya tengo ganas de viajar de nuevo.',
+                't3_p2': 'A principios de año, hice un viaje corto a Ilhabela (SP), donde estuve unos días con amigos. Luego vino el evento principal del periodo, el carnaval en Río de Janeiro (RJ). Mi amiga Lauren, estadounidense que conocí en Atacama, vino a pasar el carnaval conmigo. Después de días intensos, planeamos un descanso en Florianópolis (SC). Como de costumbre, no tenía boleto de regreso y, a último momento, conseguí uno saliendo de Curitiba (PR). Salí de Florianópolis → Curitiba → Sorocaba (SP).',
+                't4_title': 'Argentina 2024',
+                't4_p1': 'Una vez más, sin ganas de quedarme quieto, extrañando Argentina y con la excusa de ir al Lollapalooza Argentina, regresé. Pasé por Buenos Aires → San Miguel de Tucumán → San Salvador de Jujuy → Purmamarca → Salta → San Miguel de Tucumán nuevamente → Buenos Aires.',
+                't4_p2': 'Ese viaje terminó mal. No había contratado seguro de viaje y terminé contrayendo dengue. Con los hospitales saturados en Buenos Aires, compré un boleto para el día siguiente hacia Puerto Iguazú, crucé la frontera y fui atendido en Foz do Iguaçu (PR). Estuve dos días muy mal en una habitación de hotel y luego logré volver a Sorocaba (SP) para recuperarme. En unos veinte días, comenzaría mi primer Eurotrip.',
+                't5_title': 'Europa 2024',
+                't5_p1': 'Fui a Europa sin boleto de regreso y sin fecha definida para volver. La idea era aprovechar al máximo. Pasé por Lisboa (PT) → Madrid (ES) → Barcelona (ES) → París (FR) → Berlín (DE) → Praga (CZ) → Brno (CZ) → Linz (AT) → Salzburgo (AT) → Budapest (HU) → Skopie (MK) → Tesalónica (GR) → Atenas (GR) → Quíos (GR).',
+                't5_p2': 'Desde Quíos, seguí hacia Turquía, donde pasé cerca de un mes entre Esmirna → Istambul → Göreme → Avanos → Nevşehir → Antalya, regresando después a Istambul. Tras esto, volví al este de Europa, pasando por Bucarest (RO) → Brașov (RO) → Prejmer (RO) → Bran (RO) → Bucarest nuevamente → Sofía (BG) → Skopie (MK) → Pristina (XK) → Tirana (AL) → Podgorica (ME) → Sarajevo (BA) → Dubrovnik (HR). Fue en Dubrovnik donde decidí volver a Brasil. Compré un boleto saliendo de París veinte días después. En ese intervalo, pasé por Poznań (PL) → Berlín nuevamente → París (FR). El Eurotrip terminó tras cuatro meses.',
+                't6_title': 'Nordeste de Brasil, 2024',
+                't6_p1': 'Un viaje que debía ser rápido a Salvador (BA) terminó extendiéndose por casi cincuenta días por el Nordeste. Pasé por Salvador (BA) → Maceió (AL) → Barra de Camaragibe (AL) → São Miguel dos Milagres (AL) → Maragogi (AL) → Praia de Tamandaré (PE) → Praia dos Carneiros (PE) → Porto de Galinhas (PE) → Recife (PE) → Olinda (PE) → Praia de Pipa (RN) → Natal (RN) → Fortaleza (CE) → Jericoacoara (CE) → Parnaíba (PI) → Barreirinhas (MA) → São Luís (MA).',
+                't6_p2': 'Tenía un pasaje comprado saliendo de Belém (PA), mas não faria sentido correr. Desde São Luís (MA), seguí en bus hasta Natal (RN), luego hacia Praia de Pipa (RN), donde me reencontré con Eloi, amigo francés que había conocido en Jericoacoara. Estuvimos una semana juntos y seguimos hacia João Pessoa (PB), desde donde volví a São Paulo (SP) para pasar Navidad en familia.',
+                't7_title': 'Foz do Iguaçu, octubre de 2024',
+                't7_p1': 'En octubre de 2024, hice un viaje corto de Sorocaba (SP) a Foz do Iguaçu (PR), ida y vuelta, para pasar cerca de una semana con Marcelo. Aunque ya había pasado por Foz dos veces anteriormente, esta fue la primera vez que logré parar de verdad. Finalmente visité las Cataratas del Iguazú y crucé la frontera para conocer Ciudad del Este (PY).',
+                't8_title': '2025',
+                't8_p1': 'Como explico en el <a href="2025-wrapped">Travel Nomad Wrapped 2025</a>, este fue un año en el que estuve en menos lugares, pero por más tiempo. Aun así, hice dos temporadas en Buenos Aires y dos viajes a Europa.',
+                'title_2026': '¿Qué esperar de 2026?',
+                'p1_2026': 'Principalmente un nuevo empleo.',
+                'p2_2026': 'En este momento, estoy enfocado en emprender un negocio propio, pero sigo abierto al trabajo remoto, oportunidades presenciales o proyectos temporales, modelo que terminó definiendo gran parte de 2025.',
+                'p3_2026': 'Independientemente del formato, sigo optimista con lo que viene.',
+                'stats_title': 'La jornada en números',
+                'stats_desc': 'Entre 2023 e 2025, pasé por cerca de treinta países, más de noventa ciudades y tres continentes. Argentina fue el país donde más estuve, con Buenos Aires funcionando como una base recurrente.',
+                'lbl_paises': 'Países',
+                'lbl_cidades': 'Ciudades',
+                'lbl_continentes': 'Continentes',
+                'related_title': 'Sigue Explorando',
+                'cat_lifestyle': 'Estilo de Vida',
+                'cat_wrapped': 'Retrospectiva',
+                'art_title_1': 'El Comienzo de una Jornada',
+                'art_title_2': 'Wrapped 2025: La Jornada',
+                'faq_title': 'Preguntas Frecuentes',
+                'faq_q1': '¿Cómo financias tus viajes?',
+                'faq_a1': 'Trabajo de forma remota como freelancer y productor de contenido. Además, los voluntariados (ayudar en hostels a cambio de cama y desayuno) ayudan a estirar el presupuesto por meses.',
+                'faq_q2': '¿Cuál es el mayor desafío de vivir sin casa fija?',
+                'faq_a2': 'Lidiar con la rutina de despedidas y la logística de salud. Después del susto con el dengue en Argentina, aprendí que el seguro de viaje y un fondo de emergencia son inegociables.',
+                'footer_copy': '© 2026 Diarios de un Nómada. Por Paco Sousa.'
+            },
+            'en': {
+                'meta_title': 'My Nomad Life: The Summary (2023-2025) | Nomad Diaries',
+                'tag_lifestyle': 'Lifestyle',
+                'main_title': 'My Nomad Life: A General Summary (2023-2025)',
+                'author_line': 'By Paco Sousa • 10 min read • Written on 01/06/2026',
+                'intro_p': '<p>I have been traveling constantly since April 2023. Since then, I haven’t had a fixed home and I am always on the move. After living for two years in São Paulo (SP) and three years in Rio de Janeiro (RJ), these two cities, along with Sorocaba (SP) where I was born and where my family lives, ended up becoming part of my official return route. Everything else happens between comings and goings. My travels in recent years have generally taken place in periods of two to three months.</p>',
+                't1_title': 'Argentina 2023, part 1',
+                't1_p1': 'My first big trip lasted about two months, mainly through Argentina. In Chile, I visited <a href="primeira-viagem-santiago-chile">Santiago</a> → <a href="o-deserto-do-atacama">San Pedro de Atacama</a>.',
+                't1_p2': 'In Argentina, I went through <a href="salta">Salta</a> → San Miguel de Tucumán → Tafí del Valle → Termas de Río Hondo → Buenos Aires → San Carlos de Bariloche → San Martín de los Andes → Buenos Aires again → La Plata → Córdoba → Resistencia. In Paraguay, I was in Asunción. From Asunción, I went to Foz do Iguaçu (PR), but it was raining a lot. I ended up buying a bus ticket for the next day and returned to Sorocaba (SP).',
+                't2_title': 'Argentina 2023, part 2',
+                't2_p1': 'The first part served as a test to see if I could travel and work at the same time. Since it worked and I wanted to continue, I officially left my apartment in Rio de Janeiro (RJ) and went back on the road. This was still in 2023, when the Argentine peso was heavily devalued, which made the decision to stay longer in the country much easier.',
+                't2_p2': 'I visited Buenos Aires → San Miguel de Tucumán → Córdoba → Cosquín → Villa Carlos Paz → Villa General Belgrano → San Miguel de Tucumán again → Buenos Aires → Mar del Plata → Bahía Blanca → Puerto Madryn → Puerto Pirámides → Península Valdés → Esquel → Trevelin → Buenos Aires once more.',
+                't2_note': 'Notice that, by this point, Buenos Aires had become my home in Argentina. Since the first trip, it was where I always returned and where I started building a community, finding the places I liked most, etc. This greatly impacted future decisions to go back there.',
+                't2_p3': 'Mid-trip, I took a vacation. My friend Carol met me in Buenos Aires and we traveled together to Mendoza (AR) → Santiago (CH) → Montevideo (UY), returning to Buenos Aires afterward. After a period of rest, I headed back to Patagonia, visiting Ushuaia → Río Gallegos → El Calafate → El Chaltén, before returning to Buenos Aires. In December, I spent two weeks in Paraguay, in Asunción, visiting Marcelo, whom I had met on the previous trip. From there, I returned to Brazil, closing this second season.',
+                't3_title': 'Brazilian Summer, early 2024',
+                't3_p1': 'The fact of not having a fixed home and living away from my parents’ house for years makes me feel a bit like a visitor there (plus the screaming kids and the heat). Because of this, after a short time, I already feel like traveling again.',
+                't3_p2': 'Right at the beginning of the year, I took a short trip to Ilhabela (SP), where I stayed for a few days with friends. Then came the main event of the period, Carnival in Rio de Janeiro (RJ). My friend Lauren, an American I met in Atacama, came to spend Carnival with me. After intense days, we planned a rest in Florianópolis (SC). As usual, I hadn’t bought a return ticket and, at the last minute, I got one leaving from Curitiba (PR). I went from Florianópolis → Curitiba → Sorocaba (SP).',
+                't4_title': 'Argentina 2024',
+                't4_p1': 'Once again, not wanting to stay still, missing Argentina and with the excuse of going to Lollapalooza Argentina, I went back. I visited Buenos Aires → San Miguel de Tucumán → San Salvador de Jujuy → Purmamarca → Salta → San Miguel de Tucumán again → Buenos Aires.',
+                't4_p2': 'This trip ended badly. I hadn’t hired travel insurance and ended up catching dengue. With hospitals overcrowded in Buenos Aires, I bought a ticket for the next day to Puerto Iguazú, crossed the border, and was treated in Foz do Iguaçu (PR). I spent two days feeling very sick in a hotel room and then managed to return to Sorocaba (SP) to recover. In about twenty days, my first Eurotrip would begin.',
+                't5_title': 'Europe 2024',
+                't5_p1': 'I went to Europe without a return ticket and without a set date to come back. The idea era aproveitar ao máximo. I visited Lisbon (PT) → Madrid (ES) → Barcelona (ES) → Paris (FR) → Berlin (DE) → Prague (CZ) → Brno (CZ) → Linz (AT) → Salzburg (AT) → Budapest (HU) → Skopje (MK) → Thessaloniki (GR) → Athens (GR) → Chios (GR).',
+                't5_p2': 'From Chios, I headed to Turkey, where I spent about a month between Izmir → Istanbul → Göreme → Avanos → Nevşehir → Antalya, returning to Istanbul afterward. After that, I returned to Eastern Europe, visiting Bucharest (RO) → Brașov (RO) → Prejmer (RO) → Bran (RO) → Bucharest again → Sofia (BG) → Skopje (MK) → Pristina (XK) → Tirana (AL) → Podgorica (ME) → Sarajevo (BA) → Dubrovnik (HR). It was in Dubrovnik that I decided to return to Brazil. I bought a ticket leaving from Paris twenty days later. In that interval, I visited Poznań (PL) → Berlin again → Paris (FR). The Eurotrip ended after four months.',
+                't6_title': 'Northeast Brazil, 2024',
+                't6_p1': 'A trip that was supposed to be a quick visit to Salvador (BA) ended up lasting almost fifty days through the Northeast. I visited Salvador (BA) → Maceió (AL) → Barra de Camaragibe (AL) → São Miguel dos Milagres (AL) → Maragogi (AL) → Praia de Tamandaré (PE) → Praia dos Carneiros (PE) → Porto de Galinhas (PE) → Recife (PE) → Olinda (PE) → Pipa Beach (RN) → Natal (RN) → Fortaleza (CE) → Jericoacoara (CE) → Parnaíba (PI) → Barreirinhas (MA) → São Luís (MA).',
+                't6_p2': 'I had a ticket bought leaving from Belém (PA), but it didn’t make sense to rush. From São Luís (MA), I took a bus to Natal (RN), then to Pipa Beach (RN), where I reunited with Eloi, a French friend I met in Jericoacoara. We stayed together for a week and headed to João Pessoa (PB), from where I returned to São Paulo (SP) to spend Christmas with family.',
+                't7_title': 'Foz do Iguaçu, October 2024',
+                't7_p1': 'In October 2024, I took a short round-trip from Sorocaba (SP) to Foz do Iguaçu (PR) to spend about a week with Marcelo. Although I had passed through Foz twice before, this was the first time I actually stopped. I finally visited the Iguaçu Falls and crossed the border to visit Ciudad del Este (PY).',
+                't8_title': '2025',
+                't8_p1': 'As I explain in the <a href="2025-wrapped">Travel Nomad Wrapped 2025</a>, this was a year where I visited fewer locations but stayed longer. Even so, I had two seasons in Buenos Aires and two trips to Europe.',
+                'title_2026': 'What to expect in 2026?',
+                'p1_2026': 'Mainly a new job.',
+                'p2_2026': 'Currently, I am focused on starting my own business, but I remain open to remote work, on-site opportunities, or temporary projects, a model that defined much of 2025.',
+                'p3_2026': 'Regardless of the format, I remain optimistic about what lies ahead.',
+                'stats_title': 'The journey in numbers',
+                'stats_desc': 'Between 2023 and 2025, I traveled through about thirty countries, more than ninety cities, and three continents. Argentina was the country where I spent the most time, with Buenos Aires serving as a recurring base.',
+                'lbl_paises': 'Countries',
+                'lbl_cidades': 'Cities',
+                'lbl_continentes': 'Continents',
+                'related_title': 'Keep Exploring',
+                'cat_lifestyle': 'Lifestyle',
+                'cat_wrapped': 'Retrospective',
+                'art_title_1': 'The Beginning of a Journey',
+                'art_title_2': 'Wrapped 2025: The Journey',
+                'faq_title': 'Frequently Asked Questions',
+                'faq_q1': 'How do you finance your travels?',
+                'faq_a1': 'I work remotely as a freelancer and content producer. Additionally, volunteering (helping at hostels in exchange for bed and breakfast) helps stretch the budget for months.',
+                'faq_q2': 'What is the biggest challenge of living without a fixed home?',
+                'faq_a2': 'Dealing with the routine of goodbyes and health logistics. After the dengue scare in Argentina, I learned that travel insurance and an emergency fund are non-negotiable.',
+                'footer_copy': '© 2026 Nomad Diaries. By Paco Sousa.'
+            }
+        };
+
+        window.changeLanguage = function(lang) {
+            if (window.updateNavTranslations) window.updateNavTranslations(lang);
+            const elements = document.querySelectorAll('[id]');
+            elements.forEach(el => {
+                const id = el.id;
+                if (translations[lang] && translations[lang][id]) {
+                    el.innerHTML = translations[lang][id];
+                }
+            });
+            document.documentElement.lang = lang;
+        };
+
+        window.openLightbox = function(src) {
+            const modal = document.getElementById('lightbox-modal');
+            const img = document.getElementById('lightbox-img');
+            img.src = src;
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        };
+
+        window.closeLightbox = function() {
+            document.getElementById('lightbox-modal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('paco_blog_lang') || 'pt';
+            window.changeLanguage(savedLang);
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') window.closeLightbox();
+            });
+        });
+    </script>
+</body>
+</html>

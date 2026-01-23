@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Post 4:5 - Paco Sousa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Biblioteca para capturar o screenshot -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #1a1a1a;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Formato Vertical Instagram 4:5 (1080x1350) */
+        .instagram-post {
+            width: 1080px;
+            height: 1350px;
+            background-color: #000000;
+            position: relative;
+            /* Padding ajustado para o formato vertical */
+            padding: 160px 140px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        .text-accent-red { color: #FF3366; }
+
+        /* Estilo do Botão de Download (não sai na foto) */
+        .download-btn {
+            margin-bottom: 30px;
+            background-color: #FF3366;
+            color: white;
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            box-shadow: 0 10px 15px -3px rgba(255, 51, 102, 0.3);
+            z-index: 100;
+        }
+        .download-btn:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.1);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Botão de Ação -->
+    <button class="download-btn" onclick="savePost()">Salvar Imagem (4:5 High Res)</button>
+
+    <div id="paco-post" class="instagram-post">
+        
+        <!-- Header -->
+        <div class="mb-20 text-left">
+            <h1 class="text-6xl font-black italic tracking-tighter text-white mb-6">
+                Diários de um Nômade
+            </h1>
+            <p class="text-accent-red text-2xs font-bold uppercase tracking-[0.25em]">
+                Sorocaba, Brasil. 17 de Janeiro de 2026.
+            </p>
+        </div>
+
+        <!-- Conteúdo: Mantendo a organização original -->
+        <div class="flex flex-col space-y-9 text-left">
+            
+            <p class="text-gray-400 text-[30px] leading-relaxed">
+                Já se passaram quase três anos desde que decidi viver como nômade.
+            </p>
+            
+            <p class="text-gray-400 text-[30px] leading-relaxed">
+                Vou seguir assim? Ainda é incerto.
+            </p>
+
+            <p class="text-gray-400 text-[30px] leading-relaxed">
+                Independentemente do que vem pela frente, finalmente resolvi começar a escrever as minhas memórias.
+            </p>
+
+            <p class="text-gray-400 text-[30px] leading-relaxed">
+                Mais do que guias sobre lugares, são tentativas de relembrar, com algum detalhe, o que vivi.
+            </p>
+
+            <p class="text-gray-400 text-[30px] leading-relaxed">
+                O que fiz.
+            </p>
+
+            <p class="text-gray-400 text-[30px] leading-relaxed">
+                Retalhos da memória. 
+            </p>
+
+            <!-- Bloco final unificado -->
+            <p class="text-gray-400 text-[30px] leading-relaxed">
+                Um diário de bordo, que nasce depois de anos de estrada. <i>A posteriori</i>. Quero ajudar aqueles que visitam os lugares por onde passei, mas também contar tudo o que passei nesses lugares.
+            </p>
+
+        </div>
+
+        <!-- Brilho subtil de canto (opcional, removível se quiseres preto absoluto puro) -->
+        <div class="absolute -bottom-20 -right-20 w-96 h-96 bg-[#FF3366]/5 blur-[120px] rounded-full"></div>
+    </div>
+
+    <script>
+        function savePost() {
+            const element = document.getElementById('paco-post');
+            const btn = document.querySelector('.download-btn');
+            
+            btn.innerText = "A gerar imagem...";
+            btn.style.opacity = "0.5";
+
+            // Captura em escala 2 para garantir nitidez extrema em ecrãs Retina/High-DPI
+            html2canvas(element, {
+                scale: 2,
+                backgroundColor: "#000000",
+                logging: false,
+                useCORS: true,
+                width: 1080,
+                height: 1350
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'paco-sousa-post-vertical.png';
+                link.href = canvas.toDataURL('image/png', 1.0);
+                link.click();
+                
+                btn.innerText = "Salvar Imagem (4:5 High Res)";
+                btn.style.opacity = "1";
+            });
+        }
+    </script>
+
+</body>
+</html>

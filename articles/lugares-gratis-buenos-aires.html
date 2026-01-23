@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Guia completo de lugares gratuitos para visitar em Buenos Aires. Dicas reais de Paco Sousa para economizar na capital argentina.">
+    <meta name="author" content="Paco Sousa">
+    <meta name="revised" content="Paco Sousa, 16/01/2026">
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Lugares Gratuitos para Visitar em Buenos Aires | Diários de um Nômade">
+    <meta property="og:description" content="Guia completo de lugares gratuitos para visitar em Buenos Aires. Dicas reais de Paco Sousa para economizar na capital argentina.">
+    <meta property="og:url" content="https://pacosousa.com/articles/lugares-gratis-buenos-aires">
+    <meta property="og:image" content="https://pacosousa.com/images/capa-buenos-aires-gratis.webp">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Lugares Gratuitos para Visitar em Buenos Aires | Diários de um Nômade">
+    <meta name="twitter:description" content="Guia completo de lugares gratuitos para visitar em Buenos Aires. Dicas reais de Paco Sousa para economizar na capital argentina.">
+    <meta name="twitter:image" content="https://pacosousa.com/images/capa-buenos-aires-gratis.webp">
+
+    <!-- SEO & Favicon -->
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="canonical" href="https://pacosousa.com/articles/lugares-gratis-buenos-aires">
+
+    <title id="meta_title">Lugares Gratuitos para Visitar em Buenos Aires | Diários de um Nômade</title>
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-88CEX3DZ05"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-88CEX3DZ05');
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Poppins:wght@400;700;800&display=swap" rel="stylesheet">
+    <script src="../js/menu.js"></script>
+    <script type="module" src="../js/comments.js"></script>
+
+    <style>
+      :root {
+        --bg-main: #0D0D0D; --text-main: #F0F0F0; --card-bg: #161616; 
+        --accent-primary: #FF3366; --accent-secondary: #6633FF; --accent-tertiary: #4DD0E1; 
+      }
+      body { font-family: 'Inter', sans-serif; background-color: var(--bg-main); color: var(--text-main); }
+      h1, h2, h3, h4 { font-family: 'Poppins', sans-serif; }
+      
+      .drop-cap::first-letter { font-family: 'Poppins', sans-serif; font-size: 5rem; font-weight: 800; float: left; margin-right: 0.75rem; line-height: 0.8; color: var(--accent-primary); }
+      .article-content p { margin-bottom: 1.5rem; line-height: 1.8; color: #BBB; font-size: 1.1rem; }
+      .article-content h2 { color: var(--accent-primary); font-weight: 800; font-size: 1.8rem; margin-top: 4rem; margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: -0.02em; }
+      
+      .mini-gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin: 2.5rem 0; }
+      @media (min-width: 768px) { .mini-gallery { grid-template-columns: repeat(4, 1fr); } }
+
+      .mini-photo { 
+        position: relative; border-radius: 1.5rem; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); 
+        transition: all 0.5s ease; cursor: zoom-in; background: #1a1a1a; aspect-ratio: 9/16;
+      }
+      .mini-photo:hover { transform: translateY(-10px); border-color: var(--accent-primary); box-shadow: 0 10px 30px rgba(255, 51, 102, 0.2); }
+      .mini-photo img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s ease; }
+      .mini-photo:hover img { transform: scale(1.1); }
+
+      .summary-box { background: rgba(255, 51, 102, 0.03); border: 2px dashed var(--accent-primary); padding: 2.5rem; border-radius: 2rem; margin-top: 4rem; }
+      
+      #lightbox-modal { display: none; position: fixed; inset: 0; z-index: 1000; background-color: rgba(0, 0, 0, 0.95); backdrop-filter: blur(10px); align-items: center; justify-content: center; cursor: zoom-out; }
+      #lightbox-modal img { max-width: 90%; max-height: 90vh; border-radius: 1.5rem; object-fit: contain; }
+
+      .related-card { background: var(--card-bg); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 1.5rem; transition: all 0.4s ease; overflow: hidden; }
+      .related-card:hover { border-color: var(--accent-primary); transform: translateY(-5px); }
+    </style>
+</head>
+<body>
+    <header id="main-header" class="sticky top-0 z-50"></header>
+
+    <header class="relative w-full h-[65vh] flex items-end justify-center overflow-hidden pt-24 group">
+        <div class="absolute inset-0 bg-cover bg-center z-0 transform group-hover:scale-105 transition-transform duration-[20s]" 
+              style="background-image: url('../images/capa-buenos-aires-gratis.webp');">
+        </div>
+        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent z-10"></div>
+        <div class="relative z-20 container mx-auto px-6 pb-16 max-w-4xl text-center">
+            <span id="category_tag" class="inline-block py-1 px-3 rounded-full bg-[var(--accent-primary)]/20 text-[var(--accent-primary)] text-xs font-bold tracking-widest uppercase mb-4 border border-[var(--accent-primary)] backdrop-blur-sm">Roteiro de Graça</span>
+            <h1 class="text-4xl md:text-6xl font-extrabold text-white leading-tight mb-4 tracking-tight italic" id="main_title">Lugares Gratuitos para Visitar em Buenos Aires</h1>
+            <div class="flex items-center justify-center gap-3 text-stone-200 text-sm font-medium">
+                <img src="../images/foto-perfil.webp" onerror="this.src='https://api.dicebear.com/7.x/avataaars/svg?seed=Paco'" alt="Paco Sousa" class="w-8 h-8 rounded-full border-2 border-[var(--accent-primary)] object-cover">
+                <span id="author_line" class="text-white">Por Paco Sousa • 6 min de leitura • Atualizado em 03/01/2026</span>
+            </div>
+        </div>
+
+    <!-- ADIÇÕES MANUAIS SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://pacosousa.com/articles/lugares-gratis-buenos-aires"
+    },
+      "headline": "Lugares Gratuitos para Visitar em Buenos Aires | Diários de um Nômade",
+      "description": "Guia completo de lugares gratuitos para visitar em Buenos Aires. Dicas reais de Paco Sousa para economizar na capital argentina.",
+      "image": {
+      "@type": "ImageObject",
+      "url": "https://pacosousa.com/images/capa-buenos-aires-gratis.webp",
+      "width": 2364,
+      "height": 1330
+    },
+      "author": {
+      "@type": "Person",
+      "name": "Paco Sousa",
+      "url": "https://pacosousa.com/"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Diários de um Nômade",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://pacosousa.com/images/logo-blog.webp",
+        "width": 1024,
+        "height": 1024
+      }
+    },
+    "datePublished": "2026-01-16",
+    "dateModified": "2026-01-16",
+  }
+  </script>
+
+    </header>
+
+    <main class="pb-24 px-4">
+        <article class="container mx-auto max-w-4xl article-content mt-20">
+            <p id="intro_p" class="drop-cap"></p>
+
+            <h2 id="sec1_title"></h2>
+            <p id="sec1_p1"></p>
+            <p id="sec1_p2"></p>
+            <div class="mini-gallery">
+                <div class="mini-photo"><img src="../images/buenos-aires/ba-obelisco-1.webp" alt="Obelisco em Buenos Aires" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/buenos-aires/ba-obelisco-2.webp" alt="Casa de Tango em Buenos Aires" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/buenos-aires/ba-obelisco-3.webp" alt="Obelisco em Buenos Aires" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/buenos-aires/ba-obelisco-4.webp" alt="Av. Corrientes em Buenos Aires" onclick="openLightbox(this.src)"></div>
+            </div>
+
+            <h2 id="sec2_title"></h2>
+            <p id="sec2_p1"></p>
+
+            <h2 id="sec3_title"></h2>
+            <p id="sec3_p1"></p>
+            
+            <h2 id="sec4_title"></h2>
+            <p id="sec4_p1"></p>
+            <div class="mini-gallery">
+                <div class="mini-photo"><img src="../images/buenos-aires/ba-plazamayo-1.webp" alt="Casa Rosada em Buenos Aires" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/buenos-aires/ba-plazamayo-2.webp" alt="Catedral de Buenos Aires" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/buenos-aires/ba-plazamayo-3.webp" alt="Casa Rosada em Buenos Aires" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/buenos-aires/ba-plazamayo-4.webp" alt="Solidariedade à morte do Papa Francisco em Buenos Aires" onclick="openLightbox(this.src)"></div>
+            </div>
+
+            <h2 id="sec5_title"></h2>
+            <p id="sec5_p1"></p>
+            <div class="mini-gallery">
+                <div class="mini-photo"><img src="../images/buenos-aires/ba-santelmo-1.webp" alt="Banco da Mafalda em Buenos Aires" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/buenos-aires/ba-santelmo-2.webp" alt="Murga em San Telmo, em Buenos Aires" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/buenos-aires/ba-santelmo-3.webp" alt="Mercado de San Telmo, em Buenos Aires" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/buenos-aires/ba-santelmo-4.webp" alt="Galeria em San Telmo, em Buenos Aires" onclick="openLightbox(this.src)"></div>
+            </div>
+
+            <h2 id="sec6_title"></h2>
+            <p id="sec6_p1"></p>
+            <div class="mini-gallery">
+                <div class="mini-photo"><img src="../images/buenos-aires/ba-puertomadero-1.webp" alt="Vista de Puerto Madero, em Buenos Aires" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/buenos-aires/ba-puertomadero-2.webp" alt="Vista de Puerto Madero, em Buenos Aires" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/buenos-aires/ba-puertomadero-3.webp" alt="Puente de la Mujer em Buenos Aires" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/buenos-aires/ba-puertomadero-4.webp" alt="Vista de Puerto Madero, em Buenos Aires" onclick="openLightbox(this.src)"></div>
+            </div>
+
+            <h2 id="sec7_title"></h2>
+            <p id="sec7_p1"></p>
+            <div class="mini-gallery">
+                <div class="mini-photo"><img src="../images/buenos-aires/ba-recoleta-1.webp" alt="Biblioteca Ateneo em Buenos Aires" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/buenos-aires/ba-recoleta-2.webp" alt="Faculdad de Derecho, em Buenos Aires" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/buenos-aires/ba-recoleta-3.webp" alt="Um hotel, em Buenos Aires" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/buenos-aires/ba-recoleta-4.webp" alt="Floralis Generica, em Buenos Aires" onclick="openLightbox(this.src)"></div>
+            </div>
+
+            <h2 id="sec8_title"></h2>
+            <p id="sec8_p1"></p>
+            <div class="mini-gallery">
+                <div class="mini-photo"><img src="../images/buenos-aires/ba-palermo-1.webp" alt="Rosedal em Palermo, Buenos Aires" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/buenos-aires/ba-palermo-2.webp" alt="Jockey Club em Palermo, Buenos Aires" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/buenos-aires/ba-palermo-3.webp" alt="Palermo, em Buenos Aires" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/buenos-aires/ba-palermo-4.webp" alt="Palermo, em Buenos Aires" onclick="openLightbox(this.src)"></div>
+            </div>
+
+            <h2 id="sec9_title"></h2>
+            <p id="sec9_p1"></p>
+            <div class="mini-gallery">
+                <div class="mini-photo"><img src="../images/buenos-aires/ba-caminito-1.webp" alt="La Bombonera, em Buenos Aires" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/buenos-aires/ba-caminito-2.webp" alt="El Caminito, em Buenos Aires" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/buenos-aires/ba-caminito-3.webp" alt="El Caminito, em Buenos Aires" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/buenos-aires/ba-caminito-4.webp" alt="El Caminito, em Buenos Aires" onclick="openLightbox(this.src)"></div>
+            </div>
+
+            <h2 id="sec10_title"></h2>
+            <p id="sec10_p1"></p>
+            <div class="mini-gallery">
+                <div class="mini-photo"><img src="../images/buenos-aires/ba-tigre-1.webp" alt="A Cidade de Tigre, em Buenos Aires" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/buenos-aires/ba-tigre-2.webp" alt="Delta do Rio Tigre, em Buenos Aires" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/buenos-aires/ba-tigre-3.webp" alt="Delta do Rio Tigre, em Buenos Aires" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/buenos-aires/ba-tigre-4.webp" alt="Delta do Rio Tigre, em Buenos Aires" onclick="openLightbox(this.src)"></div>
+            </div>
+
+            <h2 id="sec11_title"></h2>
+            <p id="sec11_p1"></p>
+            <p id="sec11_p2"></p>
+            <p id="sec11_p3"></p>
+
+            <h2 id="conc_title"></h2>
+            <p id="conc_p1"></p>
+
+            <div class="summary-box">
+                <h3 id="summary_title" style="margin-top: 0; color: var(--accent-primary);"></h3>
+                <ul class="space-y-3 text-sm md:text-base">
+                    <li id="sum_l1"></li><li id="sum_l2"></li><li id="sum_l3"></li><li id="sum_l4"></li><li id="sum_l5"></li>
+                </ul>
+            </div>
+
+            <!-- RELACIONADOS (ANTES DA FAQ) -->
+            <section class="mt-32 pt-20 border-t border-white/10">
+                <h2 id="related_title" class="text-3xl font-black mb-10 italic">Continue Explorando</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <a href="argentina-realidade-economica" class="related-card group block">
+                        <div class="h-48 bg-cover bg-center group-hover:scale-105 transition-transform duration-500" style="background-image: url('../images/capa-argentina-economia.webp');"></div>
+                        <div class="p-8">
+                            <span class="text-[var(--accent-primary)] text-[10px] font-bold uppercase tracking-widest mb-2 block" id="rel_cat_1"></span>
+                            <h4 class="text-xl font-bold text-white group-hover:text-[var(--accent-primary)] transition-colors" id="rel_title_1"></h4>
+                        </div>
+                    </a>
+                    <a href="o-comeco-de-uma-jornada" class="related-card group block">
+                        <div class="h-48 bg-cover bg-center group-hover:scale-105 transition-transform duration-500" style="background-image: url('../images/capa-jornada.webp');"></div>
+                        <div class="p-8">
+                            <span class="text-[var(--accent-secondary)] text-[10px] font-bold uppercase tracking-widest mb-2 block" id="rel_cat_2"></span>
+                            <h4 class="text-xl font-bold text-white group-hover:text-[var(--accent-secondary)] transition-colors" id="rel_title_2"></h4>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- FAQ -->
+            <section class="mt-32 pt-20 border-t border-white/10">
+                <h2 id="faq_title" class="text-3xl font-black mb-12 text-center italic">Dúvidas Frequentes</h2>
+                <div class="space-y-4">
+                    <details class="bg-[var(--card-bg)] p-6 rounded-2xl border border-white/5 cursor-pointer group">
+                        <summary class="font-bold text-lg group-hover:text-[var(--accent-primary)] transition-colors list-none flex justify-between items-center">
+                            <span id="faq_q1"></span><span class="text-[var(--accent-primary)]">+</span>
+                        </summary>
+                        <p id="faq_a1" class="mt-4 text-gray-400 leading-relaxed"></p>
+                    </details>
+                    <details class="bg-[var(--card-bg)] p-6 rounded-2xl border border-white/5 cursor-pointer group">
+                        <summary class="font-bold text-lg group-hover:text-[var(--accent-primary)] transition-colors list-none flex justify-between items-center">
+                            <span id="faq_q2"></span><span class="text-[var(--accent-primary)]">+</span>
+                        </summary>
+                        <p id="faq_a2" class="mt-4 text-gray-400 leading-relaxed"></p>
+                    </details>
+                </div>
+            </section>
+        </article>
+    </main>
+
+    <div id="lightbox-modal" onclick="closeLightbox()"><img id="lightbox-img" src="" alt=""></div>
+
+    <script>
+        const translations = {
+            'pt': {
+                'meta_title': 'Lugares Gratuitos em Buenos Aires | Diários de um Nômade',
+                'main_title': 'Lugares Gratuitos para Visitar em Buenos Aires',
+                'category_tag': 'Roteiro de Graça',
+                'author_line': 'Por Paco Sousa • 6 min de leitura • Atualizado em 03/01/2026',
+                'intro_p': 'Apesar dos altos preços, Buenos Aires ainda oferece uma infinidade de atrações gratuitas ou de baixo custo — perfeitas pra quem quer explorar a cidade com autenticidade, sem esvaziar o bolso. O melhor jeito de montar seu roteiro é dividir os pontos turísticos por região. Neste post, trago os principais lugares gratuitos (ou quase) para visitar, com comentários reais de quem já bateu muita perna por lá.',
+                'sec1_title': 'Obelisco e Avenida Corrientes',
+                'sec1_p1': 'Uma visita à Argentina quase sempre começa no clássico Obelisco, localizado no cruzamento da Av. 9 de Julio com a Av. Corrientes. É símbolo da cidade, embora muitos argentinos considerem que existam ícones mais representativos. Em frente, há as famosas letras "BA" — dica: evite a fila e tire a foto de um ângulo lateral, enquanto as pessoas estão se revezando. Não é furar fila, é jogo de cintura.',
+                'sec1_p2': 'À noite, a Av. Corrientes vira uma mini Broadway portenha, com teatros e fachadas iluminadas. Tem algo nessa região que sempre me lembra pizza e sorvete — talvez seja o clima boêmio ou a fome depois das caminhadas.',
+                'sec2_title': 'Teatro Colón',
+                'sec2_p1': 'A duas quadras do Obelisco está o belíssimo Teatro Colón, uma das casas de ópera mais importantes do mundo. Eu nunca fiz a visita guiada (é paga), mas amigos que foram disseram que compensa mais comprar ingresso para um espetáculo. A experiência é mais completa e os ingressos começam a partir de valores acessíveis. Só compre com antecedência — esgota rápido.',
+                'sec3_title': 'Microcentro e Calle Florida',
+                'sec3_p1': 'O coração comercial da cidade. O Microcentro é onde fica a famosa Calle Florida, cheia de lojas, artistas de rua e locais para trocar dinheiro. Cuidado com notas falsas — como no Brasil, dá pra identificar pelas marcas de segurança. A região mistura arquitetura clássica, movimento intenso e bons preços para almoço. Mas atenção: furtos aumentaram nos últimos anos, então vale redobrar os cuidados com pertences.',
+                'sec4_title': 'Plaza de Mayo, Catedral e Casa Rosada',
+                'sec4_p1': 'A Plaza de Mayo é o marco histórico e político de Buenos Aires. Ali estão a Casa Rosada, sede do governo argentino; a Catedral Metropolitana, onde o Papa Francisco celebrava missas; e o Cabildo, que abriga um museu histórico. Dentro da Catedral está o mausoléu de San Martín, figura central da independência argentina. A cada duas horas ímpares, rola a troca de guarda — e vale assistir.',
+                'sec5_title': 'San Telmo',
+                'sec5_p1': 'Do lado da Plaza de Mayo, o bairro de San Telmo respira tradição. Aos domingos, a feira de antiguidades toma conta da região — é uma bagunça deliciosa. Tem de tudo: discos, objetos antigos, comida de rua e muito tango. Os destaques são o Mercado de San Telmo e a estátua da Mafalda. Se quiser evitar multidão, visite em outro dia da semana. Eu sempre evito domingo, especialmente pra comer no mercado ou tirar foto com a Mafalda — não tenho paciência pra fila.',
+                'sec6_title': 'Puerto Madero',
+                'sec6_p1': 'Bairro moderno, elegante e à beira do rio, Puerto Madero é lindo — e caro. A Puente de la Mujer é seu ícone arquitetônico. Minha dica é ir no fim da tarde, caminhar, levar sua própria bebida e aproveitar o pôr do sol. O visual compensa.',
+                'sec7_title': 'Recoleta',
+                'sec7_p1': 'O principal ponto turístico é o Cemitério da Recoleta, onde está enterrada Evita Perón. Bonito? É. Mas vale mais a pena com guia. A entrada é paga e só aceita cartão. Ao redor tem muita coisa boa e gratuita: o Centro Cultural Recoleta, o Museu Nacional de Belas Artes, a Faculdade de Direito e a famosa Floralis Genérica.',
+                'sec8_title': 'Palermo',
+                'sec8_p1': 'É o meu bairro favorito, sem dúvida. Palermo é arborizado, jovem e cheio de vida. Nos Bosques de Palermo, você encontra o Rosedal, o Planetário Galileu Galilei, o Parque Ecológico, o Jardim Botânico e o Jardim Japonês (entrada paga). Mais afastado está o MALBA (que abriga o Abaporu). À noite, Palermo ferve: tem muitos bares e baladas, sendo a Praça Serrano em Palermo Soho o ponto principal.',
+                'sec9_title': 'La Boca',
+                'sec9_p1': 'O bairro La Boca é puro charme. As casas coloridas do Caminito são o cenário clássico da cidade. O La Bombonera, estádio do Boca Juniors, também está lá. Se você ama futebol, uma foto na frente já cumpre o papel. E atenção: casais dançando tango na rua vão te convidar pra foto — que depois será cobrada.',
+                'sec10_title': 'Tigre',
+                'sec10_p1': 'Tigre é um clássico bate-volta a partir de Buenos Aires. A cidade é famosa pelos passeios de barco no delta do rio. Os passeios básicos são pagos. Já fiz um que incluía almoço e achei furada: comida ruim e preço alto. Melhor almoçar na cidade depois do passeio.',
+                'sec11_title': 'Extras Imperdíveis',
+                'sec11_p1': '<strong>Centro Cultural Kirchner (CCK):</strong> Um gigante prédio com diversas opções culturais gratuitas.',
+                'sec11_p2': '<strong>Congresso Nacional Argentino:</strong> Uma belíssima arquitetura que vale a visita.',
+                'sec11_p3': '<strong>La Plata:</strong> Se tiver tempo, visite esta cidade na região metropolitana, com a maior catedral da América do Sul.',
+                'conc_title': 'Conclusão',
+                'conc_p1': 'Dá pra passar mais de uma semana em Buenos Aires só explorando lugares gratuitos ou baratinhos. É tudo uma questão de planejamento e disposição. Com esse roteiro, você economiza sem perder a essência da cidade.',
+                'summary_title': '📌 Check-list Buenos Aires Grátis',
+                'sum_l1': '• Obelisco e Corrientes (Melhor à noite)',
+                'sum_l2': '• Plaza de Mayo e Casa Rosada',
+                'sum_l3': '• San Telmo (Mafalda e Mercado)',
+                'sum_l4': '• Palermo (Rosedal e Bosques)',
+                'sum_l5': '• Caminito (Atenção com as fotos cobradas)',
+                'related_title': 'Continue Lendo',
+                'rel_cat_1': 'Análise', 'rel_title_1': 'Realidade Argentina 2026',
+                'rel_cat_2': 'Reflexão', 'rel_title_2': 'O Começo da Jornada',
+                'faq_title': 'Dúvidas Frequentes',
+                'faq_q1': 'Qual a melhor época para visitar de graça?',
+                'faq_a1': 'A primavera e o outono são perfeitos; o clima é ameno e os parques estão lindos.',
+                'faq_q2': 'É seguro caminhar à noite pela Corrientes?',
+                'faq_a2': 'Sim, é muito movimentada até tarde devido aos teatros. Mas mantenha atenção aos pertences.'
+            },
+            'es': {
+                'meta_title': 'Lugares Gratis en Buenos Aires | Diarios de un Nómada',
+                'main_title': 'Lugares Gratuitos para Visitar en Buenos Aires',
+                'category_tag': 'Ruta Gratis',
+                'author_line': 'Por Paco Sousa • 6 min de lectura • Actualizado el 03/01/2026',
+                'intro_p': 'A pesar de los altos precios, Buenos Aires todavía ofrece una infinidad de atracciones gratuitas o de bajo costo, perfectas para quienes quieren explorar la ciudad con autenticidad sin vaciar el bolsillo. La mejor manera de armar tu itinerario es dividir los puntos turísticos por región. En este post, presento los principales lugares gratuitos (o casi) para visitar, con comentarios reales de quien ya ha caminado mucho por allá.',
+                'sec1_title': 'Obelisco y Avenida Corrientes',
+                'sec1_p1': 'Una visita a Argentina casi siempre comienza en el clásico Obelisco, ubicado en el cruce de la Av. 9 de Julio con la Av. Corrientes. Es el símbolo de la ciudad, aunque muchos argentinos consideran que existen íconos más representativos. Enfrente están las famosas letras "BA" — consejo: evita la fila y toma la foto desde un ángulo lateral mientras la gente se turna. No es saltarse la fila, es ingenio.',
+                'sec1_p2': 'Por la noche, la Av. Corrientes se convierte en una mini Broadway porteña, con teatros y fachadas iluminadas. Hay algo en esta zona que siempre me recuerda a pizza y helado — tal vez sea el clima bohemio o el hambre después de las caminatas.',
+                'sec2_title': 'Teatro Colón',
+                'sec2_p1': 'A dos cuadras del Obelisco se encuentra el bellísimo Teatro Colón, una de las casas de ópera más importantes del mundo. Nunca hice la visita guiada (es de pago), pero amigos que fueron dijeron que compensa más comprar una entrada para un espectáculo. La experiencia es más completa y las entradas comienzan desde valores accesibles. Solo compra con anticipación — se agotan rápido.',
+                'sec3_title': 'Microcentro y Calle Florida',
+                'sec3_p1': 'El corazón comercial de la ciudad. El Microcentro es donde se encuentra la famosa Calle Florida, llena de tiendas, artistas callejeros y lugares para cambiar dinero. Cuidado con los billetes falsos — como en Brasil, se pueden identificar por las marcas de seguridad. La zona mezcla arquitectura clásica, movimiento intenso y buenos precios para el almuerzo. Pero atención: los hurtos aumentaron en los últimos años, por lo que vale redoblar los cuidados con las pertenencias.',
+                'sec4_title': 'Plaza de Mayo, Catedral y Casa Rosada',
+                'sec4_p1': 'La Plaza de Mayo es el hito histórico y político de Buenos Aires. Allí están la Casa Rosada, sede del gobierno argentino; la Catedral Metropolitana, donde el Papa Francisco celebraba misas; y el Cabildo, que alberga un museo histórico. Dentro de la Catedral está el mausoleo de San Martín, figura central de la independencia argentina. Cada dos horas impares, se realiza el cambio de guardia — y vale la pena verlo.',
+                'sec5_title': 'San Telmo',
+                'sec5_p1': 'Al lado de la Plaza de Mayo, el barrio de San Telmo respira tradición. Los domingos, la feria de antigüedades se apodera de la zona — es un caos delicioso. Hay de todo: discos, objetos antiguos, comida callejera y mucho tango. Los destacados son el Mercado de San Telmo y la estatua de Mafalda. Si quieres evitar multitudes, visita otro día de la semana. Siempre evito los domingos, especialmente para comer en el mercado o tomarse fotos con Mafalda — no tengo paciencia para las filas.',
+                'sec6_title': 'Puerto Madero',
+                'sec6_p1': 'Barrio moderno, elegante y a orillas del río, Puerto Madero es hermoso — y caro. El Puente de la Mujer es su ícono arquitectónico. Mi consejo es ir al final de la tarde, caminar, llevar tu propia bebida y disfrutar del atardecer. El paisaje lo compensa.',
+                'sec7_title': 'Recoleta',
+                'sec7_p1': 'El principal punto turístico es el Cementerio de la Recoleta, donde está enterrada Evita Perón. ¿Bonito? Lo es. Pero vale más la pena con guía. La entrada es de pago y solo acepta tarjeta. Alrededor hay muchas cosas buenas y gratuitas: el Centro Cultural Recoleta, el Museo Nacional de Bellas Artes, la Facultad de Derecho y la famosa Floralis Genérica.',
+                'sec8_title': 'Palermo',
+                'sec8_p1': 'Es mi barrio favorito, sin duda. Palermo es arbolado, joven y lleno de vida. En los Bosques de Palermo, encuentras el Rosedal, el Planetario Galileo Galilei, el Parque Ecológico, el Jardín Botánico y el Jardín Japonés (entrada de pago). Más alejado está el MALBA (que alberga el Abaporu). Por la noche, Palermo hierve: hay muchos bares y discotecas, siendo la Plaza Serrano en Palermo Soho el punto principal.',
+                'sec9_title': 'La Boca',
+                'sec9_p1': 'El barrio de La Boca es puro encanto. Las casas coloridas de Caminito son el escenario clásico de la ciudad. El La Bombonera, estadio de Boca Juniors, también está allí. Si amas el fútbol, una foto enfrente ya cumple el papel. Y atención: parejas bailando tango en la calle te invitarán para una foto — que luego será cobrada.',
+                'sec10_title': 'Tigre',
+                'sec10_p1': 'Tigre es una clásica escapada desde Buenos Aires. La ciudad es famosa por los paseos en barco por el delta del río. Los paseos básicos son de pago. Ya hice uno que incluía almuerzo y me pareció un engaño: comida mala y precio alto. Mejor almorzar en la ciudad después del paseo.',
+                'sec11_title': 'Extras Imperdibles',
+                'sec11_p1': '<strong>Centro Cultural Kirchner (CCK):</strong> Un gigante edificio gratuito.',
+                'sec11_p2': '<strong>Congreso Nacional Argentino:</strong> Arquitectura bellísima.',
+                'sec11_p3': '<strong>La Plata:</strong> Con la catedral más grande del continente.',
+                'conc_title': 'Conclusión',
+                'conc_p1': 'Se puede pasar más de una semana en Buenos Aires explorando solo lugares gratuitos o económicos. Todo es cuestión de planificación y disposición. Con este itinerario, ahorras sin perder la esencia de la ciudad.',
+                'summary_title': '📌 Check-list Buenos Aires Gratis',
+                'sum_l1': '• Obelisco y Corrientes (Mejor de noche)',
+                'sum_l2': '• Plaza de Mayo y Casa Rosada',
+                'sum_l3': '• San Telmo (Mafalda)',
+                'sum_l4': '• Palermo (Rosedal)',
+                'sum_l5': '• Caminito (Cuidado con las fotos)',
+                'related_title': 'Seguir Leyendo',
+                'rel_cat_1': 'Análisis', 'rel_title_1': 'Realidad Argentina 2026',
+                'rel_cat_2': 'Reflexión', 'rel_title_2': 'El Comienzo del Viaje',
+                'faq_title': 'Dudas Frequentes',
+                'faq_q1': '¿Cuál es la mejor época?',
+                'faq_a1': 'La primavera y el otoño son ideales por el clima.',
+                'faq_q2': '¿Es seguro caminar por Corrientes de noche?',
+                'faq_a2': 'Sí, es muy concurrida, pero mantén siempre tus pertenencias seguras.'
+            },
+            'en': {
+                'meta_title': 'Free Places in Buenos Aires | Nomad Diaries',
+                'main_title': 'Free Places to Visit in Buenos Aires',
+                'category_tag': 'Free Itinerary',
+                'author_line': 'By Paco Sousa • 6 min read • Updated on 01/03/2026',
+                'intro_p': 'Despite the high prices, Buenos Aires still offers a wealth of free or low-cost attractions — perfect for those who want to explore the city authentically without breaking the bank. The best way to build your itinerary is to divide the sights by region. In this post, I bring the main free (or almost free) places to visit, with real comments from someone who has already walked these streets many times.',
+                'sec1_title': 'Obelisk and Corrientes Avenue',
+                'sec1_p1': 'A visit to Argentina almost always starts at the classic Obelisk, located at the intersection of Av. 9 de Julio and Av. Corrientes. It is the symbol of the city, although many Argentines consider other icons more representative. In front, there are the famous "BA" letters — tip: avoid the line and take the photo from a side angle while people are taking turns. It\'s not cutting the line; it\'s being smart.',
+                'sec1_p2': 'At night, Av. Corrientes becomes a mini-Broadway, with theaters and illuminated facades. There\'s something about this area that always reminds me of pizza and ice cream — maybe it\'s the bohemian atmosphere or the hunger after the walks.',
+                'sec2_title': 'Teatro Colón',
+                'sec2_p1': 'Two blocks from the Obelisk is the beautiful Teatro Colón, one of the most important opera houses in the world. I have never done the guided tour (it\'s paid), but friends who went said it\'s more worth it to buy a ticket for a show. The experience is more complete and tickets start at affordable prices. Just buy in advance — they sell out fast.',
+                'sec3_title': 'Microcentro and Calle Florida',
+                'sec3_p1': 'The commercial heart of the city. Microcentro is where the famous Calle Florida is located, full of shops, street performers, and places to exchange money. Watch out for counterfeit bills — as in Brazil, they can be identified by security marks. The area mixes classical architecture, intense movement, and good prices for lunch. But beware: thefts have increased in recent years, so it\'s worth taking extra care with belongings.',
+                'sec4_title': 'Plaza de Mayo, Cathedral and Casa Rosada',
+                'sec4_p1': 'Plaza de Mayo is the historical and political landmark of Buenos Aires. There you will find the Casa Rosada, the seat of the Argentine government; the Metropolitan Cathedral, where Pope Francis used to celebrate masses; and the Cabildo, which houses a historical museum. Inside the Cathedral is San Martín\'s mausoleum, a central figure in Argentine independence. Every two odd hours, the changing of the guard takes place — and it\'s worth watching.',
+                'sec5_title': 'San Telmo',
+                'sec5_p1': 'Next to Plaza de Mayo, the San Telmo neighborhood breathes tradition. On Sundays, the antiques fair takes over the region — it\'s a delicious mess. There\'s everything: records, vintage objects, street food, and lots of tango. Highlights are the San Telmo Market and the Mafalda statue. If you want to avoid crowds, visit on another day of the week. I always avoid Sunday, especially to eat at the market or take a picture with Mafalda — I don\'t have the patience for lines.',
+                'sec6_title': 'Puerto Madero',
+                'sec6_p1': 'A modern, elegant neighborhood by the river, Puerto Madero is beautiful — and expensive. The Puente de la Mujer is its architectural icon. My tip is to go in the late afternoon, walk, bring your own drink, and enjoy the sunset. The view makes up for it.',
+                'sec7_title': 'Recoleta',
+                'sec7_p1': 'The main tourist spot is the Recoleta Cemetery, where Evita Perón is buried. Beautiful? Yes. But it\'s more worth it with a guide. The entrance is paid and only accepts cards. Around it there are many good and free things: the Recoleta Cultural Center, the National Museum of Fine Arts, the Law School, and the famous Floralis Genérica.',
+                'sec8_title': 'Palermo',
+                'sec8_p1': 'It is my favorite neighborhood, without a doubt. Palermo is wooded, young, and full of life. In the Palermo Woods, you will find the Rosedal, the Galileo Galilei Planetarium, the Ecological Park, the Botanical Garden, and the Japanese Garden (entrance fee). Further away is the MALBA (which houses the Abaporu). At night, Palermo buzzes: there are many bars and clubs, with Plaza Serrano in Palermo Soho being the main spot.',
+                'sec9_title': 'La Boca',
+                'sec9_p1': 'The La Boca neighborhood is pure charm. The colorful houses of Caminito are the classic scenery of the city. La Bombonera, Boca Juniors\' stadium, is also there. If you love football, a photo in front already does the job. And beware: couples dancing tango on the street will invite you for a photo — which will then be charged.',
+                'sec10_title': 'Tigre',
+                'sec10_p1': 'Tigre is a classic day trip from Buenos Aires. The city is famous for boat trips on the river delta. Basic trips are paid. I once did one that included lunch and thought it was a scam: bad food and high price. Better to have lunch in the city after the trip.',
+                'sec11_title': 'Must-See Extras',
+                'sec11_p1': '<strong>Kirchner Cultural Center (CCK):</strong> A giant free cultural building.',
+                'sec11_p2': '<strong>Argentine National Congress:</strong> Beautiful architecture.',
+                'sec11_p3': '<strong>La Plata:</strong> With the largest cathedral in South America.',
+                'conc_title': 'Conclusion',
+                'conc_p1': 'You can spend more than a week in Buenos Aires exploring only free places...',
+                'summary_title': '📌 Free Buenos Aires Checklist',
+                'sum_l1': '• Obelisk and Corrientes (Best at night)',
+                'sum_l2': '• Plaza de Mayo and Casa Rosada',
+                'sum_l3': '• San Telmo (Mafalda)',
+                'sum_l4': '• Palermo (Rosedal)',
+                'sum_l5': '• Caminito (Watch out for paid photos)',
+                'related_title': 'Keep Reading',
+                'rel_cat_1': 'Analysis', 'rel_title_1': 'Argentina Reality 2026',
+                'rel_cat_2': 'Reflection', 'rel_title_2': 'The Journey Begins',
+                'faq_title': 'Common Questions',
+                'faq_q1': 'Best time to visit for free?',
+                'faq_a1': 'Spring and autumn are perfect for walking.',
+                'faq_q2': 'Is Corrientes safe at night?',
+                'faq_a2': 'Yes, it is very busy and bright, but stay alert.'
+            }
+        };
+
+        window.changeLanguage = function(lang) {
+            if (window.updateNavTranslations) window.updateNavTranslations(lang);
+            const elements = document.querySelectorAll('[id]');
+            elements.forEach(el => {
+                const id = el.id;
+                if (translations[lang] && translations[lang][id]) {
+                    el.innerHTML = translations[lang][id];
+                }
+            });
+            document.documentElement.lang = lang;
+            localStorage.setItem('paco_blog_lang', lang);
+        };
+
+        window.openLightbox = function(src) {
+            const modal = document.getElementById('lightbox-modal');
+            const img = document.getElementById('lightbox-img');
+            img.src = src;
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        };
+
+        window.closeLightbox = function() {
+            document.getElementById('lightbox-modal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('paco_blog_lang') || 'pt';
+            window.changeLanguage(savedLang);
+            document.addEventListener('keydown', (e) => { if (e.key === 'Escape') window.closeLightbox(); });
+        });
+    </script>
+</body>
+</html>

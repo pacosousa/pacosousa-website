@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Lisboa e Sintra: 3 dias a pé | Diários de um Nômade">
+    <meta property="og:description" content="Roteiro completo de 3 dias em Lisboa e Sintra com preços atualizados. Dicas reais de Paco Sousa para explorar a capital portuguesa.">
+    <meta property="og:url" content="https://pacosousa.com/articles/lisboa-sintra-3-dias">
+    <meta property="og:image" content="https://pacosousa.com/images/capa-lisboa.webp">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Lisboa e Sintra: 3 dias a pé | Diários de um Nômade">
+    <meta name="twitter:description" content="Roteiro completo de 3 dias em Lisboa e Sintra com preços atualizados. Dicas reais de Paco Sousa para explorar a capital portuguesa.">
+    <meta name="twitter:image" content="https://pacosousa.com/images/capa-lisboa.webp">
+
+    <!-- SEO & Favicon -->
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="canonical" href="https://pacosousa.com/articles/lisboa-sintra-3-dias">
+
+    <title id="meta_title">Lisboa e Sintra: 3 dias a pé | Diários de um Nômade</title>
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://pacosousa.com/articles/lisboa-sintra-3-dias"
+      },
+      "headline": "Lisboa e Sintra: 3 dias a pé | Diários de um Nômade",
+      "description": "Roteiro completo de 3 dias em Lisboa e Sintra com preços atualizados. Dicas reais de Paco Sousa para explorar a capital portuguesa.",
+      "image": {
+        "@type": "ImageObject",
+        "url": "https://pacosousa.com/images/capa-lisboa.webp",
+        "width": 2364,
+        "height": 1330
+      },
+      "author": {
+        "@type": "Person",
+        "name": "Paco Sousa",
+        "url": "https://pacosousa.com/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Diários de um Nômade",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://pacosousa.com/images/logo-blog.webp",
+          "width": 1024,
+          "height": 1024
+        }
+      },
+      "datePublished": "2024-01-22",
+      "dateModified": "2026-01-22"
+    }
+    </script>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-88CEX3DZ05"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-88CEX3DZ05');
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Poppins:wght@400;700;800&display=swap" rel="stylesheet">
+    <script src="../js/menu.js"></script>
+
+    <style>
+      :root {
+        --bg-main: #0D0D0D; --text-main: #F0F0F0; --card-bg: #161616; 
+        --accent-primary: #FF3366; /* Vermelho Data */
+        --accent-tertiary: #4ADE80; /* Verde Portugal */
+      }
+      body { font-family: 'Inter', sans-serif; background-color: var(--bg-main); color: var(--text-main); }
+      h1, h2, h3, h4 { font-family: 'Poppins', sans-serif; }
+      
+      .drop-cap::first-letter { font-family: 'Poppins', sans-serif; font-size: 5rem; font-weight: 800; float: left; margin-right: 0.75rem; line-height: 0.8; color: var(--accent-tertiary); }
+      .article-content p { margin-bottom: 1.5rem; line-height: 1.8; color: #BBB; font-size: 1.1rem; }
+      .article-content h2 { color: var(--accent-tertiary); font-weight: 800; font-size: 1.8rem; margin-top: 4rem; margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: -0.02em; }
+      .article-content h3 { color: white; font-weight: 700; font-size: 1.3rem; margin-top: 2.5rem; margin-bottom: 1rem; }
+
+      .mini-gallery { display: grid; gap: 1rem; margin: 2.5rem 0; }
+      .gallery-grid-4 { grid-template-columns: repeat(2, 1fr); }
+      @media (min-width: 768px) { .gallery-grid-4 { grid-template-columns: repeat(4, 1fr); } }
+
+      .mini-photo { 
+        position: relative; border-radius: 1.5rem; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); 
+        transition: all 0.5s ease; cursor: zoom-in; background: #1a1a1a; aspect-ratio: 9/16;
+      }
+      .mini-photo:hover { transform: translateY(-10px); border-color: var(--accent-tertiary); box-shadow: 0 10px 30px rgba(74, 222, 128, 0.2); }
+      .mini-photo img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s ease; }
+      .mini-photo:hover img { transform: scale(1.1); }
+
+      /* Lightbox com Carrossel */
+      #lightbox-modal { display: none; position: fixed; inset: 0; z-index: 1000; background-color: rgba(0, 0, 0, 0.95); backdrop-filter: blur(10px); align-items: center; justify-content: center; cursor: zoom-out; }
+      #lightbox-modal img { max-width: 90%; max-height: 85vh; border-radius: 1.5rem; object-fit: contain; cursor: default; }
+      
+      .nav-btn { 
+        position: absolute; top: 50%; transform: translateY(-50%); 
+        background: rgba(255,255,255,0.05); color: white; border: 1px solid rgba(255,255,255,0.1);
+        width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+        cursor: pointer; transition: all 0.3s ease; z-index: 1010; font-size: 1.5rem;
+      }
+      .nav-btn:hover { background: var(--accent-tertiary); color: black; border-color: var(--accent-tertiary); transform: translateY(-50%) scale(1.1); }
+      #prev-btn { left: 20px; }
+      #next-btn { right: 20px; }
+      
+      #lightbox-counter { 
+        position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+        background: rgba(255,255,255,0.1); padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; color: white;
+      }
+
+      /* FAQ Accordion */
+      details.faq-item { background: rgba(255,255,255,0.03); border-radius: 1rem; margin-bottom: 1rem; border: 1px solid rgba(255,255,255,0.05); transition: all 0.3s ease; }
+      details.faq-item:hover { border-color: var(--accent-tertiary); }
+      summary.faq-q { padding: 1.25rem; cursor: pointer; font-weight: 700; color: white; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+      summary.faq-q::-webkit-details-marker { display: none; }
+      summary.faq-q::after { content: '+'; font-size: 1.2rem; color: var(--accent-tertiary); }
+      details[open] summary.faq-q::after { content: '-'; }
+      .faq-a { padding: 0 1.25rem 1.25rem 1.25rem; color: #BBB; line-height: 1.6; font-size: 1rem; }
+
+      .related-card { background: var(--card-bg); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 1.5rem; transition: all 0.4s ease; overflow: hidden; height: 100%; display: flex; flex-direction: column; }
+      .related-card:hover { border-color: var(--accent-tertiary); transform: translateY(-5px); }
+    </style>
+</head>
+<body>
+    <header id="main-header" class="sticky top-0 z-50"></header>
+
+    <div id="lightbox-modal" onclick="closeLightbox()">
+        <button id="prev-btn" class="nav-btn" onclick="prevImage(event)">‹</button>
+        <img id="lightbox-img" src="" alt="Zoom Image" onclick="event.stopPropagation()">
+        <button id="next-btn" class="nav-btn" onclick="nextImage(event)">›</button>
+        <div id="lightbox-counter">1 / 1</div>
+    </div>
+
+    <!-- Cabeçalho Hero -->
+    <header class="relative w-full h-[65vh] flex items-end justify-center overflow-hidden pt-24">
+        <div class="absolute inset-0 bg-cover bg-center z-0" style="background-image: url('../images/capa-lisboa.webp');"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent z-10"></div>
+        <div class="relative z-20 container mx-auto px-6 pb-16 max-w-4xl text-center">
+            <span id="category_tag" class="inline-block py-1 px-3 rounded-full bg-[var(--accent-tertiary)]/20 text-[var(--accent-tertiary)] text-xs font-bold tracking-widest uppercase mb-4 border border-[var(--accent-tertiary)] backdrop-blur-sm"></span>
+            <h1 class="text-4xl md:text-6xl font-extrabold text-white leading-tight mb-8 tracking-tight italic" id="main_title"></h1>
+            <div class="flex items-center justify-center gap-3 text-stone-200 text-sm font-medium">
+                <img src="../images/foto-perfil.webp" onerror="this.src='https://api.dicebear.com/7.x/avataaars/svg?seed=Paco'" alt="Paco Sousa" class="w-8 h-8 rounded-full border-2 border-[var(--accent-tertiary)] object-cover shadow-md">
+                <span id="author_line"></span>
+            </div>
+        </div>
+    </header>
+
+    <main class="pb-24 px-4">
+        <article class="container mx-auto max-w-3xl article-content mt-12 text-justify">
+            <div id="diary_date" class="text-[var(--accent-primary)] font-bold tracking-[0.2em] uppercase text-xs mb-8 text-center md:text-left border-b border-white/10 pb-4"></div>
+            
+            <p id="p1" class="drop-cap"></p>
+            <p id="p2"></p>
+
+            <div class="bg-white/5 border-l-4 border-[var(--accent-tertiary)] p-6 my-10 rounded-r-2xl">
+                <p id="nota_precos" class="text-sm m-0 italic text-gray-400"></p>
+            </div>
+
+            <h2 id="h2_1"></h2>
+            <p id="p3"></p>
+            <p id="p4"></p>
+            <p id="p5"></p>
+
+            <h2 id="h2_2"></h2>
+            <p id="p6"></p>
+            <p id="p7"></p>
+            <p id="p8"></p>
+            <p id="p9"></p>
+            <p id="p10"></p>
+            <p id="p11"></p>
+            <p id="p12"></p>
+            <p id="p13"></p>
+
+            <!-- Galeria: Centro Histórico -->
+            <div class="mini-gallery gallery-grid-4">
+                <div class="mini-photo"><img src="../images/portugal/lisboa/lisboa-centro-1.webp" alt="Porto de Lisboa" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/portugal/lisboa/lisboa-centro-2.webp" alt="Praça do Comércio" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/portugal/lisboa/lisboa-centro-3.webp" alt="Ruas de Lisboa" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/portugal/lisboa/lisboa-centro-4.webp" alt="Convento do Carmo em Lisboa" onclick="openLightbox(this.src)"></div>
+            </div>
+
+            <h2 id="h2_3"></h2>
+            <p id="p14"></p>
+            <p id="p15"></p>
+            <p id="p16"></p>
+            <p id="p17"></p>
+            <p id="p18"></p>
+
+            <h2 id="h2_4"></h2>
+            <p id="p19"></p>
+            <p id="p20"></p>
+            <p id="p21"></p>
+            <p id="p22"></p>
+            <p id="p23"></p>
+
+            <!-- Galeria: Um Dia em Terras Reais -->
+            <div class="mini-gallery gallery-grid-4">
+                <div class="mini-photo"><img src="../images/portugal/lisboa/sintra-1.webp" alt="A cidade de Sintra" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/portugal/lisboa/sintra-2.webp" alt="A cidade de Sintra" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/portugal/lisboa/sintra-3.webp" alt="A cidade de Sintra" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/portugal/lisboa/sintra-4.webp" alt="A cidade de Sintra" onclick="openLightbox(this.src)"></div>
+            </div>
+
+            <h3 id="sh1"></h3>
+            <p id="p24"></p>
+            <p id="p25"></p>
+            <p id="p26"></p>
+            <p id="p27"></p>
+
+            <!-- Galeria: Castelo dos Mouros -->
+            <div class="mini-gallery gallery-grid-4">
+                <div class="mini-photo"><img src="../images/portugal/lisboa/sintra-mouros-1.webp" alt="O Castelo dos Mouros na cidade de Sintra" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/portugal/lisboa/sintra-mouros-2.webp" alt="O Castelo dos Mouros na cidade de Sintra" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/portugal/lisboa/sintra-mouros-3.webp" alt="O Castelo dos Mouros na cidade de Sintra" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/portugal/lisboa/sintra-mouros-4.webp" alt="O Castelo dos Mouros na cidade de Sintra" onclick="openLightbox(this.src)"></div>
+            </div>
+
+            <h3 id="sh2"></h3>
+            <p id="p28"></p>
+            <p id="p29"></p>
+            <p id="p30"></p>
+            <p id="p31"></p>
+            <p id="p32"></p>
+            <p id="p33"></p>
+            <p id="p34"></p>
+
+            <!-- Galeria: Quinta da Regaleira -->
+            <div class="mini-gallery gallery-grid-4">
+                <div class="mini-photo"><img src="../images/portugal/lisboa/sintra-regaleira-1.webp" alt="Quinta da Regaleira na cidade de Cintra" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/portugal/lisboa/sintra-regaleira-2.webp" alt="Jardins da Quinta da Regaleira na cidade de Cintra" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/portugal/lisboa/sintra-regaleira-3.webp" alt="Poço Imperfeito na Quinta da Regaleira, na cidade de Cintra" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/portugal/lisboa/sintra-regaleira-4.webp" alt="Gruta nos jardins da Quinta da Regaleira na cidade de Cintra" onclick="openLightbox(this.src)"></div>
+            </div>
+
+            <h2 id="h2_5"></h2>
+            <p id="p35"></p>
+            <p id="p36"></p>
+            <p id="p37"></p>
+            <p id="p38"></p>
+            <p id="p39"></p>
+
+            <h2 id="h2_6"></h2>
+            <p id="p40"></p>
+            <p id="p41"></p>
+
+            <!-- Galeria: Torre de Belém -->
+            <div class="mini-gallery gallery-grid-4">
+                <div class="mini-photo"><img src="../images/portugal/lisboa/lisboa-belem-1.webp" alt="Torre de Belém em Lisboa" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/portugal/lisboa/lisboa-belem-2.webp" alt="Barcos em Belém, Lisboa" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/portugal/lisboa/lisboa-belem-3.webp" alt="Monumento Padrão dos Descobrimentos em Lisboa" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/portugal/lisboa/lisboa-belem-4.webp" alt="Jardim da Praça do Império em Lisboa" onclick="openLightbox(this.src)"></div>
+            </div>
+
+            <h2 id="h2_7"></h2>
+            <p id="p42"></p>
+            <p id="p43"></p>
+            <p id="p44"></p>
+
+            <!-- Galeria: Cais do Sodré -->
+            <div class="mini-gallery gallery-grid-4">
+                <div class="mini-photo"><img src="../images/portugal/lisboa/lisboa-1.webp" alt="Pink Street em Lisboa" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/portugal/lisboa/lisboa-2.webp" alt="Pink Street em Lisboa" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/portugal/lisboa/lisboa-3.webp" alt="Igreja de Santo Antônio em Lisboa" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/portugal/lisboa/lisboa-4.webp" alt="Catedral da Sé em Lisboa" onclick="openLightbox(this.src)"></div>
+            </div>
+
+            <h2 id="h2_8"></h2>
+            <p id="p45"></p>
+
+            <!-- Galeria: Castelo de São Jorge -->
+            <div class="mini-gallery gallery-grid-4">
+                <div class="mini-photo"><img src="../images/portugal/lisboa/lisboa-jorge-1.webp" alt="Vista panorâmica da cidade de Lisboa" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/portugal/lisboa/lisboa-jorge-2.webp" alt="Castelo de São Jorge na cidade de Lisboa" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/portugal/lisboa/lisboa-jorge-3.webp" alt="Castelo de São Jorge na cidade de Lisboa" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/portugal/lisboa/lisboa-jorge-4.webp" alt="Castelo de São Jorge na cidade de Lisboa" onclick="openLightbox(this.src)"></div>
+            </div>
+
+            <h2 id="h2_9"></h2>
+            <p id="p47"></p>
+            <p id="p48"></p>
+            <p id="p49"></p>
+
+            <!-- Galeria: Pôr do Sol -->
+            <div class="mini-gallery gallery-grid-4">
+                <div class="mini-photo"><img src="../images/portugal/lisboa/lisboa-miradouro-1.webp" alt="Vista das ruas da cidade de Lisboa" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/portugal/lisboa/lisboa-miradouro-2.webp" alt="Vista panorâmica da cidade de Lisboa" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/portugal/lisboa/lisboa-miradouro-3.webp" alt="Um poema no Miradouro de Santa Catarina, Lisboa" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/portugal/lisboa/lisboa-miradouro-4.webp" alt="Vista panorâmica da cidade de Lisboa" onclick="openLightbox(this.src)"></div>
+            </div>
+
+            <h2 id="h2_10"></h2>
+            <p id="p50"></p>
+            <p id="p51"></p>
+            <p id="p52"></p>
+            <p id="p53"></p>
+
+            <!-- SEÇÃO DE FAQ VISUAL -->
+            <section class="mt-20 border-t border-white/10 pt-16">
+                <h2 id="faq_title" class="text-3xl font-black mb-10 italic text-white uppercase tracking-tight"></h2>
+                <div class="space-y-4">
+                    <details class="faq-item">
+                        <summary id="q1" class="faq-q"></summary>
+                        <div id="a1" class="faq-a"></div>
+                    </details>
+                    <details class="faq-item">
+                        <summary id="q2" class="faq-q"></summary>
+                        <div id="a2" class="faq-a"></div>
+                    </details>
+                    <details class="faq-item">
+                        <summary id="q3" class="faq-q"></summary>
+                        <div id="a3" class="faq-a"></div>
+                    </details>
+                    <details class="faq-item">
+                        <summary id="q4" class="faq-q"></summary>
+                        <div id="a4" class="faq-a"></div>
+                    </details>
+                    <details class="faq-item">
+                        <summary id="q5" class="faq-q"></summary>
+                        <div id="a5" class="faq-a"></div>
+                    </details>
+                </div>
+            </section>
+
+
+
+
+
+
+            <!-- RELATED (3 Cards - Salta, Buenos Aires, Gibraltar) -->
+            <section class="mt-32 pt-16 border-t border-white/10">
+                <h2 id="related_title" class="text-3xl font-black mb-10 italic text-white uppercase tracking-tighter"></h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <a href="salta" class="related-card block group">
+                        <div class="h-40 bg-cover bg-center group-hover:scale-105 transition-transform duration-500" style="background-image: url('../images/capa-salta.webp');"></div>
+                        <div class="p-4">
+                            <span class="text-[var(--accent-tertiary)] text-[10px] font-bold uppercase tracking-widest mb-2 block">Argentina</span>
+                            <h4 id="rel_title1" class="text-sm font-bold text-white group-hover:text-[var(--accent-tertiary)] transition-colors"></h4>
+                        </div>
+                    </a>
+                    <a href="perrengue-em-gibraltar" class="related-card block group">
+                        <div class="h-40 bg-cover bg-center group-hover:scale-105 transition-transform duration-500" style="background-image: url('../images/capa-gibraltar.webp');"></div>
+                        <div class="p-4">
+                            <span class="text-[var(--accent-tertiary)] text-[10px] font-bold uppercase tracking-widest mb-2 block">Gibraltar</span>
+                            <h4 id="rel_title2" class="text-sm font-bold text-white group-hover:text-[var(--accent-tertiary)] transition-colors"></h4>
+                        </div>
+                    </a>
+                    <a href="lugares-gratis-buenos-aires" class="related-card block group">
+                        <div class="h-40 bg-cover bg-center group-hover:scale-105 transition-transform duration-500" style="background-image: url('../images/capa-buenos-aires-gratis.webp');"></div>
+                        <div class="p-4">
+                            <span class="text-[var(--accent-tertiary)] text-[10px] font-bold uppercase tracking-widest mb-2 block">Argentina
+</span>
+                            <h4 id="rel_title3" class="text-sm font-bold text-white group-hover:text-[var(--accent-tertiary)] transition-colors"></h4>
+                        </div>
+                    </a>
+                </div>
+            </section>
+        </article>
+    </main>
+
+    <footer class="py-12 border-t border-white/5 text-center mt-10">
+        <p id="footer_text" class="text-xs text-gray-600 font-bold uppercase tracking-widest"></p>
+    </footer>
+
+    <script>
+        let currentImgIndex = 0;
+        let imagesList = [];
+
+        function updateImagesList() {
+            const galleryImgs = document.querySelectorAll('.mini-photo img');
+            imagesList = Array.from(galleryImgs).map(img => img.src);
+        }
+
+        function openLightbox(src) {
+            updateImagesList();
+            currentImgIndex = imagesList.indexOf(src);
+            if (currentImgIndex === -1) currentImgIndex = 0;
+            
+            showImage();
+            document.getElementById('lightbox-modal').style.display = 'flex';
+            document.addEventListener('keydown', handleKeyDown);
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox-modal').style.display = 'none';
+            document.removeEventListener('keydown', handleKeyDown);
+        }
+
+        function showImage() {
+            const img = document.getElementById('lightbox-img');
+            const counter = document.getElementById('lightbox-counter');
+            img.src = imagesList[currentImgIndex];
+            counter.innerText = `${currentImgIndex + 1} / ${imagesList.length}`;
+        }
+
+        function nextImage(e) {
+            if (e) e.stopPropagation();
+            currentImgIndex = (currentImgIndex + 1) % imagesList.length;
+            showImage();
+        }
+
+        function prevImage(e) {
+            if (e) e.stopPropagation();
+            currentImgIndex = (currentImgIndex - 1 + imagesList.length) % imagesList.length;
+            showImage();
+        }
+
+        function handleKeyDown(e) {
+            if (e.key === "ArrowRight") nextImage();
+            if (e.key === "ArrowLeft") prevImage();
+            if (e.key === "Escape") closeLightbox();
+        }
+
+        const adConfig = {
+            'pt': { link: "https://www.awin1.com/cread.php?s=4655925&v=18120&q=593889&r=2730940", img: "../images/booking-banner-pt.jpg" },
+            'es': { link: "https://www.awin1.com/cread.php?s=4655925&v=18120&q=593889&r=2730940", img: "../images/booking-banner-es.jpg" },
+            'en': { link: "https://www.awin1.com/cread.php?s=4655925&v=18120&q=593889&r=2730940", img: "../images/booking-banner-pt.jpg" }
+        };
+
+        const translations = {
+            'pt': {
+                'main_title': 'A cidade de Lisboa — um roteiro de 3 dias a pé, com um bate-volta a Sintra',
+                'author_line': 'Paco Sousa • 18 min de leitura • Escrito em 20/04/2024',
+                'diary_date': 'Lisboa, Portugal. 20 de abril de 2024.',
+                'category_tag': 'Portugal',
+                'nota_precos': 'Nota: todos os valores citados ao longo do texto referem-se aos preços de janeiro de 2026.',
+                'p1': 'Este texto é o relato de um roteiro de três dias em Lisboa, com um bate-volta a Sintra, feito majoritariamente a pé, misturando caminhada, história, vida noturna e alguns tropeços inevitáveis de quem decide explorar a cidade sem pensar demais no roteiro (alguns chamariam de preguiça de planejar, mas eu prefiro ver como liberdade haha).',
+                'p2': 'Não é um guia fechado nem um checklist do tipo “o que fazer em Lisboa em 72 horas”. É um relato do que eu vivi naquela cidade, na minha primeira vez viajando pela Europa.',
+                'h2_1': 'Chegada e hospedagem em Lisboa',
+                'p3': 'Eu me hospedei em um hostel ao lado do Elevador da Glória. Uma localização muito boa, não fosse o detalhe que logo me fez entender a identificação dos portugueses entre sua capital e as capitais que construíram no Brasil: fica no meio de um morro.',
+                'p4': 'O hostel estava relativamente perto do metrô e, como minha mãe diz, para descer todo santo ajuda. Agora para subir… E esta não era a pior subida. Para ir do hostel até o topo, onde ficava uma das principais ruas de bares, eu precisava enfrentar, diariamente, uma das subidas mais íngremes que já tive que encarar. Era exatamente a rua do Elevador da Glória, o que me fez entender o motivo dele existir.',
+                'p5': 'Após deixar as minhas coisas no hostel e brindar-me com um longo banho, fui explorar a cidade. Já era de tarde.',
+                'h2_2': 'O centro histórico e os primeiros pensamentos sobre a cidade',
+                'p6': 'O sistema de metrô de Lisboa é relativamente fácil de entender, depois que você descobre que trem significa comboio e outros pequenos detalhes linguísticos. Felizmente, eles estão acostumados com brasileiros, e o guarda que me ofereceu informações parecia não ter problema algum com isso.',
+                'p7': 'Saindo da estação Terreiro do Paço, que dá direto na Praça do Comércio, tive meu primeiro impacto real com o que é a Europa e, mais especificamente, Lisboa.',
+                'p8': 'Aquela vista me pareceu diferente de tudo o que eu conhecia. Grande, aberta, com uma sensação clara de ter sido pensada como o centro de um império. Pode soar piegas, mas senti ali um choque de realidade: eu estava finalmente na Europa, caminhando por lugares que antes só existiam para mim em fotos e vídeos na internet.',
+                'p9': 'Caminhei sem pressa pela praça, absorvendo cada detalhe, observando as gaivotas aos montes, olhando as fachadas e a dimensão daquele espaço. Fiz o caminho até o famoso Arco da Rua Augusta, tirei algumas fotos e segui pela Rua Augusta.',
+                'p10': 'Lisboa me passou, desde o início, a sensação de uma cidade para ser vivida sem pressa. Para um brasileiro, é quase impossível não identificar as similaridades. Além disso, estar em um país cercado por outras pessoas que compartilham a nossa mesma língua, um momento tão raro para nós quando viajamos para fora, e ainda ver placas em português, reconhecer o sotaque diferente (às vezes sem entender tudo) e identificar momentos históricos que conectam tão fortemente os dois países.',
+                'p11': 'Eu estava, sem dúvida, gostando de estar em Lisboa.',
+                'p12': 'Caminhei por todo o centro histórico e, já quase no fim da tarde, em um dos últimos horários possíveis, entrei no Convento do Carmo (entrada: €5). Com calma, observei as ruínas, caminhamos pelo espaço e me sentei por um tempo para descansar.',
+                'p13': 'Fiz o caminho de volta absorvendo quase desesperadamente tudo o que via, como se quisesse guardar cada imagem.',
+                'h2_3': 'Jantar no centro histórico',
+                'p14': 'Eu havia escolhido fazer as reservas dos hostels pelo Hostelworld, principalmente porque o aplicativo possibilita um chat entre pessoas que estão na mesma cidade. Eu sabia que, diferente da minha experiência na Argentina, onde estava cercado de latinos e a socialização era quase automática, ali na Europa isso poderia ser um pouco mais desafidador.',
+                'p15': 'Vi que havia um grupo combinando de sair para jantar e decidi me juntar. Quando cheguei, o grupo era formado apenas por meninas, de diferentes países da Europa. Meu primeiro choque cultural foi imediato: cumprimentei todas com um beijo no rosto e rapidamente percebi que aquilo não era exatamente apropriado. Contrastes culturais anotados.',
+                'p16': 'Depois de um tempo, chegou outro rapaz, que apenas deu um oi geral. Lição aprendida.',
+                'p17': 'Conversamos bastante sobre trabalho, vida em nossos países e viagens passadas ou futuras. Em hostels, é comum que as pessoas estejam sempre de passagem. Acabei conversando mais com o rapaz inglês e logo descobrimos que estávamos hospedados no mesmo lugar.',
+                'p18': 'Infelizmente, não era um grupo festeiro e ninguém parecia animado para continuar a noite. Apesar do cansaço, eu sempre quero sair. Em algum momento, decidimos ir embora e eu e o inglês voltamos caminhando para o hostel. A distância era curta e, felizmente, o trajeto envolvia majoritariamente descidas.',
+                'h2_4': 'Um dia em terras reais — bate-volta de Lisboa a Sintra',
+                'p19': 'Para o segundo dia, decidi ir para Sintra, um destino clássico para quem visita Lisboa. A ideia foi parcialmente influenciada pelo inglês, que também iria para lá. Fomos em horários diferentes e combinamos de nos encontrar.',
+                'p20': 'Chegar a Sintra é muito fácil. Há um trem direto saindo de Lisboa, que felizmente passava pela estação perto do meu hostel. O trajeto dura cerca de 45 minutos (ida e volta: €5–7).',
+                'p21': 'Ao chegar, me deparei com uma cidade ainda mais impressionante do que Lisboa: uma encosta montanhosa coberta por vegetação, com diversos castelos incrustados. Decidi começar pelo Castelo dos Mouros (entrada: €10). Olhei o caminho no mapa, parecia distante, mas imaginei que seria uma boa forma de conhecer a cidade a pé. Esse foi meu primeiro erro.',
+                'p22': 'A subida até o Castelo dos Mouros é praticamente uma trilha. O caminho é demarcado e majoritariamente de pedra, mas ainda assim bastante puxado. Levei mais de meia hora para chegar ao topo, suado, reclamando da vida e um pouco indignado com a falta de acessibilidade.',
+                'p23': 'Quando finalmente alcancei o topo e vi a entrada do castelo, descobri uma rua pavimentada. Obviamente havia um caminho asfaltado e linhas de ônibus que chegam até lá. Bom, aprendizados. Pelo menos fica a dica para você, leitor: há uma forma bem mais fácil de chegar via transporte público.',
+                'sh1': 'O Castelo dos Mouros',
+                'p24': 'Meu amigo inglês chegou pouco depois. Ele havia ido antes ao Palácio Nacional da Pena (entrada: €15), que, mesmo visto de longe, parece definitivamente um lugar que merece visita.',
+                'p25': 'O Castelo dos Mouros foi construído durante a ocupação muçulmana da Península Ibérica, no século X. A experiência é excelente. Trata-se de uma fortificação extensa, com muralhas, torres e trilhas que permitem explorar boa parte do complexo.',
+                'p26': 'Caminhamos por todo o castelo. Há uma grande escadaria na muralha e, lá do alto, a vista da cidade e dos outros palácios é impressionante. Todo o esforço vale a pena.',
+                'p27': 'Depois de bastante tempo explorando, paramos para comer na cafeteria próxima à entrada do castelo, mais por praticidade do que por economia.',
+                'sh2': 'A Quinta da Regaleira',
+                'p28': 'Seguimos caminhando pela rua, descendo a ladeira até a Quinta da Regaleira (entrada: €12). A caminhada leva cerca de 20 minutos e, novamente citando minha mãe, toda descida ajuda.',
+                'p29': 'Pagamos a entrada, guardamos nossas coisas e fomos explorar. O local é belíssimo: um palácio cercado por jardins enormes, trilhas, grutas e áreas externas ideais para caminhar sem pressa. Foi uma tarde muito agradável e fiquei feliz de estar acompanhado, já que é o tipo de lugar feito para observar e conversar.',
+                'p30': 'As estruturas mais famosas são o Poço Iniciático e o Poço Imperfeito, ambos com mais de 25 metros de profundidade. A fila para descer costuma ser grande, já que todos querem enfrentar as escadarias úmidas e estreitas.',
+                'p31': 'No final, há um túnel que leva a uma gruta e a uma vista bonita, encerrando bem o percurso.',
+                'p32': 'Explorando os jardins, encontramos outra entrada para o que parecia ser uma gruta. Caminhamos pelos túneis com a luz dos celulares, sem ter certeza absoluta se aquele caminho era permitido, o que só deixou a experiência mais curiosa.',
+                'p33': 'Depois de percorrer praticamente tudo, seguimos para a saída. Meu amigo tinha ingresso para outro palácio, mas como eu não havia feito planejamento algum, quando tentei comprar já estava esgotado.',
+                'p34': 'Nos despedimos, e eu fui explorar as ruas de Sintra por conta própria. A cidade é extremamente charmosa. Caminhei pelas ruas sinuosas, parei em frente ao Palácio Nacional de Sintra (entrada: €10), tomei um sorvete e circulei pelo centro comercial. Depois de um dia inteiro de caminhadas, o cansaço bateu. Voltei para a estação e peguei o primeiro comboio de volta a Lisboa, já pensando em banho, descanso e na saída noturna combinada.',
+                'h2_5': 'Bairro Alto',
+                'p35': 'Mais tarde, depois de descansar e jantar em um pequeno restaurante perto do hostel, encontrei meu amigo na recepção e seguimos para o Bairro Alto. Como o nome sugere, ele fica em uma parte alta da cidade, bem próxima de onde estávamos, desconsiderando o detalhe da ladeira do Elevador da Glória.',
+                'p36': 'A rua principal estava cheia de bares com clima de mini clubs, música alta e gente dançando. A música brasileira domina o Bairro Alto, com funk, sertanejo e outros ritmos tocando em vários lugares.',
+                'p37': 'Hostesses ficam nas portas convidando para entrar, geralmente oferecendo um drink grátis. Com um pouco de esperteza, dá para aproveitar vários desses convites.',
+                'p38': 'Depois de alguns drinks, escolhemos ficar em um bar chamado Copacabana (quem diria). A música misturava ritmos brasileiros com clássicos internacionais dos anos 2000, o que funciona bem em um ambiente cheio de turistas.',
+                'p39': 'Talvez tenha rolado um flerte aqui e ali com o moço, mas confesso que eu ainda estava inseguro sobre as dinâmicas sociais europeias. Fica o famoso talvez eu devesse ter tentado. Vida que segue.',
+                'h2_6': 'Torre de Belém e entornos',
+                'p40': 'Na manhã do dia seguinte, peguei o metrô em direção à Torre de Belém (entrada: €6). Sofrendo novamente com o fator segunda-feira, encontrei a torre fechada. Sem a visita interna, foquei nas fotos do lado de fora e fiquei um tempo apreciando a vista.',
+                'p41': 'Depois, caminhei pelo calçadão às margens do Rio Tejo até o Padrão dos Descobrimentos, um monumento imponente construído em homenagem aos 500 anos da morte de Henrique, o Navegador. Atravessei a avenida, passei pelo Jardim da Praça do Império e segui até a Igreja de Santa Maria de Belém.',
+                'h2_7': 'Cais do Sodré, Pink Street e mais uma volta pelo centro',
+                'p42': 'Eu queria conhecer a famosa Pink Street, no Cais do Sodré. Desci na estação, caminhei pela margem do rio e segui até a rua de piso rosa e guarda-chuvas coloridos. A região é charmosa e cheia de bares e restaurantes, com preços claramente turísticos.',
+                'p43': 'Depois de circular pelo bairro, voltei à Praça do Comércio para mais algumas fotos e procurei um lugar para almoçar e recarregar o celular.',
+                'p44': 'Aproveitei o restante da tarde para passar por pontos que ainda não tinha visto. Passei pelo Elevador de Santa Justa (entrada: €3), segui até a Catedral da Sé (entrada: €3) e, no caminho, descobri a Igreja de Santo Antônio, local onde o santo nasceu.',
+                'h2_8': 'Castelo de São Jorge',
+                'p45': 'Eu estava especialmente ansioso para visitar o Castelo de São Jorge (entrada: €10), localizado no ponto mais alto de Lisboa. A visita não decepcionou. O castelo tem vistas espetaculares e um museu que conta a história da cidade. Datado do século IX e construído também pelos Mouros, as muralhas do castelo me fizeram sentir um pouco dentro de Game of Thrones, em uma das partes você atravessa uma daquelas pontes em cima de um fosso para entrar em um portão em forma de arco.',
+                'p46': 'Datado do século IX e também construído pelos Mouros, o conjunto de muralhas me fez sentir dentro de uma cena de Game of Thrones. Em uma das áreas, atravessa-se uma ponte sobre um fosso para entrar por um grande portão em arco.',
+                'h2_9': 'Pôr do sol no Miradouro de Santa Catarina',
+                'p47': 'Com as horas finais da viagem se aproximando, eu queria encerrar Lisboa com um bom pôr do sol. Fui até o Miradouro de Santa Catarina, que se mostrou a escolha perfeita.',
+                'p48': 'O local estava cheio, mas com uma atmosfera agradável. Comprei um copo gigante de Aperol Spritz e fiquei assistindo ao show musical improvisado de um brasileiro. Há placas com poemas espalhadas pelas grades, e aproveitei para lê-las.',
+                'p49': 'No topo de uma casa próxima, uma frase me chamou a atenção: Yes, Life is good. Naquele momento, era difícil discordar.',
+                'h2_10': 'Outros lugares para visitar em uma próxima vez',
+                'p50': 'Foram apenas 3 dias e, apesar de muito intensos, não seriam suficientes para ver tudo o que Lisboa tem a oferecer. A cidade deixou claro que sempre guarda algo para depois.',
+                'p51': 'Alguns lugares importantes ficaram de fora do roteiro, seja por falta de tempo, filas longas ou simples escolhas feitas ao longo dos dias. Entre eles estão o Mosteiro dos Jerónimos (€10), uma das obras mais emblemáticas da cidade, o Museu do Fado (€5), o MAAT (€9) e o Museu do Azulejo (€5).',
+                'p52': 'Bairros como Alfama e Graça mereciam mais tempo, assim como Belém, que pede uma exploração mais lenta. Também ficaram de fora lugares como a LX Factory, o Parque Monsanto, algumas casas de fado tradicionais, um passeio completo no Elétrico 28 (€3) e bate-voltas para Cascais ou Costa da Caparica.',
+                'p53': 'Talvez esse seja o maior mérito de Lisboa: mesmo quando você sente que viu bastante coisa, ela deixa a impressão de que ainda há muito mais esperando. E isso, convenhamos, é sempre um bom motivo para voltar.',
+                'faq_title': 'Perguntas frequentes sobre Lisboa em 3 dias',
+                'q1': 'É possível conhecer o essencial de Lisboa em apenas 3 dias?',
+                'a1': 'Sim, 3 dias permitem percorrer o centro histórico, Belém e ainda fazer um bate-volta a Sintra. O foco deste roteiro é a exploração a pé, o que otimiza o tempo entre as atrações principais.',
+                'q2': 'O roteiro em Lisboa é muito cansativo?',
+                'a2': 'Sim, Lisboa é a cidade das sete colinas e este roteiro exige bastante esforço físico. As subidas como a do Elevador da Glória e as trilhas em Sintra são íngremes e cansativas.',
+                'q3': 'Como funciona o transporte para o bate-volta de Sintra?',
+                'a3': 'O acesso é muito simples via comboio (trem) saindo de estações centrais como o Rossio. A viagem dura cerca de 45 minutos e custa entre 5€ e 7€ (ida e volta).',
+                'q4': 'Vale a pena subir ao Castelo dos Mouros a pé?',
+                'a4': 'A trilha é bonita, mas muito puxada e leva mais de 30 minutos de subida intensa. Para quem quer poupar energia, existem autocarros que levam diretamente à entrada pavimentada.',
+                'q5': 'Qual o custo médio dos ingressos das principais atrações?',
+                'a5': 'Os preços variam entre 3€ (Catedral e Elevadores) e 15€ (Palácio da Pena). O Castelo de São Jorge e o dos Mouros custam cerca de 10€ cada.',
+                'related_title': 'Leia também',
+                'cat_rel1': 'Argentina',
+                'rel_title1': 'Salta, la linda',
+                'cat_rel2': 'Gibraltar',
+                'rel_title2': 'Interrogatório em Gibraltar',
+                'cat_rel3': 'Argentina',
+                'rel_title3': 'Buenos Aires Gratis',
+                'labelAd': 'Hospedagem',
+                'badgeAd': 'Publicidade',
+                'titleAd': 'Onde dormir em Lisboa?',
+                'btnAd': 'Ver Ofertas →',
+                'footer_text': '© 2026 Paco Sousa · Diários de um Nômade'
+            },
+            'en': {
+                'main_title': 'The city of Lisbon — a 3-day walking itinerary, with a day trip to Sintra',
+                'author_line': 'Paco Sousa • 18 min read • Written on April 20, 2024',
+                'diary_date': 'Lisbon, Portugal. April 20, 2024.',
+                'category_tag': 'Portugal',
+                'nota_precos': 'Note: all values cited throughout the text refer to prices from January 2026.',
+                'p1': 'This text is the account of a three-day itinerary in Lisbon, with a day trip to Sintra, done mostly on foot, mixing walking, history, nightlife, and some inevitable stumbles of someone who decides to explore the city without overthinking the route (some would call it laziness in planning, but I prefer to see it as freedom haha).',
+                'p2': 'It is not a fixed guide or a checklist of "what to do in Lisbon in 72 hours." It is a lived account, with avoidable climbs, other unavoidable ones, and some good decisions along the way.',
+                'h2_1': 'Arrival and accommodation in Lisbon',
+                'p3': 'I stayed at a hostel next to the Glória Lift. A very good location, if not for the detail that immediately made me understand the identification of the Portuguese between their capital and the capitals they built in Brazil: it is in the middle of a hill.',
+                'p4': 'The hostel was relatively close to the metro and, as my mother says, "todo santo ayuda" going down. Now to go up... And this wasn\'t the worst climb. To go from the hostel to the top, where one of the main streets of bars was located, I had to face, daily, one of the steepest climbs I\'ve ever had to face. It was exactly the street of the Glória Lift, which made me understand why it exists.',
+                'p5': 'After leaving my things at the hostel and treating myself to a long bath, I went out to explore the city. It was already afternoon.',
+                'h2_2': 'The historic center and first thoughts on the city',
+                'p6': 'The Lisbon metro system is relatively easy to understand, once you discover that "trem" means "comboio" and other small linguistic details. Fortunately, they are used to Brazilians, and the guard who offered me information seemed to have no problem with that.',
+                'p7': 'Leaving the Terreiro do Paço station, which leads directly to the Praça do Comércio, I had my first real impact with what Europe is and, specifically, Lisbon.',
+                'p8': 'That view seemed different from everything I knew. Large, open, with a clear feeling of having been thought of as the center of an empire. It may sound cliché, but I felt a culture shock there: I was finally in Europe, walking through places that before only existed for me in photos and videos on the internet.',
+                'p9': 'I walked slowly through the square, absorbing every detail, observing the seagulls in heaps, looking at the facades and the dimension of that space. I made my way to the famous Rua Augusta Arch, took some photos and followed Rua Augusta.',
+                'p10': 'Lisbon gave me, from the beginning, the feeling of a city to be lived without haste. For a Brazilian, it is almost impossible not to identify the similarities. Being in a country surrounded by others that share the same language makes it rare to travel abroad and still see signs in Portuguese, recognize the different accent (sometimes without understanding everything) and identify historical moments that connect both countries so strongly.',
+                'p11': 'I was, without a doubt, enjoying being in Lisbon.',
+                'p12': 'I walked through the entire historic center and, almost at the end of the afternoon, at one of the last possible times, I entered the Carmo Convent (entry: €5). Calmly, I observed the ruins, walked through the space and sat for a while to rest.',
+                'p13': 'I made my way back, almost desperately absorbing everything I saw, as if I wanted to keep every image.',
+                'h2_3': 'Dinner in the historic center',
+                'p14': 'I had chosen to make the hostel reservations through Hostelworld, mainly because the app allows a chat between people who are in the same city. I knew that, unlike my experience in Argentina, where I was surrounded by Latinos and socialization was almost automatic, there in Europe that could be a bit more challenging.',
+                'p15': 'I saw that there was a group arranging to go out for dinner and decided to join. When I arrived, the group consisted only of girls from different European countries. My first culture shock was immediate: I greeted them all with a kiss on the cheek and quickly realized that it wasn\'t exactly appropriate. Cultural contrasts noted.',
+                'p16': 'After a while, another young man arrived, who just gave a general hi. Lesson learned.',
+                'p17': 'We talked a lot about work, life in our countries and past or future trips. In hostels, it is common for people to always be passing through. I ended up talking more with the English guy and we soon discovered that we were staying in the same place.',
+                'p18': 'Unfortunately, it wasn\'t a party group and no one seemed excited to continue the night. Despite the fatigue, I always want to go out. At some point, we decided to leave and the English guy and I walked back to the hostel. The distance was short and, fortunately, the route involved mostly descents.',
+                'h2_4': 'A day in royal lands — Lisbon to Sintra day trip',
+                'p19': 'For the second day, I decided to go to Sintra, a classic destination for those visiting Lisbon. The idea was partially influenced by the English guy, who was also going there. We went at different times and agreed to meet.',
+                'p20': 'Getting to Sintra is very easy. There is a direct train leaving from Lisbon, which fortunately passed by the station near my hostel. The journey takes about 45 minutes (round trip: €5–7).',
+                'p21': 'Upon arriving, I came across a city even more impressive than Lisbon: a mountainous slope covered in vegetation, with several castles embedded. I decided to start with the Moors Castle (entry: €10). I looked at the path on the map, it seemed far away, but I imagined it would be a good way to get to know the city on foot. That was my first mistake.',
+                'p22': 'The climb up to the Moors Castle is practically a trail. The path is marked and mostly made of stone, but still quite demanding. It took me more than half an hour to reach the top, sweaty, complaining about life and a bit indignant at the lack of accessibility.',
+                'p23': 'When I finally reached the top and saw the entrance to the castle, I discovered a paved road. Obviously there was an asphalt path and bus lines that reach there. Well, lessons learned. At least here\'s a tip for you, reader: there\'s a much easier way to get there via public transport.',
+                'sh1': 'The Moors Castle',
+                'p24': 'My English friend arrived shortly after. He had gone to the Pena National Palace (entry: €15) earlier, which, even seen from afar, definitely seems like a place worth visiting.',
+                'p25': 'The Moors Castle was built during the Muslim occupation of the Iberian Peninsula in the 10th century. The experience is excellent. It is an extensive fortification with walls, towers and trails that allow exploring much of the complex.',
+                'p26': 'We walked through the entire castle. There is a large staircase on the wall and, from high up, the view of the city and the other palaces is impressive. All the effort is worth it.',
+                'p27': 'After a lot of time exploring, we stopped to eat at the cafeteria near the castle entrance, more for practicality than for economy.',
+                'sh2': 'Quinta da Regaleira',
+                'p28': 'We followed the street, going down the hill to Quinta da Regaleira (entry: €12). The walk takes about 20 minutes and, as my mother says, every descent helps.',
+                'p29': 'We paid the entrance, put our things away and went to explore. The place is beautiful: a palace surrounded by huge gardens, trails, grottoes and outdoor areas ideal for walking without haste. It was a very pleasant afternoon and I was happy to have company, as it is the kind of place made for observing and talking.',
+                'p30': 'The most famous structures are the Initiation Well and the Unfinished Well, both over 25 meters deep. The line to go down is usually large, as everyone wants to face the damp and narrow staircases.',
+                'p31': 'At the end, there is a tunnel that leads to a cave and a beautiful view, ending the tour well.',
+                'p32': 'Exploring the gardens, we found another entrance to what seemed to be a cave. We walked through the tunnels with our cell phone lights, not being absolutely sure if that path was allowed, which only made the experience more curious.',
+                'p33': 'After going through practically everything, we went to the exit. My friend had a ticket for another palace, but since I hadn\'t done any planning, when I tried to buy it, it was already sold out.',
+                'p34': 'We said goodbye, and I went to explore the streets of Sintra on my own. The city is extremely charming. I walked through the winding streets, stopped in front of the Sintra National Palace (entry: €10), had an ice cream and walked through the commercial center. After a whole day of walking, fatigue hit. I went back to the station and took the first train back to Lisbon, already thinking about a bath, rest and the planned night out.',
+                'h2_5': 'Bairro Alto',
+                'p35': 'Later, after resting and having dinner at a small restaurant near the hostel, I met my friend at reception and we headed to Bairro Alto. As the name suggests, it is located in a high part of the city, very close to where we were, disregarding the detail of the Glória Lift hill.',
+                'p36': 'The main street was full of bars with a mini-club atmosphere, loud music and people dancing. Brazilian music dominates Bairro Alto, with funk, sertanejo and other rhythms playing in various places.',
+                'p37': 'Hostesses stand at the doors inviting you in, usually offering a free drink. With a bit of cleverness, you can take advantage of several of these invitations.',
+                'p38': 'After a few drinks, we chose to stay at a bar called Copacabana. The music mixed Brazilian rhythms with international classics from the 2000s, which works well in an environment full of tourists.',
+                'p39': 'Maybe there was some flirting here and there, but I confess I was still insecure about European social dynamics. The famous "maybe I should have tried" remains. Life goes on.',
+                'h2_6': 'Belém Tower and surroundings',
+                'p40': 'On the next morning, I took the metro towards the Belém Tower (entry: €6). Suffering again from the Monday factor, I found the tower closed. Without the internal visit, I focused on the photos outside and spent some time enjoying the view.',
+                'p41': 'Afterwards, I walked along the promenade on the banks of the Tagus River to the Padrão dos Descobrimentos, an imposing monument built in honor of the 500th anniversary of the death of Henry the Navigator. I crossed the avenue, passed through the Jardim da Praça do Império and followed to the Church of Santa Maria de Belém.',
+                'h2_7': 'Cais do Sodré, Pink Street and another lap through the center',
+                'p42': 'I wanted to see the famous Pink Street in Cais do Sodré. I got off at the station, walked along the river bank and followed to the street with the pink floor and colorful umbrellas. The region is charming and full of bars and restaurants, with clearly tourist prices.',
+                'p43': 'After wandering around the neighborhood, I went back to Praça do Comércio for a few more photos and looked for a place to have lunch and recharge my phone.',
+                'p44': 'I took the rest of the afternoon to visit spots I hadn\'t seen yet. I passed by the Santa Justa Lift (entry: €3), followed to the Sé Cathedral (entry: €3) and, on the way, I discovered the Church of Saint Anthony, the place where the saint was born.',
+                'h2_8': 'Saint George\'s Castle',
+                'p45': 'I was especially looking forward to visiting Saint George\'s Castle (entry: €10), located at the highest point of Lisbon. The visit did not disappoint. The castle has spectacular views and a museum that tells the story of the city.',
+                'p46': 'Dating back to the 9th century and also built by the Moors, the set of walls made me feel like I was in a scene from Game of Thrones. In one area, you cross a bridge over a moat to enter through a large arched gate.',
+                'h2_9': 'Sunset at the Santa Catarina Viewpoint',
+                'p47': 'With the final hours of the trip approaching, I wanted to end Lisbon with a good sunset. I went to the Santa Catarina Viewpoint, which proved to be the perfect choice.',
+                'p48': 'The place was full, but with a pleasant atmosphere. I bought a giant glass of Aperol Spritz and stayed watching an improvised musical show by a Brazilian. There are plaques with poems scattered along the railings, and I took the opportunity to read them.',
+                'p49': 'On top of a nearby house, a phrase caught my attention: Yes, Life is good. At that moment, it was hard to disagree.',
+                'h2_10': 'Other places to visit next time',
+                'p50': 'It was only 3 days and, although very intense, they wouldn\'t be enough to see everything Lisbon has to offer. The city made it clear that it always keeps something for later.',
+                'p51': 'Some important places were left out of the itinerary, either due to lack of time, long queues or simple choices made throughout the days. Among them are the Jerónimos Monastery (€10), one of the city\'s most iconic works, the Fado Museum (€5), the MAAT (€9) and the Tile Museum (€5).',
+                'p52': 'Neighborhoods like Alfama and Graça deserved more time, as did Belém, which calls for a slower exploration. Also left out were places like the LX Factory, Monsanto Park, some traditional fado houses, a full ride on Tram 28 (€3) and day trips to Cascais or Costa da Caparica.',
+                'p53': 'Maybe that is the greatest merit of Lisbon: even when you feel you\'ve seen quite a lot, it leaves the impression that there is still much more waiting. And that, let\'s face it, is always a good reason to return.',
+                'faq_title': 'Frequently Asked Questions about Lisbon in 3 Days',
+                'q1': 'Is it possible to see the essentials of Lisbon in just 3 days?',
+                'a1': 'Yes, 3 days allow you to explore the historic center, Belém, and take a day trip to Sintra. This itinerary focuses on walking, which optimizes time between main attractions.',
+                'q2': 'Is the walking route in Lisbon very tiring?',
+                'a2': 'Yes, Lisbon is the city of seven hills and this route requires significant physical effort. Climbs like the Glória Lift and the Sintra trails are steep and demanding.',
+                'q3': 'How does transportation for the Sintra day trip work?',
+                'a3': 'Access is very simple via train departing from central stations like Rossio. The journey takes about 45 minutes and costs between €5 and €7 (round trip).',
+                'q4': 'Is it worth walking up to the Moors Castle?',
+                'a4': 'The trail is beautiful but very tough, taking over 30 minutes of intense climbing. To save energy, there are buses that take you directly to the paved entrance.',
+                'q5': 'What is the average ticket cost for the main attractions?',
+                'a5': 'Prices range from €3 (Cathedral and Lifts) to €15 (Pena Palace). Saint George\'s Castle and the Moors Castle cost about €10 each.',
+                'related_title': 'Read also',
+                'cat_rel1': 'Argentina',
+                'rel_title1': 'Salta, la Linda',
+                'cat_rel2': 'Gibraltar',
+                'rel_title2': 'Interrogation in Gibraltar',
+                'cat_rel3': 'Argentina',
+                'rel_title3': 'Free Buenos Aires',
+                'labelAd': 'Accommodation',
+                'badgeAd': 'Sponsored',
+                'titleAd': 'Where to stay in Lisbon?',
+                'btnAd': 'See Deals →',
+                'footer_text': '© 2026 Paco Sousa · Nomad Diaries'
+            },
+            'es': {
+                'main_title': 'La ciudad de Lisboa: un itinerario de 3 días a pie, con una escapada a Sintra',
+                'author_line': 'Paco Sousa • 18 min de lectura • Escrito el 20/04/2024',
+                'diary_date': 'Lisboa, Portugal. 20 de abril de 2024.',
+                'category_tag': 'Portugal',
+                'nota_precos': 'Nota: todos los valores citados a lo largo del texto se refieren a precios de enero de 2026.',
+                'p1': 'Este texto es el relato de un itinerario de tres días en Lisboa, con una escapada a Sintra, hecho mayoritariamente a pie, mezclando caminata, historia, vida nocturna y algunos tropezones inevitables de quien decide explorar la ciudad sin pensar demasiado en la ruta (algunos lo llamarían pereza de planificar, pero yo prefiero verlo como libertad jajaja).',
+                'p2': 'No es una guía cerrada ni un checklist del tipo “qué hacer en Lisboa en 72 horas”. Es un relato vivido, con subidas evitables, otras inevitables y algunas buenas decisiones en el camino.',
+                'h2_1': 'Llegada y alojamiento en Lisboa',
+                'p3': 'Me hospedé en un hostel al lado del Elevador da Glória. Una ubicación muy buena, si no fuera por el detalle que pronto me hizo entender la identificación de los portugueses entre su capital y las capitales que construyeron en Brasil: está en medio de un cerro.',
+                'p4': 'El hostel estaba relativamente cerca del metro y, como dice mi madre, para bajar todo santo ayuda. Ahora para subir... Y esta no era la peor subida. Para ir del hostel hasta el tope, donde quedaba una de las principales calles de bares, necesitaba enfrentar, diariamente, una de las subidas más empinadas que jamás haya tenido que encarar. Era exactamente la calle del Elevador da Glória, lo que me hizo entender el motivo de su existencia.',
+                'p5': 'Después de dejar mis cosas en el hostel y regalarme un largo baño, fui a explorar la ciudad. Ya era de tarde.',
+                'h2_2': 'El centro histórico y primeros pensamientos sobre la ciudad',
+                'p6': 'El sistema de metro de Lisboa es relativamente fácil de entender, después de que descubres que tren significa "comboio" y otros pequeños detalles lingüísticos. Afortunadamente, están acostumbrados a los brasileños, y el guardia que me ofreció información parecía no tener problema con eso.',
+                'p7': 'Saliendo de la estación Terreiro do Paço, que da directo a la Praça do Comércio, tuve mi primer impacto real con lo que es Europa y, específicamente, Lisboa.',
+                'p8': 'Aquela vista me pareció diferente a todo lo que conocía. Grande, abierta, con una sensación clara de haber sido pensada como el centro de un imperio. Puede sonar cursi, pero sentí allí un choque de realidad: finalmente estaba en Europa, caminando por lugares que antes solo existían para mí en fotos y videos en internet.',
+                'p9': 'Caminé sin prisa por la plaza, absorbiendo cada detalle, observando las gaviotas a montones, mirando las fachadas y la dimensión de aquel espacio. Hice el camino hasta el famoso Arco de la Rua Augusta, tomé algunas fotos y seguí por la Rua Augusta.',
+                'p10': 'Lisboa me transmitió, desde el inicio, la sensación de una ciudad para ser vivida sin prisa. Para un brasileño, es casi imposible no identificar las similitudes. Estar en un país rodeado por otros que comparten la misma lengua hace que sea raro viajar fuera y aún ver carteles en portugués, reconocer el acento diferente (a veces sin entender todo) e identificar momentos históricos que conectan tan fuertemente a los dos países.',
+                'p11': 'Sin duda, me estaba gustando estar en Lisboa.',
+                'p12': 'Caminé por todo el centro histórico y, ya casi al final de la tarde, en uno de los últimos horarios posibles, entrei en el Convento do Carmo (entrada: €5). Con calma, observé las ruinas, caminé por el espacio y me senté por un tiempo a descansar.',
+                'p13': 'Hice el camino de vuelta absorbiendo casi desesperadamente todo lo que veía, como si quisiera guardar cada imagen.',
+                'h2_3': 'Cena en el centro histórico',
+                'p14': 'Había elegido hacer las reservas de los hostels por Hostelworld, principalmente porque la aplicación permite un chat entre personas que están en la misma ciudad. Sabía que, a diferencia de mi experiencia en Argentina, donde estaba rodeado de latinos y la socialización era casi automática, allí en Europa eso podría ser un poco más desafiante.',
+                'p15': 'Vi que había un grupo quedando para salir a cenar y decidí unirme. Cuando llegué, el grupo estaba formado solo por chicas, de diferentes países de Europa. Mi primer choque cultural fue inmediato: saludé a todas con un beso en la mejilla y rápidamente me di cuenta de que aquello no era exactamente apropiado. Contrastes culturales anotados.',
+                'p16': 'Después de un tiempo, llegó otro chico, que solo dio un hola general. Lección aprendida.',
+                'p17': 'Conversamos bastante sobre trabajo, vida en nuestros países y viajes pasados o futuros. En los hostels, es común que la gente esté siempre de paso. Terminé conversando más con el chico inglés y pronto descubrimos que estábamos hospedados en el mismo lugar.',
+                'p18': 'Lamentablemente, no era un grupo fiestero y nadie parecía animado a continuar la noche. A pesar del cansancio, siempre quiero salir. En algún momento, decidimos irnos y el inglés y yo volvimos caminando al hostel. La distancia era corta y, afortunadamente, el trayecto implicaba mayoritariamente bajadas.',
+                'h2_4': 'Un día en tierras reales — escapada de Lisboa a Sintra',
+                'p19': 'Para el segundo día, decidí ir a Sintra, un destino clásico para quienes visitan Lisboa. La idea fue parcialmente influenciada por el inglés, que también iría para allá. Fuimos en horarios diferentes y quedamos en encontrarnos.',
+                'p20': 'Llegar a Sintra es muy fácil. Hay un tren directo saliendo de Lisboa, que afortunadamente pasaba por la estación cerca de mi hostel. El trayecto dura cerca de 45 minutos (ida y vuelta: €5–7).',
+                'p21': 'Al llegar, me encontré con una ciudad aún más impresionante que Lisboa: una ladera montañosa cubierta de vegetación, con diversos castillos incrustados. Decidí comenzar por el Castelo dos Mouros (entrada: €10). Miré el camino en el mapa, parecía lejano, pero imaginé que sería una buena forma de conocer la ciudad a pie. Ese fue mi primer error.',
+                'p22': 'La subida hasta el Castelo dos Mouros es prácticamente un sendero. El camino está demarcado y mayoritariamente es de piedra, mas aun así es bastante exigente. Tardé más de media hora en llegar a la cima, sudado, quejándome de la vida y un poco indignado por la falta de accesibilidad.',
+                'p23': 'Cuando finalmente alcancé la cima y vi la entrada del castillo, descubrí una calle pavimentada. Obviamente había un camino asfaltado y líneas de autobús que llegan hasta allí. Bueno, aprendizajes. Al menos queda el consejo para ti, lector: hay una forma mucho más fácil de llegar vía transporte público.',
+                'sh1': 'El Castelo dos Mouros',
+                'p24': 'Mi amigo inglés llegó poco después. Él había ido antes al Palácio Nacional da Pena (entrada: €15), que, incluso visto de lejos, parece definitivamente un lugar que merece una visita.',
+                'p25': 'El Castelo dos Mouros fue construido durante la ocupación musulmana de la Península Ibérica, en el siglo X. La experiencia es excelente. Se trata de una fortificación extensa, con murallas, torres y senderos que permiten explorar buena parte del complejo.',
+                'p26': 'Caminamos por todo el castillo. Hay una gran escalera en la muralla y, desde lo alto, la vista de la ciudad y de los otros palacios es impresionante. Todo el esfuerzo vale la pena.',
+                'p27': 'Después de bastante tiempo explorando, paramos a comer en la cafetería cercana a la entrada del castillo, más por practicidad que por economía.',
+                'sh2': 'La Quinta da Regaleira',
+                'p28': 'Seguimos caminando por la calle, bajando la ladera hasta la Quinta da Regaleira (entrada: €12). La caminata dura unos 20 minutos y, como dice mi madre, toda bajada ayuda.',
+                'p29': 'Pagamos la entrada, guardamos nuestras cosas y fuimos a explorar. El lugar es bellísimo: un palacio rodeado de jardines enormes, senderos, grutas y áreas exteriores ideales para caminar sin prisa. Fue una tarde muy agradable y me alegré de estar acompañado, ya que es el tipo de lugar hecho para observar y conversar.',
+                'p30': 'Las estructuras más famosas son el Poço Iniciático y el Poço Imperfeito, ambos con más de 25 metros de profundidad. La fila para bajar suele ser grande, ya que todos quieren enfrentar las escaleras húmedas y estrechas.',
+                'p31': 'Al final, hay un túnel que lleva a una gruta y a una vista bonita, cerrando bien el recorrido.',
+                'p32': 'Explorando los jardines, encontramos otra entrada a lo que parecía ser una gruta. Caminamos por los túneles con la luz de los móviles, sin tener la certeza absoluta de que ese camino estuviera permitido, lo que solo hizo la experiencia más curiosa.',
+                'p33': 'Después de recorrer prácticamente todo, seguimos hacia la salida. Mi amigo tenía entrada para otro palacio, mas como yo no había hecho ninguna planificación, cuando intenté comprarla ya estaba agotada.',
+                'p34': 'Nos despedimos, y fui a explorar las calles de Sintra por mi cuenta. La ciudad es extremadamente encantadora. Caminé por las calles sinuosas, me detuve frente al Palácio Nacional de Sintra (entrada: €10), tomé un helado y circulé por el centro comercial. Después de un día entero de caminatas, el cansancio golpeó. Volví a la estación y tomé el primer tren de vuelta a Lisboa, ya pensando en baño, descanso y en la salida nocturna combinada.',
+                'h2_5': 'Bairro Alto',
+                'p35': 'Más tarde, después de descansar y cenar en un pequeño restaurante cerca del hostel, encontré a mi amigo en la recepción y seguimos hacia el Bairro Alto. Como el nombre sugiere, está en una parte alta de la ciudad, muy cerca de donde estábamos, sin considerar el detalhe de la cuesta del Elevador da Glória.',
+                'p36': 'La calle principal estaba llena de bares con ambiente de mini clubs, música alta y gente bailando. La música brasileña domina el Bairro Alto, con funk, sertanejo y otros ritmos sonando en varios lugares.',
+                'p37': 'Hostesses se quedan en las puertas invitando a entrar, generalmente ofreciendo una bebida gratis. Con un poco de astucia, se pueden aprovechar varias de estas invitaciones.',
+                'p38': 'Después de unas copas, elegimos quedarnos en un bar llamado Copacabana. La música mezclaba ritmos brasileños con clásicos internacionales de los años 2000, lo que funciona bien en un ambiente lleno de turistas.',
+                'p39': 'Tal vez hubo algún flirteo aquí y allá, mas confieso que todavía me sentía inseguro sobre las dinámicas sociales europeas. Queda el famoso "tal vez debí intentarlo". La vida sigue.',
+                'h2_6': 'Torre de Belém e entornos',
+                'p40': 'A la mañana siguiente, tomé el metro en dirección a la Torre de Belém (entrada: €6). Sufriendo de nuevo con el factor lunes, encontré la torre cerrada. Sin la visita interna, me enfoqué en las fotos por fuera y me quedé un tiempo apreciando la vista.',
+                'p41': 'Después, caminé por el paseo marítimo a orillas del río Tajo hasta el Padrão dos Descobrimentos, un monumento imponente construido en honor a los 500 años de la muerte de Enrique el Navegante. Crucé la avenida, pasé por el Jardim da Praça do Império y siguió hasta la Igreja de Santa Maria de Belém.',
+                'h2_7': 'Cais do Sodré, Pink Street y otra vuelta por el centro',
+                'p42': 'Quería conocer la famosa Pink Street, en Cais do Sodré. Bajé en la estación, caminé por la orilla del río y seguí hasta la calle de suelo rosa y paraguas de colores. La región es encantadora y está llena de bares y restaurantes, con precios claramente turísticos.',
+                'p43': 'Después de circular por el barrio, volví a la Praça do Comércio para unas fotos más y busqué un lugar para almorzar y recargar el móvil.',
+                'p44': 'Aproveché el resto de la tarde para pasar por puntos que aún no había visto. Pasé por el Elevador de Santa Justa (entrada: €3), seguí hasta la Catedral da Sé (entrada: €3) e, en el camino, descubrí la Igreja de Santo Antônio, lugar donde nació el santo.',
+                'h2_8': 'Castillo de San Jorge',
+                'p45': 'Estaba especialmente ansioso por visitar el Castelo de São Jorge (entrada: €10), ubicado en el punto más alto de Lisboa. La visita no decepcionó. El castillo tiene vistas espectaculares y un museo que cuenta la historia de la ciudad.',
+                'p46': 'Datado del siglo IX y también construido por los moros, el conjunto de murallas me hizo sentir dentro de una escena de Juego de Tronos. En una de las áreas, se atraviesa un puente sobre un foso para entrar por un gran portal en arco.',
+                'h2_9': 'Puesta de sol en el Miradouro de Santa Catarina',
+                'p47': 'Con las horas finales del viaje acercándose, quería terminar Lisboa con una buena puesta de sol. Fui hasta el Miradouro de Santa Catarina, que resultó ser la elección perfecta.',
+                'p48': 'El lugar estaba lleno, mas con una atmósfera agradable. Compré una copa gigante de Aperol Spritz y me quedé viendo el espectáculo musical improvisado de un brasileño. Hay placas con poemas esparcidas por las barandillas, y aproveché para leerlas.',
+                'p49': 'En lo alto de una casa cercana, una frase me llamó la atención: Yes, Life is good. En ese momento, era difícil no estar de acuerdo.',
+                'h2_10': 'Otros lugares para visitar en una próxima vez',
+                'p50': 'Fueron solo 3 días y, aunque muy intensos, no serían suficientes para ver todo lo que Lisboa tiene para ofrecer. La ciudad dejó claro que siempre guarda algo para después.',
+                'p51': 'Algunos lugares importantes quedaron fuera del itinerario, ya sea por falta de tempo, colas largas o simples elecciones hechas a lo largo de los días. Entre ellos están el Mosteiro dos Jerónimos (€10), una de las obras más emblemáticas de la ciudad, el Museu do Fado (€5), o MAAT (€9) y el Museu do Azulejo (€5).',
+                'p52': 'Barrios como Alfama y Graça merecían más tiempo, así como Belém, que pide una exploración más lenta. También quedaron fuera lugares como la LX Factory, el Parque Monsanto, algunas casas de fado tradicionales, un paseo completo en el Elétrico 28 (€3) e escapadas a Cascais o Costa da Caparica.',
+                'p53': 'Tal vez ese sea el mayor mérito de Lisboa: incluso cuando sientes que has visto bastante, te deja la impresión de que todavía hay mucho más esperando. Y eso, convengamos, siempre es un buen motivo para volver.',
+                'faq_title': 'Preguntas frecuentes sobre Lisboa en 3 días',
+                'q1': '¿Es posible conocer lo esencial de Lisboa en solo 3 días?',
+                'a1': 'Sí, 3 días permiten recorrer el centro histórico, Belém y hacer una escapada a Sintra. Este itinerario se centra en caminar, lo que optimiza el tiempo entre las atracciones principales.',
+                'q2': '¿Es muy cansado el recorrido a pie por Lisboa?',
+                'a2': 'Sí, Lisboa es la ciudad de las siete colinas y esta ruta exige un esfuerzo físico considerable. Las subidas como la del Elevador da Glória y los senderos de Sintra son empinados.',
+                'q3': '¿Cómo funciona el transporte para la excursión a Sintra?',
+                'a3': 'El acceso es muy sencillo en tren desde estaciones centrales como Rossio. El viaje dura unos 45 minutos y cuesta entre 5€ y 7€ (ida y vuelta).',
+                'q4': '¿Vale la pena subir al Castelo dos Mouros a pé?',
+                'a4': 'El sendero es bonito pero muy pesado, con más de 30 minutos de suvida intensa. Para ahorrar energía, hay autobuses que llevan directamente a la entrada pavimentada.',
+                'q5': '¿Cuál es el coste medio de las entradas a las principales atracciones?',
+                'a5': 'Los precios varían entre 3€ (Catedral e Elevadores) y 15€ (Palacio de la Pena). El Castillo de San Jorge y el de los Moros cuestan unos 10€ cada uno.',
+                'related_title': 'Leer también',
+                'cat_rel1': 'Argentina',
+                'rel_title1': 'Salta, la linda',
+                'cat_rel2': 'Gibraltar',
+                'rel_title2': 'Interrogatorio en Gibraltar',
+                'cat_rel3': 'Argentina',
+                'rel_title3': 'Buenos Aires Gratis',
+                'labelAd': 'Alojamiento',
+                'badgeAd': 'Publicidade',
+                'titleAd': '¿Dónde dormir en Lisboa?',
+                'btnAd': 'Ver Ofertas →',
+                'footer_text': '© 2026 Paco Sousa · Diarios de un Nómada'
+            }
+        };
+
+        window.changeLanguage = function(lang) {
+            const t = translations[lang] || translations['pt'];
+            const elements = document.querySelectorAll('[id]');
+            elements.forEach(el => {
+                const id = el.id;
+                if (t[id] !== undefined) {
+                    el.innerHTML = t[id];
+                }
+            });
+
+            const bookingCard = document.getElementById('ad-booking');
+            const adLink = document.getElementById('ad-link');
+            const adImg = document.getElementById('ad-img');
+            if (bookingCard && adConfig[lang]) {
+                bookingCard.classList.remove('hidden');
+                if (adLink) adLink.href = adConfig[lang].link;
+                if (adImg) adImg.src = adConfig[lang].img;
+            } else if (bookingCard) {
+                bookingCard.classList.add('hidden');
+            }
+
+            document.documentElement.lang = lang;
+            localStorage.setItem('paco_blog_lang', lang);
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('paco_blog_lang') || 'pt';
+            window.changeLanguage(savedLang);
+        });
+    </script>
+
+    <!-- SCHEMA FAQPAGE (JSON-LD) PORTUGUÊS -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "inLanguage": "pt-BR",
+      "mainEntity": [{
+        "@type": "Question",
+        "name": "É possível conhecer o essencial de Lisboa em apenas 3 dias?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Sim, 3 dias permitem percorrer o centro histórico, Belém e ainda fazer um bate-volta a Sintra. O foco deste roteiro é a exploração a pé, o que otimiza o tempo entre as atrações principais."
+        }
+      }, {
+        "@type": "Question",
+        "name": "O roteiro em Lisboa é muito cansativo?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Sim, Lisboa é a cidade das sete colinas e este roteiro exige bastante esforço físico. As subidas como a do Elevador da Glória e as trilhas em Sintra são íngremes e cansativas."
+        }
+      }, {
+        "@type": "Question",
+        "name": "Como funciona o transporte para o bate-volta de Sintra?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "O acesso é muito simples via comboio (trem) saindo de estações centrais como o Rossio. A viagem dura cerca de 45 minutos e custa entre 5€ e 7€ (ida e volta)."
+        }
+      }, {
+        "@type": "Question",
+        "name": "Vale a pena subir ao Castelo dos Mouros a pé?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A trilha é bonita, mas muito puxada e leva mais de 30 minutos de subida intensa. Para quem quer poupar energia, existem autocarros que levam diretamente à entrada pavimentada."
+        }
+      }, {
+        "@type": "Question",
+        "name": "Qual o custo médio dos ingressos das principais atrações?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Os preços variam entre 3€ (Catedral e Elevadores) e 15€ (Palácio da Pena). O Castelo de São Jorge e o dos Mouros custam cerca de 10€ cada."
+        }
+      }]
+    }
+    </script>
+
+    <!-- SCHEMA FAQPAGE (JSON-LD) ENGLISH -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "inLanguage": "en",
+      "mainEntity": [{
+        "@type": "Question",
+        "name": "Is it possible to see the essentials of Lisbon in just 3 days?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, 3 days allow you to explore the historic center, Belém, and take a day trip to Sintra. This itinerary focuses on walking, which optimizes time between main attractions."
+        }
+      }, {
+        "@type": "Question",
+        "name": "Is the walking route in Lisbon very tiring?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, Lisbon is the city of seven hills and this route requires significant physical effort. Climbs like the Glória Lift and the Sintra trails are steep and demanding."
+        }
+      }, {
+        "@type": "Question",
+        "name": "How does transportation for the Sintra day trip work?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Access is very simple via train departing from central stations like Rossio. The journey takes about 45 minutes and costs between €5 and €7 (round trip)."
+        }
+      }, {
+        "@type": "Question",
+        "name": "Is it worth walking up to the Moors Castle?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The trail is beautiful but very tough, taking over 30 minutes of intense climbing. To save energy, there are buses that take you directly to the paved entrance."
+        }
+      }, {
+        "@type": "Question",
+        "name": "What is the average ticket cost for the main attractions?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Prices range from €3 (Cathedral and Lifts) to €15 (Pena Palace). Saint George\'s Castle and the Moors Castle cost about €10 each."
+        }
+      }]
+    }
+    </script>
+
+    <!-- SCHEMA FAQPAGE (JSON-LD) ESPAÑOL -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "inLanguage": "es",
+      "mainEntity": [{
+        "@type": "Question",
+        "name": "¿Es posible conocer lo esencial de Lisboa en solo 3 días?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Sí, 3 días permiten recorrer el centro histórico, Belém y hacer una escapada a Sintra. Este itinerario se centra en caminar, lo que optimiza el tiempo entre las atracciones principales."
+        }
+      }, {
+        "@type": "Question",
+        "name": "¿Es muy cansado el recorrido a pie por Lisboa?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Sí, Lisboa es la ciudad de las siete colinas y esta ruta exige un esfuerzo físico considerable. Las subidas como la del Elevador da Glória y los senderos de Sintra son empinados."
+        }
+      }, {
+        "@type": "Question",
+        "name": "¿Cómo funciona el transporte para la excursión a Sintra?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "El acceso es muy sencillo en tren desde estaciones centrales como Rossio. El viaje dura unos 45 minutos y cuesta entre 5€ y 7€ (ida y vuelta)."
+        }
+      }, {
+        "@type": "Question",
+        "name": "¿Vale la pena subir al Castelo dos Mouros a pie?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "El sendero es bonito pero muy pesado, con más de 30 minutos de suvida intensa. Para ahorrar energía, hay autobuses que llevan directamente a la entrada pavimentada."
+        }
+      }, {
+        "@type": "Question",
+        "name": "¿Cuál es el coste medio de las entradas a las principales atracciones?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Los precios varían entre 3€ (Catedral y Elevadores) y 15€ (Palacio de la Pena). El Castillo de San Jorge y el de los Moros cuestan unos 10€ cada uno."
+        }
+      }]
+    }
+    </script>
+</body>
+</html>

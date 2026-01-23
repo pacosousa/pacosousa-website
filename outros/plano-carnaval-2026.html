@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard: Projeto Carnaval 2025 | Paco Sousa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #0D0D0D; color: #F0F0F0; }
+        .glass { background: rgba(22, 22, 22, 0.8); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.05); }
+        .accent-border { border-left: 4px solid #FF3366; }
+        .checkbox-custom:checked + label { text-decoration: line-through; color: #666; }
+        input[type="number"]::-webkit-inner-spin-button { display: none; }
+        
+        #status-toast {
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform: translateY(100px);
+            opacity: 0;
+        }
+        #status-toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="min-h-screen pb-20">
+
+    <div id="app" class="max-w-5xl mx-auto px-6 pt-10">
+        <!-- Header -->
+        <header class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
+            <div>
+                <h1 class="text-4xl font-black italic tracking-tighter">PROJETO CARNAVAL <span class="text-[#FF3366]">2025</span></h1>
+                <p class="text-gray-400 text-sm mt-1 flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+                    Salvo Localmente (Memória do Navegador)
+                </p>
+            </div>
+            <div class="flex gap-3">
+                <div class="glass p-4 rounded-2xl text-center min-w-[120px]">
+                    <span class="block text-[10px] uppercase font-bold text-gray-500">Dias Restantes</span>
+                    <span id="days-left" class="text-2xl font-black text-[#4DD0E1]">--</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- KPI Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            <div class="glass p-6 rounded-3xl accent-border">
+                <h3 class="text-gray-500 text-xs font-bold uppercase mb-2">Total Leads (Emails)</h3>
+                <div class="flex items-end gap-2">
+                    <input type="number" id="kpi-leads" class="bg-transparent text-3xl font-black text-white w-24 outline-none border-b border-white/10 focus:border-[#FF3366]" value="0">
+                    <span class="text-gray-600 text-sm mb-1">/ 500</span>
+                </div>
+                <div class="w-full bg-white/5 h-1.5 mt-4 rounded-full overflow-hidden">
+                    <div id="bar-leads" class="bg-[#FF3366] h-full transition-all duration-500" style="width: 0%"></div>
+                </div>
+            </div>
+            <div class="glass p-6 rounded-3xl" style="border-left: 4px solid #4DD0E1;">
+                <h3 class="text-gray-500 text-xs font-bold uppercase mb-2">Guias Vendidos</h3>
+                <div class="flex items-end gap-2">
+                    <input type="number" id="kpi-sales" class="bg-transparent text-3xl font-black text-white w-24 outline-none border-b border-white/10 focus:border-[#4DD0E1]" value="0">
+                    <span class="text-gray-600 text-sm mb-1">/ 135</span>
+                </div>
+                <div class="w-full bg-white/5 h-1.5 mt-4 rounded-full overflow-hidden">
+                    <div id="bar-sales" class="bg-[#4DD0E1] h-full transition-all duration-500" style="width: 0%"></div>
+                </div>
+            </div>
+            <div class="glass p-6 rounded-3xl" style="border-left: 4px solid #6633FF;">
+                <h3 class="text-gray-500 text-xs font-bold uppercase mb-2">Faturamento Est.</h3>
+                <div class="flex items-baseline gap-1">
+                    <span class="text-gray-500 font-bold">R$</span>
+                    <span id="kpi-revenue" class="text-3xl font-black text-white">0</span>
+                </div>
+                <p class="text-[10px] text-gray-500 mt-4 uppercase">Meta Otimista: R$ 24.000</p>
+            </div>
+        </div>
+
+        <!-- Checklist & Planning -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+            <!-- Checklist por Semanas -->
+            <section>
+                <h2 class="text-2xl font-black mb-6 italic">Cronograma de Execução</h2>
+                <div id="weeks-container" class="space-y-6">
+                    <!-- Gerado via JS -->
+                </div>
+            </section>
+
+            <!-- Resumo e Ferramentas -->
+            <section class="space-y-8">
+                <div class="glass p-8 rounded-[2.5rem]">
+                    <h2 class="text-xl font-black mb-4 italic text-[#FF3366]">Estratégia Reddit (40%)</h2>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li class="flex items-start gap-2"><span>•</span> Postar guias de 2.000 palavras (r/Brazil, r/solotravel)</li>
+                        <li class="flex items-start gap-2"><span>•</span> Responder 5-10 threads/dia sobre o Rio</li>
+                        <li class="flex items-start gap-2"><span>•</span> 2 AMAs agendados para S3 e S4</li>
+                    </ul>
+                </div>
+
+                <div class="glass p-8 rounded-[2.5rem]">
+                    <h2 class="text-xl font-black mb-4 italic text-[#4DD0E1]">Produtos Ativos</h2>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center border-b border-white/5 pb-2">
+                            <span class="text-sm">Survival Guide (EN/ES)</span>
+                            <span class="text-[#4DD0E1] font-bold">USD 10</span>
+                        </div>
+                        <div class="flex justify-between items-center border-b border-white/5 pb-2">
+                            <span class="text-sm">Port. Classes (Hour)</span>
+                            <span class="text-[#4DD0E1] font-bold">R$ 140</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm">Planning Consult</span>
+                            <span class="text-[#4DD0E1] font-bold">R$ 220</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center p-6 bg-white/5 rounded-3xl border border-white/5">
+                    <button id="save-btn" class="w-full bg-white text-black font-black py-4 px-10 rounded-2xl hover:bg-[#FF3366] hover:text-white transition-all transform hover:scale-[1.02]">
+                        SALVAR AGORA
+                    </button>
+                    <p class="text-[10px] text-gray-600 mt-4 uppercase tracking-widest">Clique para garantir que as alterações foram memorizadas</p>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="status-toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 glass px-8 py-4 rounded-full border border-white/10 flex items-center gap-3 z-[1000]">
+        <div class="w-2 h-2 rounded-full bg-green-500"></div>
+        <span id="toast-message" class="text-sm font-bold uppercase tracking-widest text-white">Salvo!</span>
+    </div>
+
+    <script>
+        const CARNAVAL_DATA = {
+            weeks: [
+                {
+                    title: "Semana 1: Produção (10-16 Jan)",
+                    tasks: [
+                        "Finalizar Guia Completo (EN + ES)",
+                        "Criar Mini-Guia Grátis (Lead Magnet)",
+                        "Landing Page (Opt-in + Venda)",
+                        "Configurar Gumroad + Mailchimp",
+                        "Publicar 2 Artigos de SEO no Blog"
+                    ]
+                },
+                {
+                    title: "Semana 2: Soft Launch (17-23 Jan)",
+                    tasks: [
+                        "Publicar +2 Artigos SEO",
+                        "Início da rotina Reddit (2 posts/dia)",
+                        "Posts diários no Instagram",
+                        "Primeira sequência de e-mail ativa"
+                    ]
+                },
+                {
+                    title: "Semana 3: Escala (24-30 Jan)",
+                    tasks: [
+                        "AMA no Reddit",
+                        "Parcerias com 30 Hostels do Rio",
+                        "DM para Micro-influencers",
+                        "Enviar Guest Posts para blogs"
+                    ]
+                },
+                {
+                    title: "Semana 4: Urgency (31 Jan - 6 Fev)",
+                    tasks: [
+                        "Campanha 'Faltam 2 semanas'",
+                        "Cupom de Desconto 15% (48h)",
+                        "Live Q&A no Instagram",
+                        "Fechamento de turmas de aula"
+                    ]
+                },
+                {
+                    title: "Semana 5: Sprint Final (7-16 Fev)",
+                    tasks: [
+                        "E-mail marketing diário",
+                        "Stories ao vivo de pré-carnaval",
+                        "Última chamada de vendas",
+                        "Organizar grupo de WhatsApp compradores"
+                    ]
+                }
+            ]
+        };
+
+        let currentProgress = {};
+
+        function showToast(message) {
+            const toast = document.getElementById('status-toast');
+            const msgEl = document.getElementById('toast-message');
+            msgEl.innerText = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+
+        function updateStats() {
+            const leads = parseInt(document.getElementById('kpi-leads').value) || 0;
+            const sales = parseInt(document.getElementById('kpi-sales').value) || 0;
+            
+            const leadsPerc = Math.min((leads / 500) * 100, 100);
+            const salesPerc = Math.min((sales / 135) * 100, 100);
+            
+            document.getElementById('bar-leads').style.width = leadsPerc + '%';
+            document.getElementById('bar-sales').style.width = salesPerc + '%';
+            
+            const revenue = (sales * 55) + (sales * 0.25 * 140) + (sales * 0.1 * 220); 
+            document.getElementById('kpi-revenue').innerText = Math.round(revenue).toLocaleString('pt-PT');
+
+            const deadline = new Date("2026-02-17");
+            const now = new Date();
+            const diff = Math.ceil((deadline - now) / (1000 * 60 * 60 * 24));
+            document.getElementById('days-left').innerText = diff > 0 ? diff : 0;
+        }
+
+        function renderChecklist() {
+            const container = document.getElementById('weeks-container');
+            container.innerHTML = CARNAVAL_DATA.weeks.map((week, wIdx) => `
+                <div class="glass p-6 rounded-3xl">
+                    <h3 class="font-bold text-sm mb-4 text-gray-300 uppercase tracking-widest flex items-center gap-2">
+                        <span class="w-1.5 h-1.5 rounded-full bg-[#FF3366]"></span>
+                        ${week.title}
+                    </h3>
+                    <div class="space-y-3">
+                        ${week.tasks.map((task, tIdx) => {
+                            const id = `task-${wIdx}-${tIdx}`;
+                            const checked = currentProgress[id] ? 'checked' : '';
+                            return `
+                                <div class="flex items-center gap-3 group">
+                                    <input type="checkbox" id="${id}" ${checked} class="checkbox-custom w-5 h-5 accent-[#FF3366] bg-black/40 border-white/10 rounded cursor-pointer">
+                                    <label for="${id}" class="text-sm cursor-pointer text-gray-400 group-hover:text-white">${task}</label>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                </div>
+            `).join('');
+
+            container.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+                cb.addEventListener('change', (e) => {
+                    currentProgress[e.target.id] = e.target.checked;
+                });
+            });
+        }
+
+        function saveData() {
+            const dataToSave = {
+                tasks: currentProgress,
+                leads: document.getElementById('kpi-leads').value,
+                sales: document.getElementById('kpi-sales').value,
+                updatedAt: new Date().toISOString()
+            };
+            localStorage.setItem('carnaval_2025_v2', JSON.stringify(dataToSave));
+            showToast("ALTERAÇÕES SALVAS!");
+        }
+
+        function loadData() {
+            const saved = localStorage.getItem('carnaval_2025_v2');
+            if (saved) {
+                const data = JSON.parse(saved);
+                currentProgress = data.tasks || {};
+                document.getElementById('kpi-leads').value = data.leads || 0;
+                document.getElementById('kpi-sales').value = data.sales || 0;
+            }
+            renderChecklist();
+            updateStats();
+        }
+
+        // Listeners
+        document.getElementById('save-btn').addEventListener('click', saveData);
+        document.getElementById('kpi-leads').addEventListener('input', updateStats);
+        document.getElementById('kpi-sales').addEventListener('input', updateStats);
+
+        // Inicializar
+        window.onload = loadData;
+    </script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+
+# Bloqueios técnicos
+Disallow: /ig/
+Disallow: /tk/
+Disallow: /js/
+Disallow: /images/
+Disallow: /videos/
+Disallow: /outros/
+
+
+
+Sitemap: https://pacosousa.com/sitemap.xml
