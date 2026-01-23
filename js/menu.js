@@ -173,40 +173,19 @@ const getCookieConsent = () => localStorage.getItem('paco_cookie_consent');
 
 
 
-// SCHEMA (Infos Globais para SEO Google - Identidade do Paco)
-const injectGlobalSchema = () => {
-    const schema = {
-        "@context": "https://schema.org",
-        "@graph": [
-            {
-                "@type": "Person",
-                "@id": "https://pacosousa.com/#person",
-                "name": "Paco Sousa",
-                "url": "https://pacosousa.com/",
-                "image": "https://pacosousa.com/images/logo-blog.webp",
-                "description": "Nômade digital e produtor de conteúdo sobre viagens e estilo de vida.",
-                "sameAs": [
-                    "https://www.instagram.com/opacosousa/",
-                    "https://www.tiktok.com/@opacosousa",
-                    "https://www.linkedin.com/in/franciscosjunior/"
-                ]
-            },
-            {
-                "@type": "WebSite",
-                "@id": "https://pacosousa.com/#website",
-                "url": "https://pacosousa.com/",
-                "name": "Diários de um Nômade",
-                "publisher": { "@id": "https://pacosousa.com/#person" },
-                "inLanguage": ["pt-BR", "es", "en"]
-            }
-        ]
-    };
-    const script = document.createElement('script');
-    script.type = 'application/ld+json';
-    script.text = JSON.stringify(schema);
-    document.head.appendChild(script);
-};
-injectGlobalSchema();
+// SCHEMA (Infos Globais para SEO Google)
+	const script = document.createElement('script');
+	script.type = 'application/ld+json';
+	script.text = JSON.stringify({
+	  "@context": "https://schema.org",
+ 	 "@type": "Person",
+	  "name": "Paco Sousa",
+	  "url": "https://pacosousa.com/",
+ 	 "sameAs": [
+ 	   "https://www.linkedin.com/in/franciscosjunior/",
+	    "https://www.instagram.com/opacosousa/",
+  ]
+});
 document.head.appendChild(script);
 
 

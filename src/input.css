@@ -1,1 +1,4 @@
-﻿@import 'tailwindcss';
+﻿@import "tailwindcss";
+
+/* Adicione esta linha apontando para onde seu menu.js está */
+@source "../js/menu.js";
