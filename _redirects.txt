@@ -1,2 +1,0 @@
-/articles/*.html  /articles/:splat  301!
-/* /index.html       200
