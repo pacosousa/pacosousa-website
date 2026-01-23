@@ -1,21 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR" class="scroll-smooth">
 <head>
-    <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-5XSQKSQ8');</script>
-
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-88CEX3DZ05"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-88CEX3DZ05');
-    </script>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -101,9 +86,11 @@
      fetchpriority="high"
     >
 
+    <link rel="preconnect" href="https://www.googletagmanager.com">
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+
 </head>
 <body>
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5XSQKSQ8" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <header id="main-header"></header>
 
@@ -564,6 +551,13 @@ window.changeLanguage = function(lang) {
 
     document.documentElement.lang = lang;
     localStorage.setItem('paco_blog_lang', lang);
+
+    // 3. Verificação de Eventos de Idioma (GA4/GTM)
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+     'event': 'language_change',
+     'language': lang
+    });
 };
 
 // Inicialização
@@ -573,5 +567,34 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
     </script>
+
+<script>
+(function () {
+  let loaded = false;
+
+  function loadGTM() {
+    if (loaded) return;
+    loaded = true;
+
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      'gtm.start': new Date().getTime(),
+      event: 'gtm.js'
+    });
+
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = 'https://www.googletagmanager.com/gtm.js?id=GTM-5XSQKSQ8';
+    document.head.appendChild(script);
+  }
+
+  ['scroll', 'mousemove', 'touchstart', 'keydown'].forEach(event => {
+    window.addEventListener(event, loadGTM, { once: true, passive: true });
+  });
+
+  setTimeout(loadGTM, 4000);
+})();
+</script>
+
 </body>
 </html>
