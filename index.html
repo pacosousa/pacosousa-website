@@ -81,7 +81,12 @@
     </style>
 
     <link rel="canonical" href="https://pacosousa.com/">
-    <link rel="preload" as="image" href="/images/viagem.webp">
+    <link
+      rel="preload"
+     as="image"
+     href="/images/viagem.webp"
+     fetchpriority="high"
+    >
 
 </head>
 <body>
@@ -96,6 +101,9 @@
           src="images/viagem.webp"
           alt="balões sobrevoando a Capadócia, na Turquia"
           fetchpriority="high"
+          decoding="async"
+          width="1182"
+          height="665"
           class="absolute inset-0 w-full h-full object-cover"
         >
         <div class="absolute inset-0 bg-black/60"></div>
