@@ -8,13 +8,17 @@
       font-style: normal;
       font-weight: 400;
       font-display: swap;
-      src: url('/dist/inter/Inter-Regular.woff2') format('woff2');
+      src: url('../dist/inter/Inter-Regular.woff2') format('woff2');
+    }
+    @font-face {
+      font-family: 'Inter';
+      font-weight: 700;
+      src: url('../dist/inter/Inter-Bold.woff2') format('woff2');
+      font-display: swap;
     }
     </style>
 
     <link rel="preload" href="../dist/inter/Inter-Regular.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="../dist/inter/Inter-Medium.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="../dist/inter/Inter-Bold.woff2" as="font" type="font/woff2" crossorigin>
     <link
       rel="preload"
       href="../dist/fonts.css"
@@ -22,7 +26,7 @@
       onload="this.rel='stylesheet'"
     >
     <noscript>
-      <link rel="stylesheet" href="../dist/fonts.css">
+        <link rel="stylesheet" href="../dist/fonts.css">
     </noscript>
     <link rel="stylesheet" href="../dist/output.css">
 
@@ -64,10 +68,10 @@
         --accent-primary: #FF3366; --accent-secondary: #6633FF; --accent-tertiary: #4DD0E1; 
       }
       body { font-family: 'Inter', sans-serif; background-color: var(--bg-main); color: var(--text-main); }
-      h1, h2, h3, h4 { font-family: 'Poppins', sans-serif; }
+      h1, h2, h3, h4 { font-family: 'Inter', sans-serif; }
       
       /* Tipografia do Artigo */
-      .drop-cap::first-letter { font-family: 'Poppins', sans-serif; font-size: 5rem; font-weight: 800; float: left; margin-right: 0.75rem; line-height: 0.8; color: var(--accent-primary); }
+      .drop-cap::first-letter { font-family: 'Inter', sans-serif; font-size: 5rem; font-weight: 800; float: left; margin-right: 0.75rem; line-height: 0.8; color: var(--accent-primary); }
       .article-content p { margin-bottom: 1.5rem; line-height: 1.8; color: #BBB; font-size: 1.1rem; }
       .article-content h2 { color: white; font-weight: 800; font-size: 1.8rem; margin-top: 3.5rem; margin-bottom: 1.5rem; font-style: italic; text-transform: uppercase; letter-spacing: -0.02em; }
       .article-content h3 { color: white; font-weight: 700; font-size: 1.4rem; margin-top: 2.5rem; margin-bottom: 1rem; }
