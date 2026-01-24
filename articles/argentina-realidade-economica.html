@@ -28,20 +28,12 @@
 
     <title id="meta_title">Argentina 2026: Vale a pena viajar agora? | Diários de um Nômade</title>
     
-    <!-- Google Tag Manager / Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-88CEX3DZ05"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-88CEX3DZ05');
-
-    </script>
+    <link rel="preconnect" href="https://www.googletagmanager.com">
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
 
     <link rel="stylesheet" href="../dist/fonts.css">
     <link rel="stylesheet" href="../dist/output.css">
-    <script src="../js/menu.js"></script>
-    <script type="module" src="../js/comments.js"></script>
+    <script src="../js/menu.js" defer></script>
 
     <style>
       :root {
@@ -73,6 +65,7 @@
     </style>
 
     <!-- ADIÇÕES MANUAIS SEO -->
+     <link rel="preload" as="image" href="../images/capa-argentina-economia.webp" fetchpriority="high">
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -200,14 +193,14 @@
                         <div class="h-48 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" style="background-image: url('../images/capa-buenos-aires-gratis.webp');"></div>
                         <div class="p-8">
                             <span class="text-[var(--accent-primary)] text-[10px] font-bold uppercase tracking-widest mb-2 block" id="rel_cat_1"></span>
-                            <h4 class="text-xl font-bold text-white group-hover:text-[var(--accent-primary)] transition-colors" id="rel_title_1"></h4>
+                            <h3 class="text-xl font-bold text-white group-hover:text-[var(--accent-primary)] transition-colors" id="rel_title_1"></h4>
                         </div>
                     </a>
                     <a href="minha-vida-nomade.html" class="related-card group block">
                         <div class="h-48 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" style="background-image: url('../images/capa-vida-nomade.webp');"></div>
                         <div class="p-8">
                             <span class="text-[var(--accent-secondary)] text-[10px] font-bold uppercase tracking-widest mb-2 block" id="rel_cat_2"></span>
-                            <h4 class="text-xl font-bold text-white group-hover:text-[var(--accent-secondary)] transition-colors" id="rel_title_2"></h4>
+                            <h3 class="text-xl font-bold text-white group-hover:text-[var(--accent-secondary)] transition-colors" id="rel_title_2"></h4>
                         </div>
                     </a>
                 </div>
@@ -410,5 +403,37 @@
             document.addEventListener('keydown', (e) => { if (e.key === 'Escape') window.closeLightbox(); });
         });
     </script>
+
+<script>
+(function () {
+  let loaded = false;
+
+  function loadGTM() {
+    if (loaded) return;
+    loaded = true;
+
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      'gtm.start': new Date().getTime(),
+      event: 'gtm.js'
+    });
+
+    const script = document.createElement('script');
+    script.async = true;
+    // Este ID GTM-5XSQKSQ8 gerencia suas tags com performance
+    script.src = 'https://www.googletagmanager.com/gtm.js?id=GTM-5XSQKSQ8';
+    document.head.appendChild(script);
+  }
+
+  // Interação do usuário dispara o carregamento
+  ['scroll', 'mousemove', 'touchstart', 'keydown'].forEach(event => {
+    window.addEventListener(event, loadGTM, { once: true, passive: true });
+  });
+
+  // Se o usuário não mexer em nada, carrega após 4 segundos
+  setTimeout(loadGTM, 4000);
+})();
+</script>
+
 </body>
 </html>
