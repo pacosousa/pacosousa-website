@@ -462,7 +462,7 @@ function injectMenu() {
                 </div>
                 <div class="flex items-center space-x-3">
                     <a href="${basePath}lp/portuguese-classes" class="nav-course-btn hidden px-4 py-2 bg-[#FF3366] text-white text-[10px] font-black uppercase rounded-full hover:scale-105 transition-all shadow-lg" data-i18n="nav_course">Aulas</a>
-                    <select id="languageSelector" onchange="handleLanguageChange(this.value)" class="bg-[#1B1B1B] text-white text-[10px] font-bold py-2 px-3 rounded-lg border border-white/10 outline-none cursor-pointer hover:border-[#FF3366] transition-all">
+                    <select id="languageSelector" aria-label="Selecionar idioma" onchange="handleLanguageChange(this.value)" class="bg-[#1B1B1B] text-white text-[10px] font-bold py-2 px-3 rounded-lg border border-white/10 outline-none cursor-pointer hover:border-[#FF3366] transition-all">
                         <option value="pt" ${currentLang === 'pt' ? 'selected' : ''}>PORTUGUÊS</option>
                         <option value="es" ${currentLang === 'es' ? 'selected' : ''}>ESPAÑOL</option>
                         <option value="en" ${currentLang === 'en' ? 'selected' : ''}>ENGLISH</option>
