@@ -62,8 +62,18 @@
       gtag('config', 'G-88CEX3DZ05');
     </script>
 
+<link rel="preload" href="../dist/fonts.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<link rel="preload" href="../dist/output.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript>
     <link rel="stylesheet" href="../dist/fonts.css">
     <link rel="stylesheet" href="../dist/output.css">
+</noscript>
+
+<script>
+/*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+!function(e){"use strict";var t=function(t,n,r,o){var i,a=e.document,d=a.createElement("link");if(n)i=n;else{var f=(a.body||a.getElementsByTagName("head")[0]).childNodes;i=f[f.length-1]}var s=a.styleSheets;if(o)for(var l in o)o.hasOwnProperty(l)&&d.setAttribute(l,o[l]);d.rel="stylesheet",d.href=t,d.media="only x",function e(t){if(a.body)return t();setTimeout(function(){e(t)})}(function(){i.parentNode.insertBefore(d,n?i:i.nextSibling)});var u=function(e){for(var t=d.href,n=s.length;n--;)if(s[n].href===t)return e();setTimeout(function(){u(e)})};return d.addEventListener&&d.addEventListener("load",function(){this.media=r||"all"}),d.onloadcssdefined=u,u(function(){d.media!==r&&(d.media=r)}),d};"undefined"!=typeof exports?exports.loadCSS=t:e.loadCSS=t}("undefined"!=typeof global?global:this);
+</script>
+
     <script src="../js/menu.js"></script>
 
     <style>
