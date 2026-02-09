@@ -14,7 +14,8 @@ const navTranslations = {
         'search_placeholder': 'Buscar roteiros, países...',
         'nav_argentina': 'Argentina',
         'nav_chile': 'Chile',
-	'nav_portugal': 'Portugal',
+	    'nav_portugal': 'Portugal',
+        'nav_espanha': 'Espanha',
         'nav_course': 'Aulas de Português',
         'cookie_text': 'Utilizamos cookies para garantir que tens a melhor experiência no nosso blog.',
         'cookie_btn': 'Aceitar',
@@ -26,8 +27,8 @@ const navTranslations = {
         'news_btn': 'Subscrever',
         'news_success': 'Boa! Você vai receber as novidades em Português.',
         'news_lang_prefix': 'Idioma:',
-	'news_indicator': '🇧🇷 PT',
-	'label_email': 'E-mail',
+	    'news_indicator': '🇧🇷 PT',
+	    'label_email': 'E-mail',
         'label_news_horizontal': 'Fique por dentro das novidades:',
         'news_btn_short': 'Ok',
         // Títulos Limpos para o Menu
@@ -41,8 +42,9 @@ const navTranslations = {
         'art_jornada': 'O Começo da Jornada',
         'art_vida_nomade': 'Minha Vida Nômade',
         'art_bus_atacama': 'Ônibus Quebrado no Deserto',
-	'art_lisboa': 'Lisboa',
-	'footer_copy': '© 2026 Diários de um Nômade. Por Paco Sousa.'
+	    'art_lisboa': 'Lisboa',
+	    'art_madrid': 'Madri',
+	    'footer_copy': '© 2026 Diários de um Nômade. Por Paco Sousa.'
     },
     'es': {
         'nav_roteiros': 'Itinerarios',
@@ -53,7 +55,8 @@ const navTranslations = {
         'search_placeholder': 'Buscar rutas, países...',
         'nav_argentina': 'Argentina',
         'nav_chile': 'Chile',
-	'nav_portugal': 'Portugal',
+	    'nav_portugal': 'Portugal',
+        'nav_espanha': 'España',
         'nav_course': 'Clases de Portugués',
         'cookie_text': 'Utilizamos cookies para asegurar que tengas la mejor experiencia en nuestro blog.',
         'cookie_btn': 'Aceptar',
@@ -65,10 +68,10 @@ const navTranslations = {
         'news_btn': 'Suscribirme',
         'news_success': '¡Genial! Recibirás las novedades en Español.',
         'news_lang_prefix': 'Idioma:',
-	'news_indicator': '🇪🇸 ES',
-	'label_email': 'E-mail',
-	'label_news_horizontal': 'Mantenete al tanto de las novedades:',
-	'news_btn_short': 'Ok',
+    	'news_indicator': '🇪🇸 ES',
+    	'label_email': 'E-mail',
+    	'label_news_horizontal': 'Mantenete al tanto de las novedades:',
+    	'news_btn_short': 'Ok',
         'art_arg_econ': 'Argentina: Realidad 2026',
         'art_ba_gratis': 'Buenos Aires Gratis',
         'art_salta': 'Salta, la linda',
@@ -79,8 +82,9 @@ const navTranslations = {
         'art_jornada': 'El Comienzo de la Jornada',
         'art_vida_nomade': 'Mi Vida Nómada',
         'art_bus_atacama': 'Autobús Averiguado en el Desierto',
-	'art_lisboa': 'Lisboa',
-	'footer_copy': '© 2026 Diarios de un Nómada. Por Paco Sousa.'
+    	'art_lisboa': 'Lisboa',
+	    'art_madrid': 'Madrid',
+    	'footer_copy': '© 2026 Diarios de un Nómada. Por Paco Sousa.'
     },
     'en': {
         'nav_roteiros': 'Itineraries',
@@ -91,7 +95,8 @@ const navTranslations = {
         'search_placeholder': 'Search itineraries, countries...',
         'nav_argentina': 'Argentina',
         'nav_chile': 'Chile',
-	'nav_portugal': 'Portugal',
+	    'nav_portugal': 'Portugal',
+        'nav_espanha': 'Spain',
         'nav_course': 'Portuguese Classes',
         'cookie_text': 'We use cookies to ensure you get the best experience on our blog.',
         'cookie_btn': 'Accept',
@@ -103,10 +108,10 @@ const navTranslations = {
         'news_btn': 'Subscribe',
         'news_success': 'Great! You will receive updates in English.',
         'news_lang_prefix': 'Language:',
-	'news_indicator': '🇺🇸 EN',
-	'label_email': 'Email',
-	'label_news_horizontal': 'Stay up to date with the latest news:',
-	'news_btn_short': 'OK',
+	    'news_indicator': '🇺🇸 EN',
+	    'label_email': 'Email',
+	    'label_news_horizontal': 'Stay up to date with the latest news:',
+	    'news_btn_short': 'OK',
         'art_arg_econ': 'Argentina: 2026 Reality',
         'art_ba_gratis': 'Free Buenos Aires',
         'art_salta': 'Salta, la linda',
@@ -117,8 +122,9 @@ const navTranslations = {
         'art_jornada': 'The Beginning of a Journey',
         'art_vida_nomade': 'My Nomad Life',
         'art_bus_atacama': 'Broken Bus in the Desert',
-	'art_lisboa': 'Lisbon',
-	'footer_copy': '© 2026 Nomad Diaries. By Paco Sousa.'
+    	'art_lisboa': 'Lisbon',
+	    'art_madrid': 'Madrid',
+    	'footer_copy': '© 2026 Nomad Diaries. By Paco Sousa.'
     }
 };
 
@@ -135,7 +141,8 @@ const artKeywords = {
         'art_jornada': 'nômade digital estilo de vida começo história paco',
         'art_vida_nomade': 'lifestyle resumo jornada nomadismo digital',
         'art_bus_atacama': 'chile deserto perrengue ônibus quebrado aventura',
-	'art_lisboa': 'portugal europa roteiro dicas eurotrip'
+	    'art_lisboa': 'portugal europa roteiro dicas eurotrip',
+	    'art_madrid': 'espanha europa roteiro dicas eurotrip'
     },
     'es': {
         'art_arg_econ': 'argentina economía buenos aires consejos actualidad 2026',
@@ -148,8 +155,8 @@ const artKeywords = {
         'art_jornada': 'nómada digital estilo de vida comienzo historia paco',
         'art_vida_nomade': 'lifestyle resumen jornada nomadismo digital',
         'art_bus_atacama': 'chile desierto problemas autobús roto aventura',
-	'art_lisboa': 'portugal europa ruta consejos eurotrip'
-
+    	'art_lisboa': 'portugal europa ruta consejos eurotrip',
+	    'art_madrid': 'españa europa ruta consejos eurotrip'
     },
     'en': {
         'art_arg_econ': 'argentina economy buenos aires tips news 2026',
@@ -162,7 +169,8 @@ const artKeywords = {
         'art_jornada': 'digital nomad lifestyle beginning paco story',
         'art_vida_nomade': 'lifestyle summary journey digital nomadism',
         'art_bus_atacama': 'chile desert ordeal broken bus adventure',
-	'art_lisboa': 'portugal europe tips itinerary eurotrip'
+	    'art_lisboa': 'portugal europe tips itinerary eurotrip',
+	    'art_madrid': 'spain europe tips itinerary eurotrip'
     }
 };
 
@@ -435,9 +443,10 @@ function injectMenu() {
                             <div class="absolute right-full top-0 w-64 bg-[#1B1B1B] border border-gray-800 rounded-xl shadow-2xl p-2 hidden subgroup-hover:block">
                                 <div class="mb-3 pb-2">
                                     <p class="px-3 py-1 text-[#046A38] text-[10px] font-black uppercase tracking-widest">Portugal</p>
-                                    <a href="${articlePath}roteiro-3-dias-lisboa" class="block px-3 py-2 hover:bg-[#6633FF]/10 rounded-lg text-sm text-gray-400 hover:text-white transition-colors" data-i18n="art_lisboa">Lisboa</a>
-                                    <p class="px-3 py-1 text-[#6633FF] text-[10px] font-black uppercase tracking-widest">Reino Unido / Espanha</p>
-                                    <a href="${articlePath}perrengue-em-gibraltar" class="block px-3 py-2 hover:bg-[#6633FF]/10 rounded-lg text-sm text-gray-400 hover:text-white transition-colors" data-i18n="art_gibraltar">Interrogatório em Gibraltar</a>
+                                    <a href="${articlePath}roteiro-3-dias-lisboa" class="block px-3 py-2 hover:bg-[#046A38]/10 rounded-lg text-sm text-gray-400 hover:text-white transition-colors" data-i18n="art_lisboa">Lisboa</a>
+                                    <p class="px-3 py-1 text-[#FABD00] text-[10px] font-black uppercase tracking-widest">Espanha</p>
+                                    <a href="${articlePath}roteiro-2-dias-madrid" class="block px-3 py-2 hover:bg-[#FABD00]/10 rounded-lg text-sm text-gray-400 hover:text-white transition-colors" data-i18n="art_madrid">Madri</a>
+                                    <a href="${articlePath}perrengue-em-gibraltar" class="block px-3 py-2 hover:bg-[#FABD00]/10 rounded-lg text-sm text-gray-400 hover:text-white transition-colors" data-i18n="art_gibraltar">Interrogatório em Gibraltar</a>
                                 </div>
                             </div>
                         </div>
@@ -519,6 +528,7 @@ function injectMenu() {
                 <p class="text-white font-bold text-lg mb-3" data-i18n="nav_eu">Europa</p>
                 <div class="flex flex-col space-y-4 pl-4 border-l border-[#6633FF]/30">
                     <a href="${articlePath}roteiro-3-dias-lisboa" class="text-gray-400 text-sm" onclick="toggleMobileMenu()" data-i18n="art_lisboa">Lisboa</a>
+                    <a href="${articlePath}roteiro-2-dias-madrid" class="text-gray-400 text-sm" onclick="toggleMobileMenu()" data-i18n="art_madrid">Madri</a>
                     <a href="${articlePath}perrengue-em-gibraltar" class="text-gray-400 text-sm" onclick="toggleMobileMenu()" data-i18n="art_gibraltar">Gibraltar</a>
                 </div>
             </div>

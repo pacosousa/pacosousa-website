@@ -41,6 +41,7 @@
         --color-argentina: #89C3F5;   /* Um azul um pouco mais claro para destacar no fundo preto */
         --color-reino-unido: #7C4DFF; /* Roxo mais visível */
         --color-portugal: #058546;    /* Verde mais sólido */
+        --color-espanha: #FABD00;    /* amarelo bandeira da espanha */
         --color-diario: #8B5CF6; 
         --color-analise: #4ADE80; 
         --color-guia: #FDE047; 
@@ -154,6 +155,26 @@
       <div id="artigos" class="py-20 container mx-auto px-6">
         <h2 class="text-3xl font-black mb-12 text-center italic uppercase tracking-tighter" id="artigosTitulo"></h2>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+            <!-- Card Madrid -->
+            <div class="article-card group bg-[var(--card-bg)] rounded-3xl overflow-hidden hover:border-[var(--color-espanha)] transition-all duration-500 hover:-translate-y-2">
+                <a href="articles/roteiro-2-dias-madrid">
+                    <div class="h-56 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style="background-image: url('images/capa-madrid.webp');"></div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-[var(--color-diario)] text-xs font-bold uppercase tracking-widest" id="catMadrid"></span>
+                            <span class="division-tag" style="background: var(--color-espanha);" id="divMadrid"></span>
+                        </div>
+                        <h3 class="text-xl font-bold mt-2 article-title" id="titleMadrid"></h3>
+                        <p class="text-gray-400 mt-2 text-sm line-clamp-2 article-desc" id="descMadrid"></p>
+                        <div class="flex flex-wrap gap-2 mt-4">
+                            <span class="article-tag" id="tagMadrid1"></span>
+                            <span class="article-tag" id="tagMadrid2"></span>
+                            <span class="article-tag" id="tagMadrid3"></span>
+                        </div>
+                    </div>
+                </a>
+            </div>
 
             <!-- Card Lisboa -->
             <div class="article-card group bg-[var(--card-bg)] rounded-3xl overflow-hidden hover:border-[var(--color-portugal)] transition-all duration-500 hover:-translate-y-2">
@@ -452,8 +473,8 @@
                 'catSantiago': 'Diário de Bordo', 'divSantiago': 'Chile', 'titleSantiago': 'Primeira vez em Santiago', 'descSantiago': 'Dicas essenciais de transporte, hospedagem e mirantes na capital chilena.', 'tagStgo1': 'Roteiro', 'tagStgo2': 'Dicas',
                 'catBA': 'Guia', 'divBA': 'Argentina', 'titleBA': 'Buenos Aires: Gastando Pouco', 'descBA': 'Conheça o melhor da capital portenha sem gastar um único peso.', 'tagBA1': 'Roteiro', 'tagBA2': 'Dicas',
                 'catGibraltar': 'Diário de Bordo', 'divGibraltar': 'Reino Unido', 'titleGibraltar': 'Perrengue em Gibraltar', 'descGibraltar': 'Quase fomos presos durante a nossa roadtrip!', 'tagGibraltar1': 'Europa', 'tagGibraltar2': 'Perrengue', 'tagGibraltar3': 'Problemas',
-                'catLisboa': 'Diário de Bordo', 'divLisboa': 'Portugal', 'titleLisboa': 'Lisboa e Sintra', 'descLisboa': 'Um roteiro de 3 dias a pé, com um bate-volta a Sintra', 'tagLisboa1': 'Europa', 'tagLisboa2': 'Roteiro', 'tagLisboa3': 'Dicas'
-
+                'catLisboa': 'Diário de Bordo', 'divLisboa': 'Portugal', 'titleLisboa': 'Lisboa e Sintra', 'descLisboa': 'Um roteiro de 3 dias a pé, com um bate-volta a Sintra', 'tagLisboa1': 'Europa', 'tagLisboa2': 'Roteiro', 'tagLisboa3': 'Dicas',
+                'catMadrid': 'Diário de Bordo', 'divMadrid': 'Espanha', 'titleMadrid': 'Madri', 'descMadrid': 'Um roteiro de 2 dias a pé', 'tagMadrid1': 'Europa', 'tagMadrid2': 'Roteiro', 'tagMadrid3': 'Dicas'
             },
             'es': {
                 'heroTitle': 'Diarios de un Nómada',
@@ -490,8 +511,8 @@
                 'catSantiago': 'Diario de a Bordo', 'divSantiago': 'Chile', 'titleSantiago': 'Primera vez en Santiago', 'descSantiago': 'Consejos esenciales de transporte, alojamiento y miradores en la capital chilena.', 'tagStgo1': 'Ruta', 'tagStgo2': 'Consejos',
                 'catBA': 'Guia', 'divBA': 'Argentina', 'titleBA': 'Buenos Aires Gratis', 'descBA': 'Conoce lo mejor de la capital porteña sin gastar un solo peso.', 'tagBA1': 'Ruta', 'tagBA2': 'Consejos',
                 'catGibraltar': 'Diario de a Bordo', 'divGibraltar': 'Reino Unido', 'titleGibraltar': 'Garrón en Gibraltar', 'descGibraltar': '¡Casi nos arrestan durante nuestro roadtrip!', 'tagGibraltar1': 'Europa', 'tagGibraltar2': 'Garrón', 'tagGibraltar3': 'Problemas',
-                'catLisboa': 'Diario de a Bordo', 'divLisboa': 'Portugal', 'titleLisboa': 'Lisboa y Sintra', 'descLisboa': 'Un itinerario de 3 días a pie, con una escapada a Sintra', 'tagLisboa1': 'Europa', 'tagLisboa2': 'Itinerario', 'tagLisboa3': 'Consejos'
-
+                'catLisboa': 'Diario de a Bordo', 'divLisboa': 'Portugal', 'titleLisboa': 'Lisboa y Sintra', 'descLisboa': 'Un itinerario de 3 días a pie, con una escapada a Sintra', 'tagLisboa1': 'Europa', 'tagLisboa2': 'Itinerario', 'tagLisboa3': 'Consejos',
+                'catMadrid': 'Diario de a Bordo', 'divMadrid': 'España', 'titleMadrid': 'Madrid', 'descMadrid': 'Un itinerario de 2 días a pie', 'tagMadrid1': 'Europa', 'tagMadrid2': 'Itinerario', 'tagMadrid3': 'Consejos'
             },
             'en': {
                 'heroTitle': 'Nomad Diaries',
@@ -522,8 +543,8 @@
                 'catSantiago': 'Logbook', 'divSantiago': 'Chile', 'titleSantiago': 'First time in Santiago', 'descSantiago': 'Essential tips on transport, accommodation and viewpoints in the Chilean capital.', 'tagStgo1': 'Itinerary', 'tagStgo2': 'Tips',
                 'catBA': 'Guide', 'divBA': 'Argentina', 'titleBA': 'Free Buenos Aires', 'descBA': 'Discover the best of the city without spending a single peso.', 'tagBA1': 'Itinerary', 'tagBA2': 'Tips',
                 'catGibraltar': 'Logbook', 'divGibraltar': 'United Kingdom', 'titleGibraltar': 'Road Trip Trouble in Gibraltar', 'descGibraltar': 'We almost got arrested during our road trip!','tagGibraltar1': 'Europe', 'tagGibraltar2': 'Mishap', 'tagGibraltar3': 'Problems',
-                'catLisboa': 'Logbook', 'divLisboa': 'Portugal', 'titleLisboa': 'Lisbon and Sintra', 'descLisboa': 'A 3-day walking itinerary, with a day trip to Sintra', 'tagLisboa1': 'Europe', 'tagLisboa2': 'Itinerary', 'tagLisboa3': 'Tips'
-
+                'catLisboa': 'Logbook', 'divLisboa': 'Portugal', 'titleLisboa': 'Lisbon and Sintra', 'descLisboa': 'A 3-day walking itinerary, with a day trip to Sintra', 'tagLisboa1': 'Europe', 'tagLisboa2': 'Itinerary', 'tagLisboa3': 'Tips',
+                'catMadrid': 'Logbook', 'divMadrid': 'Spain', 'titleMadrid': 'Madrid', 'descMadrid': 'A 2-day walking itinerary', 'tagMadrid1': 'Europe', 'tagMadrid2': 'Itinerary', 'tagMadrid3': 'Tips'
             }
         };
 

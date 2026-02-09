@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Roteiro de 2 dias em Madrid | Diários de um Nômade">
+    <meta property="og:description" content="Roteiro completo de 2 dias em Madrid com dicas de walking tour, museus e gastronomia por Paco Sousa.">
+    <meta property="og:url" content="https://pacosousa.com/articles/madrid-2-dias">
+    <meta property="og:image" content="https://pacosousa.com/images/capa-madridwebp">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Roteiro de 2 dias em Madrid | Diários de um Nômade">
+    <meta name="twitter:description" content="Roteiro completo de 2 dias em Madrid com dicas de walking tour, museus e gastronomia por Paco Sousa.">
+    <meta name="twitter:image" content="https://pacosousa.com/images/capa-madrid.webp">
+
+    <!-- SEO & Favicon -->
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="canonical" href="https://pacosousa.com/articles/roteiro-2-dias-madrid">
+
+    <title id="meta_title">Roteiro de 2 dias em Madrid | Diários de um Nômade</title>
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://pacosousa.com/articles/roteiro-2-dias-madrid"
+      },
+      "headline": "Roteiro de 2 dias em Madrid | Diários de um Nômade",
+      "description": "Roteiro completo de 2 dias em Madrid com dicas de walking tour, museus e gastronomia por Paco Sousa.",
+      "image": {
+        "@type": "ImageObject",
+        "url": "https://pacosousa.com/images/capa-madrid.webp",
+        "width": 1200,
+        "height": 630
+      },
+      "author": {
+        "@type": "Person",
+        "name": "Paco Sousa",
+        "url": "https://pacosousa.com/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Diários de um Nômade",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://pacosousa.com/images/logo-blog.webp",
+          "width": 1024,
+          "height": 1024
+        }
+      },
+      "datePublished": "2026-02-09",
+    }
+    </script>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-88CEX3DZ05"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-88CEX3DZ05');
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Poppins:wght@400;700;800&display=swap" rel="stylesheet">
+    <script src="../js/menu.js"></script>
+
+    <style>
+      :root {
+        --bg-main: #0D0D0D; --text-main: #F0F0F0; --card-bg: #161616; 
+        --accent-primary: #FF3366; 
+        --accent-tertiary: #4ADE80; 
+      }
+      body { font-family: 'Inter', sans-serif; background-color: var(--bg-main); color: var(--text-main); }
+      h1, h2, h3, h4 { font-family: 'Poppins', sans-serif; }
+      
+      .drop-cap::first-letter { font-family: 'Poppins', sans-serif; font-size: 5rem; font-weight: 800; float: left; margin-right: 0.75rem; line-height: 0.8; color: var(--accent-tertiary); }
+      .article-content p { margin-bottom: 1.5rem; line-height: 1.8; color: #BBB; font-size: 1.1rem; }
+      .article-content h2 { color: var(--accent-tertiary); font-weight: 800; font-size: 1.8rem; margin-top: 4rem; margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: -0.02em; }
+      .article-content h3 { color: white; font-weight: 700; font-size: 1.3rem; margin-top: 2.5rem; margin-bottom: 1rem; }
+
+      .mini-gallery { display: grid; gap: 1rem; margin: 2.5rem 0; }
+      .gallery-grid-4 { grid-template-columns: repeat(2, 1fr); }
+      @media (min-width: 768px) { .gallery-grid-4 { grid-template-columns: repeat(4, 1fr); } }
+
+      .mini-photo { 
+        position: relative; border-radius: 1.5rem; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); 
+        transition: all 0.5s ease; cursor: zoom-in; background: #1a1a1a; aspect-ratio: 9/16;
+      }
+      .mini-photo:hover { transform: translateY(-10px); border-color: var(--accent-tertiary); box-shadow: 0 10px 30px rgba(74, 222, 128, 0.2); }
+      .mini-photo img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s ease; }
+      .mini-photo:hover img { transform: scale(1.1); }
+
+      #lightbox-modal { display: none; position: fixed; inset: 0; z-index: 10000; background-color: rgba(0, 0, 0, 0.95); backdrop-filter: blur(10px); align-items: center; justify-content: center; cursor: zoom-out; }
+      #lightbox-modal img { max-width: 90%; max-height: 85vh; border-radius: 1.5rem; object-fit: contain; cursor: default; }
+      
+      .nav-btn { 
+        position: absolute; top: 50%; transform: translateY(-50%); 
+        background: rgba(255,255,255,0.05); color: white; border: 1px solid rgba(255,255,255,0.1);
+        width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+        cursor: pointer; transition: all 0.3s ease; z-index: 10010; font-size: 1.5rem;
+      }
+      .nav-btn:hover { background: var(--accent-tertiary); color: black; border-color: var(--accent-tertiary); transform: translateY(-50%) scale(1.1); }
+      #prev-btn { left: 20px; }
+      #next-btn { right: 20px; }
+      
+      #lightbox-counter { 
+        position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+        background: rgba(255,255,255,0.1); padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; color: white;
+      }
+
+      .article-card { transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+      .division-tag { padding: 2px 6px; border-radius: 4px; font-weight: 800; text-transform: uppercase; }
+
+      .related-card { background: var(--card-bg); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 1.5rem; transition: all 0.4s ease; overflow: hidden; height: 100%; display: flex; flex-direction: column; }
+      .related-card:hover { border-color: var(--accent-tertiary); transform: translateY(-5px); }
+
+      /* Estilo dos Cartões de Lugares Adicionais */
+      .place-card {
+        background: rgba(255,255,255,0.03);
+        border: 1px solid rgba(255,255,255,0.05);
+        border-radius: 1rem;
+        padding: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        transition: all 0.3s ease;
+      }
+      .place-card:hover {
+        background: rgba(255,255,255,0.07);
+        border-color: var(--accent-tertiary);
+        transform: translateX(5px);
+      }
+      .place-icon {
+        width: 40px;
+        height: 40px;
+        background: var(--accent-tertiary);
+        color: black;
+        border-radius: 0.75rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      .place-card p {
+        margin: 0 !important;
+        font-size: 0.9rem !important;
+        line-height: 1.4 !important;
+        color: #ddd !important;
+      }
+    </style>
+</head>
+<body>
+    <header id="main-header" class="sticky top-0 z-50"></header>
+
+    <div id="lightbox-modal" onclick="closeLightbox()">
+        <button id="prev-btn" class="nav-btn" onclick="prevImage(event)">‹</button>
+        <img id="lightbox-img" src="" alt="Zoom Image" onclick="event.stopPropagation()">
+        <button id="next-btn" class="nav-btn" onclick="nextImage(event)">›</button>
+        <div id="lightbox-counter">1 / 1</div>
+    </div>
+
+    <!-- Cabeçalho Hero -->
+    <header class="relative w-full h-[65vh] flex items-end justify-center overflow-hidden pt-24">
+        <div class="absolute inset-0 bg-cover bg-center z-0" style="background-image: url('../images/capa-madrid.webp');"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent z-10"></div>
+        <div class="relative z-20 container mx-auto px-6 pb-16 max-w-4xl text-center">
+            <span id="category_tag" class="inline-block py-1 px-3 rounded-full bg-[var(--accent-tertiary)]/20 text-[var(--accent-tertiary)] text-xs font-bold tracking-widest uppercase mb-4 border border-[var(--accent-tertiary)] backdrop-blur-sm"></span>
+            <h1 class="text-4xl md:text-6xl font-extrabold text-white leading-tight mb-8 tracking-tight italic" id="main_title"></h1>
+            <div class="flex items-center justify-center gap-3 text-stone-200 text-sm font-medium">
+                <img src="../images/foto-perfil.webp" onerror="this.src='https://api.dicebear.com/7.x/avataaars/svg?seed=Paco'" alt="Paco Sousa" class="w-8 h-8 rounded-full border-2 border-[var(--accent-tertiary)] object-cover shadow-md">
+                <span id="author_line"></span>
+            </div>
+        </div>
+    </header>
+
+    <main class="pb-24 px-4">
+        <article class="container mx-auto max-w-3xl article-content mt-12 text-justify">
+            <div id="diary_date" class="text-[var(--accent-primary)] font-bold tracking-[0.2em] uppercase text-xs mb-8 text-center md:text-left border-b border-white/10 pb-4"></div>
+            
+            <p id="p1" class="drop-cap"></p>
+            <p id="p2"></p>
+            <p id="p3"></p>
+            <p id="p4"></p>
+
+            <h2 id="h2_1"></h2>
+            <p id="p5"></p>
+            <p id="p6"></p>
+            <p id="p7"></p>
+            <p id="p8"></p>
+            <p id="p9"></p>
+            <p id="p10"></p>
+
+            <!-- Galeria 1 -->
+            <div class="mini-gallery gallery-grid-4">
+                <div class="mini-photo"><img src="../images/espanha/madrid/madrid-tour-1.webp" alt="Puerta del Sol em Madrid" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/espanha/madrid/madrid-tour-2.webp" alt="Plaza Mayor em Madrid" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/espanha/madrid/madrid-tour-3.webp" alt="Plaza de la Villa em Madrid" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/espanha/madrid/madrid-tour-4.webp" alt="Centro de Madrid" onclick="openLightbox(this.src)"></div>
+            </div>
+
+            <h2 id="h2_2"></h2>
+            <p id="p11"></p>
+            <p id="p12"></p>
+            
+            <h3 id="sh1"></h3>
+            <p id="p13"></p>
+
+            <!-- Galeria 2 -->
+            <div class="mini-gallery gallery-grid-4">
+                <div class="mini-photo"><img src="../images/espanha/madrid/madrid-geral-1.webp" alt="Catedral de Madrid" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/espanha/madrid/madrid-geral-2.webp" alt="Palácio de Madrid" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/espanha/madrid/madrid-geral-3.webp" alt="Puerta de Alcal em Madrid" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/espanha/madrid/madrid-geral-4.webp" alt="Museu do Romantismo em Madrid" onclick="openLightbox(this.src)"></div>
+            </div>
+
+            <h2 id="h2_3"></h2>
+            <p id="p14"></p>
+            <p id="p15"></p>
+            <p id="p16"></p>
+
+            <h2 id="h2_4"></h2>
+            <p id="p17"></p>
+            <p id="p18"></p>
+
+            <h2 id="h2_5"></h2>
+            <p id="p19"></p>
+            <p id="p20"></p>
+            <p id="p21"></p>
+            <p id="p22"></p>
+
+            <!-- Galeria 3 -->
+            <div class="mini-gallery gallery-grid-4">
+                <div class="mini-photo"><img src="../images/espanha/madrid/madrid-cafe-1.webp" alt="Chocolateria San Ginés Madrid" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/espanha/madrid/madrid-cafe-2.webp" alt="Chocolateria San Ginés Madrid" onclick="openLightbox(this.src)"></div>
+                <div class="mini-photo"><img src="../images/espanha/madrid/madrid-cafe-3.webp" alt="Chocolateria San Ginés Madrid" onclick="openLightbox(this.src)"></div>
+            </div>
+
+            <h2 id="h2_6"></h2>
+            <p id="p23"></p>
+            <p id="p24"></p>
+            <p id="p25"></p>
+            <p id="p26"></p>
+            <p id="p27"></p>
+
+            <h2 id="h2_7"></h2>
+            <p id="p28"></p>
+            
+            <!-- SECÇÃO FORMATADA: Outros Lugares -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-10">
+                <div class="place-card">
+                    <div class="place-icon"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 21a9.003 9.003 0 008.367-5.657l-1.907-1.017a7 7 0 11-12.92 0l-1.907 1.017A9.003 9.003 0 0012 21z"></path><path d="M12 12a3 3 0 100-6 3 3 0 000 6z"></path></svg></div>
+                    <p id="p29"></p>
+                </div>
+                <div class="place-card">
+                    <div class="place-icon"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg></div>
+                    <p id="p30"></p>
+                </div>
+                <div class="place-card">
+                    <div class="place-icon"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg></div>
+                    <p id="p31"></p>
+                </div>
+                <div class="place-card">
+                    <div class="place-icon"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg></div>
+                    <p id="p32"></p>
+                </div>
+                <div class="place-card">
+                    <div class="place-icon"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg></div>
+                    <p id="p33"></p>
+                </div>
+                <div class="place-card">
+                    <div class="place-icon"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg></div>
+                    <p id="p34"></p>
+                </div>
+                <div class="place-card md:col-span-2">
+                    <div class="place-icon"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div>
+                    <p id="p35"></p>
+                </div>
+            </div>
+            
+            <p id="p36" class="mt-8"></p>
+
+            <div id="p37"></div><div id="p38"></div><div id="p39"></div><div id="p40"></div><div id="p41"></div><div id="p42"></div><div id="p43"></div><div id="p44"></div><div id="p45"></div><div id="p46"></div><div id="p47"></div><div id="p48"></div><div id="p49"></div><div id="p50"></div><div id="p51"></div><div id="p52"></div><div id="p53"></div>
+
+            <!-- RELATED + BOOKING NATIVE -->
+            <section class="mt-32 pt-16 border-t border-white/10">
+                <h2 id="related_title" class="text-3xl font-black mb-10 italic text-white uppercase tracking-tighter"></h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Artigo 1 -->
+                    <a href="salta" class="related-card block group">
+                        <div class="h-32 bg-cover bg-center group-hover:scale-105 transition-transform duration-500" style="background-image: url('../images/capa-madrid.webp');"></div>
+                        <div class="p-4 flex-grow">
+                            <span id="cat_rel1" class="text-[var(--accent-tertiary)] text-[10px] font-bold uppercase tracking-widest mb-2 block"></span>
+                            <h4 id="rel_title1" class="text-xs font-bold text-white group-hover:text-[var(--accent-tertiary)] transition-colors"></h4>
+                        </div>
+                    </a>
+                    <!-- Artigo 2 -->
+                    <a href="gibraltar" class="related-card block group">
+                        <div class="h-32 bg-cover bg-center group-hover:scale-105 transition-transform duration-500" style="background-image: url('../images/viagem.webp');"></div>
+                        <div class="p-4 flex-grow">
+                            <span id="cat_rel2" class="text-[var(--accent-tertiary)] text-[10px] font-bold uppercase tracking-widest mb-2 block"></span>
+                            <h4 id="rel_title2" class="text-xs font-bold text-white group-hover:text-[var(--accent-tertiary)] transition-colors"></h4>
+                        </div>
+                    </a>
+                    <!-- Artigo 3 -->
+                    <a href="buenos-aires" class="related-card block group">
+                        <div class="h-32 bg-cover bg-center group-hover:scale-105 transition-transform duration-500" style="background-image: url('../images/capa-buenos-aires.webp');"></div>
+                        <div class="p-4 flex-grow">
+                            <span id="cat_rel3" class="text-[var(--accent-tertiary)] text-[10px] font-bold uppercase tracking-widest mb-2 block"></span>
+                            <h4 id="rel_title3" class="text-xs font-bold text-white group-hover:text-[var(--accent-tertiary)] transition-colors"></h4>
+                        </div>
+                    </a>
+                    <!-- Card de Publicidade Nativa Booking -->
+                    <div id="ad-booking" class="related-card group border border-blue-500/30 hidden">
+                        <a id="ad-link" rel="sponsored" href="https://www.awin1.com/cread.php?s=4655925&v=18120&q=593889&r=2730940" target="_blank" class="block h-full">
+                            <div class="h-32 overflow-hidden bg-white">
+                                <img id="ad-img" src="../images/booking-banner-pt.jpg" alt="Booking.com" class="w-full h-full object-cover object-left group-hover:scale-110 transition-transform">
+                            </div>
+                            <div class="p-4 flex-grow">
+                                <div class="flex justify-between items-center mb-1">
+                                    <span class="text-blue-400 text-[8px] font-black uppercase tracking-tighter" id="labelAd"></span>
+                                    <span class="text-[8px] text-gray-500 border border-white/10 px-1 rounded uppercase font-bold" id="badgeAd"></span>
+                                </div>
+                                <h4 id="titleAd" class="text-[10px] font-bold text-white italic leading-tight"></h4>
+                                <span id="btnAd" class="text-blue-500 font-bold text-[9px] uppercase mt-2 block tracking-tighter"></span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </section>
+        </article>
+    </main>
+
+    <footer class="py-12 border-t border-white/5 text-center mt-10">
+        <p id="footer_text" class="text-xs text-gray-600 font-bold uppercase tracking-widest"></p>
+    </footer>
+
+    <script>
+        let currentImgIndex = 0;
+        let imagesList = [];
+
+        function updateImagesList() {
+            const galleryImgs = document.querySelectorAll('.mini-photo img');
+            imagesList = Array.from(galleryImgs).map(img => img.src);
+        }
+
+        function openLightbox(src) {
+            updateImagesList();
+            currentImgIndex = imagesList.indexOf(src);
+            if (currentImgIndex === -1) currentImgIndex = 0;
+            showImage();
+            document.getElementById('lightbox-modal').style.display = 'flex';
+            document.addEventListener('keydown', handleKeyDown);
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox-modal').style.display = 'none';
+            document.removeEventListener('keydown', handleKeyDown);
+        }
+
+        function showImage() {
+            const img = document.getElementById('lightbox-img');
+            const counter = document.getElementById('lightbox-counter');
+            img.src = imagesList[currentImgIndex];
+            counter.innerText = `${currentImgIndex + 1} / ${imagesList.length}`;
+        }
+
+        function nextImage(e) {
+            if (e) e.stopPropagation();
+            currentImgIndex = (currentImgIndex + 1) % imagesList.length;
+            showImage();
+        }
+
+        function prevImage(e) {
+            if (e) e.stopPropagation();
+            currentImgIndex = (currentImgIndex - 1 + imagesList.length) % imagesList.length;
+            showImage();
+        }
+
+        function handleKeyDown(e) {
+            if (e.key === "ArrowRight") nextImage();
+            if (e.key === "ArrowLeft") prevImage();
+            if (e.key === "Escape") closeLightbox();
+        }
+
+        const adConfig = {
+            'pt': { link: "https://www.awin1.com/cread.php?s=4655925&v=18120&q=593889&r=2730940", img: "../images/booking-banner-pt.jpg" },
+            'es': { link: "https://www.awin1.com/cread.php?s=4655925&v=18120&q=593889&r=2730940", img: "../images/booking-banner-es.jpg" }
+        };
+
+        const translations = {
+            'pt': {
+                'main_title': 'Roteiro de 2 dias em Madrid',
+                'author_line': 'Paco Sousa • 10 min de leitura • Escrito em 23/04/2024',
+                'diary_date': 'Madrid, Espanha. 23 de abril de 2024.',
+                'category_tag': 'Espanha',
+                'p1': 'Bom, eu simplesmente fiz as contas errado. Eu já estava a caminho de Madrid quando percebi que havia reservado apenas uma noite de hospedagem na cidade. Mas, cá entre nós, eu já retornei depois para Madrid e não fiz muita coisa além do que já havia feito dessa vez.',
+                'p2': 'Após um longo ônibus noturno, cheguei bem cedo à capital espanhola. Fiz o trajeto da Rodoviária de Madrid até o hostel de metrô. O sistema de transporte público de Madrid é bem organizado, e é possível comprar o ticket diário em máquinas próximas às catracas. Já aproveitei e comprei o ticket de dois dias.',
+                'p3': 'Minha hospedagem foi no Hostel Room007 Chueca. Chueca é uma região muito boa para se hospedar em Madrid. Além de ser um bairro seguro, é possível ir caminhando até a Puerta del Sol, a principal praça da cidade. Para quem se interessa, também é um bairro bastante LGBT.',
+                'p4': 'Deixei minhas coisas no locker do hostel e fui explorar a cidade. Infelizmente, não havia opção de tomar banho antes do check-in, já que os chuveiros ficam dentro dos quartos.',
+                'h2_1': 'Free walking tour: Madrid de los Borbones',
+                'p5': 'Basicamente, os tours históricos em Madrid se dividem entre a Madrid dos Austrias, dos séculos XVI e XVII, e a Madrid dos Borbones, a partir do século XVIII, refletindo a evolução histórica e monumental da capital espanhola.',
+                'p6': 'Não que eu soubesse disso antes de escolher o walking tour. Escolhi simplesmente o que tinha vaga e ficava mais próximo. O tour Madrid de los Borbones aborda a transformação urbana e monumental da cidade a partir do século XVIII, impulsionada pela dinastia Bourbon, iniciada por Felipe V, com grande destaque para o reinado de Carlos III.',
+                'p7': 'O tour passa pelos principais pontos centrais da cidade. Eu fiz o tour em espanhol, mas é fácil encontrar opções também em português.',
+                'p8': 'Um detalhe importante: apesar do nome, esses walking tours nunca são realmente gratuitos. No final, você deve fazer uma contribuição considerada voluntária. No tour que reservei pelo Civitatis, a guia informou que a plataforma cobrava cerca de 8 euros por pessoa, valor que deveria ser o mínimo de contribuição. Não acho errado cobrar pelo tour, mas talvez já pudessem tirar o “free” do nome.',
+                'p9': 'O tour começou na Puerta del Sol, passando pela Plaza Mayor, uma praça enorme e muito famosa de Madrid. Durante o trajeto, a guia explica bastante sobre a história da cidade. Um ponto curioso é que Madrid reconhece oficialmente os comércios que permanecem abertos, com o mesmo nome e produto, há mais de 100 anos. É possível ver uma condecoração em frente ao estabelecimento.',
+                'p10': 'Saindo da Plaza Mayor, o tour segue pelas ruas do centro, com parada no Mercado de San Miguel, e depois continua pelas ruas estreitas até a Catedral de la Almudena e o Palácio Real, finalizando na Plaza de Oriente, em frente ao Monumento a Filipe IV.',
+                'h2_2': 'Explorando Madrid por conta própria',
+                'p11': 'O Palácio Real não estava aberto para visitação naquele dia, e eu também não estava muito a fim de gastar para visitar a catedral. Depois do tour, segui explorando a região com mais calma, caminhando pelos Jardins de Sabatini.',
+                'p12': 'Como eu já tinha o ticket de transporte, fui até a Puerta de Alcalá, que seria o “Arco do Triunfo” de Madrid. Não achei tão impressionante. Como ainda havia tempo antes do check-in, resolvi visitar um museu.',
+                'sh1': 'Museu do Romantismo',
+                'p13': 'Localizado em uma mansão do século XVIII, o Museo del Romanticismo possui exposições de pinturas e mobiliário do período romântico. Estava bem vazio, o que tornou a visita interessante para observar os detalhes da época. Não recomendaria como primeira opção de museu em Madrid, mas, se você estiver com tempo sobrando, vale a visita.',
+                'h2_3': 'Vida noturna madrilenha',
+                'p14': 'Sinceramente, um dos melhores pontos de Madrid é a sua vida noturna. Os espanhóis têm hábitos noturnos bem marcados e uma forte cultura de sair para beber, inclusive durante a semana. Mesmo sendo uma terça-feira, não foi difícil encontrar bares com happy hour e bastante movimento.',
+                'p15': 'Não costumo ir a bares sozinho, mas a experiência foi interessante e consegui socializar com algumas pessoas. Como já mencionei, a região de Chueca é excelente para encontrar bares LGBT, e me impressionou que, à 1h da manhã, as ruas ainda estivessem lotadas.',
+                'p16': 'Voltei caminhando para o hostel sem grandes preocupações com segurança. Talvez eu tenha sido um pouco confiante demais, mas não senti nenhum problema. Havia muita gente circulando pelas ruas.',
+                'h2_4': 'Desisti do Museu do Prado',
+                'p17': 'Como já deu para perceber, eu não tinha programado muita coisa. O que me chocou foi que, ao contrário de mim, muita gente tinha se programado. Quando cheguei ao Museu do Prado, as filas estavam quilométricas.',
+                'p18': 'Meu trem saía à tarde e, mesmo que houvesse a possibilidade de entrar, decidi desistir da visita e passear mais um pouco pelo centro. Ainda assim, quero muito visitar o museu em outra oportunidade. O Prado abriga obras clássicas famosas, como Las Meninas, de Velázquez, e Saturno devorando um filho, de Goya.',
+                'h2_5': 'Chocolatería San Ginés',
+                'p19': 'A Chocolatería San Ginés é um dos pontos mais famosos de Madrid e, mesmo assim, eu sempre indico para quem está indo à cidade, só para garantir que a pessoa saiba da existência.',
+                'p20': 'Fundada em 1894, a chocolateria serve um chocolate quente excelente, que pode ser acompanhado por churros ou pela melhor piada para qualquer brasileiro: uma porção de porras.',
+                'p21': 'Para contextualizar, churros são finos, estriados e crocantes, enquanto as porras são bem mais grossas, macias e fofas por dentro.',
+                'p22': 'Por ser muito famosa, o local costuma ficar lotado. Minha dica é visitar a unidade clássica para conhecer e, em seguida, ir até a unidade mais nova, localizada na esquina da original. A qualidade e os preços são os mesmos.',
+                'h2_6': 'Trem de Madrid para Barcelona',
+                'p23': 'Por fim, voltei ao hostel para buscar minhas coisas e segui para a estação de trem. O trajeto entre Madrid e Barcelona é bastante comum. A viagem de trem de alta velocidade leva entre 2h30 e 2h50.',
+                'p24': 'Uma das vantagens do trem é não precisar chegar com tanta antecedência. O embarque costuma começar cerca de 15 minutos antes. Comprei meu ticket pelo aplicativo Trainline, que é uma ótima opção para encontrar trens baratos pela Europa.',
+                'p25': 'Lembra que eu havia me confundido com a reserva do hostel? Enquanto reservei o hostel por apenas uma noite, acabei comprando o trem para dois dias depois. Só descobri quando o QR Code não passou na catraca de embarque. Depois de uma olhada feia para mim, o atendente informou que a data estava errada.',
+                'p26': 'Por sorte, o ticket permitia cancelamento grátis até 24 horas antes. Consegui cancelar e comprar um novo, que felizmente não estava muito mais caro naquele momento.',
+                'p27': 'Perrengue superado, entrei no trem rumo a Barcelona e às próximas aventuras.',
+                'h2_7': 'Outros lugares para visitar em Madrid',
+                'p28': 'Apesar de ter explorado bastante o centro, vários pontos turísticos famosos de Madrid ficaram de fora desse roteiro curto. Alguns deles são:',
+                'p29': '<strong>Parque del Retiro</strong>, o principal parque da cidade e um ótimo lugar para caminhar com calma',
+                'p30': '<strong>Museu Reina Sofía</strong>, famoso por abrigar o quadro Guernica, de Picasso',
+                'p31': '<strong>Museu Thyssen-Bornemisza</strong>, que completa o chamado Triângulo da Arte',
+                'p32': '<strong>Gran Vía</strong>, uma das avenidas mais icônicas de Madrid, cheia de lojas, teatros e cinemas',
+                'p33': '<strong>Templo de Debod</strong>, um templo egípcio ao ar livre, muito procurado para assistir ao pôr do sol',
+                'p34': '<strong>Estádio Santiago Bernabéu</strong>, para quem tem interesse em futebol e no Real Madrid',
+                'p35': '<strong>Malasaña</strong>, bairro alternativo conhecido por sua cena cultural e bares descolados',
+                'p36': 'Madrid é uma cidade que funciona bem tanto para visitas rápidas quanto para estadias mais longas, e certamente ficou com vários motivos para uma próxima volta.',
+                'related_title': 'Leia também',
+                'cat_rel1': 'Argentina',
+                'rel_title1': 'Salta, la linda',
+                'cat_rel2': 'Gibraltar',
+                'rel_title2': 'Gibraltar: O Penedo',
+                'cat_rel3': 'Argentina',
+                'rel_title3': 'Buenos Aires Gratis',
+                'labelAd': 'Hospedagem',
+                'badgeAd': 'Publicidade',
+                'titleAd': 'Onde dormir em Madrid?',
+                'btnAd': 'Ver Ofertas →',
+                'footer_text': '© 2026 Paco Sousa · Diários de um Nômade'
+            },
+            'es': {
+                'main_title': 'Itinerario de 2 días en Madrid',
+                'author_line': 'Paco Sousa • 10 min de lectura • Escrito el 23/04/2024',
+                'diary_date': 'Madrid, España. 23 de abril de 2024.',
+                'category_tag': 'España',
+                'p1': 'Bueno, simplemente hice mal las cuentas. Ya iba camino a Madrid cuando me di cuenta de que había reservado solo una noche de alojamiento en la ciudad. Pero, siendo sincero, ya regresé a Madrid después y no hice muchas cosas más allá de lo que hice esta vez.',
+                'p2': 'Después de un largo viaje nocturno en autobús, llegué muy temprano a la capital española. Hice el trayecto desde la estación de autobuses de Madrid hasta el hostel en metro. El sistema de transporte público de Madrid está muy bien organizado, y es posible comprar el billete diario en máquinas cerca de los torniquetes. Aproveché y compré el billete de dos días.',
+                'p3': 'Mi alojamiento fue el Hostel Room007 Chueca. Chueca es una muy buena zona para alojarse en Madrid. Además de ser un barrio seguro, se puede ir caminando hasta la Puerta del Sol, la plaza principal de la ciudad. Para quien le interese, también es un barrio bastante LGBT.',
+                'p4': 'Dejé mis cosas en el locker del hostel y salí a explorar la ciudad. Lamentablemente, no había opción de ducharse antes del check-in, ya que las duchas están dentro de las habitaciones.',
+                'h2_1': 'Free walking tour: Madrid de los Borbones',
+                'p5': 'Básicamente, los tours históricos en Madrid se dividen entre el Madrid de los Austrias, de los siglos XVI y XVII, y el Madrid de los Borbones, a partir del siglo XVIII, reflejando la evolución histórica y monumental de la capital española.',
+                'p6': 'No es que supiera esto antes de elegir el walking tour. Simplemente elegí el que tenía disponibilidad y estaba más cerca. El tour Madrid de los Borbones aborda la transformación urbana y monumental de la ciudad a partir del siglo XVIII, impulsada por la dinastía Borbón, iniciada por Felipe V, con especial protagonismo durante el reinado de Carlos III.',
+                'p7': 'El tour recorre los principales puntos del centro de la ciudad. Yo lo hice en español, pero es fácil encontrar opciones también en portugués.',
+                'p8': 'Un detalle importante: a pesar del nombre, estos walking tours nunca son realmente gratuitos. Al final, se espera una contribución considerada voluntaria. En el tour que reservé a través de Civitatis, la guía informó que la plataforma cobraba alrededor de 8 euros por persona, que debería ser el importe mínimo de contribución. No me parece mal que se cobre por el tour, pero quizás ya podrían quitar lo de “free” del nombre.',
+                'p9': 'El recorrido comenzó en la Puerta del Sol, pasando por la Plaza Mayor, una plaza enorme y muy famosa de Madrid. Durante el trayecto, la guía explica bastante sobre la historia de la ciudad. Un dato curioso es que Madrid reconoce oficialmente a los comercios que permanecen abiertos, con el mesmo nombre y producto, durante más de 100 años. Es posible ver una condecoración frente al local.',
+                'p10': 'Saliendo de la Plaza Mayor, el tour continúa por las calles del centro, con una parada en el Mercado de San Miguel, y luego sigue por calles estrechas hasta la Catedral de la Almudena y el Palacio Real, finalizando en la Plaza de Oriente, frente al Monumento a Felipe IV.',
+                'h2_2': 'Explorando Madrid por cuenta propia',
+                'p11': 'El Palacio Real no estaba abierto a visitas ese día, y tampoco tenía muchas ganas de gastar para visitar la catedral. Después del tour, seguí explorando la zona con más calma, caminando por los Jardines de Sabatini.',
+                'p12': 'Como ya tenía el billete de transporte, fui hasta la Puerta de Alcalá, que vendría a ser el “Arco del Triunfo” de Madrid. No me pareció tan impresionante. Como aún tenía tiempo antes del check-in, decidí visitar un museo.',
+                'sh1': 'Museo del Romanticismo',
+                'p13': 'Ubicado en una mansión del siglo XVIII, el Museo del Romanticismo cuenta con exposiciones de pinturas y mobiliario del período romántico. Estaba bastante vacío, lo que hizo que la visita fuera interesante para observar los detalles de la época. No lo recomendaría como primera opción de museo en Madrid, pero si te sobra tiempo, vale la pena.',
+                'h2_3': 'Vida nocturna madrileña',
+                'p14': 'Sinceramente, uno de los mejores puntos de Madrid es su vida nocturna. Los españoles tienen hábitos nocturnos muy marcados y una fuerte cultura de salir a beber, incluso durante la semana. Aunque era martes, no fue difícil encontrar bares con happy hour y bastante movimiento.',
+                'p15': 'No suelo ir solo a bares, pero la experiencia fue interesante y pude socializar con algunas personas. Como ya mencioné, la zona de Chueca es excelente para encontrar bares LGBT, y me sorprendió que, a la 1 de la madrugada, las calles aún estuvieran llenas de gente.',
+                'p16': 'Volví caminando al hostel sin mayores preocupaciones por la seguridad. Tal vez fui un poco demasiado confiado, pero no sentí ningún problema. Había mucha gente circulando por las calles.',
+                'h2_4': 'Renuncié a visitar el Museo del Prado',
+                'p17': 'Como ya quedó claro, no había planificado demasiado. Lo que me sorprendió fue que, a diferencia de mí, mucha gente sí lo había hecho. Cuando llegué al Museo del Prado, las colas eran kilométricas.',
+                'p18': 'Mi tren salía por la tarde y, aunque existía la posibilidad de entrar, decidí renunciar a la visita y pasear un poco más por el centro. Aun así, tengo muchas ganas de visitar el museo en otra ocasión. El Prado alberga obras clásicas muy famosas, como Las Meninas, de Velázquez, y Saturno devorando a su hijo, de Goya.',
+                'h2_5': 'Chocolatería San Ginés',
+                'p19': 'La Chocolatería San Ginés es un dos lugares más famosos de Madrid y, aun así, siempre la recomiendo a quien me dice que va a viajar a la ciudad, solo para asegurarme de que sepa que existe.',
+                'p20': 'Fundada em 1894, la chocolatería sirve un chocolate caliente excelente, que se puede acompañar con churros o con la mejor broma para cualquier brasileño: una ración de porras.',
+                'p21': 'Para contextualizar, los churros son finos, estriados y crujientes, mientras que las porras son mucho más gruesas, suaves y esponjosas por dentro.',
+                'p22': 'Al ser tan famosa, suele estar muy llena. Mi consejo es visitar el local clásico para conocerlo y luego ir a la sucursal más nueva, que está en la esquina de la original. La calidad y los precios son los mesmos.',
+                'h2_6': 'Tren de Madrid a Barcelona',
+                'p23': 'Finalmente, volví al hostel a buscar mis cosas y me dirigí a la estación de tren. El trayecto entre Madrid y Barcelona es muy común. El viaje en tren de alta velocidad dura entre 2 horas y 30 minutos y 2 horas y 50 minutos.',
+                'p24': 'Una de las ventajas del tren es que no es necesario llegar con mucha antelación. El embarque suele comenzar unos 15 minutos antes. Compré mi billete a través de la aplicación Trainline, que es una excelente opción para encontrar trenes baratos por Europa.',
+                'p25': '¿Recuerdas que me había confundido con la reserva del hostel? Pues bien, mientras reservé el hostel por solo una noche, compré el tren para dos días después. Solo lo descubrí cuando el código QR no pasó en el control de embarque. Tras una mirada poco amable, el empleado me informó que la fecha era incorrecta.',
+                'p26': 'Por suerte, el billete permitió cancelación gratuita hasta 24 horas antes. Pude cancelar y comprar uno nuevo, que afortunadamente no tenía un precio muy diferente en ese momento.',
+                'p27': 'Problema resuelto, subí al tren rumbo a Barcelona y a las próximas aventuras.',
+                'h2_7': 'Otros lugares para visitar en Madrid',
+                'p28': 'A pesar de haber explorado bastante el centro, varios puntos turísticos famosos de Madrid quedaron fuera de este itinerario corto. Algunos de ellos son:',
+                'p29': '<strong>Parque del Retiro</strong>, el parque más famoso de la ciudad',
+                'p30': '<strong>Museo Reina Sofía</strong>, donde se encuentra el Guernica de Picasso',
+                'p31': '<strong>Museo Thyssen-Bornemisza</strong>, que completa el llamado Triángulo del Arte',
+                'p32': '<strong>Gran Vía</strong>, una de las avenidas más icónicas de Madrid',
+                'p33': '<strong>Templo de Debod</strong>, muy popular para ver el atardecer',
+                'p34': '<strong>Estadio Santiago Bernabéu</strong>, para los interesados en fútbol y en el Real Madrid',
+                'p35': '<strong>Malasaña</strong>, barrio alternativo conocido por su vida cultural y bares',
+                'p36': 'Madrid funciona muy bien tanto para viajes cortos como para estancias más largas, y claramente quedaron muchos motivos para volver.',
+                'related_title': 'Leer también',
+                'cat_rel1': 'Argentina',
+                'rel_title1': 'Salta, la linda',
+                'cat_rel2': 'Gibraltar',
+                'rel_title2': 'Gibraltar: El Peñón',
+                'cat_rel3': 'Argentina',
+                'rel_title3': 'Buenos Aires Gratis',
+                'labelAd': 'Alojamiento',
+                'badgeAd': 'Publicidad',
+                'titleAd': '¿Dónde dormir en Madrid?',
+                'btnAd': 'Ver Ofertas →',
+                'footer_text': '© 2026 Paco Sousa · Diarios de un Nómada'
+            },
+            'en': {
+                'main_title': '2-Day Itinerary in Madrid',
+                'author_line': 'Paco Sousa • 10 min read • Written on April 23, 2024',
+                'diary_date': 'Madrid, Spain. April 23, 2024.',
+                'category_tag': 'Spain',
+                'p1': 'Well, I simply miscalculated. I was already on my way to Madrid when I realized I had booked only one night of accommodation in the city. But honestly, I later returned to Madrid and did not do much more than what I managed to do this time.',
+                'p2': 'After a long overnight bus ride, I arrived very early in the Spanish capital. I went from Madrid’s bus station to the hostel by metro. Madrid’s public transportation system is very well organized, and it is possible to buy a daily ticket at machines near the turnstiles. I went ahead and bought a two-day ticket.',
+                'p3': 'I stayed at Hostel Room007 Chueca. Chueca is a great area to stay in Madrid. Besides being a safe neighborhood, it is possible to walk to Puerta del Sol, the city’s main square. For those who are interested, it is also a very LGBT-friendly area.',
+                'p4': 'I left my belongings in the hostel locker and went out to explore the city. Unfortunately, there was no option to shower before check-in, since the showers are located inside the rooms.',
+                'h2_1': 'Free walking tour: Madrid of the Bourbons',
+                'p5': 'Basically, historical tours in Madrid are divided between the Madrid of the Austrias, from the 16th and 17th centuries, and the Madrid of the Bourbons, starting in the 18th century. This reflects the historical and monumental evolution of the Spanish capital.',
+                'p6': 'It is not that I knew this before choosing the walking tour. I simply picked the one that had availability and was closest. The Madrid of the Bourbons tour focuses on the urban and monumental transformation of the city from the 18th century onward, driven by the Bourbon dynasty, initiated by Philip V, with particular emphasis on the reign of Charles III.',
+                'p7': 'The tour covers the main central landmarks of the city. I took the tour in Spanish, but it is easy to find options in Portuguese as well.',
+                'p8': 'One important detail: despite the name, these walking tours are never truly free. At the end, you are expected to make a contribution considered voluntary. On the tour I booked through Civitatis, the guide explained that the platform charged around 8 euros per person, which should be the minimum contribution. I do not think charging for the tour is wrong, but they could probably drop the word “free” from the name.',
+                'p9': 'The tour started at Puerta del Sol, passing through Plaza Mayor, a huge and very famous square in Madrid. Along the way, the guide explains a lot about the city’s history. An interesting fact is that Madrid officially recognizes businesses that have remained open, with the same name and product, for more than 100 years. You can see a plaque in front of these establishments.',
+                'p10': 'Leaving Plaza Mayor, the tour continues through the streets of central Madrid, with a stop at the Mercado de San Miguel, and then follows narrow streets to the Almudena Cathedral and the Royal Palace, finishing at Plaza de Oriente, in front of the Monument to Philip IV.',
+                'h2_2': 'Exploring Madrid on my own',
+                'p11': 'The Royal Palace was not open for visits that day, and I was also not very interested in spending money to visit the cathedral. After the tour, I continued exploring the area at a slower pace, walking through the Sabatini Gardens.',
+                'p12': 'Since I already had the transportation ticket, I made my way to the Puerta de Alcalá, which would be Madrid’s version of a triumphal arch. I did not find it particularly impressive. As I still had time before check-in, I decided to visit a museum.',
+                'sh1': 'Museum of Romanticism',
+                'p13': 'Located in an 18th-century mansion, the Museum of Romanticism features exhibitions of paintings and furniture from the Romantic period. It was quite empty, which made the visit interesting for observing the details of the era. I would not recommend it as a first museum to visit in Madrid, but if you have extra time, it is worth checking out.',
+                'h2_3': 'Madrid nightlife',
+                'p14': 'Honestly, one of the best things about Madrid is its nightlife. Spaniards have very strong nighttime habits and a solid culture of going out for drinks, even during the week. Even though it was a Tuesday, it was not difficult to find bars with happy hour deals and plenty of people around.',
+                'p15': 'I do not usually go to bars alone, but the experience was interesting and I managed to socialize with some people. As mentioned before, the Chueca area is great for LGBT bars, and I was surprised to see that at 1 a.m. the streets were still packed.',
+                'p16': 'I walked back to the hostel without worrying too much about safety. Maybe I was a bit too confident, but I did not feel any issues. There were plenty of people out on the streets.',
+                'h2_4': 'Skipping the Prado Museum',
+                'p17': 'As it is already clear, I had not planned much in advance. What surprised me was that, unlike me, many people had planned their visit. When I arrived at the Prado Museum, the lines were extremely long.',
+                'p18': 'My train was leaving in the afternoon, and even though there was a chance I could get in, I decided to skip the museum and walk around the city center a bit more. Still, I really want to visit the museum someday. The Prado houses very famous classical works, such as Las Meninas by Velázquez and Saturn Devouring His Son by Goya.',
+                'h2_5': 'Chocolatería San Ginés',
+                'p19': 'The Chocolatería San Ginés is one of the most famous spots in Madrid, and even so, I always recommend it to anyone who tells me they are going to the city, just to make sure they know it exists.',
+                'p20': 'Founded in 1894, the chocolatería serves an excellent hot chocolate, which can be paired with churros or with what is probably the best joke for any Brazilian: a portion of porras.',
+                'p21': 'For context, churros are thin, ridged, and crunchy, while porras are much thicker, soft, and fluffy on the inside.',
+                'p22': 'Because it is so famous, the place is usually very crowded. My tip is to visit the classic location to see it and then head to the newer one, located on the corner next to the original. The quality and prices are the same.',
+                'h2_6': 'Train from Madrid to Barcelona',
+                'p23': 'Finally, I returned to the hostel to pick up my things and headed to the train station. The route between Madrid and Barcelona is very common. The high-speed train journey takes between 2 hours and 30 minutes and 2 hours and 50 minutes.',
+                'p24': 'One of the advantages of traveling by train is that you do not need to arrive very early. Boarding usually starts about 15 minutes before departure. I bought my ticket using the Trainline app, which is a great option for finding cheap trains across Europe.',
+                'p25': 'Remember when I mentioned I had messed up the hostel booking? Well, while I booked the hostel for only one night, I ended up booking the train for two days later. I only found out when the QR code did not work at boarding. After giving me a disapproving look, the staff member informed me that the date was wrong.',
+                'p26': 'Luckily, my ticket allowed free cancellation up to 24 hours in advance. I was able to cancel it and buy a new one, which fortunately was not much more expensive at that moment.',
+                'p27': 'Problem solved, I boarded the train heading to Barcelona and on to the next adventures.',
+                'h2_7': 'Other places to visit in Madrid',
+                'p28': 'Even though I explored much of the city center, several famous tourist attractions in Madrid did not make it into this short itinerary. Some of them include:',
+                'p29': '<strong>Retiro Park</strong>, the city\'s main park and a great place for a relaxed walk',
+                'p30': '<strong>Reina Sofía Museum</strong>, home to Picasso\'s Guernica',
+                'p31': '<strong>Thyssen-Bornemisza Museum</strong>, completing the Art Triangle',
+                'p32': '<strong>Gran Vía</strong>, one of Madrid\'s most iconic avenues, full of shops, theaters and cinemas',
+                'p33': '<strong>Temple of Debod</strong>, an open-air Egyptian temple, very popular for watching the sunset',
+                'p34': '<strong>Santiago Bernabéu Stadium</strong>, for those interested in football and Real Madrid',
+                'p35': '<strong>Malasaña</strong>, an alternative neighborhood known for its cultural scene and cool bars',
+                'p36': 'Madrid works equally well for short visits or longer stays, and there were clearly many reasons left for a return trip.',
+                'related_title': 'Read also',
+                'cat_rel1': 'Argentina',
+                'rel_title1': 'Salta, the beautiful',
+                'cat_rel2': 'Gibraltar',
+                'rel_title2': 'Gibraltar: The Rock',
+                'cat_rel3': 'Argentina',
+                'rel_title3': 'Free Buenos Aires',
+                'labelAd': 'Accommodation',
+                'badgeAd': 'Sponsored',
+                'titleAd': 'Where to stay in Madrid?',
+                'btnAd': 'See Deals →',
+                'footer_text': '© 2026 Paco Sousa · Nomad Diaries'
+            }
+        };
+
+        window.changeLanguage = function(lang) {
+            const t = translations[lang] || translations['pt'];
+            const elements = document.querySelectorAll('[id]');
+            elements.forEach(el => {
+                const id = el.id;
+                if (t[id] !== undefined) {
+                    el.innerHTML = t[id];
+                }
+            });
+            const bookingCard = document.getElementById('ad-booking');
+            const adLink = document.getElementById('ad-link');
+            const adImg = document.getElementById('ad-img');
+            if (bookingCard) {
+                if (lang === 'en') {
+                    bookingCard.classList.add('hidden');
+                } else if (adConfig[lang]) {
+                    bookingCard.classList.remove('hidden');
+                    if (adLink) adLink.href = adConfig[lang].link;
+                    if (adImg) adImg.src = adConfig[lang].img;
+                } else {
+                    bookingCard.classList.add('hidden');
+                }
+            }
+            document.documentElement.lang = lang;
+            localStorage.setItem('paco_blog_lang', lang);
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('paco_blog_lang') || 'pt';
+            window.changeLanguage(savedLang);
+        });
+    </script>
+</body>
+</html>

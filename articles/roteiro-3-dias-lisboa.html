@@ -103,14 +103,14 @@
       .mini-photo:hover img { transform: scale(1.1); }
 
       /* Lightbox com Carrossel */
-      #lightbox-modal { display: none; position: fixed; inset: 0; z-index: 1000; background-color: rgba(0, 0, 0, 0.95); backdrop-filter: blur(10px); align-items: center; justify-content: center; cursor: zoom-out; }
+      #lightbox-modal { display: none; position: fixed; inset: 0; z-index: 10000; background-color: rgba(0, 0, 0, 0.95); backdrop-filter: blur(10px); align-items: center; justify-content: center; cursor: zoom-out; }
       #lightbox-modal img { max-width: 90%; max-height: 85vh; border-radius: 1.5rem; object-fit: contain; cursor: default; }
       
       .nav-btn { 
         position: absolute; top: 50%; transform: translateY(-50%); 
         background: rgba(255,255,255,0.05); color: white; border: 1px solid rgba(255,255,255,0.1);
         width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-        cursor: pointer; transition: all 0.3s ease; z-index: 1010; font-size: 1.5rem;
+        cursor: pointer; transition: all 0.3s ease; z-index: 10010; font-size: 1.5rem;
       }
       .nav-btn:hover { background: var(--accent-tertiary); color: black; border-color: var(--accent-tertiary); transform: translateY(-50%) scale(1.1); }
       #prev-btn { left: 20px; }
