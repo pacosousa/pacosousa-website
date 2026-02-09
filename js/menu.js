@@ -77,7 +77,7 @@ const navTranslations = {
         'art_salta': 'Salta, la linda',
         'art_atacama': 'Desierto de Atacama',
         'art_santiago': 'Santiago de Chile',
-        'art_gibraltar': 'Interrogatorio em Gibraltar',
+        'art_gibraltar': 'Interrogatorio en Gibraltar',
         'art_wrapped': 'Wrapped 2025 📸',
         'art_jornada': 'El Comienzo de la Jornada',
         'art_vida_nomade': 'Mi Vida Nómada',
