@@ -31,5 +31,8 @@
     "source-map-js": "^1.2.1",
     "update-browserslist-db": "^1.2.3"
   },
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "tailwindcss": "^4.1.18"
+  }
 }
