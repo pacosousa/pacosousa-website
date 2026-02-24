@@ -1,534 +1,17 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { 
-  Home, 
-  ArrowLeft, 
-  Star, 
-  CheckCircle2, 
-  RotateCcw, 
-  Download, 
-  Eraser, 
-  Dices,
-  Info,
-  ChevronRight,
-  ChevronLeft,
-  Sparkles,
-  Palette
-} from 'lucide-react';
-
-// --- CONFIGURAÇÃO E DADOS ---
-
-const APP_ID = 'oi-brasil-v2';
-
-const MOTIVATIONAL_PHRASES = [
-  "¡Cada palavra nova é um superpoder!",
-  "¡Hoje você aprende, amanhã você fala!",
-  "¡Você é uma estrela dos idiomas!",
-  "¡Seu português vai ser incrível!",
-  "¡A jogar e aprender!"
-];
-
-const COLORS_PALETTE = [
-  { hex: '#FF3CAC', name: 'rosa' },
-  { hex: '#FF6B35', name: 'laranja' },
-  { hex: '#FFD60A', name: 'amarelo' },
-  { hex: '#2EC4B6', name: 'turquesa' },
-  { hex: '#4361EE', name: 'azul' },
-  { hex: '#7B2FFF', name: 'roxo' },
-  { hex: '#06D6A0', name: 'verde' },
-  { hex: '#EF233C', name: 'vermelho' },
-  { hex: '#FFFFFF', name: 'branco' },
-  { hex: '#000000', name: 'preto' },
-];
-
-// DATA DEFINITIONS
-const CLASS_1_MEM_A = [
-  { pt: 'Oi!', es: '¡Hola! 👋' },
-  { pt: 'Tudo bem?', es: '¿Cómo estás? 😊' },
-  { pt: 'Bom dia', es: 'Buen día ☀️' },
-  { pt: 'Boa tarde', es: 'Buenas tardes 🌤️' },
-  { pt: 'Boa noite', es: 'Buenas noches 🌙' },
-  { pt: 'Tchau!', es: '¡Chau! 👋' },
-  { pt: 'Até amanhã', es: 'Hasta mañana 📅' },
-  { pt: 'Prazer!', es: '¡Mucho gusto! ✨' },
-];
-
-const CLASS_1_MEM_B = [
-  { pt: 'Meu nome é ___', es: 'Mi nombre es ___' },
-  { pt: 'Eu tenho 8 anos', es: 'Tengo 8 anos' },
-  { pt: 'Eu sou da Argentina', es: 'Soy de Argentina' },
-  { pt: 'Eu falo espanhol', es: 'Hablo español' },
-  { pt: 'Eu gosto de desenhar', es: 'Me gusta dibujar' },
-  { pt: 'Prazer em te conhecer!', es: '¡Un placer conocerte!' },
-];
-
-const CLASS_1_EXTRAS_DATA = [
-  { sentence: "Olá! Meu _______ é Anya.", options: ["nome", "tchau", "escola"], correct: "nome", translation: "¡Hola! Mi nombre es Anya." },
-  { sentence: "Eu _______ 8 anos.", options: ["sou", "tenho", "falo"], correct: "tenho", translation: "Yo tengo 8 anos." },
-  { sentence: "Eu sou da _______.", options: ["Brasil", "espanhol", "Argentina"], correct: "Argentina", translation: "Yo soy de Argentina." },
-  { sentence: "Eu gosto de _______.", options: ["desenhar", "nome", "dia"], correct: "desenhar", translation: "Me gusta dibujar." },
-];
-
-const CLASS_2_THEORY = [
-  { 
-    title: "Os Números (1-5)", 
-    content: "¡Vamos a contar amendoins com a Anya!", 
-    items: [
-      { n: "1", pt: "Um", es: "Uno", icon: "🥜" },
-      { n: "2", pt: "Dois", es: "Dos", icon: "🥜🥜" },
-      { n: "3", pt: "Três", es: "Tres", icon: "🥜🥜🥜" },
-      { n: "4", pt: "Quatro", es: "Cuatro", icon: "🥜🥜🥜🥜" },
-      { n: "5", pt: "Cinco", es: "Cinco", icon: "🥜🥜🥜🥜🥜" }
-    ],
-    bg: "bg-[#7B2FFF]",
-    textColor: "text-white"
-  },
-  { 
-    title: "Os Números (6-10)", 
-    content: "¡Agora no mundo de Roblox!", 
-    items: [
-      { n: "6", pt: "Seis", es: "Seis", icon: "💎💎💎💎💎💎" },
-      { n: "7", pt: "Sete", es: "Siete", icon: "💎💎💎💎💎💎💎" },
-      { n: "8", pt: "Oito", es: "Ocho", icon: "💎💎💎💎💎💎💎💎" },
-      { n: "9", pt: "Nove", es: "Nueve", icon: "💎💎💎💎💎💎💎💎💎" },
-      { n: "10", pt: "Dez", es: "Diez", icon: "💎💎💎💎💎💎💎💎💎💎" }
-    ],
-    bg: "bg-[#FF3CAC]",
-    textColor: "text-white"
-  },
-  {
-    title: "As Cores (Parte 1)",
-    content: "¡Dê cor aos seus desenhos!",
-    items: [
-      { n: "🟥", pt: "Vermelho", es: "Rojo", icon: "🍎" },
-      { n: "🟦", pt: "Azul", es: "Azul", icon: "🌊" },
-      { n: "🟩", pt: "Verde", es: "Verde", icon: "🌳" },
-      { n: "🟨", pt: "Amarelo", es: "Amarillo", icon: "☀️" },
-      { n: "🟧", pt: "Laranja", es: "Naranja", icon: "🍊" }
-    ],
-    bg: "bg-[#042f24]", 
-    textColor: "text-white" 
-  },
-  {
-    title: "As Cores (Parte 2)",
-    content: "¡Mais cores e o Brasil!",
-    items: [
-      { n: "🟪", pt: "Roxo", es: "Morado", icon: "🍇" },
-      { n: "🩷", pt: "Rosa", es: "Rosa", icon: "🌸" },
-      { n: "⬛", pt: "Preto", es: "Negro", icon: "🕶️" },
-      { n: "⬜", pt: "Branco", es: "Blanco", icon: "☁️" },
-      { n: "🇧🇷", pt: "Brasil", es: "Brasil", icon: "✨" }
-    ],
-    bg: "bg-[#1A1035]",
-    textColor: "text-white"
-  }
-];
-
-const CLASS_2_MEM_A = [
-  { pt: 'caderno', emoji: '📓', es: 'cuaderno' },
-  { pt: 'lápis', emoji: '✏️', es: 'lápiz' },
-  { pt: 'mochila', emoji: '🎒', es: 'mochila' },
-  { pt: 'régua', emoji: '📏', es: 'regla' },
-  { pt: 'caneta', emoji: '🖊️', es: 'lapicera' },
-  { pt: 'livro', emoji: '📚', es: 'libro' },
-  { pt: 'tesoura', emoji: '✂️', es: 'tijeras' },
-  { pt: 'borracha', emoji: '🧼', es: 'goma' },
-];
-
-const CLASS_2_NUMBERS = [
-  { pt: 'um', val: '1' }, { pt: 'dois', val: '2' }, { pt: 'três', val: '3' },
-  { pt: 'quatro', val: '4' }, { pt: 'cinco', val: '5' }, { pt: 'seis', val: '6' },
-  { pt: 'sete', val: '7' }, { pt: 'oito', val: '8' }, { pt: 'nove', val: '9' },
-  { pt: 'dez', val: '10' }
-];
-
-const CLASS_2_COLORS = [
-  { pt: 'vermelho', hex: '#EF233C' }, { pt: 'azul', hex: '#4361EE' },
-  { pt: 'verde', hex: '#06D6A0' }, { pt: 'amarelo', hex: '#FFD60A' },
-  { pt: 'laranja', hex: '#FF6B35' }, { pt: 'roxo', hex: '#7B2FFF' },
-  { pt: 'rosa', hex: '#FF3CAC' }, { pt: 'preto', hex: '#000000' }
-];
-
-const ROOM_ELEMENTS = [
-  { id: 'lousa', pt: 'lousa', es: 'pizarrón' },
-  { id: 'mesa-professor', pt: 'mesa', es: 'mesa' },
-  { id: 'cadeira-professor', pt: 'cadeira', es: 'silla' },
-  { id: 'janela', pt: 'janela', es: 'ventana' },
-  { id: 'porta', pt: 'porta', es: 'puerta' },
-  { id: 'livro', pt: 'livro', es: 'libro' },
-  { id: 'lapis', pt: 'lápis', es: 'lápiz' },
-  { id: 'mochila', pt: 'mochila', es: 'mochila' },
-];
-
-// --- UTILIDADES ---
-
-const playSound = (type) => {
-  try {
-    const ctx = new (window.AudioContext || window.webkitAudioContext)();
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.connect(gain); gain.connect(ctx.destination);
-    const now = ctx.currentTime;
-    if (type === 'correct') {
-      osc.frequency.setValueAtTime(300, now);
-      osc.frequency.exponentialRampToValueAtTime(600, now + 0.15);
-      gain.gain.setValueAtTime(0.1, now);
-      gain.gain.linearRampToValueAtTime(0, now + 0.2);
-    } else if (type === 'error') {
-      osc.frequency.setValueAtTime(400, now);
-      osc.frequency.linearRampToValueAtTime(200, now + 0.1);
-      gain.gain.setValueAtTime(0.1, now);
-      gain.gain.linearRampToValueAtTime(0, now + 0.15);
-    } else if (type === 'flip') {
-      osc.frequency.setValueAtTime(150, now);
-      gain.gain.setValueAtTime(0.05, now);
-      gain.gain.linearRampToValueAtTime(0, now + 0.05);
-    } else if (type === 'success') {
-      const notes = [261.63, 329.63, 392.00];
-      notes.forEach((freq, i) => {
-        const o = ctx.createOscillator();
-        const g = ctx.createGain();
-        o.connect(g); g.connect(ctx.destination);
-        o.frequency.setValueAtTime(freq, now + i * 0.1);
-        g.gain.setValueAtTime(0.1, now + i * 0.1);
-        g.gain.linearRampToValueAtTime(0, now + i * 0.1 + 0.2);
-        o.start(now + i * 0.1); o.stop(now + i * 0.1 + 0.2);
-      });
-      return;
-    }
-    osc.start(); osc.stop(now + 0.2);
-  } catch (e) { }
-};
-
-const shuffleArray = (array) => {
-  const newArr = [...array];
-  for (let i = newArr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [newArr[i], newArr[j]] = [newArr[j], newArr[i]];
-  }
-  return newArr;
-};
-
-// --- COMPONENTES ---
-
-const Button = ({ children, onClick, variant = 'primary', className = '' }) => {
-  const variants = {
-    primary: 'bg-[#FF3CAC] hover:bg-[#ff5bb9] text-white shadow-[0_4px_0_rgb(190,45,128)] active:translate-y-[2px] active:shadow-none',
-    ghost: 'bg-transparent border-2 border-white/20 hover:bg-white/10 text-white',
-    accent: 'bg-[#00F5D4] hover:bg-[#33ffdf] text-[#0F0A1E] shadow-[0_4px_0_rgb(0,180,155)] active:translate-y-[2px] active:shadow-none',
-  };
-  return (
-    <button onClick={onClick} className={`px-6 py-3 rounded-2xl font-black transition-all transform duration-150 ${variants[variant]} ${className}`}>
-      {children}
-    </button>
-  );
-};
-
-const Card = ({ children, className = "" }) => (
-  <div className={`bg-[#1A1035] border-2 border-[#FF3CAC]/30 rounded-[24px] p-6 shadow-2xl ${className}`}>
-    {children}
-  </div>
-);
-
-const MemoryGame = ({ data, onComplete, type = 'text-text' }) => {
-  const [cards, setCards] = useState([]);
-  const [flipped, setFlipped] = useState([]);
-  const [matched, setMatched] = useState([]);
-  const [locked, setLocked] = useState(false);
-
-  useEffect(() => {
-    let pool = [];
-    if (type === 'text-text') {
-      pool = data.flatMap((item, idx) => [
-        { id: `${idx}-pt`, content: item.pt, pairId: idx, side: 'pt' },
-        { id: `${idx}-es`, content: item.es, pairId: idx, side: 'es' }
-      ]);
-    } else if (type === 'emoji-text') {
-      pool = data.flatMap((item, idx) => [
-        { id: `${idx}-emoji`, content: item.emoji, sub: item.es, pairId: idx, side: 'emoji' },
-        { id: `${idx}-pt`, content: item.pt, pairId: idx, side: 'pt' }
-      ]);
-    } else if (type === 'num-text') {
-      pool = data.flatMap((item, idx) => [
-        { id: `${idx}-val`, content: item.val, pairId: idx, side: 'val' },
-        { id: `${idx}-pt`, content: item.pt, pairId: idx, side: 'pt' }
-      ]);
-    } else if (type === 'color-text') {
-      pool = data.flatMap((item, idx) => [
-        { id: `${idx}-hex`, hex: item.hex, pairId: idx, side: 'hex' },
-        { id: `${idx}-pt`, content: item.pt, color: item.hex, pairId: idx, side: 'pt' }
-      ]);
-    }
-    setCards(shuffleArray(pool));
-  }, [data, type]);
-
-  const handleFlip = (card) => {
-    if (locked || flipped.includes(card.id) || matched.includes(card.pairId)) return;
-    playSound('flip');
-    const newFlipped = [...flipped, card.id];
-    setFlipped(newFlipped);
-    if (newFlipped.length === 2) {
-      setLocked(true);
-      const c1 = cards.find(c => c.id === newFlipped[0]);
-      const c2 = cards.find(c => c.id === newFlipped[1]);
-      if (c1.pairId === c2.pairId) {
-        setMatched([...matched, c1.pairId]);
-        setFlipped([]);
-        setLocked(false);
-        playSound('correct');
-        if (matched.length + 1 === data.length) setTimeout(() => { playSound('success'); onComplete(); }, 1200);
-      } else {
-        setTimeout(() => { setFlipped([]); setLocked(false); playSound('error'); }, 1000);
-      }
-    }
-  };
-
-  return (
-    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full max-w-4xl mx-auto p-4 perspective-1000">
-      {cards.map((card) => {
-        const isFlipped = flipped.includes(card.id) || matched.includes(card.pairId);
-        const isMatched = matched.includes(card.pairId);
-        return (
-          <div key={card.id} onClick={() => handleFlip(card)} className={`relative h-32 md:h-40 cursor-pointer transition-transform duration-500 transform-style-3d ${isFlipped ? 'rotate-y-180' : ''}`}>
-            <div className="absolute inset-0 bg-[#7B2FFF] rounded-2xl flex items-center justify-center border-b-4 border-indigo-900 backface-hidden z-20">
-              <span className="text-4xl text-white/50 font-black">?</span>
-            </div>
-            <div className={`absolute inset-0 rounded-2xl flex flex-col items-center justify-center p-2 text-center rotate-y-180 backface-hidden border-b-4 shadow-xl z-10 ${card.side === 'pt' ? 'bg-[#FF3CAC] border-pink-900' : 'bg-[#00F5D4] border-teal-900'}`} style={card.side === 'hex' ? { backgroundColor: card.hex } : {}}>
-              {card.side === 'emoji' ? (
-                <>
-                  <span className="text-4xl mb-1">{card.content}</span>
-                  <span className="text-[10px] text-black/60 font-black uppercase">{card.sub}</span>
-                </>
-              ) : card.side === 'hex' ? null : (
-                <span className={`font-black leading-tight break-words ${card.side === 'pt' ? 'text-white text-lg' : 'text-[#0F0A1E] text-base'}`}>
-                  {card.content}
-                </span>
-              )}
-            </div>
-          </div>
-        );
-      })}
-    </div>
-  );
-};
-
-const Class1Extras = ({ onComplete }) => {
-  const [step, setStep] = useState(0);
-  const [selected, setSelected] = useState(null);
-  const [isCorrect, setIsCorrect] = useState(null);
-
-  const current = CLASS_1_EXTRAS_DATA[step];
-
-  const handleCheck = (opt) => {
-    setSelected(opt);
-    if (opt === current.correct) {
-      setIsCorrect(true);
-      playSound('correct');
-      setTimeout(() => {
-        if (step < CLASS_1_EXTRAS_DATA.length - 1) {
-          setStep(s => s + 1);
-          setSelected(null);
-          setIsCorrect(null);
-        } else {
-          playSound('success');
-          onComplete();
-        }
-      }, 1500);
-    } else {
-      setIsCorrect(false);
-      playSound('error');
-      setTimeout(() => { setSelected(null); setIsCorrect(null); }, 1000);
-    }
-  };
-
-  return (
-    <div className="max-w-2xl mx-auto">
-      <Card className="text-center py-12">
-        <h2 className="text-[#00F5D4] font-black mb-2 uppercase">Exercícios Extras</h2>
-        <p className="text-white/60 mb-8">Completá a frase com a palavra correta:</p>
-        
-        <div className="text-3xl md:text-4xl font-black text-white mb-4 bg-white/5 p-8 rounded-3xl border border-white/10">
-          {current.sentence.split("_______").map((part, i) => (
-            <React.Fragment key={i}>
-              {part}
-              {i === 0 && (
-                <span className={`mx-2 border-b-4 px-4 ${isCorrect === true ? 'text-[#00F5D4] border-[#00F5D4]' : isCorrect === false ? 'text-red-500 border-red-500 animate-shake' : 'text-[#FF3CAC] border-white/30'}`}>
-                  {selected || "_______"}
-                </span>
-              )}
-            </React.Fragment>
-          ))}
-        </div>
-        <p className="text-white/40 mb-12 italic">"{current.translation}"</p>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {current.options.map((opt) => (
-            <button key={opt} onClick={() => handleCheck(opt)} className="bg-white/10 hover:bg-white/20 text-white font-black py-4 rounded-2xl border-b-4 border-white/10 transition-all active:scale-95">
-              {opt}
-            </button>
-          ))}
-        </div>
-      </Card>
-    </div>
-  );
-};
-
-const Class2Theory = ({ onComplete }) => {
-  const [slide, setSlide] = useState(0);
-  const currentTheory = CLASS_2_THEORY[slide];
-
-  return (
-    <div className="max-w-4xl mx-auto">
-      <div className={`rounded-[40px] p-8 md:p-12 shadow-2xl transition-all duration-500 ${currentTheory.bg} ${currentTheory.textColor} relative overflow-hidden min-h-[500px] flex flex-col justify-between`}>
-        <div className="absolute top-0 right-0 p-8 opacity-20 rotate-12"><Sparkles size={160} /></div>
-        <div>
-          <h2 className="text-4xl md:text-5xl font-black mb-4 drop-shadow-lg">{currentTheory.title}</h2>
-          <p className="text-xl opacity-90 mb-12 font-bold">{currentTheory.content}</p>
-
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-            {currentTheory.items.map((item, i) => (
-              <div key={i} className="bg-white/20 backdrop-blur-md rounded-3xl p-6 text-center border border-white/30 hover:scale-110 transition-all cursor-default">
-                <div className="text-xl mb-2 break-all">{item.icon}</div>
-                <div className="text-5xl font-black mb-2">{item.n}</div>
-                <div className="text-[#00F5D4] font-black text-xl">{item.pt}</div>
-                <div className="text-[10px] uppercase font-black opacity-60">{item.es}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="flex justify-between mt-12 items-center">
-          <Button onClick={() => slide > 0 && setSlide(slide-1)} variant="ghost" className={slide === 0 ? 'invisible' : ''}>Atrás</Button>
-          <div className="flex gap-2">
-            {CLASS_2_THEORY.map((_, i) => <div key={i} className={`w-3 h-3 rounded-full ${slide === i ? 'bg-white w-8' : 'bg-white/30'}`} />)}
-          </div>
-          <Button onClick={() => slide < 3 ? setSlide(slide+1) : onComplete()} variant="accent">
-            {slide === 3 ? '¡Pronto! 🎉' : 'Próximo'}
-          </Button>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const ClassroomColoring = ({ onComplete }) => {
-  const [colors, setColors] = useState({});
-  const [selectedColor, setSelectedColor] = useState('#FF3CAC');
-  const [tooltip, setTooltip] = useState(null);
-
-  const handleColorClick = (id) => {
-    setColors(prev => ({ ...prev, [id]: selectedColor }));
-    const info = ROOM_ELEMENTS.find(el => el.id === id);
-    if (info) { setTooltip({ pt: info.pt, es: info.es }); setTimeout(() => setTooltip(null), 2500); playSound('flip'); }
-  };
-
-  return (
-    <div className="flex flex-col items-center gap-8 w-full">
-      <div className="relative w-full max-w-4xl bg-white rounded-3xl p-4 shadow-2xl border-8 border-[#1A1035]">
-        {tooltip && <div className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-[#1A1035] text-white px-6 py-2 rounded-full border-2 border-[#00F5D4] z-10 animate-bounce shadow-xl font-black text-xl text-center"><div className="text-[#00F5D4]">{tooltip.pt}</div><div className="text-[10px] opacity-60 uppercase">{tooltip.es}</div></div>}
-        <svg viewBox="0 0 800 500" className="w-full h-auto drop-shadow-sm select-none">
-          <rect x="0" y="0" width="800" height="400" fill={colors.parede || '#FFFFFF'} stroke="#000" strokeWidth="3" onClick={() => handleColorClick('parede')} className="cursor-pointer" />
-          <rect x="0" y="400" width="800" height="100" fill={colors.chao || '#FFFFFF'} stroke="#000" strokeWidth="3" onClick={() => handleColorClick('chao')} className="cursor-pointer" />
-          <g onClick={() => handleColorClick('janela')} className="cursor-pointer"><rect x="50" y="50" width="150" height="120" fill={colors.janela || '#FFFFFF'} stroke="#000" strokeWidth="3" /><line x1="125" y1="50" x2="125" y2="170" stroke="#000" strokeWidth="2" /><line x1="50" y1="110" x2="200" y2="110" stroke="#000" strokeWidth="2" /></g>
-          <g onClick={() => handleColorClick('porta')} className="cursor-pointer"><rect x="650" y="100" width="100" height="300" fill={colors.porta || '#FFFFFF'} stroke="#000" strokeWidth="3" /><circle cx="670" cy="250" r="6" fill="gold" stroke="#000" strokeWidth="1" /></g>
-          <rect x="250" y="40" width="300" height="150" fill={colors.lousa || '#FFFFFF'} stroke="#000" strokeWidth="4" onClick={() => handleColorClick('lousa')} className="cursor-pointer" />
-          <g onClick={() => handleColorClick('mesa-professor')} className="cursor-pointer"><rect x="300" y="280" width="200" height="80" fill={colors['mesa-professor'] || '#FFFFFF'} stroke="#000" strokeWidth="3" /><line x1="310" y1="360" x2="310" y2="420" stroke="#000" strokeWidth="3" /><line x1="490" y1="360" x2="490" y2="420" stroke="#000" strokeWidth="3" /></g>
-          <rect x="320" y="260" width="40" height="20" fill={colors.livro || '#FFFFFF'} stroke="#000" strokeWidth="2" onClick={(e) => { e.stopPropagation(); handleColorClick('livro'); }} className="cursor-pointer" />
-          <path d="M550,340 Q580,300 610,340 L610,420 L550,420 Z" fill={colors.mochila || '#FFFFFF'} stroke="#000" strokeWidth="3" onClick={(e) => { e.stopPropagation(); handleColorClick('mochila'); }} className="cursor-pointer" />
-        </svg>
-      </div>
-      <div className="flex flex-wrap justify-center gap-3 bg-[#1A1035] p-4 rounded-3xl border-2 border-white/10 shadow-xl">{COLORS_PALETTE.map((color) => (<button key={color.hex} onClick={() => setSelectedColor(color.hex)} className={`w-10 h-10 rounded-full border-4 transition-all ${selectedColor === color.hex ? 'border-white scale-110 z-10' : 'border-transparent opacity-80'}`} style={{ backgroundColor: color.hex }} />))}</div>
-      <Button onClick={onComplete} variant="accent">Pintura pronta! 🎉</Button>
-    </div>
-  );
-};
-
-// --- ESTRUTURA PRINCIPAL ---
-
-const HomeView = ({ onStartModule, progress }) => {
-  const phrase = useMemo(() => MOTIVATIONAL_PHRASES[Math.floor(Math.random() * MOTIVATIONAL_PHRASES.length)], []);
-  const totalCompleted = Object.values(progress).filter(p => p === true).length;
-
-  return (
-    <div className="flex flex-col items-center justify-center min-h-[80vh] text-center px-4 animate-in fade-in duration-1000">
-      <h1 className="text-6xl md:text-8xl font-black mb-2 text-white drop-shadow-[0_5px_15px_rgba(255,60,172,0.6)] animate-bounce-slow">
-        Oi, Brasil! 🇧🇷
-      </h1>
-      <p className="text-xl md:text-2xl font-bold text-[#00F5D4] mb-12 uppercase tracking-widest">¡Aprendé jogando!</p>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-5xl">
-        <div className="space-y-4">
-          <button onClick={() => onStartModule('m1_a')} className="w-full bg-[#7B2FFF] rounded-[32px] p-6 transition-all hover:scale-105 shadow-xl border-4 border-[#7B2FFF]">
-            <span className="text-4xl mb-2 block">💜</span>
-            <h2 className="text-xl font-black text-white">Clase 1</h2>
-            <p className="text-white/70 text-sm italic">¡Oi, sou eu!</p>
-          </button>
-          <button onClick={() => onStartModule('m1_extras')} className="w-full bg-[#FF3CAC]/20 rounded-2xl p-4 transition-all hover:bg-[#FF3CAC]/40 border-2 border-dashed border-[#FF3CAC]">
-            <h2 className="text-sm font-black text-[#FF3CAC]">Exercícios Extras Clase 1</h2>
-          </button>
-        </div>
-
-        <button onClick={() => onStartModule('m2_theory')} className="bg-[#00F5D4] rounded-[32px] p-6 transition-all hover:scale-105 shadow-xl border-4 border-[#00F5D4]">
-          <span className="text-4xl mb-2 block">📖</span>
-          <h2 className="text-xl font-black text-[#0F0A1E]">Clase 2: Teoria</h2>
-          <p className="text-[#0F0A1E]/70 text-sm italic">Números e Escola</p>
-        </button>
-
-        <button onClick={() => onStartModule('m2_a')} className="bg-[#FF3CAC] rounded-[32px] p-6 transition-all hover:scale-105 shadow-xl border-4 border-[#FF3CAC]">
-          <span className="text-4xl mb-2 block">🎒</span>
-          <h2 className="text-xl font-black text-white">Exercícios Clase 2</h2>
-          <p className="text-white/70 text-sm italic">Jogar e Praticar</p>
-        </button>
-      </div>
-      
-      <div className="mt-12 bg-[#1A1035] rounded-3xl p-6 border-2 border-white/10">
-        <span className="text-white font-black">{totalCompleted} / 6 medalhas conquistas</span>
-        <p className="italic text-white/60 font-medium mt-2">"{phrase}"</p>
-      </div>
-    </div>
-  );
-};
-
-export default function App() {
-  const [view, setView] = useState('home');
-  const [progress, setProgress] = useState({});
-
-  const complete = (key) => { setProgress({ ...progress, [key]: true }); setView('home'); };
-
-  return (
-    <div className="min-h-screen bg-[#0F0A1E] text-white font-['Nunito',sans-serif] overflow-x-hidden">
-      <header className="relative z-20 flex items-center justify-between p-6 bg-[#0F0A1E]/80 backdrop-blur-md sticky top-0 border-b border-white/5">
-        <div onClick={() => setView('home')} className="flex items-center gap-2 cursor-pointer">
-          <div className="text-3xl">👩‍🚀</div>
-          <h1 className="text-2xl font-black">Oi, Brasil! 🇧🇷</h1>
-        </div>
-        {view !== 'home' && <Button onClick={() => setView('home')} variant="ghost" className="px-4 py-2 text-sm flex items-center gap-2"><ArrowLeft size={16} /> Voltar</Button>}
-      </header>
-
-      <main className="relative z-10 container mx-auto px-4 py-8">
-        {view === 'home' && <HomeView progress={progress} onStartModule={setView} />}
-        
-        {/* Clase 1 */}
-        {view === 'm1_a' && <div className="space-y-8 text-center"><h2 className="text-4xl font-black text-[#00F5D4]">Saudações</h2><MemoryGame data={CLASS_1_MEM_A} onComplete={() => setView('m1_b')} /></div>}
-        {view === 'm1_b' && <div className="space-y-8 text-center"><h2 className="text-4xl font-black text-[#FF3CAC]">Apresentação</h2><MemoryGame data={CLASS_1_MEM_B} onComplete={() => setView('m1_quiz')} /></div>}
-        {view === 'm1_quiz' && <div className="space-y-8 text-center"><h2 className="text-4xl font-black">Quiz!</h2><MemoryGame data={CLASS_1_MEM_A} onComplete={() => complete('m1')} /></div>}
-        {view === 'm1_extras' && <div className="space-y-8"><Class1Extras onComplete={() => complete('m1_extras')} /></div>}
-
-        {/* Clase 2 */}
-        {view === 'm2_theory' && <Class2Theory onComplete={() => setView('m2_a')} />}
-        {view === 'm2_a' && <div className="space-y-8 text-center"><h2 className="text-4xl font-black text-[#7B2FFF]">Na Escola</h2><MemoryGame type="emoji-text" data={CLASS_2_MEM_A} onComplete={() => setView('m2_b')} /></div>}
-        {view === 'm2_b' && <div className="space-y-8 text-center">
-          <h2 className="text-4xl font-black text-[#00F5D4]">Números e Cores</h2>
-          <div className="flex flex-col gap-8">
-            <MemoryGame type="num-text" data={CLASS_2_NUMBERS} onComplete={() => playSound('success')} />
-            <MemoryGame type="color-text" data={CLASS_2_COLORS} onComplete={() => setView('m2_color')} />
-          </div>
-        </div>}
-        {view === 'm2_color' && <ClassroomColoring onComplete={() => complete('m2')} />}
-      </main>
-
-      <style dangerouslySetInnerHTML={{ __html: `
-        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
-        body { font-family: 'Nunito', sans-serif; background: #0F0A1E; }
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oi, Brasil! - Aprenda Português</title>
+    <!-- Bibliotecas Necessárias -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Nunito', sans-serif; background-color: #0F0A1E; margin: 0; overflow-x: hidden; }
         .perspective-1000 { perspective: 1000px; }
         .transform-style-3d { transform-style: preserve-3d; }
         .backface-hidden { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
@@ -537,7 +20,360 @@ export default function App() {
         .animate-bounce-slow { animation: bounce-slow 3s ease-in-out infinite; }
         @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
         .animate-shake { animation: shake 0.3s ease-in-out; }
-      `}} />
-    </div>
-  );
-}
+        @keyframes spin-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .animate-spin-slow { animation: spin-slow 15s linear infinite; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useCallback, useMemo } = React;
+
+        // --- ÍCONES EM SVG (Substituindo Lucide) ---
+        const IconArrowLeft = () => <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>;
+        const IconStar = ({fill}) => <svg width="24" height="24" viewBox="0 0 24 24" fill={fill || "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>;
+        const IconSparkles = ({size}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg>;
+        const IconPalette = () => <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.688-1.688h1.906c3.086 0 5.625-2.539 5.625-5.625 0-4.82-4.078-8.75-8.75-8.75Z"/></svg>;
+
+        // --- DADOS ---
+        const MOTIVATIONAL_PHRASES = ["¡Cada palavra nova é um superpoder!", "¡Hoje você aprende, amanhã você fala!", "¡Você é uma estrela dos idiomas!", "¡Seu português vai ser incrível!", "¡A jogar e aprender!"];
+        const CLASS_1_MEM_A = [{ pt: 'Oi!', es: '¡Hola! 👋' }, { pt: 'Tudo bem?', es: '¿Cómo estás? 😊' }, { pt: 'Bom dia', es: 'Buen día ☀️' }, { pt: 'Boa tarde', es: 'Buenas tardes 🌤️' }, { pt: 'Boa noite', es: 'Buenas noches 🌙' }, { pt: 'Tchau!', es: '¡Chau! 👋' }, { pt: 'Até amanhã', es: 'Hasta mañana 📅' }, { pt: 'Prazer!', es: '¡Mucho gusto! ✨' }];
+        const CLASS_1_MEM_B = [{ pt: 'Meu nome é ___', es: 'Mi nombre es ___' }, { pt: 'Eu tenho 8 anos', es: 'Tengo 8 anos' }, { pt: 'Eu sou da Rússia', es: 'Soy de Rusia' }, { pt: 'Eu falo espanhol', es: 'Hablo español' }, { pt: 'Eu gosto de desenhar', es: 'Me gusta dibujar' }, { pt: 'Prazer em te conhecer!', es: '¡Un placer conocerte!' }];
+        const CLASS_1_EXTRAS_DATA = [{ sentence: "Olá! Meu _______ é Anya.", options: ["nome", "tchau", "escola"], correct: "nome", translation: "¡Hola! Mi nombre es Anya." }, { sentence: "Eu _______ 8 anos.", options: ["sou", "tenho", "falo"], correct: "tenho", translation: "Yo tenho 8 anos." }, { sentence: "Eu sou da _______.", options: ["Brasil", "espanhol", "Argentina"], correct: "Argentina", translation: "Yo sou de Argentina." }, { sentence: "Eu gosto de _______.", options: ["desenhar", "nome", "dia"], correct: "desenhar", translation: "Me gusta dibujar." }];
+        const CLASS_2_THEORY = [
+            { title: "Os Números (1-5)", content: "¡Vamos a contar amendoins com a Anya!", items: [{ n: "1", pt: "Um", es: "Uno", icon: "🥜" }, { n: "2", pt: "Dois", es: "Dos", icon: "🥜🥜" }, { n: "3", pt: "Três", es: "Tres", icon: "🥜🥜🥜" }, { n: "4", pt: "Quatro", es: "Cuatro", icon: "🥜🥜🥜🥜" }, { n: "5", pt: "Cinco", es: "Cinco", icon: "🥜🥜🥜🥜🥜" }], bg: "bg-[#7B2FFF]", textColor: "text-white" },
+            { title: "Os Números (6-10)", content: "¡Agora no mundo de Roblox!", items: [{ n: "6", pt: "Seis", es: "Seis", icon: "💎💎💎💎💎💎" }, { n: "7", pt: "Sete", es: "Siete", icon: "💎💎💎💎💎💎💎" }, { n: "8", pt: "Oito", es: "Ocho", icon: "💎💎💎💎💎💎💎💎" }, { n: "9", pt: "Nove", es: "Nueve", icon: "💎💎💎💎💎💎💎💎💎" }, { n: "10", pt: "Dez", es: "Diez", icon: "💎💎💎💎💎💎💎💎💎💎" }], bg: "bg-[#FF3CAC]", textColor: "text-white" },
+            { title: "As Cores (Parte 1)", content: "¡Dê cor aos seus desenhos!", items: [{ n: "🟥", pt: "Vermelho", es: "Rojo", icon: "🍎" }, { n: "🟦", pt: "Azul", es: "Azul", icon: "🌊" }, { n: "🟩", pt: "Verde", es: "Verde", icon: "🌳" }, { n: "🟨", pt: "Amarelo", es: "Amarillo", icon: "☀️" }, { n: "🟧", pt: "Laranja", es: "Naranja", icon: "🍊" }], bg: "bg-[#042f24]", textColor: "text-white" },
+            { title: "As Cores (Parte 2)", content: "¡Mais cores e o Brasil!", items: [{ n: "🟪", pt: "Roxo", es: "Morado", icon: "🍇" }, { n: "🩷", pt: "Rosa", es: "Rosa", icon: "🌸" }, { n: "⬛", pt: "Preto", es: "Negro", icon: "🕶️" }, { n: "⬜", pt: "Branco", es: "Blanco", icon: "☁️" }, { n: "🇧🇷", pt: "Brasil", es: "Brasil", icon: "✨" }], bg: "bg-[#1A1035]", textColor: "text-white" }
+        ];
+        const CLASS_2_MEM_A = [{ pt: 'caderno', emoji: '📓', es: 'cuaderno' }, { pt: 'lápis', emoji: '✏️', es: 'lápiz' }, { pt: 'mochila', emoji: '🎒', es: 'mochila' }, { pt: 'régua', emoji: '📏', es: 'regla' }, { pt: 'caneta', emoji: '🖊️', es: 'lapicera' }, { pt: 'livro', emoji: '📚', es: 'libro' }, { pt: 'tesoura', emoji: '✂️', es: 'tijeras' }, { pt: 'borracha', emoji: '🧼', es: 'goma' }];
+        const CLASS_2_NUMBERS = [{ pt: 'um', val: '1' }, { pt: 'dois', val: '2' }, { pt: 'três', val: '3' }, { pt: 'quatro', val: '4' }, { pt: 'cinco', val: '5' }, { pt: 'seis', val: '6' }, { pt: 'sete', val: '7' }, { pt: 'oito', val: '8' }, { pt: 'nove', val: '9' }, { pt: 'dez', val: '10' }];
+        const CLASS_2_COLORS = [{ pt: 'vermelho', hex: '#EF233C' }, { pt: 'azul', hex: '#4361EE' }, { pt: 'verde', hex: '#06D6A0' }, { pt: 'amarelo', hex: '#FFD60A' }, { pt: 'laranja', hex: '#FF6B35' }, { pt: 'roxo', hex: '#7B2FFF' }, { pt: 'rosa', hex: '#FF3CAC' }, { pt: 'preto', hex: '#000000' }];
+        const ROOM_ELEMENTS = [{ id: 'lousa', pt: 'lousa', es: 'pizarrón' }, { id: 'mesa-professor', pt: 'mesa', es: 'mesa' }, { id: 'cadeira-professor', pt: 'cadeira', es: 'silla' }, { id: 'janela', pt: 'janela', es: 'ventana' }, { id: 'porta', pt: 'porta', es: 'puerta' }, { id: 'livro', pt: 'livro', es: 'libro' }, { id: 'lapis', pt: 'lápis', es: 'lápiz' }, { id: 'mochila', pt: 'mochila', es: 'mochila' }];
+        const COLORS_PALETTE = [{ hex: '#FF3CAC', name: 'rosa' }, { hex: '#FF6B35', name: 'laranja' }, { hex: '#FFD60A', name: 'amarelo' }, { hex: '#2EC4B6', name: 'turquesa' }, { hex: '#4361EE', name: 'azul' }, { hex: '#7B2FFF', name: 'roxo' }, { hex: '#06D6A0', name: 'verde' }, { hex: '#EF233C', name: 'vermelho' }, { hex: '#FFFFFF', name: 'branco' }, { hex: '#000000', name: 'preto' }];
+
+        // --- COMPONENTES AUXILIARES ---
+        const playSound = (type) => {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain); gain.connect(ctx.destination);
+                const now = ctx.currentTime;
+                if (type === 'correct') { osc.frequency.setValueAtTime(300, now); osc.frequency.exponentialRampToValueAtTime(600, now + 0.15); gain.gain.setValueAtTime(0.1, now); gain.gain.linearRampToValueAtTime(0, now + 0.2); }
+                else if (type === 'error') { osc.frequency.setValueAtTime(400, now); osc.frequency.linearRampToValueAtTime(200, now + 0.1); gain.gain.setValueAtTime(0.1, now); gain.gain.linearRampToValueAtTime(0, now + 0.15); }
+                else if (type === 'flip') { osc.frequency.setValueAtTime(150, now); gain.gain.setValueAtTime(0.05, now); gain.gain.linearRampToValueAtTime(0, now + 0.05); }
+                else if (type === 'success') {
+                    const notes = [261.63, 329.63, 392.00];
+                    notes.forEach((freq, i) => {
+                        const o = ctx.createOscillator(); const g = ctx.createGain();
+                        o.connect(g); g.connect(ctx.destination);
+                        o.frequency.setValueAtTime(freq, now + i * 0.1);
+                        g.gain.setValueAtTime(0.1, now + i * 0.1); g.gain.linearRampToValueAtTime(0, now + i * 0.1 + 0.2);
+                        o.start(now + i * 0.1); o.stop(now + i * 0.1 + 0.2);
+                    });
+                    return;
+                }
+                osc.start(); osc.stop(now + 0.2);
+            } catch (e) { }
+        };
+
+        const shuffleArray = (array) => {
+            const newArr = [...array];
+            for (let i = newArr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArr[i], newArr[j]] = [newArr[j], newArr[i]];
+            }
+            return newArr;
+        };
+
+        const Button = ({ children, onClick, variant = 'primary', className = '' }) => {
+            const variants = {
+                primary: 'bg-[#FF3CAC] hover:bg-[#ff5bb9] text-white shadow-[0_4px_0_rgb(190,45,128)] active:translate-y-[2px] active:shadow-none',
+                ghost: 'bg-transparent border-2 border-white/20 hover:bg-white/10 text-white',
+                accent: 'bg-[#00F5D4] hover:bg-[#33ffdf] text-[#0F0A1E] shadow-[0_4px_0_rgb(0,180,155)] active:translate-y-[2px] active:shadow-none',
+            };
+            return (
+                <button onClick={onClick} className={`px-6 py-3 rounded-2xl font-black transition-all transform duration-150 ${variants[variant]} ${className}`}>
+                    {children}
+                </button>
+            );
+        };
+
+        const Card = ({ children, className = "" }) => (
+            <div className={`bg-[#1A1035] border-2 border-[#FF3CAC]/30 rounded-[24px] p-6 shadow-2xl ${className}`}>
+                {children}
+            </div>
+        );
+
+        // --- COMPONENTES DE JOGO ---
+        const MemoryGame = ({ data, onComplete, type = 'text-text' }) => {
+            const [cards, setCards] = useState([]);
+            const [flipped, setFlipped] = useState([]);
+            const [matched, setMatched] = useState([]);
+            const [locked, setLocked] = useState(false);
+
+            useEffect(() => {
+                let pool = [];
+                if (type === 'text-text') {
+                    pool = data.flatMap((item, idx) => [
+                        { id: `${idx}-pt`, content: item.pt, pairId: idx, side: 'pt' },
+                        { id: `${idx}-es`, content: item.es, pairId: idx, side: 'es' }
+                    ]);
+                } else if (type === 'emoji-text') {
+                    pool = data.flatMap((item, idx) => [
+                        { id: `${idx}-emoji`, content: item.emoji, sub: item.es, pairId: idx, side: 'emoji' },
+                        { id: `${idx}-pt`, content: item.pt, pairId: idx, side: 'pt' }
+                    ]);
+                } else if (type === 'num-text') {
+                    pool = data.flatMap((item, idx) => [
+                        { id: `${idx}-val`, content: item.val, pairId: idx, side: 'val' },
+                        { id: `${idx}-pt`, content: item.pt, pairId: idx, side: 'pt' }
+                    ]);
+                } else if (type === 'color-text') {
+                    pool = data.flatMap((item, idx) => [
+                        { id: `${idx}-hex`, hex: item.hex, pairId: idx, side: 'hex' },
+                        { id: `${idx}-pt`, content: item.pt, color: item.hex, pairId: idx, side: 'pt' }
+                    ]);
+                }
+                setCards(shuffleArray(pool));
+            }, [data, type]);
+
+            const handleFlip = (card) => {
+                if (locked || flipped.includes(card.id) || matched.includes(card.pairId)) return;
+                playSound('flip');
+                const newFlipped = [...flipped, card.id];
+                setFlipped(newFlipped);
+                if (newFlipped.length === 2) {
+                    setLocked(true);
+                    const c1 = cards.find(c => c.id === newFlipped[0]);
+                    const c2 = cards.find(c => c.id === newFlipped[1]);
+                    if (c1.pairId === c2.pairId) {
+                        setMatched([...matched, c1.pairId]);
+                        setFlipped([]);
+                        setLocked(false);
+                        playSound('correct');
+                        if (matched.length + 1 === data.length) setTimeout(() => { playSound('success'); onComplete(); }, 1200);
+                    } else {
+                        setTimeout(() => { setFlipped([]); setLocked(false); playSound('error'); }, 1000);
+                    }
+                }
+            };
+
+            return (
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full max-w-4xl mx-auto p-4 perspective-1000">
+                    {cards.map((card) => {
+                        const isFlipped = flipped.includes(card.id) || matched.includes(card.pairId);
+                        const isMatched = matched.includes(card.pairId);
+                        return (
+                            <div key={card.id} onClick={() => handleFlip(card)} className={`relative h-32 md:h-40 cursor-pointer transition-transform duration-500 transform-style-3d ${isFlipped ? 'rotate-y-180' : ''}`}>
+                                <div className="absolute inset-0 bg-[#7B2FFF] rounded-2xl flex items-center justify-center border-b-4 border-indigo-900 backface-hidden z-20">
+                                    <span className="text-4xl text-white/50 font-black">?</span>
+                                </div>
+                                <div className={`absolute inset-0 rounded-2xl flex flex-col items-center justify-center p-2 text-center rotate-y-180 backface-hidden border-b-4 shadow-xl z-10 ${card.side === 'pt' ? 'bg-[#FF3CAC] border-pink-900' : 'bg-[#00F5D4] border-teal-900'}`} style={card.side === 'hex' ? { backgroundColor: card.hex } : {}}>
+                                    {card.side === 'emoji' ? (
+                                        <>
+                                            <span className="text-4xl mb-1">{card.content}</span>
+                                            <span className="text-[10px] text-black/60 font-black uppercase">{card.sub}</span>
+                                        </>
+                                    ) : card.side === 'hex' ? null : (
+                                        <span className={`font-black leading-tight break-words ${card.side === 'pt' ? 'text-white text-lg' : 'text-[#0F0A1E] text-base'}`}>
+                                            {card.content}
+                                        </span>
+                                    )}
+                                </div>
+                            </div>
+                        );
+                    })}
+                </div>
+            );
+        };
+
+        const Class1Extras = ({ onComplete }) => {
+            const [step, setStep] = useState(0);
+            const [selected, setSelected] = useState(null);
+            const [isCorrect, setIsCorrect] = useState(null);
+            const current = CLASS_1_EXTRAS_DATA[step];
+
+            const handleCheck = (opt) => {
+                setSelected(opt);
+                if (opt === current.correct) {
+                    setIsCorrect(true); playSound('correct');
+                    setTimeout(() => {
+                        if (step < CLASS_1_EXTRAS_DATA.length - 1) { setStep(s => s + 1); setSelected(null); setIsCorrect(null); }
+                        else { playSound('success'); onComplete(); }
+                    }, 1500);
+                } else {
+                    setIsCorrect(false); playSound('error');
+                    setTimeout(() => { setSelected(null); setIsCorrect(null); }, 1000);
+                }
+            };
+
+            return (
+                <div className="max-w-2xl mx-auto">
+                    <Card className="text-center py-12">
+                        <h2 className="text-[#00F5D4] font-black mb-2 uppercase">Exercícios Extras</h2>
+                        <p className="text-white/60 mb-8">Completá a frase com a palavra correta:</p>
+                        <div className="text-3xl md:text-4xl font-black text-white mb-4 bg-white/5 p-8 rounded-3xl border border-white/10">
+                            {current.sentence.split("_______").map((part, i) => (
+                                <React.Fragment key={i}>
+                                    {part}
+                                    {i === 0 && (
+                                        <span className={`mx-2 border-b-4 px-4 ${isCorrect === true ? 'text-[#00F5D4] border-[#00F5D4]' : isCorrect === false ? 'text-red-500 border-red-500 animate-shake' : 'text-[#FF3CAC] border-white/30'}`}>
+                                            {selected || "_______"}
+                                        </span>
+                                    )}
+                                </React.Fragment>
+                            ))}
+                        </div>
+                        <p className="text-white/40 mb-12 italic">"{current.translation}"</p>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            {current.options.map((opt) => (
+                                <button key={opt} onClick={() => handleCheck(opt)} className="bg-white/10 hover:bg-white/20 text-white font-black py-4 rounded-2xl border-b-4 border-white/10 transition-all active:scale-95">
+                                    {opt}
+                                </button>
+                            ))}
+                        </div>
+                    </Card>
+                </div>
+            );
+        };
+
+        const Class2Theory = ({ onComplete }) => {
+            const [slide, setSlide] = useState(0);
+            const currentTheory = CLASS_2_THEORY[slide];
+            return (
+                <div className="max-w-4xl mx-auto">
+                    <div className={`rounded-[40px] p-8 md:p-12 shadow-2xl transition-all duration-500 ${currentTheory.bg} ${currentTheory.textColor} relative overflow-hidden min-h-[500px] flex flex-col justify-between`}>
+                        <div className="absolute top-0 right-0 p-8 opacity-20 rotate-12"><IconSparkles size={160} /></div>
+                        <div>
+                            <h2 className="text-4xl md:text-5xl font-black mb-4 drop-shadow-lg">{currentTheory.title}</h2>
+                            <p className="text-xl opacity-90 mb-12 font-bold">{currentTheory.content}</p>
+                            <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+                                {currentTheory.items.map((item, i) => (
+                                    <div key={i} className="bg-white/20 backdrop-blur-md rounded-3xl p-6 text-center border border-white/30 hover:scale-110 transition-all cursor-default">
+                                        <div className="text-xl mb-2 break-all">{item.icon}</div>
+                                        <div className="text-5xl font-black mb-2">{item.n}</div>
+                                        <div className="text-[#00F5D4] font-black text-xl">{item.pt}</div>
+                                        <div className="text-[10px] uppercase font-black opacity-60">{item.es}</div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                        <div className="flex justify-between mt-12 items-center">
+                            <Button onClick={() => slide > 0 && setSlide(slide-1)} variant="ghost" className={slide === 0 ? 'invisible' : ''}>Atrás</Button>
+                            <div className="flex gap-2">
+                                {CLASS_2_THEORY.map((_, i) => <div key={i} className={`w-3 h-3 rounded-full ${slide === i ? 'bg-white w-8' : 'bg-white/30'}`} />)}
+                            </div>
+                            <Button onClick={() => slide < 3 ? setSlide(slide+1) : onComplete()} variant="accent">
+                                {slide === 3 ? '¡Pronto! 🎉' : 'Próximo'}
+                            </Button>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const ClassroomColoring = ({ onComplete }) => {
+            const [colors, setColors] = useState({});
+            const [selectedColor, setSelectedColor] = useState('#FF3CAC');
+            const [tooltip, setTooltip] = useState(null);
+            const handleColorClick = (id) => {
+                setColors(prev => ({ ...prev, [id]: selectedColor }));
+                const info = ROOM_ELEMENTS.find(el => el.id === id);
+                if (info) { setTooltip({ pt: info.pt, es: info.es }); setTimeout(() => setTooltip(null), 2500); playSound('flip'); }
+            };
+            return (
+                <div className="flex flex-col items-center gap-8 w-full">
+                    <div className="relative w-full max-w-4xl bg-white rounded-3xl p-4 shadow-2xl border-8 border-[#1A1035]">
+                        {tooltip && <div className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-[#1A1035] text-white px-6 py-2 rounded-full border-2 border-[#00F5D4] z-10 animate-bounce shadow-xl font-black text-xl text-center"><div className="text-[#00F5D4]">{tooltip.pt}</div><div className="text-[10px] opacity-60 uppercase">{tooltip.es}</div></div>}
+                        <svg viewBox="0 0 800 500" className="w-full h-auto drop-shadow-sm select-none">
+                            <rect x="0" y="0" width="800" height="400" fill={colors.parede || '#FFFFFF'} stroke="#000" strokeWidth="3" onClick={() => handleColorClick('parede')} className="cursor-pointer" />
+                            <rect x="0" y="400" width="800" height="100" fill={colors.chao || '#FFFFFF'} stroke="#000" strokeWidth="3" onClick={() => handleColorClick('chao')} className="cursor-pointer" />
+                            <g onClick={() => handleColorClick('janela')} className="cursor-pointer"><rect x="50" y="50" width="150" height="120" fill={colors.janela || '#FFFFFF'} stroke="#000" strokeWidth="3" /><line x1="125" y1="50" x2="125" y2="170" stroke="#000" strokeWidth="2" /><line x1="50" y1="110" x2="200" y2="110" stroke="#000" strokeWidth="2" /></g>
+                            <g onClick={() => handleColorClick('porta')} className="cursor-pointer"><rect x="650" y="100" width="100" height="300" fill={colors.porta || '#FFFFFF'} stroke="#000" strokeWidth="3" /><circle cx="670" cy="250" r="6" fill="gold" stroke="#000" strokeWidth="1" /></g>
+                            <rect x="250" y="40" width="300" height="150" fill={colors.lousa || '#FFFFFF'} stroke="#000" strokeWidth="4" onClick={() => handleColorClick('lousa')} className="cursor-pointer" />
+                            <g onClick={() => handleColorClick('mesa-professor')} className="cursor-pointer"><rect x="300" y="280" width="200" height="80" fill={colors['mesa-professor'] || '#FFFFFF'} stroke="#000" strokeWidth="3" /><line x1="310" y1="360" x2="310" y2="420" stroke="#000" strokeWidth="3" /><line x1="490" y1="360" x2="490" y2="420" stroke="#000" strokeWidth="3" /></g>
+                            <rect x="320" y="260" width="40" height="20" fill={colors.livro || '#FFFFFF'} stroke="#000" strokeWidth="2" onClick={(e) => { e.stopPropagation(); handleColorClick('livro'); }} className="cursor-pointer" />
+                            <path d="M550,340 Q580,300 610,340 L610,420 L550,420 Z" fill={colors.mochila || '#FFFFFF'} stroke="#000" strokeWidth="3" onClick={(e) => { e.stopPropagation(); handleColorClick('mochila'); }} className="cursor-pointer" />
+                        </svg>
+                    </div>
+                    <div className="flex flex-wrap justify-center gap-3 bg-[#1A1035] p-4 rounded-3xl border-2 border-white/10 shadow-xl">{COLORS_PALETTE.map((color) => (<button key={color.hex} onClick={() => setSelectedColor(color.hex)} className={`w-10 h-10 rounded-full border-4 transition-all ${selectedColor === color.hex ? 'border-white scale-110 z-10' : 'border-transparent opacity-80'}`} style={{ backgroundColor: color.hex }} />))}</div>
+                    <Button onClick={onComplete} variant="accent">Pintura pronta! 🎉</Button>
+                </div>
+            );
+        };
+
+        const HomeView = ({ onStartModule, progress }) => {
+            const phrase = useMemo(() => MOTIVATIONAL_PHRASES[Math.floor(Math.random() * MOTIVATIONAL_PHRASES.length)], []);
+            const totalCompleted = Object.values(progress).filter(p => p === true).length;
+            return (
+                <div className="flex flex-col items-center justify-center min-h-[80vh] text-center px-4 animate-in fade-in duration-1000">
+                    <h1 className="text-6xl md:text-8xl font-black mb-2 text-white drop-shadow-[0_5px_15px_rgba(255,60,172,0.6)] animate-bounce-slow">Oi, Brasil! 🇧🇷</h1>
+                    <p className="text-xl md:text-2xl font-bold text-[#00F5D4] mb-12 uppercase tracking-widest">¡Aprendé jogando!</p>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-5xl">
+                        <div className="space-y-4">
+                            <button onClick={() => onStartModule('m1_a')} className="w-full bg-[#7B2FFF] rounded-[32px] p-6 transition-all hover:scale-105 shadow-xl border-4 border-[#7B2FFF]">
+                                <span className="text-4xl mb-2 block">💜</span>
+                                <h2 className="text-xl font-black text-white text-center">Clase 1</h2>
+                                <p className="text-white/70 text-sm italic">¡Oi, sou eu!</p>
+                            </button>
+                            <button onClick={() => onStartModule('m1_extras')} className="w-full bg-[#FF3CAC]/20 rounded-2xl p-4 transition-all hover:bg-[#FF3CAC]/40 border-2 border-dashed border-[#FF3CAC]">
+                                <h2 className="text-sm font-black text-[#FF3CAC]">Exercícios Extras Clase 1</h2>
+                            </button>
+                        </div>
+                        <button onClick={() => onStartModule('m2_theory')} className="bg-[#00F5D4] rounded-[32px] p-6 transition-all hover:scale-105 shadow-xl border-4 border-[#00F5D4]">
+                            <span className="text-4xl mb-2 block">📖</span>
+                            <h2 className="text-xl font-black text-[#0F0A1E]">Clase 2: Teoria</h2>
+                            <p className="text-[#0F0A1E]/70 text-sm italic">Números e Escola</p>
+                        </button>
+                        <button onClick={() => onStartModule('m2_a')} className="bg-[#FF3CAC] rounded-[32px] p-6 transition-all hover:scale-105 shadow-xl border-4 border-[#FF3CAC]">
+                            <span className="text-4xl mb-2 block">🎒</span>
+                            <h2 className="text-xl font-black text-white">Exercícios Clase 2</h2>
+                            <p className="text-white/70 text-sm italic">Jogar e Praticar</p>
+                        </button>
+                    </div>
+                    <div className="mt-12 bg-[#1A1035] rounded-3xl p-6 border-2 border-white/10">
+                        <span className="text-white font-black">{totalCompleted} / 6 medalhas conquistas</span>
+                        <p className="italic text-white/60 font-medium mt-2">"{phrase}"</p>
+                    </div>
+                </div>
+            );
+        };
+
+        // --- COMPONENTE APP ---
+        function App() {
+            const [view, setView] = useState('home');
+            const [progress, setProgress] = useState({});
+            const complete = (key) => { setProgress({ ...progress, [key]: true }); setView('home'); };
+
+            return (
+                <div className="min-h-screen bg-[#0F0A1E] text-white overflow-x-hidden">
+                    <header className="relative z-20 flex items-center justify-between p-6 bg-[#0F0A1E]/80 backdrop-blur-md sticky top-0 border-b border-white/5">
+                        <div onClick={() => setView('home')} className="flex items-center gap-2 cursor-pointer">
+                            <div className="text-3xl">👩‍🚀</div>
+                            <h1 className="text-2xl font-black">Oi, Brasil! 🇧🇷</h1>
+                        </div>
+                        {view !== 'home' && <Button onClick={() => setView('home')} variant="ghost" className="px-4 py-2 text-sm flex items-center gap-2"><IconArrowLeft /> Voltar</Button>}
+                    </header>
+                    <main className="relative z-10 container mx-auto px-4 py-8">
+                        {view === 'home' && <HomeView progress={progress} onStartModule={setView} />}
+                        {view === 'm1_a' && <div className="space-y-8 text-center"><h2 className="text-4xl font-black text-[#00F5D4]">Saudações</h2><MemoryGame data={CLASS_1_MEM_A} onComplete={() => setView('m1_b')} /></div>}
+                        {view === 'm1_b' && <div className="space-y-8 text-center"><h2 className="text-4xl font-black text-[#FF3CAC]">Apresentação</h2><MemoryGame data={CLASS_1_MEM_B} onComplete={() => setView('m1_quiz')} /></div>}
+                        {view === 'm1_quiz' && <div className="space-y-8 text-center"><h2 className="text-4xl font-black">Quiz!</h2><MemoryGame data={CLASS_1_MEM_A} onComplete={() => complete('m1')} /></div>}
+                        {view === 'm1_extras' && <div className="space-y-8"><Class1Extras onComplete={() => complete('m1_extras')} /></div>}
+                        {view === 'm2_theory' && <Class2Theory onComplete={() => setView('m2_a')} />}
+                        {view === 'm2_a' && <div className="space-y-8 text-center"><h2 className="text-4xl font-black text-[#7B2FFF]">Na Escola</h2><MemoryGame type="emoji-text" data={CLASS_2_MEM_A} onComplete={() => setView('m2_b')} /></div>}
+                        {view === 'm2_b' && <div className="space-y-8 text-center"><h2 className="text-4xl font-black text-[#00F5D4]">Números e Cores</h2><div className="flex flex-col gap-8"><MemoryGame type="num-text" data={CLASS_2_NUMBERS} onComplete={() => playSound('success')} /><MemoryGame type="color-text" data={CLASS_2_COLORS} onComplete={() => setView('m2_color')} /></div></div>}
+                        {view === 'm2_color' && <ClassroomColoring onComplete={() => complete('m2')} />}
+                    </main>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
