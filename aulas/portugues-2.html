@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Português para Hispanohablantes</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;0,700;1,400&family=DM+Mono:wght@400;500&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+
+:root{--v:#1A6B4A;--vl:#2A9B6E;--vd:#0F3D2B;--cr:#F5F0E8;--cr2:#EDE7D8;--cr3:#E2D9C4;--ou:#C4922A;--oul:#DFB050;--oud:#7A5A18;--az:#2C4E7A;--azl:#4A7AB5;--tx:#1C1A15;--tm:#4A4538;--tm2:#8A7E68;--vm:#8B2A1A;--bd:rgba(196,146,42,.25);--bdl:rgba(196,146,42,.12);}
+*{margin:0;padding:0;box-sizing:border-box;}html,body{height:100%;overflow:hidden;}
+body{background:var(--cr);color:var(--tx);font-family:'Lora',serif;display:flex;height:100vh;}
+#sb{width:280px;flex-shrink:0;background:#F0EAD6;border-right:1px solid var(--bd);display:flex;flex-direction:column;height:100vh;overflow-y:auto;}
+.sh{padding:26px 20px 18px;background:var(--vd);color:var(--cr);border-bottom:3px solid var(--ou);}
+.sbrand{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--oul);margin-bottom:5px;}
+.stitle{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;line-height:1.2;color:var(--cr);}
+.ssub{font-family:'DM Mono',monospace;font-size:9px;color:rgba(245,240,232,.5);letter-spacing:2px;margin-top:5px;}
+.prog-a{padding:12px 18px 4px;}.prog-l{font-family:'DM Mono',monospace;font-size:9px;color:var(--tm2);letter-spacing:2px;margin-bottom:6px;display:flex;justify-content:space-between;}
+.prog-t{height:4px;background:var(--cr3);border-radius:2px;overflow:hidden;}.prog-f{height:100%;background:linear-gradient(90deg,var(--v),var(--vl));transition:width .6s;}
+.sg{padding:8px 0 4px;}.sgl{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--oud);padding:5px 18px 3px;}
+.lb{width:100%;padding:9px 16px;background:none;border:none;border-left:3px solid transparent;font-family:'Lora',serif;font-size:13px;color:var(--tm);cursor:pointer;display:flex;align-items:center;gap:9px;transition:all .18s;text-align:left;}
+.lb:hover{background:rgba(196,146,42,.08);color:var(--tx);}.lb.active{background:rgba(26,107,74,.09);color:var(--v);border-left-color:var(--v);font-weight:600;}
+.ln{font-family:'DM Mono',monospace;font-size:10px;background:var(--cr3);padding:2px 7px;border-radius:3px;min-width:26px;text-align:center;color:var(--tm2);}
+.lb.active .ln{background:rgba(26,107,74,.15);color:var(--v);}
+.ts{padding:5px 10px 8px;border-top:1px solid var(--bdl);margin-top:5px;}.tsl{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--tm2);padding:5px 8px 3px;}
+.tb{width:100%;padding:7px 10px;background:none;border:none;border-radius:5px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;color:var(--tm2);cursor:pointer;display:flex;align-items:center;gap:7px;transition:all .18s;text-align:left;}
+.tb:hover{background:rgba(196,146,42,.1);color:var(--tx);}.tb.active{background:rgba(26,107,74,.1);color:var(--v);font-weight:500;}.td{margin-left:auto;color:var(--v);font-size:11px;}
+.sf{padding:12px 16px;border-top:1px solid var(--bd);margin-top:auto;background:rgba(196,146,42,.05);}
+.stk{display:flex;align-items:center;gap:10px;padding:9px 12px;background:rgba(26,107,74,.08);border:1px solid var(--bd);border-radius:8px;}
+.stn{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:var(--v);}.stl{font-family:'DM Mono',monospace;font-size:9px;color:var(--tm2);letter-spacing:2px;}
+#main{flex:1;height:100vh;overflow-y:auto;display:flex;flex-direction:column;}
+.topbar{padding:15px 32px;background:#F0EAD6;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;}
+.tbt{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--vd);}.tbs{font-family:'DM Mono',monospace;font-size:9px;color:var(--tm2);letter-spacing:2px;margin-top:2px;}
+.sr{display:flex;gap:20px;}.sv{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--ou);}.sl{font-family:'DM Mono',monospace;font-size:9px;color:var(--tm2);letter-spacing:1px;}
+.cnt{padding:28px 32px;flex:1;}
+.card{background:#fff;border:1px solid var(--bd);border-radius:10px;margin-bottom:20px;overflow:hidden;box-shadow:0 2px 16px rgba(26,107,74,.06);}
+.ch{padding:14px 20px;border-bottom:1px solid var(--bdl);background:linear-gradient(135deg,rgba(26,107,74,.04),rgba(196,146,42,.04));display:flex;align-items:center;gap:11px;}
+.ci{font-size:18px;}.ct{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;color:var(--vd);}.cd{font-family:'DM Mono',monospace;font-size:9px;color:var(--tm2);letter-spacing:1px;margin-top:2px;}
+.cb{padding:20px;}.it{font-size:14px;line-height:1.85;color:var(--tm);margin-bottom:15px;}.it strong{color:var(--vd);}.it em{color:var(--oud);}
+.tw{overflow-x:auto;margin:12px 0;}table{width:100%;border-collapse:collapse;font-size:13px;}
+th{background:var(--vd);color:var(--cr);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;padding:8px 12px;text-align:left;}
+td{padding:8px 12px;border-bottom:1px solid rgba(196,146,42,.1);vertical-align:top;}tr:last-child td{border-bottom:none;}tr:hover td{background:rgba(26,107,74,.03);}
+.pt{font-family:'DM Mono',monospace;color:var(--v);font-weight:600;}.es{font-family:'DM Mono',monospace;color:var(--az);font-weight:600;}
+h3{font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--vd);margin:16px 0 8px;}h4{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--tm2);margin:12px 0 5px;}
+.tag{display:inline-block;padding:2px 8px;border-radius:3px;font-family:'DM Mono',monospace;font-size:9px;font-weight:600;letter-spacing:.5px;white-space:nowrap;}
+.tg{background:rgba(26,107,74,.12);color:var(--v);}.td2{background:rgba(196,146,42,.12);color:var(--oud);}.tc{background:rgba(139,42,26,.12);color:var(--vm);}
+.tp{background:rgba(26,107,74,.18);color:var(--vd);}.te{background:rgba(44,78,122,.12);color:var(--az);}
+.rb{background:rgba(44,78,122,.06);border:1px solid rgba(44,78,122,.2);border-left:3px solid var(--az);border-radius:0 8px 8px 0;padding:12px 15px;margin:12px 0;font-size:13px;line-height:1.75;color:var(--tm);}
+.rb strong{color:var(--az);}
+.tip{background:rgba(196,146,42,.07);border:1px solid rgba(196,146,42,.2);border-left:3px solid var(--ou);border-radius:0 8px 8px 0;padding:12px 15px;margin:12px 0;font-size:13px;line-height:1.75;color:var(--tm);}
+.tip strong{color:var(--oud);}
+.warn{background:rgba(139,42,26,.06);border:1px solid rgba(139,42,26,.18);border-left:3px solid var(--vm);border-radius:0 8px 8px 0;padding:12px 15px;margin:12px 0;font-size:13px;line-height:1.75;color:var(--tm);}
+.warn strong{color:var(--vm);}
+.cmp{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--bd);border-radius:8px;overflow:hidden;margin:12px 0;}
+.cs{padding:13px 15px;}.cs:first-child{background:rgba(44,78,122,.05);border-right:1px solid var(--bd);}.cs:last-child{background:rgba(26,107,74,.05);}
+.cl2{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;font-weight:600;margin-bottom:7px;}.cs:first-child .cl2{color:var(--az);}.cs:last-child .cl2{color:var(--v);}
+.cc{font-size:13px;line-height:1.8;}
+.ab{display:inline-flex;align-items:center;gap:5px;background:rgba(26,107,74,.08);border:1px solid rgba(26,107,74,.25);color:var(--v);padding:5px 12px;border-radius:20px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;cursor:pointer;transition:all .2s;margin:3px 2px 3px 0;}
+.ab:hover{background:rgba(26,107,74,.18);}.ab.playing{background:var(--v);color:#fff;}
+.vg{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:11px;margin-top:10px;}
+.vc{background:var(--cr);border:1px solid var(--bd);border-radius:8px;padding:13px;transition:border-color .2s,box-shadow .2s;}
+.vc:hover{border-color:var(--v);box-shadow:0 3px 10px rgba(26,107,74,.08);}
+.vpt{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--vd);}
+.ves{font-family:'DM Mono',monospace;font-size:10px;color:var(--az);margin:2px 0 5px;}
+.vex{font-size:12px;color:var(--tm2);font-style:italic;padding-left:7px;border-left:2px solid var(--bd);margin-top:6px;}
+.vnt{font-family:'DM Mono',monospace;font-size:9px;color:var(--oud);margin-top:5px;}
+.eb{background:var(--cr);border:1px solid var(--bd);border-radius:8px;padding:15px;margin-bottom:12px;}
+.elb{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--tm2);margin-bottom:8px;}
+.eq{font-size:14px;line-height:1.7;margin-bottom:10px;color:var(--tx);}
+.opts{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin-bottom:9px;}
+.opt{padding:9px 13px;background:#fff;border:1px solid var(--bd);border-radius:7px;color:var(--tm);font-family:'Lora',serif;font-size:13px;cursor:pointer;transition:all .18s;text-align:left;}
+.opt:hover{background:rgba(26,107,74,.06);border-color:var(--v);}.opt.correct{background:rgba(26,107,74,.1);border-color:var(--v);color:var(--vd);}
+.opt.wrong{background:rgba(139,42,26,.07);border-color:var(--vm);color:var(--vm);}.opt:disabled{cursor:not-allowed;}
+.fb{padding:9px 13px;border-radius:7px;font-size:13px;line-height:1.6;margin-top:8px;display:none;}
+.fb.show{display:block;}.fb.correct{background:rgba(26,107,74,.08);border:1px solid rgba(26,107,74,.22);}
+.fb.wrong{background:rgba(139,42,26,.06);border:1px solid rgba(139,42,26,.18);}
+.fbt{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;margin-bottom:3px;}
+.fb.correct .fbt{color:var(--v);}.fb.wrong .fbt{color:var(--vm);}
+.fi{background:#fff;border:1px solid var(--bd);border-radius:6px;padding:8px 12px;color:var(--tx);font-family:'DM Mono',monospace;font-size:13px;width:100%;margin-bottom:8px;transition:border-color .2s;}
+.fi:focus{outline:none;border-color:var(--v);}.fi.correct{border-color:var(--v);}.fi.wrong{border-color:var(--vm);}
+.cbtn{background:var(--v);color:#fff;border:none;padding:9px 18px;border-radius:6px;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:1px;cursor:pointer;transition:all .2s;}
+.cbtn:hover{background:var(--vl);transform:translateY(-1px);}
+.fcont{perspective:1000px;margin:16px auto;max-width:440px;}
+.fc{width:100%;height:190px;position:relative;transform-style:preserve-3d;transition:transform .5s;cursor:pointer;}
+.fc.flipped{transform:rotateY(180deg);}
+.ff{position:absolute;width:100%;height:100%;backface-visibility:hidden;background:#fff;border:1px solid var(--bd);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center;box-shadow:0 2px 14px rgba(26,107,74,.06);}
+.fb2{transform:rotateY(180deg);}.ff.front{border-color:var(--v);}
+.fpt{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:700;color:var(--vd);margin-bottom:5px;}
+.fph{font-family:'DM Mono',monospace;font-size:10px;color:var(--tm2);}
+.fhi{font-family:'DM Mono',monospace;font-size:9px;color:var(--tm2);letter-spacing:2px;margin-top:5px;}
+.fes{font-size:18px;font-weight:600;color:var(--tx);margin-bottom:6px;}
+.fgr{font-family:'DM Mono',monospace;font-size:11px;color:var(--tm2);line-height:1.6;}
+.srb{display:flex;gap:9px;justify-content:center;margin-top:10px;}
+.srbt{padding:7px 17px;border-radius:7px;border:none;font-family:'DM Mono',monospace;font-size:10px;font-weight:600;letter-spacing:1px;cursor:pointer;transition:all .2s;}
+.easy{background:rgba(26,107,74,.1);color:var(--v);border:1px solid rgba(26,107,74,.22);}
+.mid{background:rgba(196,146,42,.1);color:var(--oud);border:1px solid rgba(196,146,42,.22);}
+.hard{background:rgba(139,42,26,.08);color:var(--vm);border:1px solid rgba(139,42,26,.18);}
+.srbt:hover{transform:translateY(-2px);filter:brightness(1.15);}
+.fcc{font-family:'DM Mono',monospace;font-size:10px;color:var(--tm2);text-align:center;margin-top:9px;}
+.dl{display:flex;gap:9px;margin-bottom:12px;align-items:flex-start;}
+.spk{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;padding:3px 7px;border-radius:4px;flex-shrink:0;margin-top:2px;}
+.sa{background:rgba(44,78,122,.12);color:var(--az);}.sn{background:rgba(26,107,74,.12);color:var(--v);}.sg2{background:rgba(196,146,42,.12);color:var(--oud);}
+.dpt{font-family:'DM Mono',monospace;font-size:13px;color:var(--tx);margin-bottom:2px;}.des{font-size:12px;color:var(--tm2);font-style:italic;}
+.vs{background:var(--cr2);border:2px dashed var(--bd);border-radius:10px;padding:20px;margin-top:24px;text-align:center;transition:all .4s;}
+.vs.ready{border-color:var(--v);border-style:solid;}.vs.done{background:rgba(26,107,74,.05);border-color:var(--v);border-style:solid;}
+.vst{font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--tm2);margin-bottom:5px;}
+.vs.ready .vst,.vs.done .vst{color:var(--vd);}
+.vsd{font-family:'DM Mono',monospace;font-size:10px;color:var(--tm2);letter-spacing:1px;margin-bottom:11px;}
+.vsp{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-bottom:12px;}
+.vpi{font-family:'DM Mono',monospace;font-size:9px;padding:3px 8px;border-radius:10px;}
+.vpd{background:rgba(26,107,74,.1);color:var(--v);border:1px solid rgba(26,107,74,.22);}
+.vpp{background:var(--cr3);color:var(--tm2);border:1px solid var(--bd);}
+.vh2{font-family:'DM Mono',monospace;font-size:10px;color:var(--tm2);margin:6px 0 11px;}
+.vb{padding:11px 26px;border-radius:9px;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;font-weight:600;transition:all .3s;border:2px solid;cursor:pointer;}
+.vb.locked{background:var(--cr3);border-color:var(--bd);color:var(--tm2);cursor:not-allowed;}
+.vb.active{background:var(--v);border-color:var(--v);color:#fff;box-shadow:0 4px 16px rgba(26,107,74,.22);}
+.vb.active:hover{background:var(--vl);transform:translateY(-2px);}
+.vb.validated{background:rgba(26,107,74,.08);border-color:var(--v);color:var(--v);cursor:default;}
+.ub{display:none;margin-top:11px;padding:9px 14px;background:rgba(26,107,74,.08);border:1px solid rgba(26,107,74,.25);border-radius:6px;font-family:'DM Mono',monospace;font-size:10px;color:var(--v);letter-spacing:1px;}
+.ub.show{display:block;}
+.wa{width:100%;min-height:130px;background:#fff;border:1px solid var(--bd);border-radius:8px;padding:12px;color:var(--tx);font-family:'Lora',serif;font-size:14px;line-height:1.7;resize:vertical;transition:border-color .2s;margin-bottom:9px;}
+.wa:focus{outline:none;border-color:var(--v);}
+.cr2b{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:9px;}
+.wc{background:var(--cr3);border:1px solid var(--bd);border-radius:5px;padding:5px 10px;font-family:'DM Mono',monospace;font-size:11px;color:var(--tm);cursor:pointer;transition:all .18s;user-select:none;}
+.wc:hover{border-color:var(--v);color:var(--v);}.wc.used{opacity:.3;cursor:not-allowed;}
+.az{min-height:40px;background:#fff;border:1px dashed var(--bd);border-radius:6px;padding:6px 10px;display:flex;flex-wrap:wrap;gap:5px;align-items:center;margin-bottom:9px;}
+.ac{background:rgba(26,107,74,.1);border:1px solid rgba(26,107,74,.28);border-radius:5px;padding:4px 9px;font-family:'DM Mono',monospace;font-size:12px;color:var(--v);cursor:pointer;}
+.ac:hover{background:rgba(139,42,26,.07);border-color:var(--vm);color:var(--vm);}
+.toast{position:fixed;bottom:22px;right:22px;background:var(--vd);border:1px solid var(--ou);border-radius:8px;padding:11px 16px;font-family:'DM Mono',monospace;font-size:12px;color:var(--cr);transform:translateY(70px);opacity:0;transition:all .35s;z-index:1000;}
+.toast.show{transform:translateY(0);opacity:1;}
+.expbtn{background:rgba(26,107,74,.08);border:1px solid rgba(26,107,74,.28);color:var(--v);padding:8px 16px;border-radius:6px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:7px;}
+.expbtn:hover{background:rgba(26,107,74,.16);transform:translateY(-1px);}
+::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-track{background:var(--cr2);}::-webkit-scrollbar-thumb{background:var(--cr3);border-radius:2px;}
+
+</style>
+</head>
+<body>
+<nav id="sb">
+  <div class="sh">
+    <div class="sbrand">PROGRAMA DE PORTUGUÊS</div>
+    <div class="stitle">De Español<br>ao Português</div>
+    <div class="ssub">4 SEMANAS · RITMO PRÓPRIO · 16 LIÇÕES</div>
+  </div>
+  <div class="prog-a">
+    <div class="prog-l"><span>PROGRESSO GERAL</span><span id="pct">0%</span></div>
+    <div class="prog-t"><div class="prog-f" id="pf" style="width:0%"></div></div>
+  </div>
+  <div id="nav"></div>
+  <div class="ts" id="ts"><div class="tsl">SEÇÕES DA LIÇÃO</div></div>
+  <div class="sf">
+    <div class="stk">
+      <div><div class="stn" id="stn">0</div><div class="stl">LIÇÕES COMPLETAS</div></div>
+      <div style="margin-left:auto;font-size:26px;">🌿</div>
+    </div>
+  </div>
+</nav>
+<main id="main">
+  <div class="topbar">
+    <div>
+      <div class="tbt" id="ttl">Português para Hispanohablantes</div>
+      <div class="tbs" id="tsub">SELECCIONA UNA LECCIÓN PARA EMPEZAR</div>
+    </div>
+    <div class="sr">
+      <div><div class="sv" id="sw">0</div><div class="sl">PALABRAS</div></div>
+      <div><div class="sv" id="se">0</div><div class="sl">EJERCICIOS</div></div>
+      <div><div class="sv" id="sm">0</div><div class="sl">MIN</div></div>
+    </div>
+  </div>
+  <div class="cnt" id="mc"></div>
+</main>
+<div class="toast" id="toast"></div>
+
+<script>
+const syn=window.speechSynthesis;let ptv=null;
+function initV(){const vs=syn.getVoices();ptv=vs.find(v=>v.lang==='pt-BR')||vs.find(v=>v.lang.startsWith('pt'))||null;}
+if(syn){syn.onvoiceschanged=initV;initV();}
+function speak(t,btn){
+  if(!syn)return;syn.cancel();
+  const playing=btn&&btn.classList.contains('playing');
+  document.querySelectorAll('.ab.playing').forEach(b=>{b.classList.remove('playing');if(b._o)b.innerHTML=b._o;});
+  if(playing)return;
+  const u=new SpeechSynthesisUtterance(t);
+  if(ptv)u.voice=ptv;u.lang='pt-BR';u.rate=0.8;
+  if(btn){btn._o=btn.innerHTML;btn.classList.add('playing');btn.innerHTML='🔊 ...';
+    u.onend=u.onerror=()=>{btn.classList.remove('playing');if(btn._o)btn.innerHTML=btn._o;};}
+  syn.speak(u);
+  if(S.cl&&S.ct==='simulacao')addP(S.cl,'simulacao',1);
+}
+
+const TABS=['gramatica','vocabulario','exercicios','flashcards','simulacao','producao'];
+const TL={gramatica:'📐 GRAMÁTICA',vocabulario:'📚 VOCABULARIO',exercicios:'⚡ EJERCICIOS',flashcards:'🃏 FLASHCARDS',simulacao:'🎭 SIMULACIÓN',producao:'✍️ PRODUCCIÓN'};
+const TR={gramatica:{min:1},vocabulario:{min:1},exercicios:{min:5,label:'Acierta al menos 5 ({p}/5)'},flashcards:{min:6,label:'Revisa al menos 6 ({p}/6)'},simulacao:{min:2,label:'Escucha al menos 2 ({p}/2)'},producao:{min:1,label:'Escribe y analiza'}};
+let S={cl:null,ct:'gramatica',td:{},vl:[],tp:{},ex:0,wl:0,min:0,timer:null};
+function lS(){try{const d=localStorage.getItem('pth3');if(d){const p=JSON.parse(d);S={...S,...p};}}catch(e){}}
+function sS(){try{localStorage.setItem('pth3',JSON.stringify({cl:S.cl,ct:S.ct,td:S.td,vl:S.vl,tp:S.tp,ex:S.ex,wl:S.wl,min:S.min}));}catch(e){}}
+lS();
+function pk(l,t){return l+'-'+t;}
+function gP(l,t){return S.tp[pk(l,t)]||0;}
+function addP(l,t,n){const k=pk(l,t);S.tp[k]=(S.tp[k]||0)+n;sS();updV(l,t);}
+function isOk(l,t){if(S.td[l]&&S.td[l][t])return true;return gP(l,t)>=(TR[t].min||1);}
+function updV(l,t){
+  if(S.cl!==l||S.ct!==t)return;
+  const btn=document.getElementById('vb-'+l+'-'+t);
+  const hint=document.getElementById('vh-'+l+'-'+t);
+  if(!btn)return;
+  if(S.td[l]&&S.td[l][t]){btn.className='vb validated';btn.innerHTML='✓ COMPLETADO';btn.disabled=true;if(hint)hint.style.display='none';return;}
+  const ok=isOk(l,t);const p=gP(l,t);
+  if(ok){btn.className='vb active';btn.disabled=false;if(hint)hint.style.display='none';}
+  else{btn.className='vb locked';btn.disabled=true;
+    if(hint&&TR[t].label){hint.style.display='block';hint.textContent='🔒 '+TR[t].label.replace('{p}',p);}}
+}
+
+const SEMS=[
+  {s:'SEMANA 1',ls:[{id:'L1',t:'ser — Identidad'},{id:'L2',t:'estar — Estado'},{id:'L3',t:'ter — Tener+hay'},{id:'L4',t:'fazer — Hacer'}]},
+  {s:'SEMANA 2',ls:[{id:'L5',t:'ir+vir — Movimiento'},{id:'L6',t:'poder+querer'},{id:'L7',t:'falar+entender'},{id:'L8',t:'comer+beber'}]},
+  {s:'SEMANA 3',ls:[{id:'L9',t:'saber+conhecer'},{id:'L10',t:'gostar de'},{id:'L11',t:'Pretérito Perfeito'},{id:'L12',t:'Artigos+Gênero'}]},
+  {s:'SEMANA 4',ls:[{id:'L13',t:'Diminutivo'},{id:'L14',t:'Reflexivos'},{id:'L15',t:'Revisão'},{id:'L16',t:'Prova Final'}]}
+];
+const ALL=SEMS.flatMap(s=>s.ls);
+
+const FC={
+L1:[{pt:'eu sou',es:'yo soy',g:'ser 1sg — não sou = no soy'},
+{pt:'você é / ele é',es:'tú eres / él es',g:'ser 2sg=3sg en PT — você reemplaza tú'},
+{pt:'somos / são',es:'somos / son',g:'1pl/3pl de ser — são tiene nasalidad'},
+{pt:'Sou do Brasil.',es:'Soy de Brasil.',g:'ser + de + lugar — origen con ser'},
+{pt:'Sou professor/a.',es:'Soy profesor/a.',g:'ser + profesión — sin artículo'},
+{pt:'Que horas são?',es:'¿Qué hora es?',g:'horas con ser — São duas. = Son las dos.'},
+{pt:'Não sou daqui.',es:'No soy de aquí.',g:'negación: não + verbo — daqui = de aquí'},
+{pt:'É verdade.',es:'Es verdad.',g:'ser + sustantivo — expr. muy usada'},
+{pt:'Somos brasileiros.',es:'Somos brasileños.',g:'ser + nacionalidad plural'},
+{pt:'Isso é importante.',es:'Eso es importante.',g:'isso = eso — ser + adjetivo'}],
+L2:[{pt:'estou / está',es:'estoy / está',g:'estar 1sg/3sg — estamos/estão'},
+{pt:'Tudo bem?',es:'¿Todo bien?',g:'saludo universal BR — Tudo bom!'},
+{pt:'Estou bem.',es:'Estoy bien.',g:'estar + estado — Estou cansado/a.'},
+{pt:'Ela está em casa.',es:'Ella está en casa.',g:'estar + localización — em = en'},
+{pt:'O banco está fechado.',es:'El banco está cerrado.',g:'estar + participio adj.'},
+{pt:'Sou casado/a.',es:'Estoy casado/a.',g:'PT usa SER para estado civil — ¡diferente!'},
+{pt:'Está gostoso!',es:'¡Está delicioso!',g:'estar + adj. sabor — gostoso = delicioso'},
+{pt:'Estou trabalhando.',es:'Estoy trabajando.',g:'estar + gerúndio — igual que español'},
+{pt:'Onde você está?',es:'¿Dónde estás?',g:'estar interrogativo — onde = dónde'},
+{pt:'Está caro.',es:'Está caro.',g:'estar + precio — igual que español'}],
+L3:[{pt:'tenho / tem',es:'tengo / tiene',g:'ter 1sg/3sg — tenho/tens/tem/temos/têm'},
+{pt:'Tem Wi-Fi aqui?',es:'¿Hay Wi-Fi aquí?',g:'ter = hay (existencia) — ¡DIFERENTE al español!'},
+{pt:'Não tem problema.',es:'No hay problema.',g:'não tem = no hay — expr. más usada en BR'},
+{pt:'Tenho que ir.',es:'Tengo que ir.',g:'ter que + inf. = tener que'},
+{pt:'Tenho fome/sede.',es:'Tengo hambre/sed.',g:'fome=hambre — sede=sed — sono=sueño'},
+{pt:'Você tem razão.',es:'Tienes razón.',g:'ter + razão — expr. fija'},
+{pt:'Quantos anos tem?',es:'¿Cuántos años tiene?',g:'ter para la edad — Tenho 30 anos.'},
+{pt:'Temos tempo.',es:'Tenemos tiempo.',g:'ter 1pl — nós temos'},
+{pt:'Têm muito trabalho.',es:'Tienen mucho trabajo.',g:'têm = 3pl (acento) — ≠ tem (3sg)'},
+{pt:'Tem uma farmácia?',es:'¿Hay una farmacia?',g:'tem = hay — Não tem = No hay'}],
+L4:[{pt:'faço / faz',es:'hago / hace',g:'fazer 1sg/3sg — faço/faz/fazemos/fazem'},
+{pt:'Faz calor/frio.',es:'Hace calor/frío.',g:'fazer + tiempo atmosférico — igual que español'},
+{pt:'Não faz mal.',es:'No importa / No pasa nada.',g:'expr. de cortesía — muy frecuente'},
+{pt:'Faz sentido.',es:'Tiene sentido.',g:'fazer sentido — expr. muy usada'},
+{pt:'Tanto faz.',es:'Me da igual.',g:'indiferencia — muy brasileña'},
+{pt:'Faz um mês que...',es:'Hace un mes que...',g:'faz + tiempo — duración'},
+{pt:'Fazer compras',es:'Hacer las compras',g:'fazer + expr. fija — como en español'},
+{pt:'fiz / fez',es:'hice / hizo',g:'fazer pretérito — irregular similar al español'},
+{pt:'O que você faz?',es:'¿Qué haces?',g:'fazer interrogativo — muy frecuente'},
+{pt:'Faço questão.',es:'Insisto / Me importa.',g:'fazer questão — expr. típicamente PT'}],
+L5:[{pt:'vou / vai',es:'voy / va',g:'ir 1sg/3sg — vou/vai/vamos/vão'},
+{pt:'Vou + infinitivo',es:'Voy a + infinitivo',g:'futuro próximo — ¡sin preposición "a"!'},
+{pt:'Vamos ao cinema?',es:'¿Vamos al cine?',g:'vamos = propuesta — ao = a+o'},
+{pt:'venho / vem',es:'vengo / viene',g:'vir irregular — venho/vem/vimos/vêm'},
+{pt:'Vou ao banco.',es:'Voy al banco.',g:'ir + ao = ida rápida — ao = a+o'},
+{pt:'Vou para o Brasil.',es:'Voy a Brasil (estadía larga).',g:'ir + para = estadía larga — diferencia clave'},
+{pt:'Vamos embora!',es:'¡Vámonos!',g:'ir embora = irse — expr. típica BR'},
+{pt:'Até logo! / Tchau!',es:'¡Hasta luego! / ¡Chao!',g:'despedidas coloquiales'},
+{pt:'De onde você vem?',es:'¿De dónde vienes?',g:'vir + de + origen — Venho do Brasil.'},
+{pt:'Vou indo.',es:'Me voy yendo.',g:'despedida progresiva — típicamente BR'}],
+L6:[{pt:'posso / pode',es:'puedo / puede',g:'poder 1sg/3sg — posso/pode/podemos/podem'},
+{pt:'quero / quer',es:'quiero / quiere',g:'querer 1sg/3sg — quero/quer/queremos/querem'},
+{pt:'Posso falar com você?',es:'¿Puedo hablar contigo?',g:'poder + inf. — pedir permiso'},
+{pt:'Quero um café.',es:'Quiero un café.',g:'querer + objeto — sem preposição'},
+{pt:'Pode ser.',es:'Puede ser / Quizás.',g:'expr. cotidiana — respuesta a invitaciones'},
+{pt:'Não posso ir.',es:'No puedo ir.',g:'não + posso — negación directa'},
+{pt:'O que você quer?',es:'¿Qué quieres?',g:'querer interrogativo — muy frecuente'},
+{pt:'Preciso de ajuda.',es:'Necesito ayuda.',g:'precisar DE = necesitar — siempre con DE'},
+{pt:'Posso te ajudar?',es:'¿Puedo ayudarte?',g:'poder + inf. — ofrecer ayuda'},
+{pt:'Quero aprender.',es:'Quiero aprender.',g:'querer + inf. — objetivo'}],
+L7:[{pt:'falo / fala',es:'hablo / habla',g:'falar patrón -AR — falo/fala/falamos/falam'},
+{pt:'entendo / entende',es:'entiendo / entiende',g:'entender -ER — entendo/entende/entendemos'},
+{pt:'Não entendo.',es:'No entiendo.',g:'frase de supervivencia ❗'},
+{pt:'Pode repetir?',es:'¿Puede repetir?',g:'poder + repetir — cortesía'},
+{pt:'Fala mais devagar.',es:'Habla más despacio.',g:'imperativo informal — devagar = despacio'},
+{pt:'Como se diz?',es:'¿Cómo se dice?',g:'expr. fija — + em português'},
+{pt:'Estou aprendendo.',es:'Estoy aprendiendo.',g:'estar + gerúndio — igual que español'},
+{pt:'Falo um pouco.',es:'Hablo un poco.',g:'um pouco = un poco'},
+{pt:'Você fala inglês?',es:'¿Hablas inglés?',g:'falar + língua — sin artículo'},
+{pt:'O que significa?',es:'¿Qué significa?',g:'expr. fija aprendiz'}],
+L8:[{pt:'como / come',es:'como / come',g:'comer -ER — como/come/comemos/comem'},
+{pt:'bebo / bebe',es:'bebo / bebe',g:'beber -ER — bebo/bebe/bebemos/bebem'},
+{pt:'cafezinho',es:'cafecito',g:'diminutivo cultural BR — mucho más que tamaño'},
+{pt:'A conta, por favor.',es:'La cuenta, por favor.',g:'conta = cuenta — muy directo en BR'},
+{pt:'Está gostoso!',es:'¡Está delicioso!',g:'gostoso/a = rico/a — muy usado'},
+{pt:'sem açúcar / com leite',es:'sin azúcar / con leche',g:'açúcar e leite: masculinos! o açúcar, o leite'},
+{pt:'Não como carne.',es:'No como carne.',g:'comer + objeto direto — sin artículo con categorías'},
+{pt:'Tem cardápio?',es:'¿Hay menú?',g:'ter = hay — cardápio = menú'},
+{pt:'Bom apetite!',es:'¡Buen provecho!',g:'expr. fija — Bom proveito! también'},
+{pt:'Eu quero pedir...',es:'Quiero pedir...',g:'pedir = pedir/ordenar'}],
+L9:[{pt:'sei / sabe',es:'sé / sabe',g:'saber 1sg/3sg — sei/sabe/sabemos/sabem'},
+{pt:'conheço / conhece',es:'conozco / conoce',g:'conhecer 1sg/3sg — irregular 1sg: conheço'},
+{pt:'Sei falar português.',es:'Sé hablar portugués.',g:'saber + inf. = habilidad — igual que español'},
+{pt:'Conheço o Brasil.',es:'Conozco Brasil.',g:'conhecer + lugar — con artículo'},
+{pt:'Não sei.',es:'No sé.',g:'respuesta universal'},
+{pt:'Você conhece a Maria?',es:'¿Conoces a María?',g:'conhecer + persona — sin "a personal" en PT'},
+{pt:'Sei lá!',es:'¡Qué sé yo! / Ni idea.',g:'expr. muito brasileira — muy informal'},
+{pt:'É bom saber!',es:'¡Es bueno saberlo!',g:'reacción natural — muy usado'},
+{pt:'Sabe cozinhar?',es:'¿Sabes cocinar?',g:'saber + infinitivo — habilidad'},
+{pt:'Não conheço bem.',es:'No conozco bien.',g:'conhecer + advérbio'}],
+L10:[{pt:'Gosto de café.',es:'Me gusta el café.',g:'gostar DE + sust. — ¡DE es obligatorio!'},
+{pt:'Você gosta de música?',es:'¿Te gusta la música?',g:'gostar interrogativo — el sujeto es quien gusta'},
+{pt:'Não gosto de chuva.',es:'No me gusta la lluvia.',g:'não gostar de — chuva = lluvia'},
+{pt:'Adoro chocolate!',es:'¡Me encanta el chocolate!',g:'adorar = encantar — sin DE, más intenso'},
+{pt:'Prefiro chá.',es:'Prefiero té.',g:'preferir -IR — prefiro/prefere'},
+{pt:'Gostei muito!',es:'¡Me gustó mucho!',g:'gostar pretérito — gostei = me gustó'},
+{pt:'Tanto faz.',es:'Me da igual.',g:'indiferencia — muy brasileña'},
+{pt:'O que você gosta?',es:'¿Qué te gusta?',g:'gostar interrogativo'},
+{pt:'Gosto de viajar.',es:'Me gusta viajar.',g:'gostar DE + infinitivo — DE sempre!'},
+{pt:'Detesto acordar cedo.',es:'Odio levantarme temprano.',g:'detestar + inf. — cedo = temprano'}],
+L11:[{pt:'falei / falou',es:'hablé / habló',g:'falar pretérito -AR — 1sg:-EI / 3sg:-OU'},
+{pt:'comi / comeu',es:'comí / comió',g:'comer pretérito -ER — 1sg:-I / 3sg:-EU'},
+{pt:'fui / foi',es:'fui / fue',g:'ir/ser pretérito — ¡IGUAL que español!'},
+{pt:'tive / teve',es:'tuve / tuvo',g:'ter pretérito — ¡IGUAL que español!'},
+{pt:'fiz / fez',es:'hice / hizo',g:'fazer pretérito — irregular similar'},
+{pt:'Ontem fui ao banco.',es:'Ayer fui al banco.',g:'ontem = ayer — pretérito + lugar'},
+{pt:'Já fiz isso.',es:'Ya hice eso.',g:'já = ya — + pretérito'},
+{pt:'Ainda não fui.',es:'Todavía no fui.',g:'ainda não — muy usado'},
+{pt:'O que aconteceu?',es:'¿Qué pasó?',g:'acontecer = pasar/ocurrir'},
+{pt:'vi / viu',es:'vi / vio',g:'ver pretérito — vi=vi — viu=vio'}],
+L12:[{pt:'o / a / os / as',es:'el/la/los/las',g:'artículos PT — igual posición que español'},
+{pt:'ao / à',es:'al / a la',g:'a+o=ao — a+a=à — contracciones obligatorias'},
+{pt:'do / da',es:'del / de la',g:'de+o=do — de+a=da — Sou do Brasil.'},
+{pt:'no / na',es:'en el / en la',g:'em+o=no — em+a=na — Estou no banco.'},
+{pt:'pelo / pela',es:'por el / por la',g:'por+o=pelo — por+a=pela'},
+{pt:'o leite (masc.)',es:'la leche (¡masc. en PT!)',g:'género diferente al español — cuidado!'},
+{pt:'o sal / o mel',es:'la sal / la miel',g:'masculinos en PT — femeninos en español'},
+{pt:'a cor / a dor',es:'el color / el dolor',g:'femeninos en PT — masculinos en español'},
+{pt:'o problema / o tema',es:'el problema / el tema',g:'igual que español — -ma = masculino'},
+{pt:'um / uma',es:'un / una',g:'artículo indefinido — igual que español'}],
+L13:[{pt:'cafezinho',es:'cafecito',g:'-inho después de consonante — café+z+inho'},
+{pt:'momentinho',es:'momentito',g:'momento+inho — suaviza solicitudes'},
+{pt:'rapidinho',es:'rápidito',g:'rápido+inho — urgencia suave'},
+{pt:'um pouquinho',es:'un poquito',g:'pouco+inho — muy coloquial'},
+{pt:'agorinha',es:'ahorita',g:'agora+inha = ahorita BR'},
+{pt:'bonitinho/a',es:'bonito/a (con afecto)',g:'bonito+inho — ternura'},
+{pt:'beijinho',es:'besito',g:'beijo+inho — afecto despedida'},
+{pt:'amigão',es:'amigote',g:'aumentativo -ão — amigo+ão'},
+{pt:'comilão',es:'comilón',g:'comer→comilão — igual al español'},
+{pt:'Que saudade!',es:'¡Cuánto te extraño!',g:'saudade = nostalgia única PT — no existe en español'}],
+L14:[{pt:'Me chamo...',es:'Me llamo...',g:'chamar-se BR: antes del verbo — PT: Chamo-me'},
+{pt:'Me sinto bem.',es:'Me siento bien.',g:'sentir-se — Me sinto = me siento'},
+{pt:'Me levanto às 7h.',es:'Me levanto a las 7.',g:'levantar-se — às = a las'},
+{pt:'Me esqueci!',es:'¡Me olvidé!',g:'esquecer-se — esqueci = olvidé'},
+{pt:'Nos encontramos.',es:'Nos encontramos.',g:'encontrar-se recíproco — igual que español'},
+{pt:'Ela se casou.',es:'Ella se casó.',g:'casar-se pretérito — -ou = -ó'},
+{pt:'Vamos embora!',es:'¡Vámonos!',g:'ir embora = irse — expr. típica BR'},
+{pt:'Como você se chama?',es:'¿Cómo te llamas?',g:'fórmula de presentación'},
+{pt:'Se vira!',es:'¡Espabila!',g:'virar-se = arreglárselas — coloquial BR'},
+{pt:'Sente-se, por favor.',es:'Siéntese, por favor.',g:'sentar-se imperativo formal'}],
+L15:[{pt:'ser vs estar',es:'identidad vs estado',g:'igual que español — algunos casos difieren'},
+{pt:'ter = hay',es:'ter reemplaza haber',g:'Tem = hay — No existe haver cotidiano'},
+{pt:'gostar DE',es:'siempre con DE',g:'nunca se omite — Gosto de música.'},
+{pt:'Já / ainda não',es:'ya / todavía no',g:'marcadores temporales — muy frecuentes'},
+{pt:'vou + inf.',es:'voy a + inf.',g:'futuro próximo — sin preposición A'},
+{pt:'Gosto muito de...',es:'Me gusta mucho...',g:'gostar + muito + DE'},
+{pt:'Tanto faz.',es:'Me da igual.',g:'fazer + tanto — expr. indiferencia'},
+{pt:'Quanto custa?',es:'¿Cuánto cuesta?',g:'custar = costar — muy similar'},
+{pt:'Que ótimo!',es:'¡Qué genial!',g:'reacción positiva — ótimo = óptimo'},
+{pt:'Tudo bem? Tudo bom!',es:'¿Todo bien? ¡Todo bien!',g:'saludo más usado de BR'}],
+L16:[{pt:'Preciso de ajuda.',es:'Necesito ayuda.',g:'precisar DE — ajuda = ayuda'},
+{pt:'Imagina!',es:'¡De nada!',g:'respuesta a obrigado — muy informal y cálido'},
+{pt:'É isso aí!',es:'¡Eso es! / ¡Exacto!',g:'confirmación y acuerdo — muy frecuente en BR'},
+{pt:'Com licença.',es:'Con permiso.',g:'pedido de paso — cortesía cotidiana'},
+{pt:'Boa sorte!',es:'¡Buena suerte!',g:'sorte = suerte — igual estructura'},
+{pt:'Que saudade!',es:'¡Cuánto te extraño!',g:'saudade = concepto único PT'},
+{pt:'Vou indo. Beijo!',es:'Me voy. ¡Un beso!',g:'despedida afectiva BR'},
+{pt:'Legal! / Show!',es:'¡Genial! / ¡Brutal!',g:'expresiones coloquiales BR'},
+{pt:'Parabéns!',es:'¡Felicidades!',g:'cumpleaños y logros — igual que español'},
+{pt:'Posso te perguntar?',es:'¿Puedo preguntarte?',g:'poder + inf. — cortesía'}]
+};
+
+const GR={
+L1:{icon:'🔵',title:'ser — Ser / Estar de identidad',html:`<div class="it">Como hispanohablante, ya conoces <strong>ser</strong>. En portugués funciona casi igual. Solo hay que aprender dónde diverge.</div>
+<div class="tip"><strong>💡 Ventaja:</strong> Más del 85% del uso de "ser" es idéntico al español.</div>
+<h3>Conjugación</h3>
+<div class="tw"><table><thead><tr><th>PRONOMBRE</th><th>PT</th><th>ES</th><th>NOTA</th></tr></thead><tbody>
+<tr><td>eu</td><td class="pt">sou</td><td class="es">soy</td><td><span class="tag td2">diferente</span></td></tr>
+<tr><td>você/ele/ela</td><td class="pt">é</td><td class="es">eres/es</td><td><span class="tag tc">2sg=3sg!</span></td></tr>
+<tr><td>nós</td><td class="pt">somos</td><td class="es">somos</td><td><span class="tag tg">igual</span></td></tr>
+<tr><td>vocês/eles</td><td class="pt">são</td><td class="es">son</td><td><span class="tag td2">-ão nasal</span></td></tr>
+</tbody></table></div>
+<button class="ab" onclick="speak('sou, é, somos, são',this)">🔊 Ouvir conjugação</button>
+<div class="warn">⚠️ <strong>você é</strong> (tú eres) y <strong>ele é</strong> (él es) usan la misma forma.</div>
+<h3>Usos idénticos</h3>
+<div class="tw"><table><thead><tr><th>USO</th><th>EXEMPLO</th><th>ESPAÑOL</th></tr></thead><tbody>
+<tr><td>Identidad</td><td class="pt">Sou Ana.</td><td>Soy Ana.</td></tr>
+<tr><td>Origen</td><td class="pt">Sou do Brasil.</td><td>Soy de Brasil.</td></tr>
+<tr><td>Profesión</td><td class="pt">Sou professor/a.</td><td>Soy profesor/a.</td></tr>
+<tr><td>Hora</td><td class="pt">São duas horas.</td><td>Son las dos.</td></tr>
+</tbody></table></div>
+<button class="ab" onclick="speak('Sou do Brasil. Sou professor. São duas horas.',this)">🔊 Exemplos</button>
+<div class="tip">💡 <strong>Estado civil:</strong> "Sou casado/a" — PT usa SER para estado civil, a diferencia del español.</div>`},
+L2:{icon:'🟡',title:'estar — Estado y ser×estar',html:`<div class="it">El contraste <strong>ser × estar</strong> existe igual en PT. La diferencia: algunos casos donde PT prefiere SER.</div>
+<h3>Conjugación</h3>
+<div class="tw"><table><thead><tr><th>PT</th><th>ES</th></tr></thead><tbody>
+<tr><td class="pt">estou</td><td class="es">estoy</td></tr>
+<tr><td class="pt">está</td><td class="es">estás/está</td></tr>
+<tr><td class="pt">estamos</td><td class="es">estamos</td></tr>
+<tr><td class="pt">estão</td><td class="es">están</td></tr>
+</tbody></table></div>
+<button class="ab" onclick="speak('estou, está, estamos, estão',this)">🔊 Ouvir estar</button>
+<h3>El saludo más importante</h3>
+<div class="rb"><strong>Tudo bem?</strong> = ¿Todo bien? (saludo universal BR)<br><strong>Tudo bom!</strong> = ¡Todo bien! (respuesta)<br><strong>E você?</strong> = ¿Y tú?</div>
+<button class="ab" onclick="speak('Tudo bem? Tudo bom, e você? Estou bem, obrigado!',this)">🔊 Saludo cotidiano</button>
+<div class="cmp"><div class="cs"><div class="cl2">🇪🇸 ESPAÑOL</div><div class="cc">Estoy casado/a.<br>¿Dónde estás?</div></div>
+<div class="cs"><div class="cl2">🇧🇷 PORTUGUÊS</div><div class="cc"><span class="pt">Sou casado/a.</span> (estado civil)<br><span class="pt">Onde você está?</span></div></div></div>`},
+L3:{icon:'🟢',title:'ter — Tener + reemplaza haber',html:`<div class="it"><strong>ter</strong> hace el trabajo de <em>tener</em> Y de <em>haber</em> en PT moderno.</div>
+<h3>Conjugación</h3>
+<div class="tw"><table><thead><tr><th>PT</th><th>ES</th></tr></thead><tbody>
+<tr><td class="pt">tenho</td><td class="es">tengo</td></tr>
+<tr><td class="pt">tem</td><td class="es">tienes/tiene</td></tr>
+<tr><td class="pt">temos</td><td class="es">tenemos</td></tr>
+<tr><td class="pt">têm</td><td class="es">tienen</td></tr>
+</tbody></table></div>
+<button class="ab" onclick="speak('tenho, tem, temos, têm',this)">🔊 Ouvir ter</button>
+<div class="cmp"><div class="cs"><div class="cl2">🇪🇸 HABER</div><div class="cc">Hay una farmacia.<br>No hay problema.</div></div>
+<div class="cs"><div class="cl2">🇧🇷 TER</div><div class="cc"><span class="pt">Tem</span> uma farmácia.<br><span class="pt">Não tem</span> problema.</div></div></div>
+<button class="ab" onclick="speak('Tem uma farmácia aqui? Não tem problema. Tenho fome.',this)">🔊 ter=hay</button>
+<div class="warn">⚠️ <strong>tem vs têm:</strong> tem (él tiene) vs têm (ellos tienen). Misma pronunciación, diferente significado.</div>`},
+L4:{icon:'🔧',title:'fazer — Hacer + expresiones fijas',html:`<div class="it"><strong>fazer</strong> = hacer. Irregular en 1sg (faço).</div>
+<div class="tw"><table><thead><tr><th>PT</th><th>ES</th></tr></thead><tbody>
+<tr><td class="pt">faço</td><td class="es">hago</td></tr>
+<tr><td class="pt">faz</td><td class="es">haces/hace</td></tr>
+<tr><td class="pt">fazemos</td><td class="es">hacemos</td></tr>
+<tr><td class="pt">fazem</td><td class="es">hacen</td></tr>
+</tbody></table></div>
+<button class="ab" onclick="speak('faço, faz, fazemos, fazem',this)">🔊 Ouvir fazer</button>
+<div class="tw"><table><thead><tr><th>EXPRESSÃO</th><th>ESPAÑOL</th></tr></thead><tbody>
+<tr><td class="pt">Faz calor/frio.</td><td>Hace calor/frío.</td></tr>
+<tr><td class="pt">Faz sentido.</td><td>Tiene sentido.</td></tr>
+<tr><td class="pt">Não faz mal.</td><td>No importa / No pasa nada.</td></tr>
+<tr><td class="pt">Tanto faz.</td><td>Me da igual.</td></tr>
+<tr><td class="pt">Faz um mês que...</td><td>Hace un mes que...</td></tr>
+</tbody></table></div>
+<div class="tip">💡 <strong>Pretérito:</strong> fiz (hice) / fez (hizo)</div>`},
+L5:{icon:'🚶',title:'ir + vir — Ir y Venir',html:`<div class="it"><strong>ir</strong> = ir. <strong>vir</strong> = venir. Lo más valioso: <strong>vou + infinitivo = futuro próximo</strong>.</div>
+<div class="cmp"><div class="cs"><div class="cl2">IR</div><div class="cc"><span class="pt">vou / vai / vamos / vão</span></div></div>
+<div class="cs"><div class="cl2">VIR</div><div class="cc"><span class="pt">venho / vem / vimos / vêm</span></div></div></div>
+<button class="ab" onclick="speak('vou vai vamos vão. venho vem vimos vêm.',this)">🔊 ir e vir</button>
+<div class="rb"><strong>vou + infinitivo</strong> = voy a + infinitivo (¡sin "a"!)<br>
+<span class="pt">Vou estudar amanhã.</span> = Voy a estudiar mañana.</div>
+<div class="cmp"><div class="cs"><div class="cl2">AO/À — ida rápida</div><div class="cc"><span class="pt">Vou ao mercado.</span><br>Vuelvo pronto</div></div>
+<div class="cs"><div class="cl2">PARA — estadía larga</div><div class="cc"><span class="pt">Vou para o Brasil.</span><br>Viaje o cambio permanente</div></div></div>`},
+L6:{icon:'💪',title:'poder + querer — Los modales',html:`<div class="it">Los modales funcionan igual que en español: <strong>modal + infinitivo</strong> sin preposición.</div>
+<div class="cmp"><div class="cs"><div class="cl2">PODER</div><div class="cc"><span class="pt">posso / pode / podemos / podem</span></div></div>
+<div class="cs"><div class="cl2">QUERER</div><div class="cc"><span class="pt">quero / quer / queremos / querem</span></div></div></div>
+<button class="ab" onclick="speak('posso pode podemos podem. quero quer queremos querem.',this)">🔊 Ouvir</button>
+<div class="tw"><table><thead><tr><th>PT</th><th>ES</th></tr></thead><tbody>
+<tr><td class="pt">Posso falar com você?</td><td>¿Puedo hablar contigo?</td></tr>
+<tr><td class="pt">Quero ir ao cinema.</td><td>Quiero ir al cine.</td></tr>
+<tr><td class="pt">Pode ser.</td><td>Puede ser / Quizás.</td></tr>
+<tr><td class="pt">Preciso de ajuda.</td><td>Necesito ayuda.</td></tr>
+</tbody></table></div>
+<div class="tip">💡 <strong>"Pode ser"</strong> = puede ser / quizás. Expresión cotidiana.</div>`},
+L7:{icon:'🗣️',title:'falar + entender — Comunicación',html:`<div class="it"><strong>falar</strong> sigue el patrón -AR. <strong>entender</strong> sigue el patrón -ER.</div>
+<div class="cmp"><div class="cs"><div class="cl2">-AR (falar)</div><div class="cc"><span class="pt">falo / fala / falamos / falam</span><br><span style="font-size:11px;color:var(--tm2)">-o / -a / -amos / -am</span></div></div>
+<div class="cs"><div class="cl2">-ER (entender)</div><div class="cc"><span class="pt">entendo / entende / entendemos / entendem</span></div></div></div>
+<div class="rb"><strong>Patrón -AR:</strong> falar, trabalhar, morar, estudar, gostar, precisar... ¡todos iguales!</div>
+<div class="tw"><table><thead><tr><th>SUPERVIVÊNCIA</th><th>ES</th></tr></thead><tbody>
+<tr><td class="pt">Não entendo.</td><td>No entiendo.</td></tr>
+<tr><td class="pt">Pode repetir?</td><td>¿Puede repetir?</td></tr>
+<tr><td class="pt">Fala mais devagar.</td><td>Habla más despacio.</td></tr>
+<tr><td class="pt">Como se diz?</td><td>¿Cómo se dice?</td></tr>
+</tbody></table></div>
+<button class="ab" onclick="speak('Não entendo. Pode repetir? Fala mais devagar, por favor.',this)">🔊 Sobrevivência</button>`},
+L8:{icon:'🍽️',title:'comer + beber — En el restaurante',html:`<div class="it"><strong>comer</strong> y <strong>beber</strong> siguen el patrón -ER.</div>
+<div class="cmp"><div class="cs"><div class="cl2">COMER</div><div class="cc"><span class="pt">como / come / comemos / comem</span></div></div>
+<div class="cs"><div class="cl2">BEBER</div><div class="cc"><span class="pt">bebo / bebe / bebemos / bebem</span></div></div></div>
+<div class="tw"><table><thead><tr><th>PT</th><th>ES</th></tr></thead><tbody>
+<tr><td class="pt">Quero um cafezinho sem açúcar.</td><td>Quiero un cafecito sin azúcar.</td></tr>
+<tr><td class="pt">A conta, por favor.</td><td>La cuenta, por favor.</td></tr>
+<tr><td class="pt">Está gostoso!</td><td>¡Está delicioso!</td></tr>
+<tr><td class="pt">Não como carne.</td><td>No como carne.</td></tr>
+<tr><td class="pt">Bom apetite!</td><td>¡Buen provecho!</td></tr>
+</tbody></table></div>
+<div class="tip">💡 <strong>Gênero sorpresa:</strong> "o leite" (la leche), "o açúcar" (el azúcar) — masculinos en PT.</div>`},
+L9:{icon:'🧠',title:'saber + conhecer — Saber y Conocer',html:`<div class="it">¡Buenas noticias! La distinción funciona <em>exactamente igual</em> que en español.</div>
+<div class="cmp"><div class="cs"><div class="cl2">SABER — info/habilidad</div><div class="cc"><span class="pt">sei / sabe / sabemos / sabem</span><br>Sei falar. / Não sei onde fica.</div></div>
+<div class="cs"><div class="cl2">CONHECER — persona/lugar</div><div class="cc"><span class="pt">conheço / conhece / conhecemos / conhecem</span><br>Conheço o Brasil.</div></div></div>
+<button class="ab" onclick="speak('Sei falar português. Conheço o Brasil. Não sei. Sei lá!',this)">🔊 Ouvir</button>
+<div class="tip">💡 <strong>"Sei lá!"</strong> = ¡Qué sé yo! / ¡Ni idea! Expresión muy brasileña.</div>`},
+L10:{icon:'❤️',title:'gostar de — El gustar del portugués',html:`<div class="it"><strong>gostar</strong> = gustar, pero el sujeto es quien experimenta el gusto.</div>
+<div class="cmp"><div class="cs"><div class="cl2">🇪🇸 ESPAÑOL</div><div class="cc"><em>Me</em> gusta el café.<br><em>Te</em> gustan las películas.</div></div>
+<div class="cs"><div class="cl2">🇧🇷 PORTUGUÊS</div><div class="cc">Eu <span class="pt">gosto de</span> café.<br>Você <span class="pt">gosta de</span> filmes?</div></div></div>
+<div class="warn">⚠️ <strong>DE es obligatorio siempre:</strong> ✅ Gosto de música. ❌ Gosto música.</div>
+<div class="tw"><table><thead><tr><th>INTENSIDAD</th><th>ES</th></tr></thead><tbody>
+<tr><td class="pt">Adoro!</td><td>¡Me encanta! (sin DE)</td></tr>
+<tr><td class="pt">Gosto muito de</td><td>Me gusta mucho</td></tr>
+<tr><td class="pt">Não gosto de</td><td>No me gusta</td></tr>
+<tr><td class="pt">Detesto</td><td>Odio / Detesto</td></tr>
+</tbody></table></div>
+<button class="ab" onclick="speak('Eu gosto de café. Adoro chocolate! Não gosto de chuva.',this)">🔊 gostar em uso</button>`},
+L11:{icon:'📜',title:'Pretérito Perfeito — El pasado',html:`<div class="it">El pretérito más usado. Terminaciones similares al español — y varios irregulares son idénticos.</div>
+<div class="cmp"><div class="cs"><div class="cl2">-AR (falar)</div><div class="cc">eu <span class="pt">falei</span> (hablé)<br>você <span class="pt">falou</span> (habló)<br>eles <span class="pt">falaram</span></div></div>
+<div class="cs"><div class="cl2">-ER/-IR (comer)</div><div class="cc">eu <span class="pt">comi</span> (comí)<br>você <span class="pt">comeu</span> (comió)<br>eles <span class="pt">comeram</span></div></div></div>
+<div class="tw"><table><thead><tr><th>IRRUG.</th><th>EU</th><th>ELE</th><th>VS. ES</th></tr></thead><tbody>
+<tr><td class="pt">ser/ir</td><td class="pt">fui</td><td class="pt">foi</td><td><span class="tag tg">fui/fue IGUAL</span></td></tr>
+<tr><td class="pt">ter</td><td class="pt">tive</td><td class="pt">teve</td><td><span class="tag tg">tuve/tuvo IGUAL</span></td></tr>
+<tr><td class="pt">fazer</td><td class="pt">fiz</td><td class="pt">fez</td><td><span class="tag tg">hice/hizo</span></td></tr>
+<tr><td class="pt">ver</td><td class="pt">vi</td><td class="pt">viu</td><td><span class="tag tg">vi/vio</span></td></tr>
+</tbody></table></div>
+<button class="ab" onclick="speak('Ontem fui ao mercado. Comi bem. Fiz tudo. Não tive tempo.',this)">🔊 Pretérito</button>
+<div class="tip">💡 ontem=ayer · já=ya · ainda não=todavía no</div>`},
+L12:{icon:'📝',title:'Artigos + Gênero — o/a/os/as',html:`<div class="it">Los artículos son casi iguales al español. El reto: <strong>contracciones obligatorias</strong> y géneros que difieren.</div>
+<div class="tw"><table><thead><tr><th>PREP+ART</th><th>RESULTADO</th><th>EJEMPLO</th></tr></thead><tbody>
+<tr><td>a + o</td><td class="pt">ao</td><td class="pt">Vou ao banco.</td></tr>
+<tr><td>a + a</td><td class="pt">à</td><td class="pt">Vou à farmácia.</td></tr>
+<tr><td>de + o</td><td class="pt">do</td><td class="pt">Sou do Brasil.</td></tr>
+<tr><td>de + a</td><td class="pt">da</td><td class="pt">Sou da Argentina.</td></tr>
+<tr><td>em + o</td><td class="pt">no</td><td class="pt">Estou no banco.</td></tr>
+<tr><td>em + a</td><td class="pt">na</td><td class="pt">Estou na farmácia.</td></tr>
+<tr><td>por + o</td><td class="pt">pelo</td><td class="pt">Obrigado pelo café.</td></tr>
+<tr><td>por + a</td><td class="pt">pela</td><td class="pt">Obrigado pela ajuda.</td></tr>
+</tbody></table></div>
+<button class="ab" onclick="speak('Vou ao banco. Sou do Brasil. Estou na escola.',this)">🔊 Contrações</button>
+<div class="warn">⚠️ Géneros distintos: <strong>o leite, o sal, o mel</strong> (masc. en PT, fem. en ES). <strong>a cor, a dor</strong> (fem. en PT, masc. en ES).</div>`},
+L13:{icon:'🌸',title:'Diminutivo — el alma del portugués',html:`<div class="it">El diminutivo <strong>-inho/-inha</strong> es omnipresente en BR. No solo indica tamaño pequeño — transmite <em>afecto, cercanía, suavidad</em>.</div>
+<div class="rb"><strong>Regla general:</strong> quitar -o/-a, añadir <strong>-inho/-inha</strong><br>
+rápido → rapidinho &nbsp; beijo → beijinho &nbsp; bonito → bonitinho<br><br>
+<strong>Con -z- cuando la vocal es acentuada:</strong><br>
+café → cafe<strong>z</strong>inho &nbsp; avó → avo<strong>z</strong>inha</div>
+<div class="tw"><table><thead><tr><th>USO</th><th>EJEMPLO</th><th>CONTEXTO</th></tr></thead><tbody>
+<tr><td>Afecto</td><td class="pt">beijinho!</td><td>¡besito! (al despedirse)</td></tr>
+<tr><td>Suavizar</td><td class="pt">Um momentinho.</td><td>Un momentito. (cortesía)</td></tr>
+<tr><td>Coloquial</td><td class="pt">agorinha</td><td>ahorita</td></tr>
+<tr><td>Cultural</td><td class="pt">cafezinho</td><td>el ritual del café BR</td></tr>
+</tbody></table></div>
+<button class="ab" onclick="speak('Um cafezinho, por favor! Um momentinho. Que bonitinho! Rapidinho.',this)">🔊 Diminutivos</button>
+<div class="tip">💡 <strong>Saudade</strong> = nostalgia/añoranza amorosa. Concepto único del PT. "Que saudade de você!"</div>`},
+L14:{icon:'🔄',title:'Verbos reflexivos — el "se" em PT',html:`<div class="it">Los reflexivos existen igual que en español. Diferencia principal: en BR el pronombre va <strong>antes</strong> del verbo.</div>
+<div class="cmp"><div class="cs"><div class="cl2">🇧🇷 BRASIL</div><div class="cc"><span class="pt">Me chamo Ana.</span><br><span class="pt">Me levanto cedo.</span><br>Pronombre <strong>ANTES</strong></div></div>
+<div class="cs"><div class="cl2">🇵🇹 PORTUGAL</div><div class="cc"><span class="pt">Chamo-me Ana.</span><br><span class="pt">Levanto-me cedo.</span><br>Pronombre <strong>DESPUÉS</strong></div></div></div>
+<div class="tw"><table><thead><tr><th>VERBO PT</th><th>ES</th><th>EJEMPLO BR</th></tr></thead><tbody>
+<tr><td class="pt">chamar-se</td><td>llamarse</td><td class="pt">Me chamo Ana.</td></tr>
+<tr><td class="pt">sentir-se</td><td>sentirse</td><td class="pt">Me sinto bem.</td></tr>
+<tr><td class="pt">levantar-se</td><td>levantarse</td><td class="pt">Me levanto às 7h.</td></tr>
+<tr><td class="pt">esquecer-se</td><td>olvidarse</td><td class="pt">Me esqueci!</td></tr>
+</tbody></table></div>
+<button class="ab" onclick="speak('Me chamo Ana. Me sinto bem. Me esqueci! Vamos embora!',this)">🔊 Reflexivos</button>`},
+L15:{icon:'🔁',title:'Revisão — Todo junto',html:`<div class="it">Sin contenido nuevo. El objetivo es <strong>conectar todo</strong> y producir frases naturales.</div>
+<div class="tw"><table><thead><tr><th>VERBO</th><th>1SG</th><th>3SG</th><th>CLAVE</th></tr></thead><tbody>
+<tr><td class="pt">ser</td><td class="pt">sou</td><td class="pt">é</td><td>identidad</td></tr>
+<tr><td class="pt">estar</td><td class="pt">estou</td><td class="pt">está</td><td>estado/lugar</td></tr>
+<tr><td class="pt">ter</td><td class="pt">tenho</td><td class="pt">tem</td><td>tener+hay</td></tr>
+<tr><td class="pt">fazer</td><td class="pt">faço</td><td class="pt">faz</td><td>hacer+expr.</td></tr>
+<tr><td class="pt">ir</td><td class="pt">vou</td><td class="pt">vai</td><td>ir+futuro</td></tr>
+<tr><td class="pt">poder</td><td class="pt">posso</td><td class="pt">pode</td><td>poder+inf</td></tr>
+<tr><td class="pt">querer</td><td class="pt">quero</td><td class="pt">quer</td><td>querer+inf</td></tr>
+<tr><td class="pt">falar</td><td class="pt">falo</td><td class="pt">fala</td><td>padrão -AR</td></tr>
+<tr><td class="pt">comer</td><td class="pt">como</td><td class="pt">come</td><td>padrão -ER</td></tr>
+<tr><td class="pt">gostar</td><td class="pt">gosto de</td><td class="pt">gosta de</td><td>sempre DE</td></tr>
+<tr><td class="pt">saber</td><td class="pt">sei</td><td class="pt">sabe</td><td>info/habilidad</td></tr>
+<tr><td class="pt">conhecer</td><td class="pt">conheço</td><td class="pt">conhece</td><td>persona/lugar</td></tr>
+</tbody></table></div>
+<button class="ab" onclick="speak('sou estou tenho faço vou posso quero falo como gosto de sei conheço',this)">🔊 1sg de todos</button>`},
+L16:{icon:'🏆',title:'Prova Final — Fluência Real',html:`<div class="it">Lección de consolidación. Solo producción y demostración de todo lo aprendido.</div>
+<div class="tw"><table><thead><tr><th>ITEM</th><th>TEST RÁPIDO</th></tr></thead><tbody>
+<tr><td>ser vs estar</td><td class="pt">Sou casado. / Estou cansado.</td></tr>
+<tr><td>ter = hay</td><td class="pt">Tem uma farmácia aqui?</td></tr>
+<tr><td>Futuro próximo</td><td class="pt">Vou estudar amanhã.</td></tr>
+<tr><td>gostar DE</td><td class="pt">Gosto de café. (DE obrigatório)</td></tr>
+<tr><td>saber vs conhecer</td><td class="pt">Sei falar. / Conheço o Brasil.</td></tr>
+<tr><td>Pretérito</td><td class="pt">Fui / fiz / comi / falei.</td></tr>
+<tr><td>Contracciones</td><td class="pt">ao/à/do/da/no/na</td></tr>
+<tr><td>Diminutivo</td><td class="pt">cafezinho, momentinho</td></tr>
+<tr><td>Reflexivos BR</td><td class="pt">Me chamo / Me sinto bem.</td></tr>
+</tbody></table></div>
+<button class="ab" onclick="speak('Sou estudante de português. Estou bem. Tenho muito a aprender. Vou continuar!',this)">🔊 Discurso final</button>
+<div class="tip">🏆 <strong>Completaste o curso!</strong> Dominas 12 verbos, ser/estar/ter/fazer, gostar DE, diminutivos, contracciones y conversación básica autónoma.</div>`}
+};
+
+const EX={
+L1:[{t:'mc',q:'¿Cómo se dice "Yo soy profesora"?',o:['Eu sou professora.','Eu estou professora.','Eu é professora.','Eu tenho professora.'],c:0,ex:'SER 1sg = "sou". Profesiones con ser sin artículo.'},
+{t:'mc',q:'¿Cuál es la forma para "ellos son"?',o:['são','sou','é','somos'],c:0,ex:'"São" = 3pl de ser. Tiene nasalidad -ão.'},
+{t:'fill',q:'Complete: Ela ___ professora.',a:'é',ex:'"É" = ser 2/3sg en PT.'},
+{t:'fill',q:'Complete: ___ de Argentina. (yo soy)',a:'Sou',ex:'"Sou de Argentina."'},
+{t:'mc',q:'¿Cómo se dice "¿Qué hora es?"',o:['Que horas são?','Que hora é?','Como horas são?','Que hora sou?'],c:0,ex:'"Que horas são?" — horas plural + são.'},
+{t:'fill',q:'Complete: Nós ___ brasileiros.',a:'somos',ex:'"Somos" = ser 1pl.'},
+{t:'mc',q:'En PT, "Sou casado/a" es correcto porque:',o:['PT usa SER para estado civil','Es un error gramatical','Solo en Portugal','Es muy informal'],c:0,ex:'PT usa SER para estado civil, diferente del español.'},
+{t:'reorder',q:'Ordena la frase:',w:['Eu','sou','brasileira','.'],c:'Eu sou brasileira .'}],
+L2:[{t:'mc',q:'¿Cómo se responde a "Tudo bem?"',o:['Tudo bom!','Sou bem.','Tenho bem.','Faço bem.'],c:0,ex:'"Tudo bom!" = ¡Todo bien!'},
+{t:'fill',q:'Complete: Ele ___ no trabalho.',a:'está',ex:'"Está" = estar 3sg.'},
+{t:'mc',q:'¿Cuándo usar ESTAR en PT?',o:['Estados temporales y localización','Solo para localización','Igual que en español','Para identidad siempre'],c:0,ex:'Estar: estados temporales, localización, progresivo.'},
+{t:'fill',q:'Complete: Estou ___ cansado. (un poco)',a:'um pouco',ex:'"um pouco" = un poco.'},
+{t:'mc',q:'O banco ___ fechado hoje.',o:['está','é','tem','faz'],c:0,ex:'"Está fechado" = está cerrado. Estado temporal.'},
+{t:'fill',q:'Complete: ___ bem, obrigado!',a:'Estou',ex:'"Estou bem" = Estoy bien.'},
+{t:'mc',q:'"Estou trabalhando" significa:',o:['Estoy trabajando.','Trabajé.','Voy a trabajar.','Trabajo mucho.'],c:0,ex:'estar + gerúndio = progresivo.'},
+{t:'reorder',q:'Ordena:',w:['Estou','em','casa','hoje','.'],c:'Estou em casa hoje .'}],
+L3:[{t:'mc',q:'¿Cómo se dice "¿Hay un restaurante aquí?"',o:['Tem um restaurante aqui?','É um restaurante aqui?','Há um restaurante aqui?','Está um restaurante aqui?'],c:0,ex:'"Tem" = hay. TER reemplaza HAVER.'},
+{t:'fill',q:'Complete: ___ fome agora.',a:'Tenho',ex:'"Tenho fome." = Tengo hambre.'},
+{t:'mc',q:'¿Cómo se dice "No hay problema"?',o:['Não tem problema.','Não é problema.','Não está problema.','Não fazer problema.'],c:0,ex:'"Não tem problema." Expresión muy usada.'},
+{t:'fill',q:'Complete: Tenho ___ estudar hoje.',a:'que',ex:'"Tenho que estudar." = Tengo que estudiar.'},
+{t:'mc',q:'"Têm" (con acento) es:',o:['3ª persona plural (ellos tienen)','3ª persona singular','2ª persona','Una variante de tem'],c:0,ex:'"Têm" = 3pl. "Tem" = 3sg.'},
+{t:'fill',q:'Complete: Quantos anos você ___?',a:'tem',ex:'"Quantos anos você tem?" Edad con ter.'},
+{t:'mc',q:'"Tenho sede" significa:',o:['Tengo sed.','Tengo sueño.','Tengo hambre.','Tengo razón.'],c:0,ex:'"Sede" = sed.'},
+{t:'reorder',q:'Ordena:',w:['Não','tem','problema','.'],c:'Não tem problema .'}],
+L4:[{t:'mc',q:'¿Cómo se dice "Hago mi trabajo todos los días"?',o:['Faço meu trabalho todo dia.','Faz meu trabalho todo dia.','Fazer meu trabalho todo dia.','Faco meu trabalho.'],c:0,ex:'"Faço" = fazer 1sg.'},
+{t:'fill',q:'Complete: Hoje ___ muito calor.',a:'faz',ex:'"Faz calor." Fazer para tiempo atmosférico.'},
+{t:'mc',q:'¿Cuál es la expresión para "Me da igual"?',o:['Tanto faz.','Faz mal.','Faz sentido.','Faz tempo.'],c:0,ex:'"Tanto faz." = Me da igual.'},
+{t:'fill',q:'Complete: Isso não ___ sentido.',a:'faz',ex:'"Não faz sentido."'},
+{t:'mc',q:'"Faz um mês que estou aqui" significa:',o:['Hace un mes que estoy aquí.','Me falta un mes.','Hace un mes que no estoy.','Estoy hace tiempo.'],c:0,ex:'"Faz [tiempo] que" = Hace [tiempo] que.'},
+{t:'fill',q:'Complete: O que você ___ ontem? (pretérito de fazer)',a:'fez',ex:'"Fez" = pretérito fazer 2/3sg.'},
+{t:'mc',q:'"Não faz mal" significa:',o:['No importa / No pasa nada.','No hace daño físico.','No se puede hacer.','No está mal.'],c:0,ex:'"Não faz mal." = No importa.'},
+{t:'reorder',q:'Ordena:',w:['Hoje','faz','muito','calor','.'],c:'Hoje faz muito calor .'}],
+L5:[{t:'mc',q:'¿Cómo se dice "Voy a estudiar mañana"?',o:['Vou estudar amanhã.','Vou a estudar amanhã.','Vou estudar a amanhã.','Vo estudar amanhã.'],c:0,ex:'"Vou + infinitivo" sin preposición "a".'},
+{t:'fill',q:'Complete: ___ ao mercado agora.',a:'Vou',ex:'"Vou ao mercado."'},
+{t:'mc',q:'¿Cuándo usar "para" en lugar de "ao/à"?',o:['Para estadías largas o permanentes','Para distancias cortas','Son intercambiables','Depende del verbo'],c:0,ex:'"Vou ao banco" = ida rápida. "Vou para o Brasil" = estadía larga.'},
+{t:'fill',q:'Complete: Ela ___ amanhã cedo. (viene)',a:'vem',ex:'"Vem" = vir 3sg.'},
+{t:'mc',q:'¿Qué significa "Vou indo"?',o:['Me voy yendo (despedida BR).','Voy caminando.','Voy llegando.','Fui y vine.'],c:0,ex:'"Vou indo" = despedida progresiva brasileña.'},
+{t:'fill',q:'Complete: De onde você ___? (vienes)',a:'vem',ex:'"De onde você vem?" = ¿De dónde vienes?'},
+{t:'mc',q:'"Vamos ao cinema?" es:',o:['Una propuesta / invitación','Una orden','Un mandato formal','Una pregunta retórica'],c:0,ex:'"Vamos + ao" = propuesta.'},
+{t:'reorder',q:'Ordena:',w:['Vamos','ao','cinema','hoje','?'],c:'Vamos ao cinema hoje ?'}],
+L6:[{t:'mc',q:'¿Cómo se dice "Quiero un café con leche"?',o:['Quero um café com leite.','Quero café con leite.','Quero um café de leite.','Quiero um café com leite.'],c:0,ex:'"Quero" = querer 1sg. "com" = con.'},
+{t:'fill',q:'Complete: ___ usar o banheiro?',a:'Posso',ex:'"Posso usar o banheiro?" ¿Puedo usar el baño?'},
+{t:'mc',q:'"Pode ser" significa:',o:['Puede ser / Quizás.','Puede usarse.','Puede ser que sí.','Puedes ser.'],c:0,ex:'"Pode ser" = puede ser / quizás.'},
+{t:'fill',q:'Complete: Não ___ ir hoje.',a:'posso',ex:'"Não posso ir hoje."'},
+{t:'mc',q:'¿Cómo se dice "Necesito ayuda"?',o:['Preciso de ajuda.','Quero ajuda.','Posso ajuda.','Tenho ajuda.'],c:0,ex:'"Precisar de" = necesitar. ¡Siempre con DE!'},
+{t:'fill',q:'Complete: O que você ___?',a:'quer',ex:'"O que você quer?" = ¿Qué quieres?'},
+{t:'mc',q:'poder vs querer — diferencia:',o:['poder=capacidad; querer=deseo','poder=deseo; querer=capacidad','Son sinónimos','Solo cambia el tiempo verbal'],c:0,ex:'Igual que español.'},
+{t:'reorder',q:'Ordena:',w:['Posso','falar','com','você','?'],c:'Posso falar com você ?'}],
+L7:[{t:'mc',q:'¿Cómo se dice "Hablo un poco de portugués"?',o:['Falo um pouco de português.','Falo pouco português.','Falo um poco de português.','Falar um pouco português.'],c:0,ex:'"Falo" = falar 1sg.'},
+{t:'fill',q:'Complete: ___ mais devagar, por favor.',a:'Fala',ex:'"Fala mais devagar"'},
+{t:'mc',q:'¿Cuál es la frase de supervivencia #1?',o:['Não entendo.','Falo muito bem.','Entendo tudo.','Falo devagar.'],c:0,ex:'"Não entendo." = No entiendo.'},
+{t:'fill',q:'Complete: Estou ___ português.',a:'aprendendo',ex:'"Estou aprendendo português."'},
+{t:'mc',q:'Patrón -AR en 3pl:',o:['-am (falam)','-an','-en','-ar'],c:0,ex:'"Falam" = 3pl de falar.'},
+{t:'fill',q:'Complete: Você fala inglês e ___? (español)',a:'espanhol',ex:'"Espanhol" = español.'},
+{t:'mc',q:'"Como se diz?" sirve para:',o:['Preguntar cómo se dice algo','Preguntar el nombre','Saludar','Despedirse'],c:0,ex:'"Como se diz X em português?"'},
+{t:'reorder',q:'Ordena:',w:['Pode','repetir',',','por','favor','?'],c:'Pode repetir , por favor ?'}],
+L8:[{t:'mc',q:'¿Cómo se pide "un cafecito sin azúcar"?',o:['Quero um cafezinho sem açúcar.','Quero café sin açúcar.','Quero cafezinho sem o açúcar.','Quero um café pequeno.'],c:0,ex:'"cafezinho" = diminutivo de café.'},
+{t:'fill',q:'Complete: A ___, por favor.',a:'conta',ex:'"A conta, por favor." = La cuenta.'},
+{t:'mc',q:'"Está gostoso!" significa:',o:['¡Está delicioso!','¡Está raro!','¡Está frío!','¡Está cocinado!'],c:0,ex:'"Gostoso/a" = delicioso/a.'},
+{t:'fill',q:'Complete: Não ___ carne.',a:'como',ex:'"Não como carne." comer 1sg = "como".'},
+{t:'mc',q:'Género de "leite" en PT:',o:['Masculino (o leite)','Femenino (a leite)','Variable','Sin artículo'],c:0,ex:'"O leite" = masculino.'},
+{t:'fill',q:'Complete: ___ muito ontem. (ellos comieron)',a:'Comeram',ex:'"Comeram" = comer 3pl pretérito.'},
+{t:'mc',q:'"Tem cardápio?" usa TER porque:',o:['TER = hay en PT','El menú tiene cosas','Es pregunta formal','El restaurante lo posee'],c:0,ex:'"Tem cardápio?" = ¿Hay menú?'},
+{t:'reorder',q:'Ordena:',w:['Está','muito','gostoso','!'],c:'Está muito gostoso !'}],
+L9:[{t:'mc',q:'¿Cuándo usar saber vs conhecer?',o:['saber=info/habilidad; conhecer=persona/lugar','saber=persona; conhecer=info','Son sinónimos','Depende del tiempo'],c:0,ex:'Igual que español.'},
+{t:'fill',q:'Complete: Não ___ onde fica.',a:'sei',ex:'"Não sei onde fica."'},
+{t:'mc',q:'"Você conhece a Maria?" — ¿Por qué conhecer?',o:['María es una persona','María es un lugar','Es una habilidad','Es información'],c:0,ex:'"Conhecer" = conocer personas y lugares.'},
+{t:'fill',q:'Complete: ___ nadar muito bem.',a:'Sei',ex:'"Sei nadar." = Sé nadar.'},
+{t:'mc',q:'¿Cómo se dice "Conozco Brasil"?',o:['Conheço o Brasil.','Sei o Brasil.','Conheço Brasil.','Eu sei Brasil.'],c:0,ex:'"Conheço o Brasil." Con artículo.'},
+{t:'fill',q:'Complete: ___ lá! (Ni idea)',a:'Sei',ex:'"Sei lá!" expresión brasileña.'},
+{t:'mc',q:'"Não sei o que fazer" = ',o:['No sé qué hacer.','No sé hacerlo.','No puedo hacer nada.','No quiero hacer.'],c:0,ex:'"Não sei o que fazer."'},
+{t:'reorder',q:'Ordena:',w:['Conheço','o','Brasil','bem','.'],c:'Conheço o Brasil bem .'}],
+L10:[{t:'mc',q:'¿Cómo se dice "Me gusta el café"?',o:['Eu gosto de café.','Café me gosta.','Eu gosto café.','Gosto o café.'],c:0,ex:'"Gosto DE café." DE obligatorio.'},
+{t:'fill',q:'Complete: ___ de viajar muito.',a:'Gosto',ex:'"Gosto de viajar."'},
+{t:'mc',q:'¿Qué verbo expresa "encanta" (más intenso)?',o:['Adorar','Gostar muito','Preferir','Querer'],c:0,ex:'"Adorar" = encantar. Sin DE.'},
+{t:'fill',q:'Complete: Não ___ de chuva.',a:'gosto',ex:'"Não gosto de chuva."'},
+{t:'mc',q:'"Tanto faz" significa:',o:['Me da igual.','Tanto me gusta.','Todo lo mismo.','Así da igual.'],c:0,ex:'"Tanto faz." = Me da igual.'},
+{t:'fill',q:'Complete: ___ de filmes de ação. (nos gusta)',a:'Gostamos',ex:'"Gostamos de filmes de ação."'},
+{t:'mc',q:'¿Cómo se pregunta "¿Te gusta?"',o:['Você gosta?','Você gustar?','Gosta você?','Te gosta?'],c:0,ex:'"Você gosta?" = ¿Te gusta?'},
+{t:'reorder',q:'Ordena:',w:['Gosto','muito','de','café','brasileiro','.'],c:'Gosto muito de café brasileiro .'}],
+L11:[{t:'mc',q:'Pretérito de falar (1sg):',o:['falei','falou','fale','fali'],c:0,ex:'"Falei" = yo hablé. -AR 1sg: -EI.'},
+{t:'fill',q:'Complete: Ontem ___ ao banco.',a:'fui',ex:'"Fui" = pretérito ir/ser.'},
+{t:'mc',q:'"Fez" es pretérito de:',o:['fazer','falar','fazer (3sg)','fez'],c:2,ex:'"Fez" = fazer pretérito 3sg.'},
+{t:'fill',q:'Complete: Ela ___ muito ontem. (comió)',a:'comeu',ex:'"Comeu" = comer pretérito 3sg.'},
+{t:'mc',q:'¿Cuál es el equivalente de "todavía no"?',o:['ainda não','já não','não mais','ainda sim'],c:0,ex:'"Ainda não" = todavía no.'},
+{t:'fill',q:'Complete: ___ muita coisa! (aprendí)',a:'Aprendi',ex:'"Aprendi" = aprender pretérito 1sg.'},
+{t:'mc',q:'"Já fiz isso" significa:',o:['Ya hice eso.','Ja hice eso.','Voy a hacerlo.','Antes lo hice.'],c:0,ex:'"Já" = ya. "Fiz" = hice.'},
+{t:'reorder',q:'Ordena:',w:['Ontem','fui','ao','cinema','.'],c:'Ontem fui ao cinema .'}],
+L12:[{t:'mc',q:'Contracción de "a + o":',o:['ao','à','do','no'],c:0,ex:'"ao" = a+o.'},
+{t:'fill',q:'Complete: Sou ___ Brasil.',a:'do',ex:'"Sou do Brasil." de+o=do.'},
+{t:'mc',q:'Género de "leite" en PT:',o:['Masculino (o leite)','Femenino (a leite)','Variable','Sin género'],c:0,ex:'"O leite" = masculino.'},
+{t:'fill',q:'Complete: Estou ___ escola.',a:'na',ex:'"Na escola" = en la escuela. em+a=na.'},
+{t:'mc',q:'"en el banco" en PT:',o:['no banco','em o banco','ao banco','pelo banco'],c:0,ex:'"No banco" = em+o=no.'},
+{t:'fill',q:'Complete: Obrigado ___ ajuda!',a:'pela',ex:'"Pela ajuda" = por la ayuda.'},
+{t:'mc',q:'"o problema" en PT es:',o:['Masculino (igual al español)','Femenino','Neutro','Variable'],c:0,ex:'"O problema" = masculino.'},
+{t:'reorder',q:'Ordena:',w:['Vou','à','farmácia','.'],c:'Vou à farmácia .'}],
+L13:[{t:'mc',q:'Diminutivo de "café":',o:['cafezinho','cafinho','cafeinho','cafito'],c:0,ex:'"Cafezinho" = café+z+inho.'},
+{t:'fill',q:'Complete: Um ___, por favor. (momentito)',a:'momentinho',ex:'"Um momentinho"'},
+{t:'mc',q:'El diminutivo -inho/-inha en BR expresa:',o:['Afecto y cercanía principalmente','Solo tamaño pequeño','Formalidad','Tiempo'],c:0,ex:'En BR: principalmente AFECTO.'},
+{t:'fill',q:'Complete: Que ___! (qué tierno)',a:'bonitinho',ex:'"Bonitinho" = bonito+inho.'},
+{t:'mc',q:'"Agorinha" significa:',o:['Ahorita / ya mismo','Antes de ahora','Después de ahora','Hace un rato'],c:0,ex:'"Agorinha" = ahorita.'},
+{t:'fill',q:'Complete: Volto ___! (rápidito)',a:'rapidinho',ex:'"Rapidinho" = rápido+inho.'},
+{t:'mc',q:'"Que saudade!" expresa:',o:['Nostalgia/añoranza hacia algo amado','Alegría extrema','Sorpresa','Indiferencia'],c:0,ex:'"Saudade" = concepto único PT.'},
+{t:'reorder',q:'Ordena:',w:['Quero','um','cafezinho',',','por','favor','.'],c:'Quero um cafezinho , por favor .'}],
+L14:[{t:'mc',q:'"Me llamo Ana" en PT brasileiro:',o:['Me chamo Ana.','Chamo-me Ana.','Sou chamada Ana.','Chama-me Ana.'],c:0,ex:'En BR: "Me chamo Ana" (antes).'},
+{t:'fill',q:'Complete: Como você ___ chama?',a:'se',ex:'"Como você se chama?"'},
+{t:'mc',q:'"Vamos embora!" significa:',o:['¡Vámonos!','Vamos afuera.','Vamos pronto.','Nos vamos lejos.'],c:0,ex:'"Vamos embora!" = ¡Vámonos!'},
+{t:'fill',q:'Complete: Me ___ do nome. (me olvidé)',a:'esqueci',ex:'"Me esqueci do nome."'},
+{t:'mc',q:'"Me sinto bem" — verbo reflexivo:',o:['sentir-se','chamar-se','levantar-se','casar-se'],c:0,ex:'"sentir-se" = sentirse.'},
+{t:'fill',q:'Complete: Ela ___ casou no ano passado.',a:'se',ex:'"Ela se casou."'},
+{t:'mc',q:'Posición del pronombre reflexivo en BR:',o:['Antes del verbo','Después del verbo','Cualquier posición','Al final de la frase'],c:0,ex:'En BR: ANTES del verbo.'},
+{t:'reorder',q:'Ordena:',w:['Me','chamo','Carlos','.'],c:'Me chamo Carlos .'}],
+L15:[{t:'mc',q:'Diferencia ser vs estar en PT:',o:['ser=permanente/identidad; estar=temporal/lugar','Son sinónimos','ser=lugar; estar=identidad','Solo difieren en pasado'],c:0,ex:'Igual que español.'},
+{t:'fill',q:'Complete: ___ muito de música.',a:'Gosto',ex:'"Gosto muito de música." siempre con DE.'},
+{t:'mc',q:'¿Cómo se dice "Ya hice eso"?',o:['Já fiz isso.','Já fazer isso.','Já eu fiz isso.','Fiz já isso.'],c:0,ex:'"Já fiz isso."'},
+{t:'fill',q:'Complete: Ainda ___ ao Brasil.',a:'não fui',ex:'"Ainda não fui ao Brasil."'},
+{t:'mc',q:'"Quanto custa?" significa:',o:['¿Cuánto cuesta?','¿Cuánto vale?','¿Cuál es el precio?','¿Cuánto es?'],c:0,ex:'"Quanto custa?" = ¿Cuánto cuesta?'},
+{t:'fill',q:'Complete: Vou ___ amanhã.',a:'ao supermercado',ex:'"Vou ao supermercado."'},
+{t:'mc',q:'"Quero ir ao cinema" — estructura:',o:['querer + inf. sin prep.','querer + a + inf.','querer + de + inf.','querer que + subj.'],c:0,ex:'"Quero ir" sin preposición.'},
+{t:'reorder',q:'Ordena:',w:['Vou','ao','banco','e','estudar','depois','.'],c:'Vou ao banco e estudar depois .'}],
+L16:[{t:'mc',q:'¿Cómo se dice "Necesito ayuda"?',o:['Preciso de ajuda.','Quero ajuda.','Tenho ajuda.','Posso ajuda.'],c:0,ex:'"Precisar de" = necesitar.'},
+{t:'fill',q:'Complete: ___ falar mais devagar?',a:'Pode',ex:'"Pode falar mais devagar?"'},
+{t:'mc',q:'"Imagina!" como respuesta a obrigado:',o:['¡De nada!','¡Imagínate!','¡Imagina qué!','¡Claro!'],c:0,ex:'"Imagina!" = ¡De nada!'},
+{t:'fill',q:'Complete: ___ muito de estar aqui.',a:'Gosto',ex:'"Gosto muito de estar aqui."'},
+{t:'mc',q:'"Que saudade" expresa:',o:['Nostalgia/añoranza','Alegría extrema','Sorpresa','Indiferencia'],c:0,ex:'"Saudade" = concepto único PT.'},
+{t:'fill',q:'Complete: Com ___, posso passar?',a:'licença',ex:'"Com licença, posso passar?"'},
+{t:'mc',q:'"É isso aí!" significa:',o:['¡Eso es! / ¡Exacto!','Es eso de ahí.','Eso está bien.','¡Qué eso!'],c:0,ex:'"É isso aí!" = ¡Eso es!'},
+{t:'reorder',q:'Ordena:',w:['Gosto','muito','de','falar','português','.'],c:'Gosto muito de falar português .'}]
+};
+
+const SIM={
+L1:[{title:'Presentación básica',lines:[{s:'N',t:'Olá! Eu me chamo Lucas. E você?',tr:'¡Hola! Me llamo Lucas. ¿Y tú?'},{s:'A',t:'Olá! Eu sou [nome]. Sou de Buenos Aires.',tr:'¡Hola! Soy [nombre]. Soy de Buenos Aires.'},{s:'N',t:'Sério? Você é argentino/a? Que legal!',tr:'¿En serio? ¡Qué genial!'},{s:'A',t:'Sou sim! E você, é daqui do Brasil?',tr:'¡Sí! ¿Y tú, eres de aquí?'},{s:'N',t:'Sou. Sou de São Paulo. O que você é?',tr:'Soy de São Paulo. ¿Qué eres (profesión)?'},{s:'A',t:'Sou professor/a de espanhol.',tr:'Soy profesor/a de español.'}]}],
+L2:[{title:'Tudo bem? — estar',lines:[{s:'N',t:'Oi! Tudo bem?',tr:'¡Hola! ¿Todo bien?'},{s:'A',t:'Tudo bom, obrigado! E você?',tr:'¡Todo bien, gracias! ¿Y tú?'},{s:'N',t:'Mais ou menos. Estou um pouco cansado.',tr:'Más o menos. Estoy un poco cansado.'},{s:'A',t:'Que pena! Onde você está agora?',tr:'¡Qué pena! ¿Dónde estás ahora?'},{s:'N',t:'Estou no trabalho. Está muito quente!',tr:'Estoy en el trabajo. ¡Hace mucho calor!'},{s:'A',t:'Faz calor mesmo! Fica bem!',tr:'¡Sí que hace calor! ¡Cuídate!'}]}],
+L3:[{title:'No restaurante — ter',lines:[{s:'A',t:'Com licença, tem uma mesa para dois?',tr:'Con permiso, ¿hay una mesa para dos?'},{s:'G',t:'Tem sim! Tem cardápio em inglês?',tr:'¡Sí hay! ¿Hay menú en inglés?'},{s:'A',t:'Não preciso, obrigado. Tem alguma sugestão?',tr:'No necesito, gracias. ¿Hay alguna sugerencia?'},{s:'G',t:'Temos peixe fresco hoje. Tem sobremesa também!',tr:'Tenemos pescado fresco. ¡También hay postre!'},{s:'A',t:'Ótimo! E tem Wi-Fi aqui?',tr:'¡Genial! ¿Y hay Wi-Fi aquí?'},{s:'G',t:'Tem sim! A senha é na mesa.',tr:'¡Sí hay! La contraseña está en la mesa.'}]}],
+L4:[{title:'Conversación — fazer',lines:[{s:'N',t:'O que você faz no fim de semana?',tr:'¿Qué haces el fin de semana?'},{s:'A',t:'Faço esporte e faço compras no sábado.',tr:'Hago deporte y hago las compras el sábado.'},{s:'N',t:'Faz sentido! Faz muito calor para esporte!',tr:'¡Tiene sentido! ¡Hace mucho calor!'},{s:'A',t:'Faz sim! Mas faço de manhã cedo.',tr:'¡Sí hace! Pero lo hago de mañana temprano.'},{s:'N',t:'Você fez exercício ontem?',tr:'¿Hiciste ejercicio ayer?'},{s:'A',t:'Não fiz. Estava cansado. Não faz mal!',tr:'No hice. Estaba cansado. ¡No importa!'}]}],
+L5:[{title:'Planes — ir e vir',lines:[{s:'N',t:'Para onde você vai nas férias?',tr:'¿Adónde vas en vacaciones?'},{s:'A',t:'Vou para o Rio de Janeiro!',tr:'¡Voy para Río de Janeiro!'},{s:'N',t:'Que incrível! Quando você vai?',tr:'¡Qué increíble! ¿Cuándo vas?'},{s:'A',t:'Vou semana que vem. Você vem também?',tr:'Voy la semana que viene. ¿También vienes?'},{s:'N',t:'Não posso, mas vou ao cinema hoje. Vem?',tr:'No puedo, pero voy al cine hoy. ¿Vienes?'},{s:'A',t:'Pode ser! Que horas você vai?',tr:'¡Puede ser! ¿A qué hora vas?'}]}],
+L6:[{title:'Pedidos — poder e querer',lines:[{s:'A',t:'Com licença, posso fazer uma pergunta?',tr:'Con permiso, ¿puedo hacer una pregunta?'},{s:'N',t:'Claro que pode! O que você quer saber?',tr:'¡Claro que puedes! ¿Qué quieres saber?'},{s:'A',t:'Quero saber como chegar ao aeroporto.',tr:'Quiero saber cómo llegar al aeropuerto.'},{s:'N',t:'Pode ir de metrô! Quer que eu explique?',tr:'¡Puedes ir en metro! ¿Quieres que explique?'},{s:'A',t:'Sim, quero! Mas pode falar mais devagar?',tr:'¡Sí, quiero! ¿Puede hablar más despacio?'},{s:'N',t:'Posso sim! Sem problema.',tr:'¡Sí puedo! Sin problema.'}]}],
+L7:[{title:'Barreira linguística',lines:[{s:'N',t:'Você fala português muito bem!',tr:'¡Hablas portugués muy bien!'},{s:'A',t:'Obrigado! Mas não entendo tudo ainda.',tr:'¡Gracias! Pero todavía no entiendo todo.'},{s:'N',t:'Tudo bem! De onde você é?',tr:'¡No importa! ¿De dónde eres?'},{s:'A',t:'Sou da Espanha. Falamos espanhol lá.',tr:'Soy de España. Allá hablamos español.'},{s:'N',t:'Ah, por isso entende tão bem!',tr:'¡Ah, por eso entiendes tan bien!'},{s:'A',t:'Sim! Como se diz "despedirse" em português?',tr:'¡Sí! ¿Cómo se dice "despedirse" en portugués?'}]}],
+L8:[{title:'No restaurante',lines:[{s:'G',t:'Boa tarde! O que vocês vão querer?',tr:'¡Buenas tardes! ¿Qué van a querer?'},{s:'A',t:'Quero um cafezinho sem açúcar e um pão de queijo.',tr:'Quiero un cafecito sin azúcar y un pan de queso.'},{s:'G',t:'Com leite ou sem leite no café?',tr:'¿Con leche o sin leche en el café?'},{s:'A',t:'Sem leite. O que recomenda para comer?',tr:'Sin leche. ¿Qué recomienda para comer?'},{s:'G',t:'Temos um peixe grelhado muito gostoso!',tr:'¡Tenemos un pescado a la plancha muy rico!'},{s:'A',t:'Ótimo! E depois quero a conta, por favor.',tr:'¡Excelente! Y después quiero la cuenta, por favor.'}]}],
+L9:[{title:'Saber e conhecer',lines:[{s:'N',t:'Você conhece a cidade de Salvador?',tr:'¿Conoces la ciudad de Salvador?'},{s:'A',t:'Não conheço ainda. Você sabe se é bonita?',tr:'Todavía no. ¿Sabes si es bonita?'},{s:'N',t:'Sei que é linda! Você sabe onde fica?',tr:'¡Sé que es preciosa! ¿Sabes dónde queda?'},{s:'A',t:'Sei que é na Bahia, mas não conheço o mapa.',tr:'Sé que está en Bahía, pero no conozco el mapa.'},{s:'N',t:'Você conhece a Ana? Ela é de lá.',tr:'¿Conoces a Ana? Ella es de allá.'},{s:'A',t:'Não a conheço. Você sabe o número dela?',tr:'No la conozco. ¿Sabes su número?'}]}],
+L10:[{title:'Gostos e preferências',lines:[{s:'N',t:'O que você gosta de fazer no fim de semana?',tr:'¿Qué te gusta hacer el fin de semana?'},{s:'A',t:'Gosto de cozinhar e adoro assistir filmes.',tr:'Me gusta cocinar y me encanta ver películas.'},{s:'N',t:'Que tipo de filme você prefere?',tr:'¿Qué tipo de películas prefieres?'},{s:'A',t:'Prefiro comédia. Não gosto muito de terror.',tr:'Prefiero comedia. No me gusta mucho el terror.'},{s:'N',t:'Eu adoro terror! Gosta de música brasileira?',tr:'¡A mí me encanta el terror! ¿Te gusta la música brasileña?'},{s:'A',t:'Gosto muito! Adoro samba e bossa nova.',tr:'¡Me gusta mucho! Me encanta el samba y la bossa nova.'}]}],
+L11:[{title:'Contar sobre o passado',lines:[{s:'N',t:'O que você fez no fim de semana?',tr:'¿Qué hiciste el fin de semana?'},{s:'A',t:'Fui ao parque. Comemos bem e bebemos caipirinha.',tr:'Fui al parque. Comimos bien y bebimos caipirinha.'},{s:'N',t:'Que legal! Você viu o show de samba?',tr:'¡Qué genial! ¿Viste el show de samba?'},{s:'A',t:'Não, não fui. Você foi?',tr:'No, no fui. ¿Tú fuiste?'},{s:'N',t:'Fui sim! Foi incrível!',tr:'¡Sí fui! ¡Fue increíble!'},{s:'A',t:'Fiquei em casa. Não tive energia pra sair.',tr:'Me quedé en casa. No tuve energía para salir.'}]}],
+L12:[{title:'Direções com contrações',lines:[{s:'A',t:'Com licença, como chego ao centro?',tr:'Con permiso, ¿cómo llego al centro?'},{s:'N',t:'Vai pela rua principal e vira na esquina do banco.',tr:'Ve por la calle principal y dobla en la esquina del banco.'},{s:'A',t:'É longe da estação do metrô?',tr:'¿Está lejos de la estación del metro?'},{s:'N',t:'Não é muito. Uns dez minutos a pé.',tr:'No mucho. Unos diez minutos a pie.'},{s:'A',t:'Obrigado pela ajuda!',tr:'¡Gracias por la ayuda!'},{s:'N',t:'Imagina! Boa sorte no centro!',tr:'¡De nada! ¡Buena suerte!'}]}],
+L13:[{title:'Diminutivos na conversa',lines:[{s:'N',t:'Oi! Vamos tomar um cafezinho?',tr:'¡Hola! ¿Tomamos un cafecito?'},{s:'A',t:'Claro! Um momentinho, estou terminando.',tr:'¡Claro! Un momentito, estoy terminando.'},{s:'N',t:'Tudo bem, sem pressa. Que bonitinha essa bolsa!',tr:'Todo bien, sin prisa. ¡Qué bonita esa bolsa!'},{s:'A',t:'Obrigado! Um pouquinho cara, mas gostei.',tr:'¡Gracias! Un poquito cara, pero me gustó.'},{s:'N',t:'Que saudade de viajar! Agorinha não posso.',tr:'¡Qué ganas de viajar! Ahorita no puedo.'},{s:'A',t:'Eu também! Rapidinho a vida passa. Vamos nessa!',tr:'¡Yo también! La vida pasa rápidito. ¡Vamos!'}]}],
+L14:[{title:'Reflexivos e apresentações',lines:[{s:'N',t:'Olá! Como você se chama?',tr:'¡Hola! ¿Cómo te llamas?'},{s:'A',t:'Me chamo Carlos. E você?',tr:'Me llamo Carlos. ¿Y tú?'},{s:'N',t:'Me chamo Beatriz. De onde você é?',tr:'Me llamo Beatriz. ¿De dónde eres?'},{s:'A',t:'Sou da Colômbia. Me sinto muito bem aqui!',tr:'Soy de Colombia. ¡Me siento muy bien aquí!'},{s:'N',t:'Quanto tempo você está aqui?',tr:'¿Cuánto tiempo llevas aquí?'},{s:'A',t:'Faz três meses. Ainda me esqueço de palavras.',tr:'Hace tres meses. Todavía me olvido de palabras.'}]}],
+L15:[{title:'Conversação livre',lines:[{s:'N',t:'Você mora no Brasil há muito tempo?',tr:'¿Llevas mucho tiempo viviendo en Brasil?'},{s:'A',t:'Ainda não. Vim há seis meses. Estou adorando!',tr:'Todavía no. Vine hace seis meses. ¡Lo estoy adorando!'},{s:'N',t:'Já foi a Florianópolis?',tr:'¿Ya fuiste a Florianópolis?'},{s:'A',t:'Ainda não fui, mas quero muito ir!',tr:'Todavía no fui, ¡pero quiero mucho ir!'},{s:'N',t:'Conheço bem! Sei os melhores restaurantes.',tr:'¡La conozco bien! Sé los mejores restaurantes.'},{s:'A',t:'Que ótimo! Preciso de dicas! Posso te perguntar?',tr:'¡Qué genial! ¡Necesito consejos! ¿Puedo preguntarte?'}]}],
+L16:[{title:'Conversa final — tudo junto',lines:[{s:'N',t:'Você fala muito bem! Há quanto tempo estuda?',tr:'¡Hablas muy bien! ¿Hace cuánto estudias?'},{s:'A',t:'Obrigado! Estudo há um mês. Não entendo tudo.',tr:'¡Gracias! Estudio hace un mes. No entiendo todo.'},{s:'N',t:'Sério? Já fala muito bem para um mês!',tr:'¿En serio? ¡Ya hablas muy bien para un mes!'},{s:'A',t:'É que sou falante de espanhol. Ajuda muito!',tr:'Es que soy hablante de español. ¡Ayuda mucho!'},{s:'N',t:'Com certeza! Gosta do Brasil?',tr:'¡Con seguridad! ¿Te gusta Brasil?'},{s:'A',t:'Adoro! Que saudade já sinto daqui.',tr:'¡Me encanta! Ya siento saudade de aquí.'}]}]
+};
+
+const WP={
+L1:{p:'Escribe una presentación de 4–6 frases usando SER: nombre, origen, profesión y una característica tuya.',g:['Me chamo / Sou [nome]','Sou de [ciudad/país]','Sou [profesión/estudante]','Sou [adjetivo de identidad]']},
+L2:{p:'Describe cómo estás hoy y dónde estás. Usa ESTAR. Incluye una frase con SER y "Tudo bem?".',g:['Estou [estado] hoje.','Estou em [lugar].','Tudo bem? — Tudo bom!','Sou... mas hoje estou...']},
+L3:{p:'Escribe sobre qué tienes, usa TEM = hay al menos dos veces e incluye TER QUE + infinitivo.',g:['Tenho [algo]. / Não tenho...','Tem [algo] aqui?','Tenho que [verbo] hoje.','Tenho fome / sede / sono.']},
+L4:{p:'Describe tu rutina semanal usando FAZER. Incluye tiempo atmosférico y al menos una expresión fija.',g:['Faço [actividad] todo dia.','Faz calor/frio aqui.','Tanto faz. / Não faz mal.','fiz (pretérito)']},
+L5:{p:'Escribe sobre un viaje. Usa IR con futuro próximo, VIR, y las preposiciones ao/à vs para.',g:['Vou [a/para] [lugar].','Vou [verbo] [algo] lá.','Ela/Ele vem [cuándo].','ao = ida rápida, para = estadía larga']},
+L6:{p:'Describe tres cosas que quieres hacer y dos que no puedes hacer esta semana.',g:['Quero [verbo] [algo].','Não posso [verbo] porque...','Pode ser que [algo].','Preciso de [algo].']},
+L7:{p:'Escribe sobre tu experiencia aprendiendo portugués. Usa FALAR, ENTENDER y el progresivo ESTAR + gerúndio.',g:['Falo [idioma] e estou aprendendo...','Entendo [algo] mas não entendo...','Como se diz [algo]?','Estou aprendendo devagar.']},
+L8:{p:'Describe tu comida favorita o una experiencia en un restaurante. Usa COMER, BEBER y expresiones del restaurante.',g:['Gosto de comer [comida].','Não como [algo].','Bebo [bebida] todo dia.','Quero um cafezinho...']},
+L9:{p:'Escribe sobre algo que sabes hacer y alguien o un lugar que conoces. Diferencia claramente SABER y CONHECER.',g:['Sei [verbo] / Sei que [info].','Conheço [persona/lugar].','Não sei [algo]. / Sei lá!','É bom saber que [algo].']},
+L10:{p:'Escribe sobre tus gustos y preferencias. Usa GOSTAR DE, ADORAR y PREFERIR correctamente.',g:['Gosto muito de [algo].','Adoro [algo/verbo].','Não gosto de [algo].','Prefiro [A] a [B].']},
+L11:{p:'Cuenta algo que hiciste ayer o la semana pasada usando el pretérito con varios verbos.',g:['Ontem fui a [lugar].','Eu fiz / falei / comi / bebi...','Não tive tempo para [algo].','Ainda não... / Já...']},
+L12:{p:'Escribe 5–7 frases usando contracciones correctamente (ao, à, do, da, no, na, pelo, pela).',g:['Vou ao/à [lugar].','Sou do/da [lugar].','Estou no/na [lugar].','Obrigado pelo/pela [algo].']},
+L13:{p:'Escribe un texto usando al menos 5 diminutivos diferentes en contextos naturales.',g:['cafezinho, beijinho, momentinho','rapidinho, pouquinho, agorinha','Que [palabra]inho/a!','Que saudade de [algo]!']},
+L14:{p:'Presentación completa usando verbos reflexivos: cómo te llamas, cómo te sientes, tu rutina matutina.',g:['Me chamo [nombre].','Me sinto [estado].','Me levanto às [hora].','Vamos embora! / Me esqueci de...']},
+L15:{p:'Texto de 8–12 frases integrando los verbos del curso: habla de ti, tus planes y algo del pasado.',g:['Sou [identidad] de [lugar].','Estou [estado] hoje.','Vou [futuro] amanhã.','Gosto de [algo].','Ontem eu [pretérito].']},
+L16:{p:'Producción final: conversación imaginaria en un café de São Paulo usando al menos 8 verbos en diferentes tiempos.',g:['ser, estar, ter, fazer, ir','poder, querer, falar, comer','gostar de, saber, conhecer','Usa diminutivos e expressões reais']}
+};
+
+// RENDER ENGINE
+function renderNav(){
+  let h='';
+  SEMS.forEach(s=>{
+    h+=`<div class="sg"><div class="sgl">${s.s}</div>`;
+    s.ls.forEach(l=>{
+      const done=S.vl.includes(l.id);
+      const act=S.cl===l.id;
+      h+=`<button class="lb ${act?'active':''} ${done?'done':''}" onclick="switchL('${l.id}')">
+        <span class="ln">${l.id}</span>${l.t}
+        <span style="margin-left:auto;font-size:11px;color:var(--v)">${done?'✓':''}</span>
+      </button>`;
+    });
+    h+='</div>';
+  });
+  document.getElementById('nav').innerHTML=h;
+}
+
+function renderTabs(){
+  if(!S.cl){document.getElementById('ts').innerHTML='<div class="tsl">SEÇÕES DA LIÇÃO</div>';return;}
+  let h='<div class="tsl">SEÇÕES DA LIÇÃO</div>';
+  TABS.forEach(t=>{
+    const done=S.td[S.cl]&&S.td[S.cl][t];
+    const act=S.ct===t;
+    h+=`<button class="tb ${act?'active':''}" onclick="switchTab('${t}')">
+      <span>${TL[t]}</span>${done?'<span class="td">✓</span>':''}
+    </button>`;
+  });
+  document.getElementById('ts').innerHTML=h;
+}
+
+function renderProgress(){
+  const total=ALL.length*TABS.length;
+  let done=0;
+  Object.values(S.td).forEach(d=>done+=Object.values(d).filter(Boolean).length);
+  const pct=Math.round(done/total*100);
+  document.getElementById('pf').style.width=pct+'%';
+  document.getElementById('pct').textContent=pct+'%';
+  document.getElementById('stn').textContent=S.vl.length;
+  document.getElementById('sw').textContent=S.wl;
+  document.getElementById('se').textContent=S.ex;
+  document.getElementById('sm').textContent=S.min;
+}
+
+function buildVocab(lid){
+  const cards=FC[lid]||[];
+  let h=`<div class="card"><div class="ch"><span class="ci">📚</span><div><div class="ct">Vocabulário Essencial</div><div class="cd">10 EXPRESSÕES · CLIQUE PARA OUVIR</div></div></div><div class="cb"><div class="vg">`;
+  cards.forEach((c,i)=>{
+    h+=`<div class="vc">
+      <div style="display:flex;align-items:start;justify-content:space-between">
+        <div class="vpt">${c.pt}</div>
+        <button class="ab" style="margin:0" onclick="speak('${c.pt.replace(/'/g,"\\'")}',this)">🔊</button>
+      </div>
+      <div class="ves">= ${c.es}</div>
+      <div class="vnt">${c.g}</div>
+    </div>`;
+  });
+  h+='</div>';
+  const allT=cards.map(c=>c.pt).join('. ');
+  h+=`<div style="margin-top:14px"><button class="ab" onclick="speak('${allT.replace(/'/g,"\\'")}',this)">🔊 Ouvir todas</button></div>`;
+  h+='</div></div>';
+  return h;
+}
+
+function buildEx(lid){
+  const exs=EX[lid]||[];
+  let h=`<div class="card"><div class="ch"><span class="ci">⚡</span><div><div class="ct">Ejercicios</div><div class="cd">COMPLETA · SELECCIONA · ORDENA — mínimo 5 correctos</div></div></div><div class="cb">`;
+  exs.forEach((e,i)=>{
+    h+=`<div class="eb" id="eb${lid}${i}"><div class="elb">EX. ${i+1} — `;
+    if(e.t==='mc')h+='ESCOLHA MÚLTIPLA';
+    else if(e.t==='fill')h+='COMPLETAR';
+    else h+='ORDENAR';
+    h+=`</div><div class="eq">${e.q}</div>`;
+    if(e.t==='mc'){
+      h+=`<div class="opts">`;
+      (e.o||[]).forEach((op,j)=>{
+        h+=`<button class="opt" onclick="checkMC('${lid}',${i},${j})" id="opt${lid}${i}${j}">${op}</button>`;
+      });
+      h+=`</div>`;
+    } else if(e.t==='fill'){
+      h+=`<input class="fi" id="fi${lid}${i}" placeholder="Escribe en português..." onkeydown="if(event.key==='Enter')checkFill('${lid}',${i})">
+      <button class="cbtn" onclick="checkFill('${lid}',${i})">Verificar</button>`;
+    } else if(e.t==='reorder'){
+      const ws=e.w||[];
+      h+=`<div class="cr2b" id="wpool${lid}${i}">`;
+      ws.forEach((w,j)=>h+=`<span class="wc" id="wc${lid}${i}${j}" onclick="addWord('${lid}',${i},${j},'${w.replace(/'/g,"\\'")}',this)">${w}</span>`);
+      h+=`</div><div class="az" id="az${lid}${i}"></div>
+      <button class="cbtn" onclick="checkReorder('${lid}',${i})">Verificar</button>`;
+    }
+    h+=`<div class="fb" id="fb${lid}${i}"><div class="fbt" id="fbt${lid}${i}"></div><div id="fbm${lid}${i}"></div></div>`;
+    h+='</div>';
+  });
+  h+='</div></div>';
+  return h;
+}
+
+function buildFC(lid){
+  const cards=FC[lid]||[];
+  const ci=S.ci[lid]||0;
+  const c=cards[ci];
+  if(!c)return'';
+  const rev=(S.tp[pk(lid,'flashcards')]||0);
+  let h=`<div class="card"><div class="ch"><span class="ci">🃏</span><div><div class="ct">Flashcards</div><div class="cd">CARD ${ci+1}/${cards.length} · ${rev} REVISADOS · CLIQUE PARA VIRAR</div></div></div><div class="cb">`;
+  h+=`<div class="fcont"><div class="fc" id="fc${lid}" onclick="flipCard()">
+    <div class="ff front"><div class="fpt">${c.pt}</div>
+      <div class="fhi">← CLIQUE PARA VER TRADUÇÃO →</div>
+    </div>
+    <div class="ff fb2"><div class="fes">${c.es}</div>
+      <div class="fgr">${c.g}</div>
+    </div>
+  </div></div>`;
+  h+=`<div class="fcc">Carte ${ci+1} de ${cards.length}</div>`;
+  h+=`<div class="srb">
+    <button class="srbt hard" onclick="rateCard('${lid}','hard')">😰 Difícil</button>
+    <button class="srbt mid" onclick="rateCard('${lid}','mid')">😐 Regular</button>
+    <button class="srbt easy" onclick="rateCard('${lid}','easy')">😊 Fácil</button>
+  </div>`;
+  h+=`<div style="text-align:center;margin-top:14px">`;
+  if(ci>0)h+=`<button class="ab" onclick="navCard('${lid}',-1)">← Anterior</button>`;
+  h+=`<button class="ab" onclick="speak('${c.pt.replace(/'/g,"\\'")}',this)">🔊 Ouvir</button>`;
+  if(ci<cards.length-1)h+=`<button class="ab" onclick="navCard('${lid}',1)">Próxima →</button>`;
+  h+=`</div></div></div>`;
+  h+=buildValidation(lid,'flashcards');
+  return h;
+}
+
+function buildSim(lid){
+  const sims=SIM[lid]||[];
+  if(!sims.length)return'';
+  const sim=sims[0];
+  let h=`<div class="card"><div class="ch"><span class="ci">🎭</span><div><div class="ct">${sim.title}</div><div class="cd">DIÁLOGO REAL · ESCUCHA Y PRACTICA</div></div></div><div class="cb">`;
+  sim.lines.forEach((l,i)=>{
+    const sp=l.s==='A'?'ALUMNO':l.s==='G'?'GARÇOM':'NATIVO';
+    const sc=l.s==='A'?'sa':l.s==='G'?'sg2':'sn';
+    h+=`<div class="dl">
+      <span class="spk ${sc}">${sp}</span>
+      <div><div class="dpt">${l.t}</div><div class="des">${l.tr}</div></div>
+      <button class="ab" style="margin-left:auto;flex-shrink:0" onclick="speak('${l.t.replace(/'/g,"\\'")}',this)">🔊</button>
+    </div>`;
+  });
+  const allL=sim.lines.map(l=>l.t).join('. ');
+  h+=`<div style="margin-top:14px"><button class="ab" onclick="speak('${allL.replace(/'/g,"\\'")}',this)">🔊 Ouvir diálogo completo</button></div>`;
+  h+='</div></div>';
+  h+=buildValidation(lid,'simulacao');
+  return h;
+}
+
+function buildProd(lid){
+  const wp=WP[lid];
+  if(!wp)return'';
+  let h=`<div class="card"><div class="ch"><span class="ci">✍️</span><div><div class="ct">Producción Escrita</div><div class="cd">ESCRIBE EN PORTUGUÊS · GUIADO</div></div></div><div class="cb">`;
+  h+=`<div class="it"><strong>Prompt:</strong> ${wp.p}</div>`;
+  h+=`<div class="tip"><strong>🌱 Estrutura sugerida:</strong><br>`;
+  wp.g.forEach(g=>h+=`• ${g}<br>`);
+  h+='</div>';
+  h+=`<textarea class="wa" id="wa${lid}" placeholder="Escreva aqui em português..." rows="6"></textarea>`;
+  h+=`<button class="cbtn" onclick="analyzeWriting('${lid}')">✦ Analizar Texto</button>`;
+  h+=`<div class="fb" id="wfb${lid}"></div>`;
+  h+='</div></div>';
+  h+=buildValidation(lid,'producao');
+  return h;
+}
+
+function buildValidation(lid,tab){
+  const done=S.td[lid]&&S.td[lid][tab];
+  const ok=isOk(lid,tab);
+  const p=gP(lid,tab);
+  if(done){
+    return`<div class="vs done"><div class="vst">✓ Sección completada</div></div>`;
+  }
+  let hint='';
+  if(!ok&&TR[tab].label){hint=`<div id="vh-${lid}-${tab}" class="vh2">🔒 ${TR[tab].label.replace('{p}',p)}</div>`;}
+  return`<div class="vs ${ok?'ready':''}">
+    <div class="vst">${ok?'¡Listo para completar!':'Completa los requisitos'}</div>
+    ${hint}
+    <button id="vb-${lid}-${tab}" class="vb ${done?'validated':ok?'active':'locked'}" ${done||!ok?'disabled':''} onclick="completeTab('${lid}','${tab}')">
+      ${done?'✓ COMPLETADO':'MARCAR COMPLETADO'}
+    </button>
+    <div class="ub" id="ub-${lid}-${tab}">✨ ¡Sección completada!</div>
+  </div>`;
+}
+
+function renderContent(){
+  if(!S.cl){
+    document.getElementById('mc').innerHTML=`<div style="text-align:center;padding:50px 20px">
+      <div style="font-size:52px;margin-bottom:18px">🇧🇷</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:700;color:var(--vd);margin-bottom:8px">De Español ao Português</div>
+      <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--tm2);letter-spacing:3px;margin-bottom:24px">CURSO INTENSIVO · 4 SEMANAS · RITMO PRÓPRIO</div>
+      <div style="max-width:560px;margin:0 auto;font-size:15px;line-height:1.85;color:var(--tm);margin-bottom:28px">Como hispanohablante, ya tienes una enorme ventaja: el español y el portugués comparten más del 80% del vocabulario. Este curso te enseña exactamente <strong>dónde difieren</strong> y dónde confiar en tu intuición.</div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;max-width:680px;margin:0 auto 28px">
+        <div style="background:#fff;border:1px solid var(--bd);border-radius:9px;padding:16px;text-align:center"><div style="font-size:26px;margin-bottom:6px">📚</div><div style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--v)">16</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--tm2)">LECCIONES</div></div>
+        <div style="background:#fff;border:1px solid var(--bd);border-radius:9px;padding:16px;text-align:center"><div style="font-size:26px;margin-bottom:6px">🔤</div><div style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--v)">160+</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--tm2)">FLASHCARDS</div></div>
+        <div style="background:#fff;border:1px solid var(--bd);border-radius:9px;padding:16px;text-align:center"><div style="font-size:26px;margin-bottom:6px">⚡</div><div style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--v)">128</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--tm2)">EJERCICIOS</div></div>
+        <div style="background:#fff;border:1px solid var(--bd);border-radius:9px;padding:16px;text-align:center"><div style="font-size:26px;margin-bottom:6px">🎭</div><div style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--v)">16</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--tm2)">DIÁLOGOS</div></div>
+      </div>
+      <button onclick="switchL('L1')" style="background:var(--v);color:#fff;border:none;padding:14px 36px;border-radius:10px;font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;cursor:pointer;box-shadow:0 4px 18px rgba(26,107,74,.25)">Começar Lição 1 →</button>
+    </div>`;
+    return;
+  }
+  const meta=ALL.find(l=>l.id===S.cl);
+  document.getElementById('ttl').textContent=meta.t;
+  document.getElementById('tsub').textContent=meta.sub||'';
+  const tab=S.ct;
+  let html='';
+  if(tab==='gramatica'){
+    const gd=GR[S.cl];
+    html=`<div class="card"><div class="ch"><span class="ci">${gd.icon}</span><div><div class="ct">${gd.title}</div><div class="cd">GRAMÁTICA COMPARADA · ESPAÑOL × PORTUGUÊS</div></div></div><div class="cb">${gd.html}</div></div>`;
+    html+=buildValidation(S.cl,'gramatica');
+  } else if(tab==='vocabulario'){
+    html=buildVocab(S.cl);
+    html+=buildValidation(S.cl,'vocabulario');
+  } else if(tab==='exercicios'){
+    html=buildEx(S.cl);
+    html+=buildValidation(S.cl,'exercicios');
+  } else if(tab==='flashcards'){
+    html=buildFC(S.cl);
+  } else if(tab==='simulacao'){
+    html=buildSim(S.cl);
+  } else if(tab==='producao'){
+    html=buildProd(S.cl);
+  }
+  document.getElementById('mc').innerHTML=html;
+  // Auto-add progress for passive tabs
+  if(tab==='gramatica'||tab==='vocabulario'){
+    setTimeout(()=>addP(S.cl,tab,1),300);
+  }
+}
+
+// INTERACTIONS
+function switchL(lid){
+  S.cl=lid;S.ct='gramatica';sS();
+  renderNav();renderTabs();renderContent();renderProgress();
+  document.getElementById('main').scrollTop=0;
+}
+
+function switchTab(tab){
+  S.ct=tab;sS();
+  renderTabs();renderContent();
+  document.getElementById('main').scrollTop=0;
+}
+
+function checkMC(lid,ei,oi){
+  const e=EX[lid][ei];
+  if(!e)return;
+  const correct=oi===e.c;
+  for(let j=0;j<(e.o||[]).length;j++){
+    const b=document.getElementById('opt'+lid+ei+j);
+    if(b){b.disabled=true;if(j===e.c)b.classList.add('correct');else if(j===oi)b.classList.add('wrong');}
+  }
+  showFeedback(lid,ei,correct,e.ex);
+  if(correct){S.ex++;addP(lid,'exercicios',1);}
+  else addP(lid,'exercicios',0);
+  renderProgress();
+}
+
+function checkFill(lid,ei){
+  const e=EX[lid][ei];if(!e)return;
+  const inp=document.getElementById('fi'+lid+ei);if(!inp)return;
+  const val=inp.value.trim().toLowerCase();
+  const ans=(e.a||'').toLowerCase();
+  const correct=val===ans||val===ans.replace(/^\w/,c=>c.toLowerCase());
+  inp.classList.add(correct?'correct':'wrong');
+  inp.disabled=true;
+  showFeedback(lid,ei,correct,correct?'✓ '+e.a:e.ex+' → '+e.a);
+  if(correct){S.ex++;addP(lid,'exercicios',1);}
+  renderProgress();
+}
+
+let reorderAns={};
+function addWord(lid,ei,wi,w,el){
+  if(el.classList.contains('used'))return;
+  el.classList.add('used');
+  const az=document.getElementById('az'+lid+ei);if(!az)return;
+  const k=lid+ei;
+  if(!reorderAns[k])reorderAns[k]=[];
+  reorderAns[k].push({wi,w});
+  const sp=document.createElement('span');
+  sp.className='ac';sp.textContent=w;
+  sp.onclick=()=>{
+    reorderAns[k]=reorderAns[k].filter(x=>x.wi!==wi);
+    az.removeChild(sp);
+    const orig=document.getElementById('wc'+lid+ei+wi);
+    if(orig)orig.classList.remove('used');
+  };
+  az.appendChild(sp);
+}
+
+function checkReorder(lid,ei){
+  const e=EX[lid][ei];if(!e)return;
+  const k=lid+ei;
+  const ans=(reorderAns[k]||[]).map(x=>x.w).join(' ');
+  const correct=ans.toLowerCase()===(e.c||'').toLowerCase();
+  showFeedback(lid,ei,correct,correct?'✓ Correcto!':'Respuesta: '+e.c);
+  if(correct){S.ex++;addP(lid,'exercicios',1);}
+  renderProgress();
+}
+
+function showFeedback(lid,ei,correct,msg){
+  const fb=document.getElementById('fb'+lid+ei);
+  const fbt=document.getElementById('fbt'+lid+ei);
+  const fbm=document.getElementById('fbm'+lid+ei);
+  if(!fb)return;
+  fb.className='fb '+(correct?'correct':'wrong')+' show';
+  if(fbt)fbt.textContent=correct?'✓ CORRETO':'✗ INCORRECTO';
+  if(fbm)fbm.textContent=msg||'';
+}
+
+function flipCard(){
+  const fc=document.querySelector('.fc');
+  if(fc)fc.classList.toggle('flipped');
+}
+
+function rateCard(lid,rating){
+  addP(lid,'flashcards',1);
+  S.wl=Math.max(S.wl,(FC[lid]||[]).length);
+  sS();renderProgress();
+  const cards=FC[lid]||[];
+  if(!S.ci[lid])S.ci[lid]=0;
+  if(rating==='hard'){}
+  else S.ci[lid]=Math.min(S.ci[lid]+1,cards.length-1);
+  sS();renderContent();
+}
+
+function navCard(lid,dir){
+  const cards=FC[lid]||[];
+  if(!S.ci[lid])S.ci[lid]=0;
+  S.ci[lid]=Math.max(0,Math.min(cards.length-1,S.ci[lid]+dir));
+  sS();renderContent();
+}
+
+function analyzeWriting(lid){
+  const wa=document.getElementById('wa'+lid);
+  if(!wa)return;
+  const txt=wa.value.trim();
+  if(!txt){showToast('Escreve algo primeiro!');return;}
+  const words=txt.split(/\s+/).length;
+  const fb=document.getElementById('wfb'+lid);
+  if(fb){
+    fb.className='fb correct show';
+    fb.innerHTML=`<div class="fbt">✦ ANÁLISE</div>
+    <div>Texto com ~${words} palavras. ${words>=30?'✓ Buen desarrollo.':''}</div>
+    <div style="margin-top:6px;color:var(--v)">Parabéns por praticar a escrita! 🌿</div>`;
+  }
+  addP(lid,'producao',1);
+  renderProgress();
+}
+
+function completeTab(lid,tab){
+  if(!S.td[lid])S.td[lid]={};
+  S.td[lid][tab]=true;
+  if(!S.vl.includes(lid)&&TABS.every(t=>S.td[lid]&&S.td[lid][t]))S.vl.push(lid);
+  sS();
+  const ub=document.getElementById('ub-'+lid+'-'+tab);
+  if(ub)ub.classList.add('show');
+  const vb=document.getElementById('vb-'+lid+'-'+tab);
+  if(vb){vb.className='vb validated';vb.innerHTML='✓ COMPLETADO';vb.disabled=true;}
+  showToast('¡Sección completada! 🌿');
+  renderNav();renderTabs();renderProgress();
+  setTimeout(()=>{
+    const nextTab=TABS[TABS.indexOf(tab)+1];
+    if(nextTab)switchTab(nextTab);
+  },800);
+}
+
+function showToast(msg){
+  const t=document.getElementById('toast');
+  if(!t)return;
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+// TIMER
+setInterval(()=>{if(S.cl){S.min++;sS();renderProgress();}},60000);
+
+// INIT
+renderNav();renderTabs();renderContent();renderProgress();
+if(!S.cl){document.getElementById('ttl').textContent='Português para Hispanohablantes';}
+</script>
+</body>
+</html>

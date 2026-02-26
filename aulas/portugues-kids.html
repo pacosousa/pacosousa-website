@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oi, Brasil! - Aprenda Português</title>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; }
+        html, body { height: 100%; margin: 0; font-family: 'Nunito', sans-serif; background-color: #0F0A1E; overflow-x: hidden; }
+        .perspective-1000 { perspective: 1000px; }
+        .transform-style-3d { transform-style: preserve-3d; }
+        .backface-hidden { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+        .rotate-y-180 { transform: rotateY(180deg); }
+        @keyframes bounce-slow { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+        .animate-bounce-slow { animation: bounce-slow 3s ease-in-out infinite; }
+        @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-8px)} 75%{transform:translateX(8px)} }
+        .animate-shake { animation: shake 0.3s ease-in-out; }
+        @keyframes confetti-fall { 0%{transform:translateY(-20px) rotate(0deg);opacity:1} 100%{transform:translateY(100vh) rotate(720deg);opacity:0} }
+        @keyframes star-pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.3)} }
+        .star-anim { animation: star-pulse 0.4s ease-in-out; }
+        @keyframes slide-up { from{transform:translateY(20px);opacity:0} to{transform:translateY(0);opacity:1} }
+        .slide-up { animation: slide-up 0.35s ease-out; }
+        .card-flip { transition: transform 0.45s cubic-bezier(0.4,0,0.2,1); }
+        .neon-glow { box-shadow: 0 0 15px rgba(255,60,172,0.5), 0 0 30px rgba(255,60,172,0.2); }
+        .matched-glow { box-shadow: 0 0 18px rgba(0,245,212,0.55); }
+        input[type="text"] { outline: none; }
+        .anki-card-flip { transition: transform 0.55s cubic-bezier(0.4,0,0.2,1); transform-style: preserve-3d; }
+        .anki-card-flip.flipped { transform: rotateY(180deg); }
+        .anki-face { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+        .anki-back { transform: rotateY(180deg); }
+
+        /* ── Theory slide fills the viewport under the header ── */
+        .theory-card {
+            height: calc(100vh - 130px);
+            min-height: 420px;
+            max-height: 780px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .theory-items-grid {
+            display: grid;
+            gap: 10px;
+            flex: 1;
+            align-content: center;
+        }
+        .theory-items-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+        .theory-items-grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
+        .theory-item-card {
+            background: rgba(255,255,255,0.18);
+            border-radius: 20px;
+            padding: 14px 8px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: transform 0.2s;
+        }
+        .theory-item-card:hover { transform: scale(1.04); }
+    </style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState, useEffect, useMemo } = React;
+
+// ─── ICONS ────────────────────────────────────────────────────────────────────
+const IconArrowLeft = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>;
+const IconSparkles = ({size=24}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>;
+const IconCheck = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5"/></svg>;
+const IconX = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>;
+const IconTrash = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6"/><path d="m19 6-.867 12.142A2 2 0 0 1 16.138 20H7.862a2 2 0 0 1-1.995-1.858L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>;
+const IconPlus = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>;
+const IconPencil = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>;
+
+// ─── SOUND ────────────────────────────────────────────────────────────────────
+const playSound = (type) => {
+    try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain); gain.connect(ctx.destination);
+        const now = ctx.currentTime;
+        if (type === 'correct') {
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(300, now);
+            osc.frequency.exponentialRampToValueAtTime(600, now + 0.15);
+            gain.gain.setValueAtTime(0.1, now); gain.gain.linearRampToValueAtTime(0, now + 0.2);
+        } else if (type === 'error') {
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(300, now);
+            osc.frequency.linearRampToValueAtTime(150, now + 0.1);
+            gain.gain.setValueAtTime(0.08, now); gain.gain.linearRampToValueAtTime(0, now + 0.15);
+        } else if (type === 'complete') {
+            [261.6, 329.6, 392].forEach((f, i) => {
+                const o2 = ctx.createOscillator(); const g2 = ctx.createGain();
+                o2.connect(g2); g2.connect(ctx.destination);
+                o2.frequency.setValueAtTime(f, now + i*0.1);
+                g2.gain.setValueAtTime(0.1, now + i*0.1); g2.gain.linearRampToValueAtTime(0, now + i*0.1 + 0.15);
+                o2.start(now + i*0.1); o2.stop(now + i*0.1 + 0.25);
+            });
+        } else if (type === 'flip') {
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(200, now);
+            gain.gain.setValueAtTime(0.04, now); gain.gain.linearRampToValueAtTime(0, now + 0.06);
+        }
+        osc.start(); osc.stop(now + 0.3);
+    } catch(e) {}
+};
+
+const shuffleArray = (arr) => {
+    const a = [...arr];
+    for (let i = a.length-1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i+1));
+        [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+};
+
+// ─── DATA ─────────────────────────────────────────────────────────────────────
+const MOTIVATIONAL_PHRASES = [
+    "¡Cada palabra nueva es un superpoder! 💜",
+    "¡Hoy aprendés, mañana hablás! 🇧🇷",
+    "¡Sos una estrella de los idiomas! 🌟",
+    "¡Tu portugués va a ser increíble! 🚀",
+    "¡A jugar y aprender juntos! 🎮"
+];
+
+// ── AULA 1A ──────────────────────────────────────────────────────────────────
+const CLASS_1A_GREETINGS = [
+    {pt:'Oi!',          es:'¡Hola! 👋'},
+    {pt:'Tudo bem?',    es:'¿Cómo estás? 😊'},
+    {pt:'Bom dia',      es:'Buen día ☀️'},
+    {pt:'Boa tarde',    es:'Buenas tardes 🌤️'},
+    {pt:'Boa noite',    es:'Buenas noches 🌙'},
+    {pt:'Tchau!',       es:'¡Chau! 👋'},
+    {pt:'Até amanhã',   es:'Hasta mañana 📅'},
+    {pt:'Prazer!',      es:'¡Mucho gusto! ✨'},
+];
+const CLASS_1A_IDENTITY = [
+    {pt:'Meu nome é ___',           es:'Mi nombre es ___'},
+    {pt:'Eu tenho 8 anos',          es:'Tengo 8 años'},
+    {pt:'Eu sou da Argentina',      es:'Soy de Argentina'},
+    {pt:'Eu falo espanhol',         es:'Hablo español'},
+    {pt:'Eu gosto de desenhar',     es:'Me gusta dibujar'},
+    {pt:'Prazer em te conhecer!',   es:'¡Un placer conocerte!'},
+];
+
+// ── AULA 1B — Slides de Teoria ────────────────────────────────────────────────
+// FIX: "Você" only (no "Tú"), "Não gosto nada" instead of "Odeio"
+const CLASS_1B_THEORY = [
+    {
+        title: "Onde eu moro? 🏠",
+        content: "Fale sobre você!",
+        items: [
+            {n:"🏠", pt:"Eu moro em...",  es:"Vivo en...",    icon:"📍"},
+            {n:"🗣️", pt:"Eu falo...",      es:"Hablo...",      icon:"💬"},
+            {n:"📖", pt:"Eu aprendo...",   es:"Aprendo...",    icon:"✏️"},
+        ],
+        bg:"bg-[#4361EE]", textColor:"text-white"
+    },
+    {
+        title: "Gostos ❤️",
+        content: "O que você gosta de fazer?",
+        items: [
+            {n:"👍",  pt:"Eu gosto de...",         es:"Me gusta...",          icon:"🎨"},
+            {n:"🌟",  pt:"Eu adoro...",             es:"Me encanta...",        icon:"🎮"},
+            {n:"👎",  pt:"Não gosto de...",         es:"No me gusta...",       icon:"🥦"},
+            {n:"😶",  pt:"Não gosto nada de...",    es:"No me gusta nada...",  icon:"🦟"},
+        ],
+        bg:"bg-[#7B2FFF]", textColor:"text-white"
+    },
+    {
+        title: "Os Pronomes 👤",
+        content: "Quem está falando?",
+        items: [
+            {n:"☝️",  pt:"Eu",    es:"Yo",     icon:"🙋‍♀️"},
+            {n:"🫵",  pt:"Você",  es:"Vos",    icon:"👉"},
+            {n:"👦",  pt:"Ele",   es:"Él",     icon:"🧒"},
+            {n:"👧",  pt:"Ela",   es:"Ella",   icon:"👧"},
+        ],
+        bg:"bg-[#FF3CAC]", textColor:"text-white"
+    }
+];
+
+// ── AULA 1B — Quiz ────────────────────────────────────────────────────────────
+// FIX: removed "odeio" from options, updated pronoun question
+const CLASS_1B_QUIZ = [
+    {
+        situation: "¿Cómo se dice 'Me gusta dibujar' en portugués?",
+        icon: "🎨",
+        options: ["Eu adoro desenhar", "Eu gosto de desenhar", "Não gosto de desenhar"],
+        correct: 1,
+        explanation: "'Gosto de' = 'Me gusta' — ¡casi igual!"
+    },
+    {
+        situation: "¿Qué pronombre significa 'ella' en portugués?",
+        icon: "👧",
+        options: ["eu", "você", "ela"],
+        correct: 2,
+        explanation: "'Ela' = ella. ¡Fácil de recordar!"
+    },
+    {
+        situation: "'Eu adoro Roblox' significa:",
+        icon: "🎮",
+        options: ["No me gusta el Roblox", "Me encanta el Roblox", "Juego al Roblox"],
+        correct: 1,
+        explanation: "'Adoro' = 'me encanta' — ¡es el nivel máximo de gustar!"
+    },
+    {
+        situation: "Completá: ___ moro em Buenos Aires.",
+        icon: "🏠",
+        options: ["Você", "Ela", "Eu"],
+        correct: 2,
+        explanation: "'Eu' = yo. ¡Igual que en español!"
+    },
+    {
+        situation: "¿Cómo se dice 'Buen día' en portugués?",
+        icon: "☀️",
+        options: ["Boa noite", "Bom dia", "Boa tarde"],
+        correct: 1,
+        explanation: "Bom dia ☀️ — ¡muy parecido al español!"
+    },
+    {
+        situation: "¿Qué pronombre es 'vos' en portugués?",
+        icon: "🫵",
+        options: ["eu", "você", "ele"],
+        correct: 1,
+        explanation: "'Você' = vos. ¡En Brasil no se usa 'tú'!"
+    },
+    {
+        situation: "Completá: Eu ___ espanhol e português.",
+        icon: "💬",
+        options: ["gosto", "falo", "moro"],
+        correct: 1,
+        explanation: "'Falo' = hablo. Del verbo 'falar' (hablar)."
+    },
+    {
+        situation: "'Boa noite' se usa:",
+        icon: "🌙",
+        options: ["De mañana", "De tarde", "De noche"],
+        correct: 2,
+        explanation: "Boa noite 🌙 — ¡buenas noches!"
+    },
+    {
+        situation: "¿Cómo digo que algo no me gusta nada?",
+        icon: "😶",
+        options: ["Eu gosto de ___", "Eu adoro ___", "Não gosto nada de ___"],
+        correct: 2,
+        explanation: "'Não gosto nada de' = no me gusta nada — ¡super fácil!"
+    },
+    {
+        situation: "¿Cuál es el material escolar 'cuaderno' en portugués?",
+        icon: "📓",
+        options: ["caneta", "caderno", "borracha"],
+        correct: 1,
+        explanation: "'Caderno' = cuaderno 📓"
+    }
+];
+
+// ── AULA 1B — Anki Cards ──────────────────────────────────────────────────────
+// FIX: concrete, drawable words. Front = Portuguese word, Back = drawing prompt + Spanish
+const DEFAULT_ANKI_CARDS = [
+    // Saudações (visible actions / expressions → drawable)
+    {id:1,  front:"Oi! 👋",           back:"¡Hola! — dibujá una mano saludando",         emoji:"👋", tag:"saudações"},
+    {id:2,  front:"Bom dia ☀️",       back:"Buenos días — dibujá un sol",                 emoji:"☀️", tag:"saudações"},
+    {id:3,  front:"Boa noite 🌙",      back:"Buenas noches — dibujá una luna",             emoji:"🌙", tag:"saudações"},
+    {id:4,  front:"Tchau! 👋",        back:"¡Chau! — dibujá una mano diciendo adiós",     emoji:"👋", tag:"saudações"},
+    // Objetos da escola (very drawable)
+    {id:5,  front:"caderno 📓",        back:"cuaderno — dibujá un cuaderno",               emoji:"📓", tag:"escola"},
+    {id:6,  front:"lápis ✏️",          back:"lápiz — dibujá un lápiz",                    emoji:"✏️", tag:"escola"},
+    {id:7,  front:"mochila 🎒",        back:"mochila — dibujá una mochila",                emoji:"🎒", tag:"escola"},
+    {id:8,  front:"borracha 🧼",       back:"goma — dibujá una goma de borrar",            emoji:"🧼", tag:"escola"},
+    // Cores (perfect for drawing — just fill with color!)
+    {id:9,  front:"vermelho 🟥",       back:"rojo — pintá un cuadrado rojo",               emoji:"🟥", tag:"cores"},
+    {id:10, front:"azul 🟦",           back:"azul — pintá un cielo o el mar",              emoji:"🟦", tag:"cores"},
+    {id:11, front:"verde 🟩",          back:"verde — dibujá una hoja o árbol",             emoji:"🟩", tag:"cores"},
+    {id:12, front:"amarelo 🟨",        back:"amarillo — dibujá el sol o una banana",       emoji:"🟨", tag:"cores"},
+];
+
+// ── AULA 2 ────────────────────────────────────────────────────────────────────
+const CLASS_2_THEORY = [
+    { title:"Os Números (1–5) 🔢", content:"Contando com a Anya!", items:[
+        {n:"1",pt:"Um",es:"Uno",icon:"🥜"},
+        {n:"2",pt:"Dois",es:"Dos",icon:"🥜🥜"},
+        {n:"3",pt:"Três",es:"Tres",icon:"🥜🥜🥜"},
+        {n:"4",pt:"Quatro",es:"Cuatro",icon:"🥜🥜🥜🥜"},
+        {n:"5",pt:"Cinco",es:"Cinco",icon:"🥜🥜🥜🥜🥜"},
+    ], bg:"bg-[#7B2FFF]", textColor:"text-white" },
+    { title:"Os Números (6–10) 💎", content:"Mundo de Roblox!", items:[
+        {n:"6",pt:"Seis",es:"Seis",icon:"💎"},
+        {n:"7",pt:"Sete",es:"Siete",icon:"💎💎"},
+        {n:"8",pt:"Oito",es:"Ocho",icon:"💎💎💎"},
+        {n:"9",pt:"Nove",es:"Nueve",icon:"💎💎💎💎"},
+        {n:"10",pt:"Dez",es:"Diez",icon:"💎💎💎💎💎"},
+    ], bg:"bg-[#FF3CAC]", textColor:"text-white" },
+    { title:"As Cores 🎨", content:"Dê cor aos seus desenhos!", items:[
+        {n:"🟥",pt:"Vermelho",es:"Rojo",icon:"🍎"},
+        {n:"🟦",pt:"Azul",es:"Azul",icon:"🌊"},
+        {n:"🟩",pt:"Verde",es:"Verde",icon:"🌳"},
+        {n:"🟨",pt:"Amarelo",es:"Amarillo",icon:"☀️"},
+        {n:"🟧",pt:"Laranja",es:"Naranja",icon:"🍊"},
+    ], bg:"bg-[#042f24]", textColor:"text-white" }
+];
+
+// ── AULA 3 ────────────────────────────────────────────────────────────────────
+const CLASS_3_THEORY = [
+    { title:"Revisão: Na Mochila 🎒", content:"O que levamos para a escola?", items:[
+        {n:"📓",pt:"Caderno",es:"Cuaderno",icon:"✍️"},
+        {n:"✏️",pt:"Lápis",es:"Lápiz",icon:"📝"},
+        {n:"🎒",pt:"Mochila",es:"Mochila",icon:"🚶"},
+        {n:"📏",pt:"Régua",es:"Regla",icon:"📐"},
+    ], bg:"bg-[#FF6B35]", textColor:"text-white" },
+    { title:"Revisão: No Estojo 👝", content:"Materiais pequenos!", items:[
+        {n:"🖊️",pt:"Caneta",es:"Birome",icon:"📝"},
+        {n:"📚",pt:"Livro",es:"Libro",icon:"📖"},
+        {n:"✂️",pt:"Tesoura",es:"Tijeras",icon:"🎨"},
+        {n:"🧼",pt:"Borracha",es:"Goma",icon:"✨"},
+    ], bg:"bg-[#2EC4B6]", textColor:"text-[#0F0A1E]" }
+];
+
+// ── Prática escola ─────────────────────────────────────────────────────────────
+const CLASS_2_MEM_A = [
+    {pt:'caderno',emoji:'📓',es:'cuaderno'},
+    {pt:'lápis',emoji:'✏️',es:'lápiz'},
+    {pt:'mochila',emoji:'🎒',es:'mochila'},
+    {pt:'régua',emoji:'📏',es:'regla'},
+    {pt:'caneta',emoji:'🖊️',es:'lapicera'},
+    {pt:'livro',emoji:'📚',es:'libro'},
+    {pt:'tesoura',emoji:'✂️',es:'tijeras'},
+    {pt:'borracha',emoji:'🧼',es:'goma'},
+];
+
+// ─── SHARED UI ────────────────────────────────────────────────────────────────
+const Button = ({ children, onClick, variant='primary', className='', disabled=false }) => {
+    const v = {
+        primary: 'bg-[#FF3CAC] hover:bg-[#ff5bb9] text-white shadow-[0_4px_0_rgb(190,45,128)] active:translate-y-[2px] active:shadow-none',
+        ghost:   'bg-transparent border-2 border-white/20 hover:bg-white/10 text-white',
+        accent:  'bg-[#00F5D4] hover:bg-[#33ffdf] text-[#0F0A1E] shadow-[0_4px_0_rgb(0,180,155)] active:translate-y-[2px] active:shadow-none',
+        purple:  'bg-[#7B2FFF] hover:bg-[#9d50ff] text-white shadow-[0_4px_0_rgb(90,20,200)] active:translate-y-[2px] active:shadow-none',
+    };
+    return (
+        <button onClick={onClick} disabled={disabled}
+            className={`px-5 py-2.5 rounded-2xl font-black transition-all transform duration-150 ${v[variant]} ${disabled?'opacity-40 cursor-not-allowed':'cursor-pointer'} ${className}`}>
+            {children}
+        </button>
+    );
+};
+
+const ProgressBar = ({ current, total, color='#FF3CAC' }) => (
+    <div className="w-full bg-white/10 rounded-full h-2.5 mb-4">
+        <div className="h-2.5 rounded-full transition-all duration-500" style={{width:`${(current/total)*100}%`, backgroundColor:color}} />
+    </div>
+);
+
+const Confetti = () => {
+    const pieces = useMemo(() => Array.from({length:28}, (_,i) => ({
+        id:i, left:`${Math.random()*100}%`,
+        color:['#FF3CAC','#7B2FFF','#00F5D4','#FFD60A','#FF6B35'][i%5],
+        delay:`${Math.random()*0.6}s`, duration:`${1.2+Math.random()*1.2}s`,
+        size: 7 + Math.floor(Math.random()*7)
+    })), []);
+    return (
+        <div className="fixed inset-0 pointer-events-none z-50 overflow-hidden">
+            {pieces.map(p => (
+                <div key={p.id} className="absolute top-0 rounded-sm" style={{
+                    left:p.left, width:p.size, height:p.size, backgroundColor:p.color,
+                    animation:`confetti-fall ${p.duration} ${p.delay} ease-in forwards`
+                }}/>
+            ))}
+        </div>
+    );
+};
+
+// ─── THEORY LESSON ────────────────────────────────────────────────────────────
+// FIX: fills viewport, no scroll needed
+const TheoryLesson = ({ data, onComplete, title }) => {
+    const [slide, setSlide] = useState(0);
+    const cur = data[slide];
+    const colClass = cur.items.length <= 3 ? 'cols-3' : 'cols-4';
+    return (
+        <div className="max-w-4xl mx-auto slide-up flex flex-col" style={{height:'calc(100vh - 130px)', minHeight:420, maxHeight:780}}>
+            {title && <h2 className="text-2xl font-black text-[#00F5D4] text-center mb-3 shrink-0">{title}</h2>}
+            <ProgressBar current={slide+1} total={data.length} color="#7B2FFF" />
+            <div className={`rounded-[32px] p-6 shadow-2xl ${cur.bg} ${cur.textColor} relative overflow-hidden flex-1 flex flex-col justify-between`}>
+                <div className="absolute top-0 right-0 p-6 opacity-10 pointer-events-none"><IconSparkles size={120} /></div>
+                {/* Header */}
+                <div className="shrink-0 mb-4">
+                    <h2 className="text-3xl md:text-4xl font-black drop-shadow-md leading-tight">{cur.title}</h2>
+                    <p className="text-base opacity-80 font-bold mt-1">{cur.content}</p>
+                </div>
+                {/* Items grid — fills remaining space */}
+                <div className={`theory-items-grid ${colClass} flex-1`}>
+                    {cur.items.map((item, i) => (
+                        <div key={i} className="theory-item-card">
+                            <div className="text-2xl mb-1">{item.icon}</div>
+                            <div className="text-3xl md:text-4xl font-black mb-1 leading-none">{item.n}</div>
+                            <div className="text-[#00F5D4] font-black text-base leading-snug">{item.pt}</div>
+                            <div className="text-[11px] uppercase font-black opacity-55 mt-1">{item.es}</div>
+                        </div>
+                    ))}
+                </div>
+                {/* Nav */}
+                <div className="shrink-0 flex justify-between mt-4 items-center">
+                    <Button onClick={() => slide > 0 && setSlide(slide-1)} variant="ghost" className={`text-sm ${slide===0?'invisible':''}`}>← Atrás</Button>
+                    <div className="flex gap-1.5">{data.map((_,i)=><div key={i} className={`h-2.5 rounded-full transition-all ${slide===i?'bg-white w-7':'bg-white/30 w-2.5'}`}/>)}</div>
+                    <Button onClick={()=>slide<data.length-1?setSlide(slide+1):onComplete()} variant="accent" className="text-sm">
+                        {slide===data.length-1?'¡Listo! 🎉':'Próximo →'}
+                    </Button>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+// ─── MEMORY GAME ─────────────────────────────────────────────────────────────
+const MemoryGame = ({ data, onComplete, type='text-text', title }) => {
+    const [cards, setCards] = useState([]);
+    const [flipped, setFlipped] = useState([]);
+    const [matched, setMatched] = useState([]);
+    const [locked, setLocked] = useState(false);
+    const [errors, setErrors] = useState(0);
+    const [shakeId, setShakeId] = useState(null);
+    const [done, setDone] = useState(false);
+
+    useEffect(() => {
+        let pool = [];
+        if (type==='text-text') {
+            pool = data.flatMap((item,idx) => [
+                {id:`${idx}-pt`, content:item.pt, pairId:idx, side:'pt'},
+                {id:`${idx}-es`, content:item.es, pairId:idx, side:'es'},
+            ]);
+        } else if (type==='emoji-text') {
+            pool = data.flatMap((item,idx) => [
+                {id:`${idx}-emoji`, content:item.emoji, sub:item.es, pairId:idx, side:'emoji'},
+                {id:`${idx}-pt`,    content:item.pt,                 pairId:idx, side:'pt'},
+            ]);
+        }
+        setCards(shuffleArray(pool));
+    }, [data, type]);
+
+    const handleFlip = (card) => {
+        if (locked || flipped.includes(card.id) || matched.includes(card.pairId)) return;
+        playSound('flip');
+        const nf = [...flipped, card.id];
+        setFlipped(nf);
+        if (nf.length === 2) {
+            setLocked(true);
+            const c1 = cards.find(c=>c.id===nf[0]);
+            const c2 = cards.find(c=>c.id===nf[1]);
+            if (c1.pairId === c2.pairId) {
+                const nm = [...matched, c1.pairId];
+                setMatched(nm); setFlipped([]); setLocked(false);
+                playSound('correct');
+                if (nm.length === data.length) setTimeout(()=>{ setDone(true); playSound('complete'); }, 400);
+            } else {
+                setShakeId(c1.id);
+                setTimeout(()=>{ setFlipped([]); setLocked(false); setShakeId(null); setErrors(e=>e+1); playSound('error'); }, 900);
+            }
+        }
+    };
+
+    const reset = () => { setCards(shuffleArray(cards)); setFlipped([]); setMatched([]); setLocked(false); setErrors(0); setDone(false); };
+
+    // Fit cards in viewport: use fixed grid rows
+    const numCols = data.length <= 6 ? 3 : 4;
+
+    if (done) return (
+        <div className="flex flex-col items-center gap-6 slide-up">
+            <Confetti />
+            <div className="text-center p-8 bg-[#1A1035] border-2 border-[#00F5D4]/50 rounded-[32px] max-w-lg mx-auto">
+                <div className="text-5xl mb-3">🎉</div>
+                <h3 className="text-2xl font-black text-[#00F5D4] mb-1">
+                    {errors===0 ? '¡Perfecta! ¡Sin errores! 🏆' : `¡Muy bien! ${errors} error${errors>1?'es':''} ⭐`}
+                </h3>
+                <div className="flex gap-3 justify-center mt-6">
+                    <Button onClick={reset} variant="ghost">🔀 Jogar de novo</Button>
+                    <Button onClick={onComplete} variant="accent">Continuar ➜</Button>
+                </div>
+            </div>
+        </div>
+    );
+
+    return (
+        <div className="flex flex-col items-center gap-3 w-full">
+            {title && <h2 className="text-2xl font-black text-[#00F5D4]">{title}</h2>}
+            <div className="flex gap-4 text-sm font-bold text-white/60">
+                <span>✅ {matched.length}/{data.length} pares</span>
+                <span>❌ {errors} erros</span>
+            </div>
+            {/* Grid fits viewport: calc card height so grid doesn't scroll */}
+            <div style={{
+                display:'grid',
+                gridTemplateColumns:`repeat(${numCols}, 1fr)`,
+                gap:'10px',
+                width:'100%',
+                maxWidth:'700px',
+                perspective:'1000px',
+            }}>
+                {cards.map(card => {
+                    const isFlipped = flipped.includes(card.id) || matched.includes(card.pairId);
+                    const isMatched = matched.includes(card.pairId);
+                    const isShaking = shakeId === card.id;
+                    return (
+                        <div key={card.id} onClick={()=>handleFlip(card)}
+                            className={`relative cursor-pointer transform-style-3d card-flip ${isFlipped?'rotate-y-180':''} ${isShaking?'animate-shake':''}`}
+                            style={{height:'clamp(75px, 11vw, 120px)'}}>
+                            {/* Hidden face */}
+                            <div className="absolute inset-0 bg-[#7B2FFF] rounded-xl flex items-center justify-center border-b-4 border-indigo-900 backface-hidden z-20 hover:brightness-110">
+                                <span className="text-2xl text-white/40 font-black select-none">?</span>
+                            </div>
+                            {/* Visible face */}
+                            <div className={`absolute inset-0 rounded-xl flex flex-col items-center justify-center p-2 text-center rotate-y-180 backface-hidden border-b-4 z-10 ${isMatched?'matched-glow opacity-60':''} ${card.side==='pt'?'bg-[#FF3CAC] border-pink-900':'bg-[#00F5D4] border-teal-900'}`}>
+                                {card.side==='emoji'
+                                    ? <><span className="text-3xl">{card.content}</span><span className="text-[9px] text-black/50 font-black uppercase mt-0.5">{card.sub}</span></>
+                                    : <span className={`font-black leading-tight break-words text-center select-none px-1 ${card.content.length>14?'text-[10px]':card.content.length>8?'text-xs':'text-sm md:text-base'} ${card.side==='pt'?'text-white':'text-[#0F0A1E]'}`}>{card.content}</span>
+                                }
+                            </div>
+                        </div>
+                    );
+                })}
+            </div>
+            <Button onClick={reset} variant="ghost" className="text-xs mt-1">🔀 Embaralhar de novo</Button>
+        </div>
+    );
+};
+
+// ─── QUIZ ─────────────────────────────────────────────────────────────────────
+const QuizGame = ({ data, onComplete, title }) => {
+    const [qIndex, setQIndex] = useState(0);
+    const [selected, setSelected] = useState(null);
+    const [score, setScore] = useState(0);
+    const [showResult, setShowResult] = useState(false);
+    const [shakeIdx, setShakeIdx] = useState(null);
+    const [done, setDone] = useState(false);
+
+    const q = data[qIndex];
+
+    const handleAnswer = (idx) => {
+        if (selected !== null) return;
+        setSelected(idx);
+        if (idx === q.correct) { playSound('correct'); setScore(s=>s+1); }
+        else { playSound('error'); setShakeIdx(idx); setTimeout(()=>setShakeIdx(null), 500); }
+        setTimeout(()=>setShowResult(true), 600);
+    };
+
+    const next = () => {
+        setSelected(null); setShowResult(false); setShakeIdx(null);
+        if (qIndex < data.length-1) setQIndex(q=>q+1);
+        else setDone(true);
+    };
+
+    if (done) {
+        const pct = score/data.length;
+        const msg = pct===1?'¡Perfecta! ¡Una crack! 🏆🌟':pct>=0.7?'¡Muy bien! ⭐⭐':'¡Buen intento! 💪';
+        return (
+            <div className="flex flex-col items-center gap-5 slide-up">
+                {pct===1&&<Confetti/>}
+                <div className="text-center p-8 bg-[#1A1035] border-2 border-[#FF3CAC]/40 rounded-[28px] max-w-md w-full">
+                    <div className="text-5xl mb-3">{pct===1?'🏆':pct>=0.7?'⭐':'💪'}</div>
+                    <h3 className="text-2xl font-black text-white mb-1">{msg}</h3>
+                    <p className="text-[#00F5D4] text-4xl font-black my-3">{score} / {data.length}</p>
+                    <div className="flex justify-center gap-1 mb-5">
+                        {data.map((_,i)=><span key={i} className={`text-lg ${i<score?'star-anim':''}`}>{i<score?'⭐':'☆'}</span>)}
+                    </div>
+                    <div className="flex gap-3 justify-center">
+                        <Button onClick={()=>{setQIndex(0);setScore(0);setDone(false);setSelected(null);setShowResult(false);}} variant="ghost">🔄 Repetir</Button>
+                        <Button onClick={onComplete} variant="accent">Continuar ➜</Button>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    return (
+        <div className="flex flex-col items-center gap-4 max-w-xl mx-auto slide-up w-full">
+            {title && <h2 className="text-xl font-black text-[#FF3CAC] text-center">{title}</h2>}
+            <ProgressBar current={qIndex+1} total={data.length} color="#FF3CAC" />
+            <div className="flex justify-between w-full text-xs font-bold text-white/50 -mt-1">
+                <span>Pergunta {qIndex+1}/{data.length}</span>
+                <span>⭐ {score} pts</span>
+            </div>
+            {/* Question */}
+            <div className="w-full bg-[#1A1035] border-2 border-[#7B2FFF]/40 rounded-[24px] p-6 text-center">
+                <div className="text-4xl mb-3">{q.icon}</div>
+                <p className="text-base md:text-lg font-bold text-white leading-snug">{q.situation}</p>
+            </div>
+            {/* Options */}
+            <div className="flex flex-col gap-2.5 w-full">
+                {q.options.map((opt, idx) => {
+                    let bg = 'bg-[#1A1035] border-2 border-white/20 hover:border-[#FF3CAC]/60 hover:bg-[#FF3CAC]/10';
+                    if (selected !== null) {
+                        if (idx===q.correct) bg='bg-green-600/30 border-2 border-green-400';
+                        else if (idx===selected) bg='bg-red-600/30 border-2 border-red-400';
+                        else bg='bg-[#1A1035] border-2 border-white/10 opacity-40';
+                    }
+                    return (
+                        <button key={idx} onClick={()=>handleAnswer(idx)}
+                            className={`w-full p-3.5 rounded-2xl text-left font-bold text-white transition-all ${bg} ${shakeIdx===idx?'animate-shake':''}`}>
+                            <span className="text-[#00F5D4] font-black mr-2">{String.fromCharCode(65+idx)}.</span>
+                            {opt}
+                            {selected!==null&&idx===q.correct&&<span className="float-right text-green-400"><IconCheck/></span>}
+                            {selected!==null&&idx===selected&&idx!==q.correct&&<span className="float-right text-red-400"><IconX/></span>}
+                        </button>
+                    );
+                })}
+            </div>
+            {showResult && (
+                <div className="slide-up w-full bg-[#0F0A1E] border border-[#00F5D4]/30 rounded-2xl p-3.5 flex flex-col gap-2.5">
+                    <p className="text-[#00F5D4] font-bold text-sm">💡 {q.explanation}</p>
+                    <Button onClick={next} variant={selected===q.correct?'accent':'primary'} className="w-full">
+                        {qIndex<data.length-1?'Próxima ➜':'Ver resultado 🏆'}
+                    </Button>
+                </div>
+            )}
+        </div>
+    );
+};
+
+// ─── ANKI CREATOR ────────────────────────────────────────────────────────────
+// FIX: drawable cards with draw prompt on back, physical card UX
+const AnkiCreator = ({ onComplete }) => {
+    const [cards, setCards] = useState(() => {
+        try { const s = localStorage.getItem('anki_cards_1b'); return s ? JSON.parse(s) : DEFAULT_ANKI_CARDS; }
+        catch { return DEFAULT_ANKI_CARDS; }
+    });
+    const [mode, setMode] = useState('view'); // view | create | study
+    const [newFront, setNewFront] = useState('');
+    const [newBack, setNewBack] = useState('');
+    const [newEmoji, setNewEmoji] = useState('');
+    const [newTag, setNewTag] = useState('');
+    const [studyIdx, setStudyIdx] = useState(0);
+    const [studyFlipped, setStudyFlipped] = useState(false);
+    const [studyDeck, setStudyDeck] = useState([]);
+    const [studyDone, setStudyDone] = useState(false);
+
+    const save = (nc) => { setCards(nc); try { localStorage.setItem('anki_cards_1b', JSON.stringify(nc)); } catch {} };
+    const addCard = () => {
+        if (!newFront.trim() || !newBack.trim()) return;
+        save([...cards, {id:Date.now(), front:newFront.trim(), back:newBack.trim(), emoji:newEmoji.trim()||'✏️', tag:newTag.trim()||'meu'}]);
+        setNewFront(''); setNewBack(''); setNewEmoji(''); setNewTag('');
+        playSound('correct');
+    };
+    const deleteCard = (id) => save(cards.filter(c=>c.id!==id));
+    const startStudy = () => { setStudyDeck(shuffleArray(cards)); setStudyIdx(0); setStudyFlipped(false); setStudyDone(false); setMode('study'); };
+    const nextStudy = () => {
+        setStudyFlipped(false);
+        setTimeout(()=>{ if (studyIdx < studyDeck.length-1) setStudyIdx(i=>i+1); else setStudyDone(true); }, 200);
+    };
+
+    const tagColors = {saudações:'#7B2FFF', escola:'#FF6B35', cores:'#FF3CAC', pronomes:'#4361EE', meu:'#059669', geral:'#475569'};
+
+    // ── STUDY mode ──
+    if (mode === 'study') {
+        if (studyDone) return (
+            <div className="flex flex-col items-center gap-5 slide-up">
+                <Confetti />
+                <div className="text-center p-7 bg-[#1A1035] border-2 border-[#00F5D4]/40 rounded-[28px] max-w-sm w-full">
+                    <div className="text-5xl mb-2">🧠✨</div>
+                    <h3 className="text-2xl font-black text-[#00F5D4] mb-1">¡Repaso completo!</h3>
+                    <p className="text-white/60 mb-5">{studyDeck.length} cards repasados</p>
+                    <div className="flex gap-3 justify-center flex-wrap">
+                        <Button onClick={startStudy} variant="purple">🔄 De novo</Button>
+                        <Button onClick={()=>setMode('view')} variant="ghost">Ver cards</Button>
+                        <Button onClick={onComplete} variant="accent">Finalizar aula 🎉</Button>
+                    </div>
+                </div>
+            </div>
+        );
+        const cur = studyDeck[studyIdx];
+        const tagColor = tagColors[cur.tag] || '#475569';
+        return (
+            <div className="flex flex-col items-center gap-4 max-w-sm mx-auto slide-up w-full">
+                <h2 className="text-xl font-black text-[#7B2FFF] text-center">🎴 Estudar cards</h2>
+                <ProgressBar current={studyIdx+1} total={studyDeck.length} color="#7B2FFF" />
+                <p className="text-white/50 text-xs">{studyIdx+1} / {studyDeck.length}</p>
+                {/* Flip card */}
+                <div className={`w-full anki-card-flip ${studyFlipped?'flipped':''}`}
+                    style={{height:220, perspective:'1000px', cursor:'pointer'}}
+                    onClick={()=>{ setStudyFlipped(f=>!f); if(!studyFlipped) playSound('flip'); }}>
+                    <div className="relative w-full h-full" style={{transformStyle:'preserve-3d'}}>
+                        {/* Front — Portuguese word */}
+                        <div className="absolute inset-0 rounded-[24px] flex flex-col items-center justify-center p-6 anki-face border-b-4 border-indigo-900" style={{backgroundColor: tagColor}}>
+                            <span className="text-5xl mb-3">{cur.emoji}</span>
+                            <p className="text-white font-black text-2xl text-center">{cur.front}</p>
+                            <p className="text-white/40 text-xs mt-4 font-bold">Toca para ver ✏️</p>
+                        </div>
+                        {/* Back — draw prompt */}
+                        <div className="absolute inset-0 bg-[#1A1035] border-2 border-white/20 rounded-[24px] flex flex-col items-center justify-center p-6 anki-face anki-back">
+                            <span className="text-4xl mb-3">✏️</span>
+                            <p className="text-white font-black text-lg text-center leading-snug">{cur.back}</p>
+                            <span className="mt-4 text-xs px-3 py-1 rounded-full font-black text-white/60 border border-white/20">#{cur.tag}</span>
+                        </div>
+                    </div>
+                </div>
+                <p className="text-white/30 text-xs text-center">Vê a palavra → desenha no caderno → toca para conferir!</p>
+                <div className="flex gap-3">
+                    <Button onClick={()=>setMode('view')} variant="ghost">← Sair</Button>
+                    <Button onClick={nextStudy} variant={studyFlipped?'accent':'ghost'} disabled={!studyFlipped}>
+                        {studyIdx<studyDeck.length-1?'Próximo →':'Ver resultado 🏆'}
+                    </Button>
+                </div>
+            </div>
+        );
+    }
+
+    // ── CREATE mode ──
+    if (mode === 'create') return (
+        <div className="flex flex-col gap-4 max-w-md mx-auto slide-up">
+            <h2 className="text-xl font-black text-[#FF3CAC] text-center">✍️ Criar novo card</h2>
+            <div className="bg-[#1A1035] border-2 border-[#FF3CAC]/30 rounded-[20px] p-5 flex flex-col gap-3">
+                <div>
+                    <label className="text-[#00F5D4] font-black text-xs mb-1 block">🇧🇷 Palavra em português</label>
+                    <input type="text" value={newFront} onChange={e=>setNewFront(e.target.value)} placeholder="Ex: caderno ✏️"
+                        className="w-full bg-white/10 border-2 border-white/20 rounded-xl p-3 text-white font-bold placeholder-white/30 focus:border-[#FF3CAC] text-sm"/>
+                </div>
+                <div>
+                    <label className="text-[#00F5D4] font-black text-xs mb-1 block">✏️ O que desenhar no verso</label>
+                    <input type="text" value={newBack} onChange={e=>setNewBack(e.target.value)} placeholder="Ex: cuaderno — dibujá un cuaderno"
+                        className="w-full bg-white/10 border-2 border-white/20 rounded-xl p-3 text-white font-bold placeholder-white/30 focus:border-[#00F5D4] text-sm"/>
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                    <div>
+                        <label className="text-[#00F5D4] font-black text-xs mb-1 block">😊 Emoji</label>
+                        <input type="text" value={newEmoji} onChange={e=>setNewEmoji(e.target.value)} placeholder="✏️"
+                            className="w-full bg-white/10 border-2 border-white/20 rounded-xl p-3 text-white font-bold placeholder-white/30 text-sm"/>
+                    </div>
+                    <div>
+                        <label className="text-[#00F5D4] font-black text-xs mb-1 block">🏷️ Categoria</label>
+                        <input type="text" value={newTag} onChange={e=>setNewTag(e.target.value)} placeholder="escola, cores..."
+                            className="w-full bg-white/10 border-2 border-white/20 rounded-xl p-3 text-white font-bold placeholder-white/30 text-sm"/>
+                    </div>
+                </div>
+                {/* Preview */}
+                {newFront && (
+                    <div className="grid grid-cols-2 gap-2 mt-1">
+                        <div className="bg-[#7B2FFF] rounded-xl p-3 text-center">
+                            <span className="text-2xl block">{newEmoji||'✏️'}</span>
+                            <p className="text-white font-black text-sm">{newFront}</p>
+                        </div>
+                        <div className="bg-[#1A1035] border border-white/20 rounded-xl p-3 text-center flex items-center justify-center">
+                            <p className="text-white/70 font-bold text-xs leading-snug">{newBack||'...'}</p>
+                        </div>
+                    </div>
+                )}
+                <div className="flex gap-3 mt-1">
+                    <Button onClick={()=>setMode('view')} variant="ghost" className="text-sm">← Voltar</Button>
+                    <Button onClick={addCard} variant="accent" disabled={!newFront||!newBack} className="flex-1 flex items-center justify-center gap-1.5 text-sm">
+                        <IconPlus/> Adicionar
+                    </Button>
+                </div>
+            </div>
+        </div>
+    );
+
+    // ── VIEW mode ──
+    return (
+        <div className="flex flex-col gap-4 max-w-2xl mx-auto">
+            <div className="flex flex-col sm:flex-row justify-between items-center gap-3">
+                <div>
+                    <h2 className="text-xl font-black text-[#7B2FFF]">🎴 Meus Cards para Desenhar</h2>
+                    <p className="text-white/40 text-xs mt-0.5">{cards.length} cards • cada card tem uma palavra para desenhar</p>
+                </div>
+                <div className="flex gap-2 flex-wrap justify-center">
+                    <Button onClick={()=>setMode('create')} variant="primary" className="flex items-center gap-1.5 text-sm"><IconPlus/>Criar</Button>
+                    <Button onClick={startStudy} variant="accent" className="text-sm">🎴 Estudar {cards.length}</Button>
+                    <Button onClick={onComplete} variant="ghost" className="text-sm">Finalizar ➜</Button>
+                </div>
+            </div>
+            {/* Cards grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                {cards.map(card => {
+                    const col = tagColors[card.tag] || '#475569';
+                    return (
+                        <div key={card.id} className="relative group">
+                            <div className="rounded-2xl overflow-hidden border-b-4" style={{borderColor:col}}>
+                                {/* Front */}
+                                <div className="p-4 text-center" style={{backgroundColor:col+'44', borderBottom:`1px solid ${col}33`}}>
+                                    <span className="text-3xl block mb-1">{card.emoji}</span>
+                                    <p className="text-white font-black text-sm leading-snug">{card.front}</p>
+                                </div>
+                                {/* Back */}
+                                <div className="bg-[#1A1035] p-3 text-center">
+                                    <p className="text-white/60 text-xs font-bold leading-snug">{card.back}</p>
+                                    <span className="text-[9px] font-black uppercase mt-1.5 block px-2 py-0.5 rounded-full inline-block" style={{color:col, border:`1px solid ${col}55`}}>#{card.tag}</span>
+                                </div>
+                            </div>
+                            <button onClick={()=>deleteCard(card.id)}
+                                className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity bg-red-500/80 hover:bg-red-500 text-white rounded-lg p-1.5 z-10">
+                                <IconTrash/>
+                            </button>
+                        </div>
+                    );
+                })}
+            </div>
+        </div>
+    );
+};
+
+// ─── MODULE 1A — two-step: greetings → identity ───────────────────────────────
+// FIX: was using onComplete={()=>{}} — now properly chains to identity step
+const Module1A = ({ onComplete }) => {
+    const [step, setStep] = useState(0); // 0 = greetings, 1 = identity
+    const steps = ['👋 Saudações','🙋 Identidade'];
+    return (
+        <div className="space-y-4">
+            <div className="flex gap-2 justify-center">
+                {steps.map((s,i)=>(
+                    <div key={i} className={`px-3 py-1.5 rounded-full text-xs font-black transition-all
+                        ${i===step?'bg-[#7B2FFF] text-white neon-glow':i<step?'bg-[#00F5D4]/30 text-[#00F5D4] border border-[#00F5D4]/50':'bg-white/5 text-white/30'}`}>
+                        {i<step?'✅ ':''}{s}
+                    </div>
+                ))}
+            </div>
+            {step===0 && <MemoryGame data={CLASS_1A_GREETINGS} type="text-text" title="🃏 Saudações e Despedidas" onComplete={()=>setStep(1)}/>}
+            {step===1 && <MemoryGame data={CLASS_1A_IDENTITY}  type="text-text" title="🙋 Apresentação Pessoal"   onComplete={onComplete}/>}
+        </div>
+    );
+};
+
+// ─── MODULE 1B — Theory → Quiz → Anki (no memory game) ───────────────────────
+// FIX: removed memory step
+const Module1B = ({ onComplete }) => {
+    const [step, setStep] = useState(0); // 0=theory, 1=quiz, 2=anki
+    const steps = ['📖 Teoria','🧠 Quiz','🎴 Cards'];
+    return (
+        <div className="space-y-4">
+            <div className="flex gap-2 justify-center">
+                {steps.map((s,i)=>(
+                    <div key={i} className={`px-3 py-1.5 rounded-full text-xs font-black transition-all
+                        ${i===step?'bg-[#FF3CAC] text-white neon-glow':i<step?'bg-[#00F5D4]/30 text-[#00F5D4] border border-[#00F5D4]/50':'bg-white/5 text-white/30'}`}>
+                        {i<step?'✅ ':''}{s}
+                    </div>
+                ))}
+            </div>
+            {step===0 && <TheoryLesson data={CLASS_1B_THEORY} onComplete={()=>setStep(1)} title="Aula 1B — Gostos, Moradia e Pronomes"/>}
+            {step===1 && <QuizGame    data={CLASS_1B_QUIZ}   onComplete={()=>setStep(2)} title="🧠 Quiz — Aulas 1A + 1B"/>}
+            {step===2 && <AnkiCreator onComplete={onComplete}/>}
+        </div>
+    );
+};
+
+// ─── HOME ─────────────────────────────────────────────────────────────────────
+const HomeView = ({ onStartModule }) => {
+    const phrase = useMemo(()=>MOTIVATIONAL_PHRASES[Math.floor(Math.random()*MOTIVATIONAL_PHRASES.length)],[]);
+    const modules = [
+        {id:'m1a', emoji:'💜', label:'Aula 1A', sub:'Saudações e Identidade', color:'#7B2FFF', highlight:false},
+        {id:'m1b', emoji:'❤️', label:'Aula 1B', sub:'Gostos, Moradia, Pronomes', color:'#FF3CAC', highlight:true},
+        {id:'m2',  emoji:'📖', label:'Aula 2',  sub:'Números e Cores', color:'#00a89c', textDark:true},
+        {id:'m2p', emoji:'🎒', label:'Prática', sub:'Objetos da Escola', color:'#FF6B35'},
+        {id:'m3',  emoji:'🧪', label:'Revisão', sub:'Super Revisão!', color:'#059669'},
+    ];
+    return (
+        <div className="flex flex-col items-center justify-center text-center px-3 py-6 slide-up"
+            style={{minHeight:'calc(100vh - 80px)'}}>
+            <h1 className="text-5xl md:text-7xl font-black mb-2 text-white drop-shadow-[0_5px_15px_rgba(255,60,172,0.6)] animate-bounce-slow">Oi, Brasil! 🇧🇷</h1>
+            <p className="text-base font-bold text-[#00F5D4] mb-8 uppercase tracking-widest">¡Aprendé jogando!</p>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 w-full max-w-4xl">
+                {modules.map(m => (
+                    <button key={m.id} onClick={()=>onStartModule(m.id)}
+                        className={`relative rounded-[24px] p-5 transition-all hover:scale-105 hover:brightness-110 shadow-xl border-4 ${m.highlight?'ring-2 ring-white/40':''}`}
+                        style={{backgroundColor:m.color, borderColor:m.color}}>
+                        {m.highlight && <span className="absolute -top-2 -right-2 bg-yellow-400 text-yellow-900 text-[9px] font-black px-2 py-0.5 rounded-full">NOVO ✨</span>}
+                        <span className="text-3xl mb-2 block">{m.emoji}</span>
+                        <h2 className={`text-sm font-black ${m.textDark?'text-[#0F0A1E]':'text-white'}`}>{m.label}</h2>
+                        <p className={`text-[11px] mt-0.5 ${m.textDark?'text-[#0F0A1E]/70':'text-white/70'}`}>{m.sub}</p>
+                    </button>
+                ))}
+            </div>
+            <div className="mt-8 bg-[#1A1035] rounded-3xl px-6 py-3 border border-white/10 max-w-sm">
+                <p className="italic text-white/50 font-medium text-sm">"{phrase}"</p>
+            </div>
+        </div>
+    );
+};
+
+// ─── APP ──────────────────────────────────────────────────────────────────────
+function App() {
+    const [view, setView] = useState('home');
+    const goHome = () => setView('home');
+    const labels = {m1a:'Aula 1A', m1b:'Aula 1B', m2:'Aula 2', m2p:'Prática', m3:'Revisão'};
+
+    return (
+        <div className="min-h-screen bg-[#0F0A1E] text-white">
+            <header className="px-4 py-3 bg-[#0F0A1E]/90 backdrop-blur-md sticky top-0 border-b border-white/5 flex justify-between items-center z-50" style={{height:64}}>
+                <div onClick={goHome} className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity">
+                    <span className="text-2xl">👩‍🚀</span>
+                    <h1 className="text-lg font-black hidden sm:block">Oi, Brasil! 🇧🇷</h1>
+                </div>
+                {view!=='home' && (
+                    <div className="flex items-center gap-3">
+                        <span className="text-white/40 text-sm font-bold hidden sm:block">{labels[view]||''}</span>
+                        <Button onClick={goHome} variant="ghost" className="px-3 py-2 text-sm flex items-center gap-1.5"><IconArrowLeft/>Voltar</Button>
+                    </div>
+                )}
+            </header>
+
+            <main className="px-4 py-5 max-w-5xl mx-auto">
+                {view==='home' && <HomeView onStartModule={setView}/>}
+                {view==='m1a'  && <Module1A onComplete={goHome}/>}
+                {view==='m1b'  && <Module1B onComplete={goHome}/>}
+                {view==='m2'   && <TheoryLesson data={CLASS_2_THEORY}  onComplete={goHome} title="Aula 2 — Números e Cores"/>}
+                {view==='m2p'  && <MemoryGame   data={CLASS_2_MEM_A}   onComplete={goHome} type="emoji-text" title="🎒 Objetos da Escola"/>}
+                {view==='m3'   && <TheoryLesson data={CLASS_3_THEORY}  onComplete={goHome} title="🧪 Super Revisão — Materiais Escolares"/>}
+            </main>
+        </div>
+    );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>
