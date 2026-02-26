@@ -22,14 +22,11 @@
         body { font-family: 'Inter', sans-serif; background-color: #020617; color: #F8FAFC; }
         .code-font { font-family: 'JetBrains Mono', monospace; }
         .glass-card { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); }
-        .emerald-glow { box-shadow: 0 0 30px rgba(16, 185, 129, 0.1); }
         input[type="text"] { background: #1E293B; border: 1px solid #334155; transition: all 0.2s; }
         input[type="text"]:focus { border-color: #3b82f6; outline: none; box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2); }
         
         @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
         .animate-fade { animation: fadeIn 0.4s ease-out forwards; }
-        
-        .tab-active { border-bottom: 2px solid #3b82f6; color: #60a5fa; }
     </style>
 </head>
 <body>
@@ -38,71 +35,39 @@
 <script type="text/babel">
 const { useState, useEffect, useMemo } = React;
 
-// ─── DATA & CONTENT (EXPANDIDO PARA 60 MINUTOS) ──────────────────────────────
+// ─── CONTEÚDO DA AULA ────────────────────────────────────────────────────────
 const EXERCISES = [
-    // Gramática: Pretérito Perfecto
-    { q: "Hoy yo ____ (revisar) los logs del servidor.", a: "he revisado", h: "Ação hoje: Haber + Participio", trans: "Hoje eu revisei os logs do servidor." },
-    { q: "¿Tú ____ (limpiar) ya la base de datos?", a: "has limpiado", h: "Haber (2ª pessoa) + Participio", trans: "Você já limpou o banco de dados?" },
-    { q: "Nosotros ____ (encontrar) un bug crítico en el dashboard.", a: "hemos encontrado", h: "Haber (1ª plural) + Participio", trans: "Nós encontramos um bug crítico no dashboard." },
-    { q: "Esta tarde el equipo ____ (enviar) los insights a Madrid.", a: "ha enviado", h: "El equipo (Singular) = Ha enviado", trans: "Esta tarde a equipe enviou os insights para Madri." },
-    { q: "Ustedes ____ (probar) el nuevo algoritmo, ¿verdad?", a: "han probado", h: "Ustedes = Han probado", trans: "Vocês testaram o novo algoritmo, certo?" },
-    
-    // Falsos Amigos & Vocabulário Office
-    { q: "No puedo hablar ahora, estoy en una ____ (reunião).", a: "reunión", h: "Português: Reunião", trans: "Não posso falar agora, estou em uma reunião." },
-    { q: "Dame un ____ (momento), voy a por un café.", a: "rato", h: "Tempo / Instante", trans: "Me dá um tempo/instante, vou buscar um café." },
-    { q: "He guardado el archivo en la ____ (pasta) de proyectos.", a: "carpeta", h: "Cuidado: Carpeta = Pasta", trans: "Salvei o arquivo na pasta de projetos." },
-    { q: "La ____ (planilha) tiene demasiadas columnas.", a: "hoja de cálculo", h: "Termo técnico para Excel/Sheets", trans: "A planilha tem colunas demais." },
-    { q: "He tenido un ____ (tempo curto) muy productivo hoy.", a: "rato", h: "Período de tempo", trans: "Tive um tempo muito produtivo hoje." },
-
-    // Verbos de Dados & Ação
+    { q: "Hoy yo ____ (revisar) los logs del servidor.", a: "he revisado", h: "Ação concluída hoje: He + revisado", trans: "Hoje eu revisei os logs do servidor." },
+    { q: "¿Tú ____ (limpiar) ya la base de datos?", a: "has limpiado", h: "Pergunta sobre hoje: Has + limpiado", trans: "Você já limpou o banco de dados?" },
+    { q: "Nosotros ____ (encontrar) un bug crítico en el dashboard.", a: "hemos encontrado", h: "Nós encontramos: Hemos + encontrado", trans: "Nós encontramos um bug crítico no dashboard." },
+    { q: "Esta tarde el equipo ____ (enviar) los insights a Madrid.", a: "ha enviado", h: "A equipe (singular): Ha + enviado", trans: "Esta tarde a equipe enviou os insights para Madri." },
+    { q: "Ustedes ____ (probar) el nuevo algoritmo, ¿verdad?", a: "han probado", h: "Vocês testaram: Han + probado", trans: "Vocês testaram o novo algoritmo, certo?" },
+    { q: "No puedo hablar ahora, estoy en una ____ (reunião).", a: "reunión", h: "Vocabulário: Reunión", trans: "Não posso falar agora, estou em uma reunião." },
+    { q: "Dame un ____ (momento), voy a por un café.", a: "rato", h: "Falso amigo: Rato = Tempo/Instante", trans: "Me dá um tempo/instante, vou buscar um café." },
+    { q: "He guardado el archivo en la ____ (pasta) de proyectos.", a: "carpeta", h: "Falso amigo: Carpeta = Pasta", trans: "Salvei o arquivo na pasta de projetos." },
+    { q: "La ____ (planilha) tiene demasiadas columnas.", a: "hoja de cálculo", h: "Técnico: Hoja de cálculo", trans: "A planilha tem colunas demais." },
+    { q: "He tenido un ____ (tempo curto) muy productivo hoy.", a: "rato", h: "Tempo de duração", trans: "Tive um tempo muito produtivo hoje." },
     { q: "He ____ (baixar) el dataset de producción.", a: "descargado", h: "Download = Descargar", trans: "Baixei o conjunto de dados de produção." },
-    { q: "¿Has ____ (subir) los cambios al repositorio?", a: "subido", h: "Upload / Subir", trans: "Você subiu as mudanças para o repositório?" },
-    { q: "He ____ (fazer) una consulta SQL compleja.", a: "hecho", h: "Hacer -> Hecho (Irregular)", trans: "Fiz uma consulta SQL complexa." },
-    { q: "Ya hemos ____ (ver) los resultados finales.", a: "visto", h: "Ver -> Visto (Irregular)", trans: "Já vimos os resultados finais." },
-    { q: "El sistema ha ____ (dar) un error inesperado.", a: "dado", h: "Dar -> Dado", trans: "O sistema deu um erro inesperado." },
-
-    // Prática Contextual
+    { q: "¿Has ____ (subir) los cambios al repositorio?", a: "subido", h: "Upload = Subir", trans: "Você subiu as mudanças para o repositório?" },
+    { q: "He ____ (fazer) una consulta SQL compleja.", a: "hecho", h: "Irregular: Hacer -> Hecho", trans: "Fiz uma consulta SQL complexa." },
+    { q: "Ya hemos ____ (ver) los resultados finales.", a: "visto", h: "Irregular: Ver -> Visto", trans: "Já vimos os resultados finais." },
+    { q: "El sistema ha ____ (dar) un error inesperado.", a: "dado", h: "Verbo Dar -> Dado", trans: "O sistema deu um erro inesperado." },
     { q: "Hoy he ____ (tentar) contactar con el socio español.", a: "intentado", h: "Tentar = Intentar", trans: "Hoje tentei contatar o sócio espanhol." },
-    { q: "¿Has ____ (escrever) el resumen de la semana?", a: "escrito", h: "Escribir -> Escrito (Irregular)", trans: "Você escreveu o resumo da semana?" },
-    { q: "He pasado un ____ (momento) largo filtrando datos.", a: "rato", h: "Referência a duração", trans: "Passei um tempo longo filtrando dados." },
-    { q: "Esta mañana el jefe ha ____ (dizer) que vamos por buen camino.", a: "dicho", h: "Decir -> Dicho (Irregular)", trans: "Esta manhã o chefe disse que estamos no caminho certo." },
-    { q: "En un ____ (instante) te envío el enlace de Zoom.", a: "ratito", h: "Diminutivo de tempo", trans: "Em um instantinho te envio o link do Zoom." }
+    { q: "¿Has ____ (escrever) el resumen de la semana?", a: "escrito", h: "Irregular: Escribir -> Escrito", trans: "Você escreveu o resumo da semana?" },
+    { q: "He pasado un ____ (momento) largo filtrando datos.", a: "rato", h: "Duração de tempo", trans: "Passei um tempo longo filtrando dados." },
+    { q: "Esta mañana el jefe ha ____ (dizer) que vamos por buen camino.", a: "dicho", h: "Irregular: Decir -> Dicho", trans: "Esta manhã o chefe disse que estamos no caminho certo." },
+    { q: "En un ____ (instante) te envío el enlace de Zoom.", a: "ratito", h: "Diminutivo de Rato", trans: "Em um instantinho te envio o link do Zoom." }
 ];
 
-const GRAMMAR_TABLE = [
-    { person: "Yo", haber: "he", suffix: "-ado / -ido" },
-    { person: "Tú", haber: "has", suffix: "-ado / -ido" },
-    { person: "Él/Ella/Usted", haber: "ha", suffix: "-ado / -ido" },
-    { person: "Nosotros", haber: "hemos", suffix: "-ado / -ido" },
-    { person: "Ustedes/Ellos", haber: "han", suffix: "-ado / -ido" }
-];
-
-const IRREGULARS = [
-    { verb: "Hacer", part: "Hecho", ex: "He hecho" },
-    { verb: "Ver", part: "Visto", ex: "Has visto" },
-    { verb: "Decir", part: "Dicho", ex: "Ha dicho" },
-    { verb: "Escribir", part: "Escrito", ex: "Hemos escrito" },
-    { verb: "Poner", part: "Puesto", ex: "He puesto" }
-];
-
-// ─── UI COMPONENTS ───────────────────────────────────────────────────────────
+// ─── COMPONENTES UI ──────────────────────────────────────────────────────────
 
 const ProgressBar = ({ current, total }) => (
     <div className="w-full bg-slate-800 h-2 rounded-full overflow-hidden mb-6">
-        <div 
-            className="bg-blue-500 h-full transition-all duration-700 ease-in-out" 
-            style={{ width: `${(current / total) * 100}%` }}
-        />
+        <div className="bg-blue-500 h-full transition-all duration-700" style={{ width: `${(current / total) * 100}%` }} />
     </div>
 );
 
-const SectionTitle = ({ children, icon }) => (
-    <h2 className="text-xl font-bold mb-6 flex items-center gap-3 text-blue-400">
-        <span>{icon}</span> {children}
-    </h2>
-);
-
-// ─── MAIN APPLICATION ────────────────────────────────────────────────────────
+// ─── APLICAÇÃO PRINCIPAL ─────────────────────────────────────────────────────
 
 function App() {
     const [user, setUser] = useState(null);
@@ -111,34 +76,50 @@ function App() {
     const [answers, setAnswers] = useState(Array(EXERCISES.length).fill(''));
     const [feedback, setFeedback] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [tab, setTab] = useState('theory'); // 'theory', 'vocab', 'practice'
+    const [tab, setTab] = useState('theory');
 
     const appId = typeof __app_id !== 'undefined' ? __app_id : 'espanol-pro-analytics';
 
     useEffect(() => {
         const init = async () => {
             const { initializeApp, getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged, getFirestore } = window.firebaseCore;
-            const firebaseConfig = JSON.parse(__firebase_config);
-            const app = initializeApp(firebaseConfig);
-            const auth = getAuth(app);
-            const firestore = getFirestore(app);
-            setDb(firestore);
+            
+            try {
+                const firebaseConfig = JSON.parse(__firebase_config);
+                const app = initializeApp(firebaseConfig);
+                const auth = getAuth(app);
+                const firestore = getFirestore(app);
+                setDb(firestore);
 
-            const token = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
-            if (token) await signInWithCustomToken(auth, token);
-            else await signInAnonymously(auth);
+                const token = typeof __initial_auth_token !== 'undefined' && __initial_auth_token ? __initial_auth_token : null;
+                
+                if (token) {
+                    await signInWithCustomToken(auth, token);
+                } else {
+                    await signInAnonymously(auth);
+                }
 
-            onAuthStateChanged(auth, (u) => {
-                setUser(u);
-                if (u) loadProgress(firestore, u.uid);
-            });
+                const unsubscribe = onAuthStateChanged(auth, (u) => {
+                    setUser(u);
+                    if (u) {
+                        loadProgress(firestore, u.uid);
+                    } else {
+                        setLoading(false);
+                    }
+                });
+
+                return () => unsubscribe();
+            } catch (err) {
+                console.error("Erro na inicialização:", err);
+                setLoading(false);
+            }
         };
         init();
     }, []);
 
     const loadProgress = async (firestore, uid) => {
         const { doc, getDoc } = window.firebaseCore;
-        const pDoc = doc(firestore, 'artifacts', appId, 'users', uid, 'data', 'v2');
+        const pDoc = doc(firestore, 'artifacts', appId, 'users', uid, 'progress', 'v2');
         try {
             const snap = await getDoc(pDoc);
             if (snap.exists()) {
@@ -146,14 +127,17 @@ function App() {
                 setIndex(data.index || 0);
                 setAnswers(data.answers || Array(EXERCISES.length).fill(''));
             }
-        } catch (e) { console.error(e); }
-        setLoading(false);
+        } catch (e) { 
+            console.error("Erro ao carregar progresso:", e); 
+        } finally {
+            setLoading(false);
+        }
     };
 
     const saveProgress = async (newIdx, newAnswers) => {
         if (!user || !db) return;
         const { doc, setDoc } = window.firebaseCore;
-        const pDoc = doc(db, 'artifacts', appId, 'users', user.uid, 'data', 'v2');
+        const pDoc = doc(db, 'artifacts', appId, 'users', user.uid, 'progress', 'v2');
         await setDoc(pDoc, { index: newIdx, answers: newAnswers }, { merge: true });
     };
 
@@ -188,7 +172,6 @@ function App() {
 
     return (
         <div className="min-h-screen p-4 md:p-8 max-w-5xl mx-auto">
-            {/* Nav Header */}
             <header className="flex flex-col md:flex-row justify-between items-center mb-10 border-b border-white/10 pb-6 gap-4">
                 <div className="text-center md:text-left">
                     <h1 className="text-2xl font-black tracking-tighter text-white">ESPAÑOL <span className="text-blue-500">DATA PRO</span></h1>
@@ -196,11 +179,8 @@ function App() {
                 </div>
                 <div className="flex bg-slate-900 p-1 rounded-lg border border-white/5">
                     {['theory', 'vocab', 'practice'].map(t => (
-                        <button 
-                            key={t}
-                            onClick={() => setTab(t)}
-                            className={`px-4 py-2 rounded text-xs font-bold uppercase tracking-widest transition-all ${tab === t ? 'bg-blue-600 text-white shadow-lg' : 'text-slate-500 hover:text-slate-300'}`}
-                        >
+                        <button key={t} onClick={() => setTab(t)}
+                            className={`px-4 py-2 rounded text-xs font-bold uppercase tracking-widest transition-all ${tab === t ? 'bg-blue-600 text-white shadow-lg' : 'text-slate-500 hover:text-slate-300'}`}>
                             {t === 'theory' ? 'Gramática' : t === 'vocab' ? 'Vocabulario' : 'Práctica'}
                         </button>
                     ))}
@@ -211,52 +191,18 @@ function App() {
                 {tab === 'theory' && (
                     <div className="grid gap-8">
                         <div className="glass-card rounded-2xl p-8 border-l-4 border-blue-500">
-                            <SectionTitle icon="📚">El Pasado Reciente</SectionTitle>
+                            <h2 className="text-xl font-bold mb-6 text-blue-400">📚 El Pasado Reciente</h2>
                             <p className="text-slate-300 mb-6 leading-relaxed">
-                                Diferente do português, no espanhol usamos o <strong>Pretérito Perfecto Compuesto</strong> para falar de ações concluídas em um tempo que ainda não terminou (hoje, esta semana, este mês). Na Espanha, este é o tempo padrão para falar do seu dia de trabalho.
+                                No espanhol, usamos o <strong>Pretérito Perfecto Compuesto</strong> para ações concluídas hoje ou recentemente. 
+                                É vital para o seu dia a dia com o time da Espanha e amplamente usado em toda a LatAm.
                             </p>
-                            <div className="overflow-x-auto">
-                                <table className="w-full text-left text-sm code-font">
-                                    <thead>
-                                        <tr className="text-blue-400 border-b border-white/10">
-                                            <th className="pb-4">Sujeto</th>
-                                            <th className="pb-4">Haber</th>
-                                            <th className="pb-4">Participio</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody className="text-slate-300">
-                                        {GRAMMAR_TABLE.map((row, i) => (
-                                            <tr key={i} className="border-b border-white/5">
-                                                <td className="py-3 font-bold">{row.person}</td>
-                                                <td className="py-3 text-emerald-400">{row.haber}</td>
-                                                <td className="py-3">{row.suffix}</td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            <div className="glass-card rounded-2xl p-8">
-                                <SectionTitle icon="⚠️">Verbos Irregulares</SectionTitle>
-                                <div className="space-y-4">
-                                    {IRREGULARS.map((item, i) => (
-                                        <div key={i} className="flex justify-between items-center p-3 bg-slate-900/50 rounded-lg border border-white/5">
-                                            <span className="text-slate-400 font-mono text-xs">{item.verb}</span>
-                                            <span className="font-bold text-blue-400">{item.part}</span>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                            <div className="glass-card rounded-2xl p-8 bg-blue-900/10">
-                                <SectionTitle icon="💡">Dica Cultural</SectionTitle>
-                                <p className="text-slate-400 text-sm leading-relaxed mb-4">
-                                    Na América Latina, você ouvirá tanto "Hablé" quanto "He hablado". Porém, na Espanha (onde seu colega vive), se você disser "Hablé" para algo que aconteceu <strong>hoje</strong>, soará como se você estivesse lendo um livro de história.
-                                </p>
-                                <div className="p-4 bg-slate-900 rounded-lg border border-blue-500/30">
-                                    <p className="text-xs font-bold text-blue-300 uppercase mb-2">Uso em Madrid:</p>
-                                    <p className="italic text-sm">"Hoy <span className="text-blue-400 font-bold">he tenido</span> una reunión con Paco."</p>
+                            <div className="bg-slate-900/50 p-6 rounded-xl border border-white/5">
+                                <p className="text-blue-400 font-mono text-sm mb-4">// Estrutura: Haber (he, has, ha...) + Participio (-ado, -ido)</p>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm font-mono">
+                                    <div className="p-3 bg-slate-800 rounded">Yo <span className="text-emerald-400">he hablado</span></div>
+                                    <div className="p-3 bg-slate-800 rounded">Tú <span className="text-emerald-400">has enviado</span></div>
+                                    <div className="p-3 bg-slate-800 rounded">Él <span className="text-emerald-400">ha dicho</span></div>
+                                    <div className="p-3 bg-slate-800 rounded">Nosotros <span className="text-emerald-400">hemos visto</span></div>
                                 </div>
                             </div>
                         </div>
@@ -264,32 +210,21 @@ function App() {
                 )}
 
                 {tab === 'vocab' && (
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="glass-card rounded-2xl p-6">
-                            <h3 className="font-bold text-blue-400 mb-4 uppercase text-xs tracking-widest">Infra & Tech</h3>
-                            <ul className="space-y-3 text-sm">
+                            <h3 className="font-bold text-blue-400 mb-4 uppercase text-xs">💻 Infra & Data</h3>
+                            <ul className="space-y-2 text-sm">
                                 <li className="flex justify-between border-b border-white/5 pb-2"><span>Hoja de cálculo</span> <span className="text-slate-500">Planilha</span></li>
                                 <li className="flex justify-between border-b border-white/5 pb-2"><span>Carpeta</span> <span className="text-slate-500">Pasta</span></li>
-                                <li className="flex justify-between border-b border-white/5 pb-2"><span>Descargar</span> <span className="text-slate-500">Baixar</span></li>
-                                <li className="flex justify-between border-b border-white/5 pb-2"><span>Subir</span> <span className="text-slate-500">Upload</span></li>
+                                <li className="flex justify-between border-b border-white/5 pb-2"><span>Descargar/Subir</span> <span className="text-slate-500">Download/Upload</span></li>
                             </ul>
                         </div>
-                        <div className="glass-card rounded-2xl p-6">
-                            <h3 className="font-bold text-emerald-400 mb-4 uppercase text-xs tracking-widest">Negocios</h3>
-                            <ul className="space-y-3 text-sm">
-                                <li className="flex justify-between border-b border-white/5 pb-2"><span>Hallazgos</span> <span className="text-slate-500">Insights</span></li>
-                                <li className="flex justify-between border-b border-white/5 pb-2"><span>Socio</span> <span className="text-slate-500">Sócio/Parceiro</span></li>
-                                <li className="flex justify-between border-b border-white/5 pb-2"><span>Reunión</span> <span className="text-slate-500">Reunião</span></li>
-                                <li className="flex justify-between border-b border-white/5 pb-2"><span>Informe</span> <span className="text-slate-500">Relatório</span></li>
-                            </ul>
-                        </div>
-                        <div className="glass-card rounded-2xl p-6 bg-indigo-900/10">
-                            <h3 className="font-bold text-indigo-400 mb-4 uppercase text-xs tracking-widest">El Tiempo (Rato)</h3>
-                            <p className="text-xs text-slate-400 mb-4">"Rato" em espanhol é duração, não animal (isso seria "Ratón").</p>
-                            <ul className="space-y-3 text-sm">
+                        <div className="glass-card rounded-2xl p-6 bg-blue-900/10">
+                            <h3 className="font-bold text-indigo-400 mb-4 uppercase text-xs">⏳ El Rato (Falso Amigo)</h3>
+                            <p className="text-xs text-slate-400 mb-4">Lembre-se: "Rato" é tempo, não o animal!</p>
+                            <ul className="space-y-2 text-sm">
                                 <li className="flex justify-between border-b border-white/5 pb-2"><span>Un rato</span> <span className="text-slate-500">Um tempo</span></li>
                                 <li className="flex justify-between border-b border-white/5 pb-2"><span>Un ratito</span> <span className="text-slate-500">Um instantinho</span></li>
-                                <li className="flex justify-between border-b border-white/5 pb-2"><span>Hace un rato</span> <span className="text-slate-500">Há pouco tempo</span></li>
                             </ul>
                         </div>
                     </div>
@@ -298,66 +233,39 @@ function App() {
                 {tab === 'practice' && (
                     <div className="max-w-2xl mx-auto">
                         <ProgressBar current={index} total={EXERCISES.length} />
-                        
                         {feedback === 'done' || index >= EXERCISES.length ? (
-                            <div className="glass-card rounded-3xl p-12 text-center shadow-blue-900/20 shadow-2xl">
+                            <div className="glass-card rounded-3xl p-12 text-center shadow-2xl">
                                 <div className="text-5xl mb-6">🚀</div>
                                 <h2 className="text-3xl font-bold mb-4 text-blue-400">¡Nivel Superado!</h2>
-                                <p className="text-slate-400 mb-8">Has completado los 20 ejercicios de inmersión profesional. Estás listo para hablar con tu equipo en España.</p>
-                                <button onClick={() => {setIndex(0); setFeedback(null);}} className="bg-blue-600 hover:bg-blue-500 text-white px-8 py-3 rounded-xl font-bold transition-all">Reiniciar Entrenamiento</button>
+                                <p className="text-slate-400 mb-8">Has completado los ejercicios. ¡Buen trabajo!</p>
+                                <button onClick={() => {setIndex(0); setFeedback(null);}} className="bg-blue-600 px-8 py-3 rounded-xl font-bold">Reiniciar</button>
                             </div>
                         ) : (
                             <div className="glass-card rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden">
-                                <div className="flex justify-between text-[10px] font-black uppercase text-slate-500 tracking-widest mb-8">
-                                    <span>Ejercicio {index + 1} de {EXERCISES.length}</span>
-                                    <span className="text-blue-400">Analytics Module</span>
-                                </div>
-
                                 <div className="mb-10">
                                     <h3 className="text-2xl font-semibold leading-relaxed text-white">
                                         {EXERCISES[index].q.split('____').map((p, i) => (
-                                            <span key={i}>
-                                                {p}
-                                                {i === 0 && (
-                                                    <input 
-                                                        type="text"
-                                                        value={answers[index]}
-                                                        onChange={e => {
-                                                            const n = [...answers];
-                                                            n[index] = e.target.value;
-                                                            setAnswers(n);
-                                                        }}
-                                                        onKeyDown={e => e.key === 'Enter' && handleCheck()}
-                                                        className={`mx-2 w-44 md:w-56 text-center border-b-2 py-1 code-font font-bold transition-all bg-transparent ${feedback === 'correct' ? 'text-emerald-400 border-emerald-500' : feedback === 'error' ? 'text-red-400 border-red-500' : 'text-blue-300 border-slate-700'}`}
-                                                        placeholder="..."
-                                                        autoFocus
-                                                    />
-                                                )}
-                                            </span>
+                                            <span key={i}>{p}{i === 0 && (
+                                                <input type="text" value={answers[index]}
+                                                    onChange={e => { const n = [...answers]; n[index] = e.target.value; setAnswers(n); }}
+                                                    onKeyDown={e => e.key === 'Enter' && handleCheck()}
+                                                    className={`mx-2 w-44 md:w-56 text-center border-b-2 py-1 code-font font-bold transition-all bg-transparent ${feedback === 'correct' ? 'text-emerald-400 border-emerald-500' : feedback === 'error' ? 'text-red-400 border-red-500' : 'text-blue-300 border-slate-700'}`}
+                                                    placeholder="..." autoFocus />
+                                            )}</span>
                                         ))}
                                     </h3>
                                     <p className="mt-4 text-slate-500 italic text-sm">"{EXERCISES[index].trans}"</p>
                                 </div>
-
-                                <div className="flex items-start gap-4 p-4 bg-slate-900/50 rounded-xl border border-white/5">
-                                    <div className="mt-1 w-2 h-2 rounded-full bg-blue-500"></div>
-                                    <p className="text-xs text-slate-400 font-medium"><strong>Hint:</strong> {EXERCISES[index].h}</p>
-                                </div>
-
-                                <button 
-                                    onClick={handleCheck}
-                                    className={`mt-8 w-full py-4 rounded-xl font-bold transition-all shadow-lg ${feedback === 'correct' ? 'bg-emerald-600' : feedback === 'error' ? 'bg-red-600' : 'bg-blue-600 hover:bg-blue-500'}`}
-                                >
-                                    {feedback === 'correct' ? '¡Correcto!' : feedback === 'error' ? 'Intenta de nuevo' : 'Verificar Respuesta'}
+                                <button onClick={handleCheck} className={`mt-8 w-full py-4 rounded-xl font-bold transition-all ${feedback === 'correct' ? 'bg-emerald-600' : feedback === 'error' ? 'bg-red-600' : 'bg-blue-600'}`}>
+                                    {feedback === 'correct' ? '¡Correcto!' : feedback === 'error' ? 'Intenta de nuevo' : 'Verificar'}
                                 </button>
                             </div>
                         )}
                     </div>
                 )}
             </main>
-
             <footer className="mt-16 text-center text-slate-600 font-mono text-[10px] uppercase tracking-widest pb-10">
-                Data Science Professional Spanish | V2.0 | Save enabled
+                Data Science Professional Spanish | V2.1 | Persistência Corrigida
             </footer>
         </div>
     );
