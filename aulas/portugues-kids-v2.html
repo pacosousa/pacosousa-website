@@ -14,10 +14,10 @@
     <!-- Firebase SDK -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        window.firebaseCore = { initializeApp, getAuth, signInAnonymously, onAuthStateChanged, getFirestore, doc, getDoc, setDoc, updateDoc };
+        window.firebaseCore = { initializeApp, getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken, getFirestore, doc, getDoc, setDoc, onSnapshot, collection };
     </script>
 
     <style>
@@ -31,18 +31,10 @@
         .animate-bounce-slow { animation: bounce-slow 3s ease-in-out infinite; }
         @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-8px)} 75%{transform:translateX(8px)} }
         .animate-shake { animation: shake 0.3s ease-in-out; }
-        @keyframes confetti-fall { 0%{transform:translateY(-20px) rotate(0deg);opacity:1} 100%{transform:translateY(100vh) rotate(720deg);opacity:0} }
         @keyframes slide-up { from{transform:translateY(20px);opacity:0} to{transform:translateY(0);opacity:1} }
         .slide-up { animation: slide-up 0.35s ease-out; }
-        .card-flip { transition: transform 0.45s cubic-bezier(0.4,0,0.2,1); }
-        .neon-glow { box-shadow: 0 0 15px rgba(255,60,172,0.5), 0 0 30px rgba(255,60,172,0.2); }
-        .matched-glow { box-shadow: 0 0 18px rgba(0,245,212,0.55); }
         input[type="text"] { outline: none; }
-        .anki-card-flip { transition: transform 0.55s cubic-bezier(0.4,0,0.2,1); transform-style: preserve-3d; }
-        .anki-card-flip.flipped { transform: rotateY(180deg); }
-        .anki-face { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
-        .anki-back { transform: rotateY(180deg); }
-
+        
         .theory-card {
             height: calc(100vh - 130px);
             min-height: 420px;
@@ -59,6 +51,7 @@
         }
         .theory-items-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
         .theory-items-grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
+        .theory-items-grid.cols-5 { grid-template-columns: repeat(5, 1fr); }
         .theory-item-card {
             background: rgba(255,255,255,0.18);
             border-radius: 20px;
@@ -76,14 +69,16 @@
 <script type="text/babel">
 const { useState, useEffect, useMemo, useCallback } = React;
 
-// ─── ICONS ────────────────────────────────────────────────────────────────────
-const IconArrowLeft = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>;
-const IconSparkles = ({size=24}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>;
-const IconCheck = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5"/></svg>;
-const IconRotate = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>;
-const IconSave = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>;
+// ─── UTILS ────────────────────────────────────────────────────────────────────
+const numberToExtensive = (num) => {
+    const map = {
+        10: "Dez", 20: "Vinte", 30: "Trinta", 40: "Quarenta", 50: "Cinquenta",
+        60: "Sessenta", 70: "Setenta", 80: "Oitenta", 90: "Noventa", 100: "Cem",
+        200: "Duzentos", 300: "Trezentos", 400: "Quatrocentos", 500: "Quinhentos"
+    };
+    return map[num] || num.toString();
+};
 
-// ─── SOUND ────────────────────────────────────────────────────────────────────
 const playSound = (type) => {
     try {
         const ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -104,46 +99,38 @@ const playSound = (type) => {
     } catch(e) {}
 };
 
-// ─── DATA ─────────────────────────────────────────────────────────────────────
-// REMOVED "¡" as requested
-const MOTIVATIONAL_PHRASES = [
-    "Cada palavra nova é um superpoder! 💜",
-    "Hoje você aprende, amanhã você fala! 🇧🇷",
-    "Você é uma estrela dos idiomas! 🌟",
-    "Seu português vai ser incrível! 🚀",
-    "A jogar e aprender juntos! 🎮"
-];
+// ─── DATA (REVISADO GRAMATICALMENTE) ──────────────────────────────────────────
+const MOTIVATIONAL_PHRASES = ["Cada palavra nova é um superpoder! 💜", "Hoje você aprende, amanhã você fala! 🇧🇷", "Você é uma estrela dos idiomas! 🌟", "Seu português vai ser incrível! 🚀", "Vamos jogar e aprender juntos! 🎮"];
 
-// REVISION DATA - 50 ITEMS
 const REVISION_DATA = [
     { q: "Oi! Tudo ____?", a: "bem", h: "Saudações", trans: "¡Hola! ¿Todo bien?" },
     { q: "Bom ____", a: "dia", h: "Manhã", trans: "Buen día" },
     { q: "Boa ____", a: "tarde", h: "Pós-meio-dia", trans: "Buenas tardes" },
-    { q: "Boa ____", a: "noite", h: "Escuro", trans: "Buenas noches" },
-    { q: "Meu ____ é Paco", a: "nome", h: "Identidade", trans: "Mi nombre es Paco" },
+    { q: "Boa ____", a: "noite", h: "Anoitecer", trans: "Buenas noches" },
+    { q: "Meu ____ é Margo", a: "nome", h: "Identidade", trans: "Mi nombre es Margo" },
     { q: "Eu ____ da Argentina", a: "sou", h: "Origem", trans: "Yo soy de Argentina" },
-    { q: "Eu tenho 8 ____", a: "anos", h: "Idade", trans: "Tendo 8 años" },
-    { q: "Muito ____!", a: "prazer", h: "Educação", trans: "¡Mucho gusto!" },
+    { q: "Eu tenho 8 ____", a: "anos", h: "Idade", trans: "Tengo 8 años" },
+    { q: "Muito ____!", a: "prazer", h: "Cortesia", trans: "¡Mucho gusto!" },
     { q: "Até ____", a: "amanhã", h: "Próximo dia", trans: "Hasta mañana" },
     { q: "____!", a: "Tchau", h: "Adeus", trans: "¡Chau!" },
     { q: "Eu ____ em Buenos Aires", a: "moro", h: "Residência", trans: "Yo vivo en Buenos Aires" },
     { q: "Eu ____ espanhol", a: "falo", h: "Idioma", trans: "Yo hablo español" },
-    { q: "Eu ____ português", a: "aprendo", h: "Ação", trans: "Yo aprendo portugués" },
+    { q: "Eu ____ português", a: "aprendo", h: "Ação", trans: "Yo aprendo português" },
     { q: "Eu ____ de desenhar", a: "gosto", h: "Preferência", trans: "Me gusta dibujar" },
     { q: "Eu ____ Roblox", a: "adoro", h: "Gosto muito", trans: "Me encanta Roblox" },
     { q: "____ gosto de brócolis", a: "Não", h: "Negação", trans: "No me gusta el brócoli" },
-    { q: "Não gosto ____ de mosquitos", a: "nada", h: "Intensidade", trans: "No me gusta nada los mosquitos" },
-    { q: "____ sou a Anya", a: "Eu", h: "1ª Pessoa", trans: "Yo soy Anya" },
-    { q: "____ é meu amigo", a: "Você", h: "2ª Pessoa", trans: "Vos sos mi amigo" },
+    { q: "Não gosto ____ de mosquitos", a: "nada", h: "Intensidade", trans: "No me gustan nada los mosquitos" },
+    { q: "____ sou a Margo", a: "Eu", h: "1ª Pessoa", trans: "Yo soy Margo" },
+    { q: "____ é meu amigo", a: "Você", h: "2ª Pessoa", trans: "Tú eres/Vos sos mi amigo" },
     { q: "____ é o meu pai", a: "Ele", h: "Masculino", trans: "Él es mi padre" },
     { q: "____ é a minha mãe", a: "Ela", h: "Feminino", trans: "Ella es mi madre" },
     { q: "____, dois, três", a: "Um", h: "Número 1", trans: "Uno, dos, tres" },
     { q: "Quatro, ____", a: "cinco", h: "Número 5", trans: "Cuatro, cinco" },
     { q: "____, sete, oito", a: "Seis", h: "Número 6", trans: "Seis, siete, ocho" },
     { q: "Nove, ____", a: "dez", h: "Número 10", trans: "Nueve, diez" },
-    { q: "O morango é ____", a: "vermelho", h: "Cor (Rojo)", trans: "La frutilla es roja" },
+    { q: "O morango é ____", a: "vermelho", h: "Cor (Rojo)", trans: "La fresa es roja" },
     { q: "O céu é ____", a: "azul", h: "Cor (Azul)", trans: "El cielo es azul" },
-    { q: "A grama é ____", a: "verde", h: "Cor (Verde)", trans: "El pasto es verde" },
+    { q: "A grama é ____", a: "verde", h: "Cor (Verde)", trans: "El césped es verde" },
     { q: "O sol é ____", a: "amarelo", h: "Cor (Amarillo)", trans: "El sol es amarillo" },
     { q: "A laranja é ____", a: "laranja", h: "Cor (Naranja)", trans: "La naranja es naranja" },
     { q: "A uva é ____", a: "roxa", h: "Cor (Morado)", trans: "La uva es morada" },
@@ -151,36 +138,97 @@ const REVISION_DATA = [
     { q: "Uso o ____ para escrever", a: "lápis", h: "Grafite", trans: "Uso el lápiz para escribir" },
     { q: "Guardo tudo na ____", a: "mochila", h: "Transporte", trans: "Guardo todo en la mochila" },
     { q: "Apago com a ____", a: "borracha", h: "Limpar", trans: "Borro con la goma" },
-    { q: "Uso a ____ para medir", a: "régua", h: "Linhas", trans: "Uso la regla para medir" },
-    { q: "Escrevo com a ____", a: "caneta", h: "Tinta", trans: "Escribo con la lapicera" },
-    { q: "Leio um ____", a: "livro", h: "Histórias", trans: "Leo un libro" },
-    { q: "Corto com a ____", a: "tesoura", h: "Papel", trans: "Corto con la tijera" },
-    { q: "A bandeira é verde e ____", a: "amarela", h: "Cores do Brasil", trans: "La bandera es verde y amarilla" },
-    { q: "____ dia, professora!", a: "Bom", h: "Cumprimento", trans: "¡Buen día, profesora!" },
-    { q: "____ noite, papai!", a: "Boa", h: "Cumprimento", trans: "¡Buenas noches, papá!" },
-    { q: "Eu ____ oito gemas", a: "tenho", h: "Posse", trans: "Tengo ocho gemas" },
-    { q: "O ____ do Roblox é azul", a: "diamante", h: "Gema", trans: "El diamante de Roblox es azul" },
-    { q: "Você ____ de pizza?", a: "gosta", h: "Pergunta", trans: "¿Te gusta la pizza?" },
-    { q: "____ moro na Argentina", a: "Eu", h: "Identidade", trans: "Yo vivo en Argentina" },
-    { q: "O ____ é meu animal favorito", a: "elefante", h: "Animal", trans: "El elefante es mi animal favorito" },
-    { q: "Um, ____, três, quatro", a: "dois", h: "Contagem", trans: "Uno, dos, tres, cuatro" },
-    { q: "A maçã é ____", a: "vermelha", h: "Cor", trans: "La manzana es roja" },
-    { q: "Até ____!", a: "logo", h: "Despedida", trans: "¡Hasta luego!" }
+    { q: "Uso a ____ para medir", a: "régua", h: "Linhas", trans: "Uso a régua para medir" },
+    { q: "Escrevo com a ____", a: "caneta", h: "Tinta", trans: "Escribo con o bolígrafo" },
+    { q: "Leio um ____", a: "livro", h: "Histórias", trans: "Leo um livro" },
+    { q: "Corto com a ____", a: "tesoura", h: "Papel", trans: "Corto con las tijeras" },
+    { q: "A bandeira é verde e ____", a: "amarela", h: "Brasil", trans: "La bandeira é verde e amarela" },
+    { q: "____ dia, professora!", a: "Bom", h: "Saudação", trans: "¡Buen día, professora!" },
+    { q: "____ noite, papai!", a: "Boa", h: "Saudação", trans: "¡Buenas noches, papai!" },
+    { q: "Eu ____ oito gemas", a: "tenho", h: "Posse", trans: "Eu tenho oito gemas" },
+    { q: "O ____ do Roblox é azul", a: "diamante", h: "Gema", trans: "O diamante do Roblox é azul" },
+    { q: "Você ____ de pizza?", a: "gosta", h: "Pergunta", trans: "¿Te gusta a pizza?" },
+    { q: "____ moro na Argentina", a: "Eu", h: "Sujeito", trans: "Yo vivo na Argentina" },
+    { q: "O ____ é meu animal favorito", a: "elefante", h: "Animal", trans: "O elefante é meu animal favorito" },
+    { q: "Um, ____, três, quatro", a: "dois", h: "Contagem", trans: "Uno, dos, tres, quatro" },
+    { q: "A maçã é ____", a: "vermelha", h: "Cor", trans: "La manzana é vermelha" },
+    { q: "Até ____!", a: "logo", h: "Despedida", trans: "¡Até logo!" }
 ];
 
-// PREVIOUS CLASSES DATA (Simplified)
-const CLASS_1A_GREETINGS = [{pt:'Oi!', es:'¡Hola! 👋'}, {pt:'Tudo bem?', es:'¿Cómo estás? 😊'}, {pt:'Bom dia', es:'Buen día ☀️'}, {pt:'Boa tarde', es:'Buenas tardes 🌤️'}, {pt:'Boa noite', es:'Buenas noches 🌙'}, {pt:'Tchau!', es:'¡Chau! 👋'}, {pt:'Até amanhã', es:'Hasta mañana 📅'}, {pt:'Prazer!', es:'¡Mucho gusto! ✨'}];
-const CLASS_1B_THEORY = [{ title: "Onde eu moro? 🏠", items: [{n:"🏠", pt:"Eu moro em...", es:"Vivo en..."}, {n:"🗣️", pt:"Eu falo...", es:"Hablo..."}, {n:"📖", pt:"Eu aprendo...", es:"Aprendo..."}], bg:"bg-[#4361EE]" }, { title: "Gostos ❤️", items: [{n:"👍", pt:"Eu gosto de...", es:"Me gusta..."}, {n:"🌟", pt:"Eu adoro...", es:"Me encanta..."}, {n:"👎", pt:"Não gosto de...", es:"No me gusta..."}, {n:"😶", pt:"Não gosto nada de...", es:"No me gusta nada..."}], bg:"bg-[#7B2FFF]" }, { title: "Os Pronomes 👤", items: [{n:"☝️", pt:"Eu", es:"Yo"}, {n:"🫵", pt:"Você", es:"Vos"}, {n:"👦", pt:"Ele", es:"Él"}, {n:"👧", pt:"Ela", es:"Ella"}], bg:"bg-[#FF3CAC]" }];
-const CLASS_2_THEORY = [{ title:"Os Números 🔢", items:[{n:"1",pt:"Um"},{n:"2",pt:"Dois"},{n:"3",pt:"Três"},{n:"4",pt:"Quatro"},{n:"5",pt:"Cinco"}], bg:"bg-[#7B2FFF]" }];
-const CLASS_3_THEORY = [{ title: "Na Mochila 🎒", items: [{ n: "📓", pt: "Caderno" }, { n: "✏️", pt: "Lápis" }, { n: "🎒", pt: "Mochila" }, { n: "📏", pt: "Régua" }], bg: "bg-[#FF6B35]" }];
-const CLASS_2_MEM_A = [{pt:'caderno',emoji:'📓'}, {pt:'lápis',emoji:'✏️'}, {pt:'mochila',emoji:'🎒'}, {pt:'borracha',emoji:'🧼'}];
+const CLASS_1B_EXERCISES = [
+    { q: "Eu ____ em Buenos Aires", a: "moro", h: "Moradia", trans: "Yo vivo en Buenos Aires" },
+    { q: "Eu ____ espanhol", a: "falo", h: "Idioma", trans: "Yo hablo español" },
+    { q: "Eu ____ português", a: "aprendo", h: "Estudo", trans: "Yo aprendo português" },
+    { q: "Eu ____ de chocolate", a: "gosto", h: "Gosto", trans: "Me gusta el chocolate" },
+    { q: "Eu ____ Roblox", a: "adoro", h: "Sentimento", trans: "Me encanta Roblox" },
+    { q: "____ gosto de cebola", a: "Não", h: "Negativo", trans: "No me gusta la cebolla" },
+    { q: "____ sou a Margo", a: "Eu", h: "Sujeito", trans: "Yo soy Margo" },
+    { q: "____ é meu amigo", a: "Você", h: "Pessoa", trans: "Tú eres mi amigo" }
+];
+
+const CLASS_1A_GREETINGS = [{pt:'Oi!', es:'¡Hola! 👋'}, {pt:'Tudo bem?', es:'¿Todo bem? 😊'}, {pt:'Bom dia', es:'Buen día ☀️'}, {pt:'Boa tarde', es:'Buenas tardes 🌤️'}, {pt:'Boa noite', es:'Buenas noches 🌙'}, {pt:'Tchau!', es:'¡Chau! 👋'}, {pt:'Até amanhã', es:'Hasta mañana 📅'}, {pt:'Prazer!', es:'¡Mucho gusto! ✨'}, {pt:'Muito prazer!', es:'¡Es um prazer! / ¡Encantado! 🤝'}];
+const CLASS_1B_THEORY = [{ title: "Onde eu moro? 🏠", items: [{n:"🏠", pt:"Eu moro em...", es:"Yo vivo en..."}, {n:"🗣️", pt:"Eu falo...", es:"Yo hablo..."}, {n:"📖", pt:"Eu aprendo...", es:"Yo aprendo..."}], bg:"bg-[#4361EE]" }, { title: "Gostos ❤️", items: [{n:"👍", pt:"Eu gosto de...", es:"Me gusta..."}, {n:"🌟", pt:"Eu adoro...", es:"Me encanta..."}, {n:"👎", pt:"Não gosto de...", es:"No me gusta..."}, {n:"😑", pt:"Não gosto nada de...", es:"No me gusta para nada..."}], bg:"bg-[#7B2FFF]" }, { title: "Os Pronomes 👤", items: [{n:"☝️", pt:"Eu", es:"Yo"}, {n:"🫵", pt:"Você", es:"Tú / Vos"}, {n:"👦", pt:"Ele", es:"Él"}, {n:"👧", pt:"Ela", es:"Ella"}], bg:"bg-[#FF3CAC]" }];
+
+const CLASS_1A_COMP_THEORY = [
+    { title:"Os Números (1–5) 🔢", items:[{n:"1",pt:"Um"},{n:"2",pt:"Dois"},{n:"3",pt:"Três"},{n:"4",pt:"Quatro"},{n:"5",pt:"Cinco"}], bg:"bg-[#7B2FFF]" },
+    { title:"Os Números (6–10) 💎", items:[{n:"6",pt:"Seis"},{n:"7",pt:"Sete"},{n:"8",pt:"Oito"},{n:"9",pt:"Nove"},{n:"10",pt:"Dez"}], bg:"bg-[#FF3CAC]" },
+    { title:"As Cores 🎨", items:[{n:"🟥",pt:"Vermelho"},{n:"🟦",pt:"Azul"},{n:"🟩",pt:"Verde"},{n:"🟨",pt:"Amarelo"}], bg:"bg-[#042f24]" }
+];
+
+const CLASS_1B_COMP_THEORY = [
+    { title: "Na Mochila 🎒", items: [{ n: "📓", pt: "Caderno" }, { n: "✏️", pt: "Lápis" }, { n: "🎒", pt: "Mochila" }, { n: "📏", pt: "Régua" }, { n: "📚", pt: "Livro" }, { n: "🍱", pt: "Lancheira" }], bg: "bg-[#FF6B35]" },
+    { title: "No Estojo 👝", items: [{ n: "👝", pt: "Estojo" }, { n: "🖊️", pt: "Caneta" }, { n: "✂️", pt: "Tesoura" }, { n: "🧼", pt: "Borracha" }, { n: "🖍️", pt: "Apontador" }], bg: "bg-[#2EC4B6]", textColor: "text-[#0F0A1E]" },
+    { title: "Quadro de Cores 🎨", items: [{ n: "🟥", pt: "Vermelho" }, { n: "🟦", pt: "Azul" }, { n: "🟩", pt: "Verde" }, { n: "🟨", pt: "Amarelo" }, { n: "🟧", pt: "Laranja" }, { n: "🟪", pt: "Roxo" }, { n: "🩷", pt: "Rosa" }, { n: "⬛", pt: "Preto" }, { n: "⬜", pt: "Branco" }], bg: "bg-[#7B2FFF]" }
+];
+
+const CLASS_1B_COMP_MEM = [
+    { pt: "Mochila", emoji: "🎒" }, { pt: "Lancheira", emoji: "🍱" }, { pt: "Estojo", emoji: "👝" }, { pt: "Caneta", emoji: "🖊️" },
+    { pt: "Borracha", emoji: "🧼" }, { pt: "Tesoura", emoji: "✂️" }, { pt: "Laranja", emoji: "🟧" }, { pt: "Roxo", emoji: "🟪" }
+];
+
+const CLASS_2A_THEORY = [
+    { title: "As Dezenas (10-50) 🪙", items: [{ n: "10", pt: "Dez" }, { n: "20", pt: "Vinte" }, { n: "30", pt: "Trinta" }, { n: "40", pt: "Quarenta" }, { n: "50", pt: "Cinquenta" }], bg: "bg-[#4361EE]" },
+    { title: "As Dezenas (60-100) 💰", items: [{ n: "60", pt: "Sessenta" }, { n: "70", pt: "Setenta" }, { n: "80", pt: "Oitenta" }, { n: "90", pt: "Noventa" }, { n: "100", pt: "Cem" }], bg: "bg-[#7B2FFF]" },
+    { title: "O Verbo TER 🤝", items: [{ n: "🙋‍♂️", pt: "Eu tenho" }, { n: "🫵", pt: "Você tem" }, { n: "👦", pt: "Ele tem" }, { n: "👧", pt: "Ela tem" }], bg: "bg-[#FF3CAC]" },
+    { title: "Números Ordinais 🏆", items: [{ n: "1º", pt: "Primeiro" }, { n: "2º", pt: "Segundo" }, { n: "3º", pt: "Terceiro" }], bg: "bg-[#FFD60A]", textColor: "text-[#0F0A1E]" }
+];
+
+const CLASS_2A_MARKET_ITEMS = [
+    { id: 1, name: "Skin de Dragão", price: 80, emoji: "🐲" },
+    { id: 2, name: "Espada de Diamante", price: 100, emoji: "⚔️" },
+    { id: 3, name: "Mochila Gigante", price: 50, emoji: "🎒" },
+    { id: 4, name: "Capa de Herói", price: 20, emoji: "🦸‍♀️" },
+    { id: 5, name: "Gema Mágica", price: 90, emoji: "💎" },
+    { id: 6, name: "Asas de Anjo", price: 100, emoji: "👼" },
+    { id: 7, name: "Pet de Estimação", price: 40, emoji: "🐶" },
+    { id: 8, name: "Poção de Velocidade", price: 60, emoji: "🧪" },
+    { id: 9, name: "Gato Robô", price: 50, emoji: "🐱" },
+    { id: 10, name: "Skate Voador", price: 70, emoji: "🛹" },
+    { id: 11, name: "Coroa Real", price: 100, emoji: "👑" },
+    { id: 12, name: "Martelo de Thor", price: 80, emoji: "🔨" },
+    { id: 13, name: "Escudo de Ouro", price: 40, emoji: "🛡️" },
+    { id: 14, name: "Arco de Gelo", price: 30, emoji: "🏹" },
+    { id: 15, name: "Moto de Neon", price: 90, emoji: "🏍️" },
+    { id: 16, name: "Jetpack", price: 100, emoji: "🚀" },
+    { id: 17, name: "Óculos 3D", price: 10, emoji: "🕶️" },
+    { id: 18, name: "Fone de Ouvido", price: 20, emoji: "🎧" },
+    { id: 19, name: "Tapete Mágico", price: 80, emoji: "🧹" },
+    { id: 20, name: "Unicórnio", price: 100, emoji: "🦄" }
+];
+
+const CLASS_2A_MEM_DATA = [
+    { pt: "Vinte", es: "20" }, { pt: "Quarenta", es: "40" }, { pt: "Sessenta", es: "60" }, { pt: "Oitenta", es: "80" },
+    { pt: "Cem", es: "100" }, { pt: "Primeiro", es: "1º" }, { pt: "Segundo", es: "2º" }, { pt: "Terceiro", es: "3º" }
+];
+
+const CLASS_2_MEM_A = [{pt:'Caderno', emoji:'📓'}, {pt:'Lápis', emoji:'✏️'}, {pt:'Mochila', emoji:'🎒'}, {pt:'Borracha', emoji:'🧼'}];
 
 // ─── SHARED UI ────────────────────────────────────────────────────────────────
 const Button = ({ children, onClick, variant='primary', className='', disabled=false }) => {
     const v = {
-        primary: 'bg-[#FF3CAC] hover:bg-[#ff5bb9] text-white shadow-[0_4px_0_rgb(190,45,128)] active:translate-y-[2px] active:shadow-none',
+        primary: 'bg-[#00F5D4] hover:bg-[#33ffdf] text-[#0F0A1E] shadow-[0_4px_0_rgb(0,180,155)] active:translate-y-[2px] active:shadow-none',
         ghost:   'bg-transparent border-2 border-white/20 hover:bg-white/10 text-white',
-        accent:  'bg-[#00F5D4] hover:bg-[#33ffdf] text-[#0F0A1E] shadow-[0_4px_0_rgb(0,180,155)] active:translate-y-[2px] active:shadow-none',
+        accent:  'bg-[#FF3CAC] hover:bg-[#ff5bb9] text-white shadow-[0_4px_0_rgb(190,45,128)] active:translate-y-[2px] active:shadow-none',
     };
     return (
         <button onClick={onClick} disabled={disabled} className={`px-5 py-2.5 rounded-2xl font-black transition-all transform duration-150 ${v[variant]} ${className}`}>
@@ -189,150 +237,367 @@ const Button = ({ children, onClick, variant='primary', className='', disabled=f
     );
 };
 
-// ─── REVISION COMPONENT (WITH FIRESTORE) ──────────────────────────────────────
-const TotalRevision = ({ onComplete }) => {
+// ─── PROGRESS REPORT COMPONENT ─────────────────────────────
+const ProgressReport = ({ userProgress, onBack }) => {
+    const curriculum = [
+        { id: 'm1a', week: 1, lesson: 'A', name: 'Saudações', emoji: '💜' },
+        { id: 'm1b', week: 1, lesson: 'B', name: 'Gostos e Pronomes', emoji: '🏠' },
+        { id: 'm2',  week: 1, lesson: 'Comp A', name: 'Números e Cores', emoji: '📖' },
+        { id: 'm3',  week: 1, lesson: 'Comp B', name: 'Escola e Cores', emoji: '🧪' },
+        { id: 'm2a', week: 2, lesson: 'A', name: 'Dezenas e Verbo Ter', emoji: '💎' },
+        { id: 'm_rev', week: 2, lesson: 'Revision', name: 'Super Revisão', emoji: '🔥' },
+        { id: 'm2b', week: 2, lesson: 'B', name: 'Em breve...', emoji: '⌛', locked: true }
+    ];
+
+    const completedLessons = curriculum.filter(c => userProgress[c.id]?.completed);
+    const completedCount = completedLessons.length;
+    const totalLessons = curriculum.length;
+    
+    const sumScores = completedLessons.reduce((acc, curr) => acc + (userProgress[curr.id]?.score || 0), 0);
+    const averageScore = completedCount > 0 ? Math.round(sumScores / completedCount) : 0;
+    const progressPercent = Math.round((completedCount / totalLessons) * 100);
+
+    return (
+        <div className="max-w-4xl mx-auto slide-up">
+            <div className="bg-[#1A1035] rounded-[40px] p-8 md:p-12 border-2 border-[#00F5D4]/20 shadow-2xl">
+                <div className="flex flex-col md:flex-row justify-between items-center mb-10 gap-6">
+                    <div className="text-center md:text-left">
+                        <h2 className="text-4xl font-black text-white mb-2">Boletim de Progresso</h2>
+                        <p className="text-[#00F5D4] font-bold uppercase tracking-widest text-sm">Seu desempenho no curso</p>
+                    </div>
+                    <div className="flex gap-4">
+                        <div className="bg-black/30 p-6 rounded-3xl border border-white/5 text-center min-w-[150px]">
+                            <div className="text-4xl font-black text-[#00F5D4]">{averageScore}</div>
+                            <div className="text-[10px] text-white/40 font-black uppercase mt-1">Média Geral</div>
+                        </div>
+                        <div className="bg-black/30 p-6 rounded-3xl border border-white/5 text-center min-w-[150px]">
+                            <div className="text-4xl font-black text-[#7B2FFF]">{progressPercent}%</div>
+                            <div className="text-[10px] text-white/40 font-black uppercase mt-1">Concluído</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {curriculum.map((lesson) => {
+                        const prog = userProgress[lesson.id];
+                        const isDone = prog?.completed;
+                        return (
+                            <div key={lesson.id} className={`flex items-center gap-4 p-5 rounded-3xl border-2 transition-all ${lesson.locked ? 'opacity-30 border-dashed border-white/10' : isDone ? 'bg-[#00F5D4]/5 border-[#00F5D4]/30' : 'bg-white/5 border-white/10'}`}>
+                                <div className={`text-3xl w-14 h-14 flex items-center justify-center rounded-2xl ${isDone ? 'bg-[#00F5D4]/20' : 'bg-white/5'}`}>
+                                    {lesson.locked ? '🔒' : lesson.emoji}
+                                </div>
+                                <div className="flex-1">
+                                    <div className="text-[10px] font-black text-white/30 uppercase tracking-tighter">Semana {lesson.week} - {lesson.lesson}</div>
+                                    <div className="text-sm font-black text-white">{lesson.name}</div>
+                                    {isDone && <div className="text-[9px] font-black text-[#00F5D4] mt-1 flex items-center gap-1">✅ Concluído</div>}
+                                </div>
+                                {isDone && prog.score !== undefined && (
+                                    <div className="text-right">
+                                        <div className="text-xl font-black text-[#00F5D4]">{prog.score}</div>
+                                        <div className="text-[8px] font-black text-white/30 uppercase">Nota</div>
+                                    </div>
+                                )}
+                            </div>
+                        );
+                    })}
+                </div>
+
+                <div className="mt-12 text-center">
+                    <Button onClick={onBack} variant="ghost" className="px-12">Voltar às Aulas</Button>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+// ─── FILL IN THE BLANKS COMPONENT ──────────────────────────
+const FillBlanks = ({ data, onComplete, title, subtitle }) => {
+    const [index, setIndex] = useState(0);
+    const [input, setInput] = useState('');
+    const [feedback, setFeedback] = useState(null); 
+    const [attempts, setAttempts] = useState(0);
+    const [missedIndices, setMissedIndices] = useState([]);
+    const [stats, setStats] = useState({ hits: 0, errors: 0 });
+    const [isReviewMode, setIsReviewMode] = useState(false);
+    const [reviewIndex, setReviewIndex] = useState(0);
+
+    const currentData = isReviewMode ? data[missedIndices[reviewIndex]] : data[index];
+
+    const handleCheck = () => {
+        if (input.trim().toLowerCase() === currentData.a.toLowerCase()) {
+            playSound('correct'); setFeedback('correct');
+            if (!isReviewMode && attempts === 0) setStats(s => ({ ...s, hits: s.hits + 1 }));
+            setTimeout(() => { moveToNext(); }, 1000);
+        } else {
+            playSound('error');
+            if (attempts === 0) { 
+                setFeedback('wrong-first'); 
+                setAttempts(1); 
+                if (!isReviewMode) { 
+                    setStats(s => ({ ...s, errors: s.errors + 1 })); 
+                    setMissedIndices(m => [...m, index]); 
+                } 
+            } else { setFeedback('wrong-second'); }
+        }
+    };
+
+    const moveToNext = () => {
+        setFeedback(null); setAttempts(0); setInput('');
+        if (isReviewMode) { 
+            if (reviewIndex + 1 < missedIndices.length) setReviewIndex(reviewIndex + 1); 
+            else setFeedback('finished'); 
+        } else { 
+            const nextIdx = index + 1; 
+            if (nextIdx < data.length) setIndex(nextIdx); 
+            else missedIndices.length > 0 ? (setIsReviewMode(true), setReviewIndex(0)) : setFeedback('finished'); 
+        }
+    };
+
+    if (feedback === 'finished') {
+        const adjustedHits = stats.hits + ((data.length - stats.hits) * 0.5);
+        const score = Math.max(0, Math.round((adjustedHits / data.length) * 100));
+        return (
+            <div className="text-center slide-up text-white flex flex-col items-center">
+                <h2 className="text-4xl font-black text-[#00F5D4] mb-4">🏆 Exercício Concluído!</h2>
+                <div className="bg-white/5 p-8 rounded-[40px] mt-6 border-2 border-white/10">
+                    <p className="text-[10px] font-black uppercase tracking-widest text-white/40 mb-2">Sua Nota Final</p>
+                    <p className="text-6xl font-black text-[#00F5D4]">{score}</p>
+                </div>
+                <Button onClick={() => onComplete(score)} className="mt-8 px-12">Salvar e Voltar</Button>
+            </div>
+        );
+    }
+
+    return (
+        <div className="max-w-xl mx-auto slide-up">
+             <div className="text-center mb-6">
+                <h3 className="text-xl font-black text-[#00F5D4] uppercase tracking-widest">{title}</h3>
+                <p className="text-white/40 text-xs font-bold">{subtitle}</p>
+            </div>
+             <div className="flex justify-between items-center mb-6 text-[10px] font-black text-white/40 uppercase tracking-widest">
+                <span>{isReviewMode ? `Reforço: ${reviewIndex + 1} de ${missedIndices.length}` : `Exercício ${index + 1} de ${data.length}`}</span>
+                <span className="text-[#00F5D4]">Acertos de 1ª: {stats.hits}</span>
+            </div>
+            <div className={`bg-[#1A1035] border-2 rounded-[32px] p-8 text-center relative ${feedback === 'correct' ? 'border-green-500' : (feedback?.startsWith('wrong') ? 'border-red-500' : 'border-[#FF3CAC]/30')}`}>
+                <div className="text-2xl font-black text-white mb-2 leading-relaxed">
+                    {currentData.q.split('____').map((p,i) => i===0 ? (
+                        <span key={i}>{p}
+                            <input 
+                                type="text" 
+                                value={input} 
+                                disabled={feedback==='correct'||feedback==='wrong-second'} 
+                                onChange={e=>setInput(e.target.value)} 
+                                onKeyPress={e=>e.key==='Enter'&&feedback===null&&handleCheck()} 
+                                className="mx-2 bg-transparent border-b-4 border-[#00F5D4] w-24 text-center text-[#00F5D4]" 
+                                autoFocus
+                            />
+                        </span>
+                    ) : <span key={i}>{p}</span>)}
+                </div>
+                
+                <p className="text-white/40 italic text-sm mb-6">"{currentData.trans}"</p>
+
+                {feedback === 'wrong-second' && <div className="p-4 bg-red-500/10 rounded-xl mb-4 text-red-400">Resposta: {currentData.a}</div>}
+                <div className="flex flex-col gap-3">
+                    {feedback === null && <Button onClick={handleCheck} variant="primary" className="w-full">Verificar</Button>}
+                    {feedback === 'wrong-first' && <Button onClick={() => { setFeedback(null); setInput(''); }} variant="accent" className="w-full">Tentar novamente</Button>}
+                    {feedback === 'wrong-second' && <Button onClick={moveToNext} variant="primary" className="w-full">Seguir ➜</Button>}
+                </div>
+            </div>
+        </div>
+    );
+};
+
+// ─── GRAMMAR PRACTICE (VERBO TER) ──────────────────────────
+const TerPractice = ({ inventory, onComplete }) => {
     const [index, setIndex] = useState(0);
     const [input, setInput] = useState('');
     const [feedback, setFeedback] = useState(null);
-    const [score, setScore] = useState(0);
-    const [db, setDb] = useState(null);
-    const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const [attempts, setAttempts] = useState(0);
+    const [missedIndices, setMissedIndices] = useState([]);
+    const [stats, setStats] = useState({ hits: 0, errors: 0 });
+    const [isReviewMode, setIsReviewMode] = useState(false);
+    const [reviewIndex, setReviewIndex] = useState(0);
 
-    const appId = typeof __app_id !== 'undefined' ? __app_id : 'oi-brasil-default';
-
-    // Firebase Init
-    useEffect(() => {
-        const { initializeApp, getAuth, signInAnonymously, onAuthStateChanged, getFirestore } = window.firebaseCore;
-        const firebaseConfig = JSON.parse(__firebase_config);
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const firestore = getFirestore(app);
-        setDb(firestore);
-
-        signInAnonymously(auth).catch(console.error);
-        
-        const unsubscribe = onAuthStateChanged(auth, (u) => {
-            if (u) {
-                setUser(u);
-                loadProgress(firestore, u.uid);
-            }
+    const subjects = ["Eu", "Você", "Ele", "Ela"];
+    
+    const exercises = useMemo(() => {
+        const items = inventory.length > 0 ? inventory : [{name: "Robux", emoji: "💰"}];
+        return items.map((item, i) => {
+            const subj = subjects[i % subjects.length];
+            const verb = subj === "Eu" ? "tenho" : "tem";
+            return {
+                subj,
+                verb,
+                item: item.name,
+                emoji: item.emoji,
+                q: `${subj} ____ um(a) ${item.name} ${item.emoji}`,
+                a: verb
+            };
         });
-        return () => unsubscribe();
-    }, []);
+    }, [inventory]);
 
-    const loadProgress = async (firestore, uid) => {
-        const { doc, getDoc } = window.firebaseCore;
-        const progressDoc = doc(firestore, 'artifacts', appId, 'users', uid, 'data', 'revision');
-        try {
-            const snap = await getDoc(progressDoc);
-            if (snap.exists()) {
-                const data = snap.data();
-                setIndex(data.index || 0);
-                setScore(data.score || 0);
-            }
-        } catch (e) { console.error(e); }
-        setLoading(false);
-    };
-
-    const saveProgress = async (newIdx, newScore) => {
-        if (!user || !db) return;
-        const { doc, setDoc } = window.firebaseCore;
-        const progressDoc = doc(db, 'artifacts', appId, 'users', user.uid, 'data', 'revision');
-        await setDoc(progressDoc, { index: newIdx, score: newScore }, { merge: true });
-    };
+    const total = exercises.length;
+    const currentData = isReviewMode ? exercises[missedIndices[reviewIndex]] : exercises[index];
 
     const handleCheck = () => {
-        const current = REVISION_DATA[index];
-        const isCorrect = input.trim().toLowerCase() === current.a.toLowerCase();
-        
+        const isCorrect = input.trim().toLowerCase() === currentData.a.toLowerCase();
         if (isCorrect) {
             playSound('correct');
             setFeedback('correct');
-            const nextScore = score + 1;
-            setScore(nextScore);
-            setTimeout(() => {
-                const nextIdx = index + 1;
-                if (nextIdx < REVISION_DATA.length) {
-                    setIndex(nextIdx);
-                    setInput('');
-                    setFeedback(null);
-                    saveProgress(nextIdx, nextScore);
-                } else {
-                    setFeedback('finished');
-                    saveProgress(nextIdx, nextScore);
-                }
-            }, 1000);
+            if (!isReviewMode && attempts === 0) setStats(s => ({ ...s, hits: s.hits + 1 }));
+            setTimeout(() => { moveToNext(); }, 1000);
         } else {
             playSound('error');
-            setFeedback('error');
+            if (attempts === 0) {
+                setFeedback('wrong-first');
+                setAttempts(1);
+                if (!isReviewMode) {
+                    setStats(s => ({ ...s, errors: s.errors + 1 }));
+                    if (!missedIndices.includes(index)) setMissedIndices(m => [...m, index]);
+                }
+            } else { setFeedback('wrong-second'); }
+        }
+    };
+
+    const moveToNext = () => {
+        setFeedback(null); setAttempts(0); setInput('');
+        if (isReviewMode) {
+            if (reviewIndex + 1 < missedIndices.length) setReviewIndex(reviewIndex + 1);
+            else setFeedback('finished');
+        } else {
+            const nextIdx = index + 1;
+            if (nextIdx < total) setIndex(nextIdx);
+            else missedIndices.length > 0 ? (setIsReviewMode(true), setReviewIndex(0)) : setFeedback('finished');
+        }
+    };
+
+    if (feedback === 'finished') {
+        const adjustedHits = stats.hits + ((total - stats.hits) * 0.5);
+        const finalScore = Math.max(0, Math.round((adjustedHits / total) * 100));
+        
+        return (
+            <div className="flex flex-col items-center gap-6 slide-up text-center max-w-lg mx-auto">
+                <div className="text-6xl mb-4">🎖️</div>
+                <h2 className="text-4xl font-black text-[#00F5D4]">Prática Concluída!</h2>
+                <div className="w-full bg-[#1A1035] p-6 rounded-3xl border-2 border-white/10 mt-4">
+                    <div className="grid grid-cols-2 gap-4">
+                        <div className="bg-green-500/10 p-4 rounded-2xl border border-green-500/30">
+                            <div className="text-3xl font-black text-green-400">{stats.hits}</div>
+                            <div className="text-[10px] text-green-400/70 font-black uppercase">Acertos de 1ª</div>
+                        </div>
+                        <div className="bg-red-500/10 p-4 rounded-2xl border border-red-500/30">
+                            <div className="text-3xl font-black text-red-400">{stats.errors}</div>
+                            <div className="text-[10px] text-red-400/70 font-black uppercase">Erros</div>
+                        </div>
+                    </div>
+                </div>
+                <div className="bg-[#00F5D4]/10 p-4 rounded-2xl border border-[#00F5D4]/20 w-full mt-4">
+                    <p className="text-[#00F5D4] font-black text-2xl">Nota: {finalScore}</p>
+                </div>
+                <Button onClick={() => onComplete(finalScore)} variant="primary" className="mt-8 px-12">Salvar e Voltar</Button>
+            </div>
+        );
+    }
+
+    return (
+        <div className="max-w-xl mx-auto slide-up">
+            <div className="text-center mb-6">
+                <h3 className="text-xl font-black text-[#00F5D4] uppercase tracking-widest">Verbo TER</h3>
+                <p className="text-white/40 text-xs font-bold">Complete com: <span className="text-white">tenho</span> ou <span className="text-white">tem</span></p>
+            </div>
+
+            <div className="flex justify-between items-center mb-6 text-[10px] font-black text-white/40 uppercase tracking-widest">
+                <span>{isReviewMode ? `Reforço: ${reviewIndex + 1} de ${missedIndices.length}` : `Exercício ${index + 1} de ${total}`}</span>
+                <div className="flex gap-3">
+                    <span className="text-green-400">Acertos: {stats.hits}</span>
+                    <span className="text-red-400">Erros: {stats.errors}</span>
+                </div>
+            </div>
+            <div className="w-full bg-white/5 h-2 mb-8 overflow-hidden rounded-full">
+                <div className={`h-full transition-all duration-500 ${isReviewMode ? 'bg-orange-500' : 'bg-[#00F5D4]'}`} style={{width: isReviewMode ? `${((reviewIndex+1)/missedIndices.length)*100}%` : `${((index+1)/total)*100}%`}}></div>
+            </div>
+            <div className={`bg-[#1A1035] border-2 rounded-[32px] p-8 md:p-12 text-center transition-all duration-300 relative ${feedback === 'correct' ? 'border-green-500' : (feedback?.startsWith('wrong') ? 'border-red-500' : 'border-[#FF3CAC]/30')}`}>
+                <div className="text-6xl mb-6">{currentData.emoji}</div>
+                <div className="text-2xl md:text-3xl font-black text-white mb-8 leading-relaxed">
+                    {currentData.subj} <input type="text" value={input} disabled={feedback==='correct'||feedback==='wrong-second'} onChange={e=>setInput(e.target.value)} onKeyPress={e=>e.key==='Enter'&&feedback===null&&handleCheck()} className="mx-3 bg-transparent border-b-4 border-white/20 text-center text-[#00F5D4] w-24 md:w-32" autoFocus/> um(a) {currentData.item}
+                </div>
+                {feedback === 'wrong-second' && <div className="mb-8 p-4 bg-red-500/10 rounded-2xl border border-red-500/20 text-red-400">Resposta correta: {currentData.a}</div>}
+                <div className="flex flex-col gap-4">
+                    {feedback === null && <Button onClick={handleCheck} variant="primary" className="w-full text-lg">Verificar</Button>}
+                    {feedback === 'wrong-first' && <Button onClick={() => { setFeedback(null); setInput(''); }} variant="accent" className="w-full text-lg">Tentar novamente</Button>}
+                    {feedback === 'wrong-second' && <Button onClick={moveToNext} variant="primary" className="w-full text-lg">Seguir ➜</Button>}
+                </div>
+            </div>
+        </div>
+    );
+};
+
+// ─── ROBUX MARKET GAME ──────────────────────────
+const RobuxMarket = ({ onComplete }) => {
+    const [inventory, setInventory] = useState([]);
+    const [points, setPoints] = useState(500);
+    const [feedback, setFeedback] = useState(null);
+    const [selectedItem, setSelectedItem] = useState(null);
+    const [marketErrors, setMarketErrors] = useState(0);
+
+    const handleBuy = (confirmPrice) => {
+        if (confirmPrice === selectedItem.price) {
+            playSound('correct'); setFeedback('correct');
+            setPoints(p => p - selectedItem.price); setInventory(prev => [...prev, selectedItem]);
+            setTimeout(() => { setSelectedItem(null); setFeedback(null); }, 1000);
+        } else {
+            playSound('error'); setFeedback('error');
+            setMarketErrors(e => e + 1);
             setTimeout(() => setFeedback(null), 1000);
         }
     };
 
-    const resetRevision = async () => {
-        if (!confirm("Deseja realmente recomeçar toda a revisão?")) return;
-        setIndex(0);
-        setScore(0);
-        setInput('');
-        setFeedback(null);
-        saveProgress(0, 0);
-    };
-
-    if (loading) return <div className="text-center py-20 text-[#00F5D4] font-black animate-pulse text-2xl">Carregando progresso...</div>;
-
-    if (feedback === 'finished' || index >= REVISION_DATA.length) {
+    if (selectedItem) {
         return (
-            <div className="flex flex-col items-center gap-6 slide-up text-center">
-                <div className="text-6xl">🏆</div>
-                <h2 className="text-4xl font-black text-[#00F5D4]">Revisão Concluída!</h2>
-                <p className="text-xl text-white/60">Você acertou {score} de {REVISION_DATA.length} frases.</p>
-                <div className="flex gap-4">
-                    <Button onClick={resetRevision} variant="ghost">Recomeçar Revisão</Button>
-                    <Button onClick={onComplete} variant="accent">Voltar ao Menu</Button>
+            <div className="max-w-2xl mx-auto slide-up text-center">
+                <div className={`bg-[#1A1035] border-2 rounded-[40px] p-8 transition-all ${feedback === 'error' ? 'animate-shake border-red-500' : 'border-[#4361EE]/30'}`}>
+                    <div className="text-8xl mb-6 animate-bounce-slow">{selectedItem.emoji}</div>
+                    <h3 className="text-3xl font-black text-white mb-2">{selectedItem.name}</h3>
+                    <p className="text-[#00F5D4] font-black text-xl mb-8">Preço: {numberToExtensive(selectedItem.price)} Robux</p>
+                    <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+                        {[10, 20, 30, 40, 50, 60, 70, 80, 90, 100].map(price => (
+                            <button key={price} onClick={() => handleBuy(price)} className="bg-white/5 hover:bg-white/10 border-2 border-white/10 rounded-2xl py-3 font-black text-white text-sm">{numberToExtensive(price)}</button>
+                        ))}
+                    </div>
+                    <Button onClick={() => setSelectedItem(null)} variant="ghost" className="mt-6">Voltar à loja</Button>
                 </div>
             </div>
         );
     }
 
-    const current = REVISION_DATA[index];
-
     return (
-        <div className="max-w-xl mx-auto slide-up">
-            <div className="flex justify-between items-center mb-6 text-xs font-black text-white/40 uppercase tracking-widest">
-                <span>Frase {index + 1} de {REVISION_DATA.length}</span>
-                <span className="text-[#00F5D4]">Acertos: {score}</span>
-            </div>
-
-            <div className="w-full bg-white/5 rounded-full h-2 mb-8 overflow-hidden">
-                <div className="bg-[#00F5D4] h-full transition-all duration-500" style={{width: `${(index/REVISION_DATA.length)*100}%`}}></div>
-            </div>
-
-            <div className={`bg-[#1A1035] border-2 rounded-[32px] p-8 md:p-12 text-center transition-all duration-300 ${feedback === 'correct' ? 'border-green-500' : feedback === 'error' ? 'border-red-500 animate-shake' : 'border-[#FF3CAC]/30'}`}>
-                <span className="text-xs font-black text-[#FF3CAC] block mb-4 uppercase">{current.h}</span>
-                <div className="text-2xl md:text-3xl font-black text-white mb-8 leading-relaxed">
-                    {current.q.split('____').map((part, i) => (
-                        <React.Fragment key={i}>
-                            {part}
-                            {i === 0 && (
-                                <input 
-                                    type="text" 
-                                    value={input} 
-                                    onChange={e => setInput(e.target.value)}
-                                    onKeyPress={e => e.key === 'Enter' && handleCheck()}
-                                    className={`mx-2 bg-transparent border-b-4 border-white/20 text-center text-[#00F5D4] transition-colors focus:border-[#00F5D4] w-24 md:w-32 ${feedback === 'correct' ? 'text-green-400' : feedback === 'error' ? 'text-red-400' : ''}`}
-                                    autoFocus
-                                />
-                            )}
-                        </React.Fragment>
-                    ))}
+        <div className="max-w-4xl mx-auto slide-up">
+            <div className="flex justify-between items-center mb-6">
+                <h2 className="text-2xl font-black text-white">Mercado Roblox 🛍️</h2>
+                <div className="flex flex-col items-end gap-1">
+                    <div className="bg-[#1A1035] px-4 py-2 rounded-full border border-[#FFD60A]/30">
+                        <span className="text-[#FFD60A] font-black">💰 {numberToExtensive(points)} Robux</span>
+                    </div>
+                    <span className="text-[10px] font-black text-red-400 uppercase">Erros: {marketErrors}</span>
                 </div>
-                <p className="text-white/30 italic text-sm mb-10">"{current.trans}"</p>
-                
-                <div className="flex flex-col gap-4">
-                    <Button onClick={handleCheck} variant="accent" className="w-full text-lg">Verificar</Button>
-                    <button onClick={resetRevision} className="text-xs font-black text-white/20 hover:text-white/60 transition-colors uppercase py-2">Recomeçar Lição</button>
-                </div>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                {CLASS_2A_MARKET_ITEMS.map(item => {
+                    const alreadyBought = inventory.some(i => i.id === item.id);
+                    const canAfford = points >= item.price;
+                    return (
+                        <button key={item.id} disabled={alreadyBought || !canAfford} onClick={() => setSelectedItem(item)} className={`p-4 rounded-[28px] border-2 transition-all flex flex-col items-center ${alreadyBought ? 'opacity-30 border-white/5 bg-white/5' : canAfford ? 'border-white/10 bg-white/5 hover:border-[#00F5D4]' : 'opacity-50 border-red-900 bg-red-900/10'}`}>
+                            <span className="text-4xl mb-2">{item.emoji}</span>
+                            <span className="text-[10px] font-black text-white mb-1 uppercase text-center">{item.name}</span>
+                            <span className="text-xs font-black text-[#00F5D4]">{numberToExtensive(item.price)}</span>
+                        </button>
+                    );
+                })}
+            </div>
+            <div className="mt-12 flex flex-col items-center gap-6">
+                <Button onClick={() => onComplete(inventory, marketErrors)} variant="accent" className="px-10">Finalizar Compras</Button>
+                <p className="text-white/20 text-[9px] font-bold uppercase italic">Cada erro reduz levemente a nota final</p>
             </div>
         </div>
     );
@@ -344,41 +609,78 @@ const MemoryGame = ({ data, onComplete, type='text-text' }) => {
     const [flipped, setFlipped] = useState([]);
     const [matched, setMatched] = useState([]);
     const [locked, setLocked] = useState(false);
+    const [isFinished, setIsFinished] = useState(false);
+    const [errors, setErrors] = useState(0);
+
+    const numPairs = data.length;
+    const pointsPerMatch = 100 / numPairs;
+    const pointsLostPerError = 2;
 
     useEffect(() => {
-        let pool = [];
-        if (type==='text-text') pool = data.flatMap((item,idx) => [{id:`${idx}-pt`, content:item.pt, pairId:idx, side:'pt'}, {id:`${idx}-es`, content:item.es, pairId:idx, side:'es'}]);
-        else if (type==='emoji-text') pool = data.flatMap((item,idx) => [{id:`${idx}-emoji`, content:item.emoji, sub:item.es, pairId:idx, side:'emoji'}, {id:`${idx}-pt`, content:item.pt, pairId:idx, side:'pt'}]);
-        setCards(shuffleArray(pool));
+        let pool = type==='text-text' ? data.flatMap((item,idx) => [{id:`${idx}-pt`, content:item.pt, pairId:idx, side:'pt'}, {id:`${idx}-es`, content:item.es, pairId:idx, side:'es'}]) : data.flatMap((item,idx) => [{id:`${idx}-emoji`, content:item.emoji, pairId:idx, side:'emoji'}, {id:`${idx}-pt`, content:item.pt, pairId:idx, side:'pt'}]);
+        setCards([...pool].sort(() => Math.random() - 0.5));
     }, [data, type]);
 
     const handleFlip = (card) => {
-        if (locked || flipped.includes(card.id) || matched.includes(card.pairId)) return;
-        const nf = [...flipped, card.id];
-        setFlipped(nf);
+        if (locked || flipped.includes(card.id) || matched.includes(card.pairId) || isFinished) return;
+        const nf = [...flipped, card.id]; setFlipped(nf);
         if (nf.length === 2) {
-            setLocked(true);
-            const c1 = cards.find(c=>c.id===nf[0]); const c2 = cards.find(c=>c.id===nf[1]);
-            if (c1.pairId === c2.pairId) {
-                const nm = [...matched, c1.pairId]; setMatched(nm); setFlipped([]); setLocked(false);
-                if (nm.length === data.length) setTimeout(onComplete, 1200);
-            } else { setTimeout(() => { setFlipped([]); setLocked(false); }, 1000); }
+            setLocked(true); const c1 = cards.find(c=>c.id===nf[0]), c2 = cards.find(c=>c.id===nf[1]);
+            if (c1.pairId === c2.pairId) { 
+                playSound('correct');
+                const newMatched = [...matched, c1.pairId];
+                setMatched(newMatched); 
+                setFlipped([]); 
+                setLocked(false); 
+                // Verificar vitória IMEDIATAMENTE aqui para garantir que o botão apareça sem atrasos
+                if (newMatched.length === numPairs) {
+                    setIsFinished(true);
+                }
+            } else { 
+                playSound('error');
+                setErrors(e => e + 1);
+                setTimeout(() => { setFlipped([]); setLocked(false); }, 1000); 
+            }
         }
     };
 
+    const currentScore = isFinished 
+        ? Math.max(60, 100 - (errors * pointsLostPerError))
+        : Math.round(matched.length * pointsPerMatch);
+
     return (
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full max-w-4xl mx-auto p-4 perspective-1000">
-            {cards.map(card => {
-                const isFlipped = flipped.includes(card.id) || matched.includes(card.pairId);
-                return (
-                    <div key={card.id} onClick={()=>handleFlip(card)} className={`relative h-32 md:h-40 cursor-pointer transition-transform duration-500 transform-style-3d ${isFlipped ? 'rotate-y-180' : ''}`}>
-                        <div className="absolute inset-0 bg-[#7B2FFF] rounded-2xl flex items-center justify-center border-b-4 border-indigo-900 backface-hidden z-20"><span className="text-4xl text-white/50 font-black">?</span></div>
-                        <div className={`absolute inset-0 rounded-2xl flex flex-col items-center justify-center p-2 text-center rotate-y-180 backface-hidden border-b-4 shadow-xl z-10 ${card.side==='pt'?'bg-[#FF3CAC] border-pink-900':'bg-[#00F5D4] border-teal-900'}`}>
-                            <span className="font-black text-sm">{card.content}</span>
+        <div className="flex flex-col items-center w-full max-w-4xl mx-auto slide-up">
+            <div className="flex justify-between w-full mb-6 px-4">
+                <div className="flex flex-col text-left">
+                    <span className="text-[10px] font-black text-white/40 uppercase">Erros: {errors}</span>
+                    <span className="text-[10px] font-black text-[#FF3CAC] uppercase">Impacto: -{errors * pointsLostPerError} pts</span>
+                </div>
+                <div className="text-right">
+                    <span className="text-[10px] font-black text-[#00F5D4] uppercase block">Nota</span>
+                    <span className="text-3xl font-black text-[#00F5D4]">{isFinished ? currentScore : Math.round(matched.length * pointsPerMatch)}</span>
+                </div>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 w-full perspective-1000">
+                {cards.map(card => {
+                    const isFlipped = flipped.includes(card.id) || matched.includes(card.pairId);
+                    return (
+                        <div key={card.id} onClick={()=>handleFlip(card)} className={`relative h-28 md:h-36 cursor-pointer transition-transform duration-500 transform-style-3d ${isFlipped ? 'rotate-y-180' : ''}`}>
+                            <div className="absolute inset-0 bg-[#7B2FFF] rounded-2xl flex items-center justify-center border-b-4 border-indigo-900 backface-hidden z-20"><span className="text-3xl text-white/50 font-black">?</span></div>
+                            <div className={`absolute inset-0 rounded-2xl flex items-center justify-center p-2 rotate-y-180 backface-hidden border-b-4 shadow-xl z-10 ${card.side==='pt'?'bg-[#FF3CAC] border-pink-900':'bg-[#00F5D4] border-teal-900'}`}>
+                                <span className="font-black text-lg md:text-2xl text-center leading-tight">{card.content}</span>
+                            </div>
                         </div>
-                    </div>
-                );
-            })}
+                    );
+                })}
+            </div>
+            {isFinished && <div className="mt-8 flex flex-col items-center gap-4 w-full slide-up">
+                <div className="bg-[#00F5D4]/10 p-6 rounded-[32px] border-2 border-[#00F5D4]/20 text-center w-full max-w-sm">
+                    <p className="text-[#00F5D4] font-black text-sm uppercase mb-1 tracking-widest">Excelente Trabalho!</p>
+                    <p className="text-white text-5xl font-black leading-none">{currentScore}</p>
+                    <p className="text-white/40 text-[10px] font-black mt-2">PONTUAÇÃO FINAL</p>
+                </div>
+                <Button onClick={() => onComplete(currentScore)} variant="accent" className="px-12 py-4 text-xl w-full max-w-sm">Próximo ➜</Button>
+            </div>}
         </div>
     );
 };
@@ -391,84 +693,148 @@ const TheoryLesson = ({ data, onComplete, title }) => {
         <div className="max-w-4xl mx-auto slide-up flex flex-col theory-card">
             <h2 className="text-2xl font-black text-[#00F5D4] text-center mb-6">{title}</h2>
             <div className={`rounded-[40px] p-8 md:p-12 shadow-2xl transition-all duration-500 ${cur.bg} text-white relative overflow-hidden flex-1 flex flex-col justify-between`}>
-                <div>
-                    <h2 className="text-3xl md:text-5xl font-black mb-4 drop-shadow-lg">{cur.title}</h2>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
-                        {cur.items.map((item, i) => (
-                            <div key={i} className="bg-white/20 backdrop-blur-md rounded-3xl p-6 text-center border border-white/30">
-                                <div className="text-4xl mb-2">{item.n}</div>
-                                <div className="text-xl font-black">{item.pt}</div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-                <div className="flex justify-between mt-12 items-center">
-                    <Button onClick={() => slide > 0 && setSlide(slide-1)} variant="ghost" className={slide === 0 ? 'invisible' : ''}>Atrás</Button>
-                    <Button onClick={()=>slide < data.length - 1 ? setSlide(slide+1) : onComplete()} variant="accent">{slide === data.length - 1 ? 'Pronto!' : 'Próximo'}</Button>
-                </div>
+                <div><h2 className="text-3xl md:text-5xl font-black mb-4 drop-shadow-lg">{cur.title}</h2><div className={`theory-items-grid ${cur.items.length > 6 ? 'cols-5' : 'cols-4'} mt-4`}>{cur.items.map((item, i) => (<div key={i} className="theory-item-card"><div className="text-4xl mb-2">{item.n}</div><div className="text-xl font-black">{item.pt}</div></div>))}</div></div>
+                <div className="flex justify-between mt-12 items-center"><Button onClick={() => slide > 0 && setSlide(slide-1)} variant="ghost" className={slide === 0 ? 'invisible' : ''}>Atrás</Button><Button onClick={()=>slide < data.length - 1 ? setSlide(slide+1) : onComplete(100)} variant="accent">{slide === data.length - 1 ? 'Pronto!' : 'Próximo'}</Button></div>
             </div>
         </div>
     );
 };
 
-// ─── HOME VIEW ────────────────────────────────────────────────────────────────
-const HomeView = ({ onStartModule }) => {
-    const phrase = useMemo(()=>MOTIVATIONAL_PHRASES[Math.floor(Math.random()*MOTIVATIONAL_PHRASES.length)],[]);
-    const modules = [
-        {id:'m1a', emoji:'💜', label:'Aula 1A', sub:'Saludos', color:'#7B2FFF'},
-        {id:'m1b', emoji:'🏠', label:'Aula 1B', sub:'Gostos', color:'#4361EE'},
-        {id:'m2',  emoji:'📖', label:'Aula 2',  sub:'Números', color:'#00a89c'},
-        {id:'m2p', emoji:'🎒', label:'Prática', sub:'Escola', color:'#FF3CAC'},
-        {id:'m3',  emoji:'🧪', label:'Aula 3',  sub:'Revisão', color:'#FF6B35'},
-        {id:'m_rev', emoji:'🔥', label:'Super Revisão', sub:'50 Questões', color:'#00F5D4', textDark: true, highlight: true},
-    ];
-    return (
-        <div className="flex flex-col items-center justify-center text-center px-3 py-6 slide-up min-h-[80vh]">
-            <h1 className="text-5xl md:text-7xl font-black mb-2 text-white animate-bounce-slow">Oi, Brasil! 🇧🇷</h1>
-            <p className="text-base font-bold text-[#00F5D4] mb-12 uppercase tracking-widest">¡Aprendé jogando!</p>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 w-full max-w-6xl">
-                {modules.map(m => (
-                    <button key={m.id} onClick={()=>onStartModule(m.id)} className={`relative rounded-[24px] p-5 transition-all hover:scale-105 shadow-xl border-4 ${m.highlight ? 'ring-4 ring-[#00F5D4]/40 animate-pulse' : ''}`} style={{backgroundColor:m.color, borderColor:m.color}}>
-                        <span className="text-3xl mb-2 block">{m.emoji}</span>
-                        <h2 className={`text-sm font-black ${m.textDark?'text-[#0F0A1E]':'text-white'}`}>{m.label}</h2>
-                    </button>
-                ))}
-            </div>
-            <div className="mt-12 bg-[#1A1035] rounded-3xl px-6 py-3 border border-white/10 max-w-sm">
-                <p className="italic text-white/50 font-medium text-sm">"{phrase}"</p>
-            </div>
-        </div>
-    );
-};
-
-// ─── APP ──────────────────────────────────────────────────────────────────────
+// ─── MAIN APP ─────────────────────────────────────────────────────────────────
 function App() {
     const [view, setView] = useState('home');
-    const goHome = () => setView('home');
+    const [step, setStep] = useState(0); 
+    const [currentInv, setCurrentInv] = useState([]);
+    const [m2aMarketErrors, setM2aMarketErrors] = useState(0);
+    const [user, setUser] = useState(null);
+    const [userProgress, setUserProgress] = useState({});
+    const [db, setDb] = useState(null);
+    const appId = typeof __app_id !== 'undefined' ? __app_id : 'oi-brasil-default';
+
+    useEffect(() => {
+        const initFirebase = async () => {
+            if (typeof window.firebaseCore === 'undefined') return;
+            const { initializeApp, getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken, getFirestore, doc, onSnapshot } = window.firebaseCore;
+            if (typeof __firebase_config === 'undefined') return;
+            const firebaseConfig = JSON.parse(__firebase_config);
+            const app = initializeApp(firebaseConfig);
+            const auth = getAuth(app);
+            const firestore = getFirestore(app);
+            setDb(firestore);
+
+            const initAuth = async () => {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else { await signInAnonymously(auth); }
+            };
+            initAuth();
+
+            onAuthStateChanged(auth, (u) => {
+                setUser(u);
+                if (u) {
+                    const progressRef = doc(firestore, 'artifacts', appId, 'users', u.uid, 'progress', 'data');
+                    onSnapshot(progressRef, (snap) => {
+                        if (snap.exists()) {
+                            setUserProgress(snap.data());
+                        }
+                    }, (err) => console.error(err));
+                }
+            });
+        };
+        initFirebase();
+    }, []);
+
+    const completeLesson = async (lessonId, score = 100) => {
+        // 1. Atualizar imediatamente o estado local para Margo ver o check verde na hora
+        const newProgress = { ...userProgress, [lessonId]: { completed: true, score: score } };
+        setUserProgress(newProgress);
+
+        // 2. Tentar salvar no Firebase de forma prioritária
+        if (user && db) {
+            try {
+                const { doc, setDoc } = window.firebaseCore;
+                const progressRef = doc(db, 'artifacts', appId, 'users', user.uid, 'progress', 'data');
+                await setDoc(progressRef, newProgress, { merge: true });
+            } catch (e) {
+                console.error("Erro ao salvar no Firebase:", e);
+            }
+        }
+        
+        // 3. Voltar para a Home
+        goHome();
+    };
+
+    const goHome = () => { setView('home'); setStep(0); };
 
     return (
         <div className="min-h-screen bg-[#0F0A1E] text-white">
-            <header className="px-4 py-3 bg-[#0F0A1E]/90 backdrop-blur-md sticky top-0 border-b border-white/5 flex justify-between items-center z-50">
-                <div onClick={goHome} className="flex items-center gap-2 cursor-pointer">
-                    <span className="text-2xl">👩‍🚀</span>
-                    <h1 className="text-lg font-black">Oi, Brasil! 🇧🇷</h1>
+            <header className="px-4 py-3 border-b border-white/5 flex justify-between items-center sticky top-0 bg-[#0F0A1E] z-50">
+                <div onClick={goHome} className="flex items-center gap-2 cursor-pointer transition-opacity hover:opacity-80"><span className="text-2xl">👩‍🚀</span><h1 className="text-lg font-black tracking-tight">Oi, Brasil!</h1></div>
+                <div className="flex gap-2">
+                    {view === 'home' && (
+                        <Button onClick={() => setView('boletim')} variant="ghost" className="text-xs flex items-center gap-1 border-[#00F5D4]/20 hover:border-[#00F5D4]/40">📊 Boletim</Button>
+                    )}
+                    {view !== 'home' && <Button onClick={goHome} variant="ghost" className="text-xs">Voltar</Button>}
                 </div>
-                {view!=='home' && <Button onClick={goHome} variant="ghost" className="px-3 py-2 text-sm flex items-center gap-1.5"><IconArrowLeft/>Voltar</Button>}
             </header>
-
-            <main className="px-4 py-10 max-w-5xl mx-auto">
-                {view==='home' && <HomeView onStartModule={setView}/>}
-                {view==='m1a' && <MemoryGame data={CLASS_1A_GREETINGS} onComplete={goHome}/>}
-                {view==='m1b' && <TheoryLesson data={CLASS_1B_THEORY} title="Aula 1B" onComplete={goHome}/>}
-                {view==='m2' && <TheoryLesson data={CLASS_2_THEORY} title="Aula 2" onComplete={goHome}/>}
-                {view==='m2p' && <MemoryGame data={CLASS_2_MEM_A} type="emoji-text" onComplete={goHome}/>}
-                {view==='m3' && <TheoryLesson data={CLASS_3_THEORY} title="Aula 3" onComplete={goHome}/>}
-                {view==='m_rev' && <TotalRevision onComplete={goHome} />}
+            <main className="px-4 py-10 max-w-6xl mx-auto">
+                {view==='home' && (
+                    <div className="flex flex-col items-center justify-center text-center px-3 slide-up min-h-[70vh]">
+                        <h1 className="text-5xl md:text-7xl font-black mb-2 text-white animate-bounce-slow">Oi, Brasil! 🇧🇷</h1>
+                        <p className="text-base font-bold text-[#00F5D4] mb-12 uppercase tracking-widest">¡Aprendé jogando!</p>
+                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 w-full">
+                            {[
+                                {id:'m1a', emoji:'💜', label:'Aula 1A', color:'#7B2FFF'},
+                                {id:'m1b', emoji:'🏠', label:'Aula 1B', color:'#4361EE'},
+                                {id:'m2',  emoji:'📖', label:'Aula 1A - Comp', color:'#00a89c'},
+                                {id:'m3',  emoji:'🧪', label:'Aula 1B - Comp', color:'#FF6B35'},
+                                {id:'m2a', emoji:'💎', label:'Aula 2A', color:'#4361EE'},
+                                {id:'m_rev', emoji:'🔥', label:'Super Revisão', color:'#00F5D4', textDark: true},
+                            ].map(m => {
+                                const isDone = userProgress[m.id]?.completed;
+                                return (
+                                    <button key={m.id} onClick={()=>setView(m.id)} className={`relative rounded-[24px] p-5 transition-all hover:scale-105 shadow-xl border-4 ${isDone ? 'border-[#00F5D4]' : 'border-transparent'}`} style={{backgroundColor:m.color}}>
+                                        {isDone && <span className="absolute -top-2 -right-2 bg-[#00F5D4] text-[#0F0A1E] text-[10px] font-black w-6 h-6 flex items-center justify-center rounded-full border-2 border-[#0F0A1E]">✓</span>}
+                                        <span className="text-3xl mb-2 block">{m.emoji}</span>
+                                        <h2 className={`text-[10px] font-black ${m.textDark?'text-[#0F0A1E]':'text-white'} leading-tight uppercase`}>{m.label}</h2>
+                                        {userProgress[m.id]?.score !== undefined && <div className="text-[9px] mt-1 font-black opacity-60">Nota: {userProgress[m.id].score}</div>}
+                                    </button>
+                                );
+                            })}
+                        </div>
+                    </div>
+                )}
+                {view==='boletim' && <ProgressReport userProgress={userProgress} onBack={goHome} />}
+                {view==='m1a' && <MemoryGame data={CLASS_1A_GREETINGS} onComplete={(s) => completeLesson('m1a', s)}/>}
+                {view==='m1b' && (
+                    <>
+                        {step === 0 && <TheoryLesson data={CLASS_1B_THEORY} title="Aula 1B" onComplete={() => setStep(1)}/>}
+                        {step === 1 && <FillBlanks data={CLASS_1B_EXERCISES} title="Praticando Gostos e Pronomes" subtitle="Preencha os espaços observando a tradução em espanhol" onComplete={(s) => completeLesson('m1b', s)}/>}
+                    </>
+                )}
+                {view==='m2' && <TheoryLesson data={CLASS_1A_COMP_THEORY} title="Aula 1A - Complementar" onComplete={(s) => completeLesson('m2', s)}/>}
+                {view==='m3' && (
+                    <>
+                        {step === 0 && <TheoryLesson data={CLASS_1B_COMP_THEORY} title="Aula 1B - Complementar" onComplete={() => setStep(1)}/>}
+                        {step === 1 && <MemoryGame data={CLASS_1B_COMP_MEM} type="emoji-text" onComplete={(s) => completeLesson('m3', s)}/>}
+                    </>
+                )}
+                {view==='m2a' && (
+                    <>
+                        {step === 0 && <TheoryLesson data={CLASS_2A_THEORY} title="Aula 2A" onComplete={() => setStep(1)}/>}
+                        {step === 1 && <MemoryGame data={CLASS_2A_MEM_DATA} onComplete={() => setStep(2)}/>}
+                        {step === 2 && <RobuxMarket onComplete={(inv, errs) => { setCurrentInv(inv); setM2aMarketErrors(errs); setStep(3); }}/>}
+                        {step === 3 && <TerPractice inventory={currentInv} onComplete={(s) => {
+                            const marketScore = Math.max(60, 100 - (m2aMarketErrors * 3));
+                            completeLesson('m2a', Math.round((marketScore + s) / 2));
+                        }}/>}
+                    </>
+                )}
+                {view==='m_rev' && <FillBlanks data={REVISION_DATA} title="Super Revisão" subtitle="Observe a tradução em espanhol e mostre o que você aprendeu!" onComplete={(s) => completeLesson('m_rev', s)} />}
             </main>
         </div>
     );
 }
-
 ReactDOM.createRoot(document.getElementById('root')).render(<App />);
 </script>
 </body>

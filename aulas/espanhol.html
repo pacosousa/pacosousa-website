@@ -3,30 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Español Pro | Data & Business Edition</title>
+    <title>Español Pro - Dashboard</title>
+    <!-- Bibliotecas -->
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=JetBrains+Mono&display=swap" rel="stylesheet">
     
+    <!-- Firebase SDK -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc, setDoc, updateDoc, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, doc, getDoc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        window.firebaseCore = { initializeApp, getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken, getFirestore, doc, getDoc, setDoc, updateDoc, collection, onSnapshot };
+        window.firebaseCore = { initializeApp, getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken, getFirestore, doc, getDoc, setDoc, onSnapshot };
     </script>
 
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #020617; color: #F8FAFC; }
-        .code-font { font-family: 'JetBrains Mono', monospace; }
+        * { box-sizing: border-box; }
+        html, body { height: 100%; margin: 0; font-family: 'Inter', sans-serif; background-color: #020617; color: #F8FAFC; overflow-x: hidden; }
+        .perspective-1000 { perspective: 1000px; }
+        .transform-style-3d { transform-style: preserve-3d; }
+        .backface-hidden { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+        .rotate-y-180 { transform: rotateY(180deg); }
+        @keyframes slide-up { from{transform:translateY(20px);opacity:0} to{transform:translateY(0);opacity:1} }
+        .slide-up { animation: slide-up 0.35s ease-out; }
+        @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-8px)} 75%{transform:translateX(8px)} }
+        .animate-shake { animation: shake 0.3s ease-in-out; }
         .glass-card { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); }
-        input[type="text"] { background: #1E293B; border: 1px solid #334155; transition: all 0.2s; }
-        input[type="text"]:focus { border-color: #3b82f6; outline: none; box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2); }
+        input[type="text"] { outline: none; border-bottom: 2px solid #3b82f6; background: transparent; }
         
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-        .animate-fade { animation: fadeIn 0.4s ease-out forwards; }
+        .theory-card { height: calc(100vh - 160px); min-height: 500px; display: flex; flex-direction: column; justify-content: space-between; }
+        .theory-items-grid { display: grid; gap: 15px; flex: 1; align-content: center; grid-template-columns: repeat(2, 1fr); }
+        @media (min-width: 768px) { .theory-items-grid { grid-template-columns: repeat(4, 1fr); } }
     </style>
 </head>
 <body>
@@ -35,238 +45,447 @@
 <script type="text/babel">
 const { useState, useEffect, useMemo } = React;
 
-// ─── CONTEÚDO DA AULA ────────────────────────────────────────────────────────
-const EXERCISES = [
-    { q: "Hoy yo ____ (revisar) los logs del servidor.", a: "he revisado", h: "Ação concluída hoje: He + revisado", trans: "Hoje eu revisei os logs do servidor." },
-    { q: "¿Tú ____ (limpiar) ya la base de datos?", a: "has limpiado", h: "Pergunta sobre hoje: Has + limpiado", trans: "Você já limpou o banco de dados?" },
-    { q: "Nosotros ____ (encontrar) un bug crítico en el dashboard.", a: "hemos encontrado", h: "Nós encontramos: Hemos + encontrado", trans: "Nós encontramos um bug crítico no dashboard." },
-    { q: "Esta tarde el equipo ____ (enviar) los insights a Madrid.", a: "ha enviado", h: "A equipe (singular): Ha + enviado", trans: "Esta tarde a equipe enviou os insights para Madri." },
-    { q: "Ustedes ____ (probar) el nuevo algoritmo, ¿verdad?", a: "han probado", h: "Vocês testaram: Han + probado", trans: "Vocês testaram o novo algoritmo, certo?" },
-    { q: "No puedo hablar ahora, estoy en una ____ (reunião).", a: "reunión", h: "Vocabulário: Reunión", trans: "Não posso falar agora, estou em uma reunião." },
-    { q: "Dame un ____ (momento), voy a por un café.", a: "rato", h: "Falso amigo: Rato = Tempo/Instante", trans: "Me dá um tempo/instante, vou buscar um café." },
-    { q: "He guardado el archivo en la ____ (pasta) de proyectos.", a: "carpeta", h: "Falso amigo: Carpeta = Pasta", trans: "Salvei o arquivo na pasta de projetos." },
-    { q: "La ____ (planilha) tiene demasiadas columnas.", a: "hoja de cálculo", h: "Técnico: Hoja de cálculo", trans: "A planilha tem colunas demais." },
-    { q: "He tenido un ____ (tempo curto) muy productivo hoy.", a: "rato", h: "Tempo de duração", trans: "Tive um tempo muito produtivo hoje." },
-    { q: "He ____ (baixar) el dataset de producción.", a: "descargado", h: "Download = Descargar", trans: "Baixei o conjunto de dados de produção." },
-    { q: "¿Has ____ (subir) los cambios al repositorio?", a: "subido", h: "Upload = Subir", trans: "Você subiu as mudanças para o repositório?" },
-    { q: "He ____ (fazer) una consulta SQL compleja.", a: "hecho", h: "Irregular: Hacer -> Hecho", trans: "Fiz uma consulta SQL complexa." },
-    { q: "Ya hemos ____ (ver) los resultados finales.", a: "visto", h: "Irregular: Ver -> Visto", trans: "Já vimos os resultados finais." },
-    { q: "El sistema ha ____ (dar) un error inesperado.", a: "dado", h: "Verbo Dar -> Dado", trans: "O sistema deu um erro inesperado." },
-    { q: "Hoy he ____ (tentar) contactar con el socio español.", a: "intentado", h: "Tentar = Intentar", trans: "Hoje tentei contatar o sócio espanhol." },
-    { q: "¿Has ____ (escrever) el resumen de la semana?", a: "escrito", h: "Irregular: Escribir -> Escrito", trans: "Você escreveu o resumo da semana?" },
-    { q: "He pasado un ____ (momento) largo filtrando datos.", a: "rato", h: "Duração de tempo", trans: "Passei um tempo longo filtrando dados." },
-    { q: "Esta mañana el jefe ha ____ (dizer) que vamos por buen camino.", a: "dicho", h: "Irregular: Decir -> Dicho", trans: "Esta manhã o chefe disse que estamos no caminho certo." },
-    { q: "En un ____ (instante) te envío el enlace de Zoom.", a: "ratito", h: "Diminutivo de Rato", trans: "Em um instantinho te envio o link do Zoom." }
+// ─── UTILS ────────────────────────────────────────────────────────────────────
+const playSound = (type) => {
+    try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain); gain.connect(ctx.destination);
+        const now = ctx.currentTime;
+        if (type === 'correct') {
+            osc.frequency.setValueAtTime(300, now);
+            osc.frequency.exponentialRampToValueAtTime(600, now + 0.15);
+            gain.gain.setValueAtTime(0.1, now); gain.gain.linearRampToValueAtTime(0, now + 0.2);
+        } else if (type === 'error') {
+            osc.frequency.setValueAtTime(200, now);
+            osc.frequency.linearRampToValueAtTime(100, now + 0.15);
+            gain.gain.setValueAtTime(0.1, now); gain.gain.linearRampToValueAtTime(0, now + 0.2);
+        }
+        osc.start(); osc.stop(now + 0.2);
+    } catch(e) {}
+};
+
+// ─── DATA (AULA 2A: VERBOS ESENCIALES) ───────────────────────────────────────
+
+const CLASS_1A_THEORY = [
+    { title: "¿Qué onda? 🤙", items: [{n:"📍", es:"Objetivo: Madrid"}, {n:"🎧", es:"Bad Bunny / Trap"}, {n:"🗣️", es:"Hablar sin miedo"}, {n:"✈️", es:"Equipo Global"}], bg:"bg-indigo-900/40", desc: "El español no es solo gramática, es tu llave para una carrera internacional." },
+    { title: "Fonética Crítica 🎤", items: [{n:"双", es:"Calle / Yo"}, {n:"🌶️", es:"Jamón / Jefe"}, {n:"🐕", es:"Perro / Reunión"}, {n:"👶", es:"Niño / Mañana"}], bg:"bg-slate-800", desc: "Atención: La 'R' debe vibrar. La 'J' es fuerte, como la 'R' de 'Rio' en portugués." }
 ];
 
-// ─── COMPONENTES UI ──────────────────────────────────────────────────────────
+const CLASS_1B_THEORY = [
+    { title: "Pasado Profesional 📊", items: [{n:"✅", es:"He revisado"}, {n:"💬", es:"He hablado"}, {n:"💻", es:"He hecho"}, {n:"🔍", es:"He visto"}], bg:"bg-emerald-900/40", desc: "En español, para acciones de HOY, usamos 'He + Participio'." },
+    { title: "Vocabulario de Dados 💻", items: [{n:"📊", es:"Hoja de cálculo"}, {n:"📁", es:"Carpeta"}, {n:"📥", es:"Descargar"}, {n:"💡", es:"Hallazgos"}], bg:"bg-blue-900/40", desc: "Términos esenciales para tu día a día como Analista de Dados." }
+];
 
-const ProgressBar = ({ current, total }) => (
-    <div className="w-full bg-slate-800 h-2 rounded-full overflow-hidden mb-6">
-        <div className="bg-blue-500 h-full transition-all duration-700" style={{ width: `${(current / total) * 100}%` }} />
-    </div>
-);
+const CLASS_2A_THEORY = [
+    { 
+        title: "Super Verbos (Irregulares) ⚡", 
+        items: [
+            {n:"⭐", es:"Querer (Quiero)"}, 
+            {n:"💪", es:"Poder (Puedo)"}, 
+            {n:"🤲", es:"Tener (Tengo)"},
+            {n:"🧠", es:"Saber (Sé)"}
+        ], 
+        bg:"bg-purple-900/40",
+        desc: "Verbos fundamentales que cambian la raíz. 'Querer' y 'Poder' son esenciales para peticiones e intenciones."
+    },
+    { 
+        title: "Saber vs Conocer 🧠", 
+        items: [
+            {n:"📖", es:"Saber: Datos/Hechos"}, 
+            {n:"🤝", es:"Conocer: Personas"}, 
+            {n:"🗺️", es:"Conocer: Lugares"},
+            {n:"🎸", es:"Saber: Habilidades"}
+        ], 
+        bg:"bg-blue-900/40",
+        desc: "Igual que en portugués: 'Sé programar' (habilidad) vs 'Conozco Madrid' (lugar)."
+    },
+    { 
+        title: "Peticiones & Necesidad 🆘", 
+        items: [
+            {n:"❓", es:"¿Puedes ayudarme?"}, 
+            {n:"⚠️", es:"Necesito ayuda"}, 
+            {n:"📍", es:"¿Dónde está...?"},
+            {n:"🚫", es:"No entiendo"}
+        ], 
+        bg:"bg-red-900/40",
+        desc: "Estructuras de supervivencia para Madrid. Usa '¿Puedes...?' para ser educado al pedir algo."
+    },
+    { 
+        title: "¡Cuidado! Falsos Amigos 🚫", 
+        items: [
+            {n:"🤰", es:"Embarazada (Grávida)"}, 
+            {n:"😳", es:"Avergonzada (Avergonhada)"}, 
+            {n:"🥤", es:"Vaso (Copo)"},
+            {n:"🏢", es:"Oficina (Escritório)"}
+        ], 
+        bg:"bg-amber-900/40",
+        desc: "¡Nunca digas 'Estoy embarazada' si sientes vergüenza! Usa 'Tengo vergüenza' o 'Estoy avergonzada'."
+    }
+];
 
-// ─── APLICAÇÃO PRINCIPAL ─────────────────────────────────────────────────────
+const CLASS_1A_EXERCISES = [{ pt: "Oi!", es: "¡Hola!" }, { pt: "Tudo bem?", es: "¿Todo bien?" }, { pt: "Bom dia", es: "Buen día" }, { pt: "Boa noite", es: "Buenas noches" }, { pt: "Até logo", es: "Hasta luego" }, { pt: "Prazer", es: "Mucho gusto" }, { pt: "Sou brasileiro", es: "Soy brasileño" }, { pt: "Quero morar...", es: "Quiero vivir..." }];
 
-function App() {
-    const [user, setUser] = useState(null);
-    const [db, setDb] = useState(null);
+const CLASS_1B_EXERCISES = [
+    { q: "Hoy yo ____ (revisar) los logs del servidor.", a: "he revisado", h: "Acción terminada hoy" },
+    { q: "¿Tú ____ (limpiar) ya la base de datos?", a: "has limpiado", h: "Haber (tú) + Participio" },
+    { q: "Dame un ____ (momento), estoy cargando los dashboards.", a: "rato", h: "Significa tiempo/momento" },
+    { q: "He guardado el informe en la ____ (pasta) de proyectos.", a: "carpeta", h: "No es 'pasta'" },
+    { q: "La ____ (planilha) de Excel tiene errores de sintaxis.", a: "hoja de cálculo", h: "Término técnico" },
+    { q: "Esta mañana ____ (hacer) los gráficos para el socio.", a: "he hecho", h: "Participio irregular" },
+    { q: "Todavía no ____ (ver) los resultados finales del KPI.", a: "he visto", h: "Participio irregular" },
+    { q: "Mañana ____ (ir) a hablar con el equipo de España.", a: "voy", h: "Presente con valor de futuro" },
+    { q: "Nosotros ____ (encontrar) un bug crítico esta tarde.", a: "hemos encontrado", h: "Haber (nosotros)" },
+    { q: "En un ____ (instante) te envío el acceso al servidor.", a: "ratito", h: "Diminutivo de rato" }
+];
+
+const CLASS_2A_EXERCISES = [
+    { q: "Yo ____ (querer) aprender español para vivir en Madrid.", a: "quiero", h: "Verbo Querer (Yo)" },
+    { q: "¿Tú ____ (poder) enviarme el acceso al servidor?", a: "puedes", h: "Verbo Poder (Tú)" },
+    { q: "Mi compañero ____ (tener) mucha experiencia en SQL.", a: "tiene", h: "Verbo Tener (Él)" },
+    { q: "Yo no ____ (saber) dónde está el documento.", a: "sé", h: "Verbo Saber (Yo) - Irregular" },
+    { q: "¿____ (conhecer) algún buen restaurante en Malasaña?", a: "conoces", h: "Conocer personas/lugares" },
+    { q: "Ella está ____ (grávida), va a tener un bebé.", a: "embarazada", h: "¡Cuidado! No es avergonzada" },
+    { q: "Yo ____ (fazer) los informes todos los lunes.", a: "hago", h: "Verbo Hacer (Yo) - Irregular" },
+    { q: "¿____ (vir) a la oficina hoy o trabajas desde casa?", a: "vienes", h: "Verbo Venir (Tú)" },
+    { q: "Nosotros ____ (ir) al evento de networking mañana.", a: "vamos", h: "Verbo Ir (Nosotros)" },
+    { q: "Yo ____ (conhecer) muy bien la ciudad de Madrid.", a: "conozco", h: "Verbo Conocer (Yo) - Irregular" },
+    { q: "¿____ (poder) tú explicarme este insight?", a: "puedes", h: "Verbo Poder (Tú)" },
+    { q: "Juan ____ (querer) hablar contigo sobre el KPI.", a: "quiere", h: "Verbo Querer (Él)" },
+    { q: "Ella tiene mucha ____ (vergonha) de hablar en público.", a: "vergüenza", h: "Estado emocional" },
+    { q: "Yo ____ (ter) una reunión a las tres de la tarde.", a: "tengo", h: "Verbo Tener (Yo)" },
+    { q: "Ellos ____ (saber) que los datos son incorrectos.", a: "saben", h: "Verbo Saber (Ellos)" },
+    { q: "Mañana ____ (eu vou) a visitar el Palacio Real.", a: "voy", h: "Verbo Ir (Yo)" },
+    { q: "¿____ (vir) ellos a la presentación final?", a: "vienen", h: "Verbo Venir (Ellos)" },
+    { q: "Yo ____ (poder) terminar el dashboard hoy mismo.", a: "puedo", h: "Verbo Poder (Yo)" },
+    { q: "¿Tú ____ (ter) el enlace de la carpeta compartida?", a: "tienes", h: "Verbo Tener (Tú)" },
+    { q: "Ricardo ____ (fazer) un trabalho excelente con los datos.", a: "hace", h: "Verbo Hacer (Él)" }
+];
+
+// ─── COMPONENTS ──────────────────────────────────────────────────────────────
+
+const Button = ({ children, onClick, variant='primary', className='', disabled=false }) => {
+    const v = {
+        primary: 'bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-900/20 active:translate-y-[2px]',
+        ghost:   'bg-transparent border border-white/20 hover:bg-white/5 text-slate-300',
+        accent:  'bg-emerald-600 hover:bg-emerald-500 text-white active:translate-y-[2px]',
+    };
+    return (
+        <button onClick={onClick} disabled={disabled} className={`px-6 py-2.5 rounded-xl font-bold transition-all disabled:opacity-50 ${v[variant]} ${className}`}>
+            {children}
+        </button>
+    );
+};
+
+const FillBlanks = ({ data, onComplete }) => {
     const [index, setIndex] = useState(0);
-    const [answers, setAnswers] = useState(Array(EXERCISES.length).fill(''));
-    const [feedback, setFeedback] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [tab, setTab] = useState('theory');
+    const [input, setInput] = useState('');
+    const [feedback, setFeedback] = useState(null); 
+    const [attempts, setAttempts] = useState(0);
+    const [hits, setHits] = useState(0);
 
-    const appId = typeof __app_id !== 'undefined' ? __app_id : 'espanol-pro-analytics';
+    const current = data[index];
+
+    const handleCheck = () => {
+        if (input.trim().toLowerCase() === current.a.toLowerCase()) {
+            playSound('correct');
+            setFeedback('correct');
+            if (attempts === 0) setHits(h => h + 1);
+            setTimeout(() => moveToNext(), 1000);
+        } else {
+            playSound('error');
+            if (attempts === 0) {
+                setFeedback('wrong-first');
+                setAttempts(1);
+            } else {
+                setFeedback('wrong-second');
+            }
+        }
+    };
+
+    const moveToNext = () => {
+        setFeedback(null);
+        setAttempts(0);
+        setInput('');
+        if (index + 1 < data.length) {
+            setIndex(index + 1);
+        } else {
+            onComplete(Math.round((hits / data.length) * 100));
+        }
+    };
+
+    return (
+        <div className="max-w-2xl mx-auto slide-up">
+            <div className="glass-card rounded-[32px] p-10 border-white/10 shadow-2xl relative overflow-hidden">
+                <div className="flex justify-between items-center mb-10 text-[10px] font-black text-slate-500 uppercase tracking-widest">
+                    <span>Ejercicio {index + 1} de {data.length}</span>
+                    <span className="text-blue-500">Aciertos: {hits}</span>
+                </div>
+
+                <div className="text-2xl font-bold mb-10 leading-relaxed text-white">
+                    {current.q.split('____').map((p, i) => (
+                        <span key={i}>
+                            {p}
+                            {i === 0 && (
+                                <input 
+                                    type="text" 
+                                    value={input} 
+                                    onChange={e => setInput(e.target.value)}
+                                    disabled={feedback === 'correct' || feedback === 'wrong-second'}
+                                    onKeyDown={e => e.key === 'Enter' && feedback === null && handleCheck()}
+                                    className={`mx-2 w-48 text-center border-b-2 code-font transition-all ${feedback === 'correct' ? 'text-emerald-400 border-emerald-500' : feedback?.startsWith('wrong') ? 'text-red-400 border-red-500 animate-shake' : 'text-blue-400 border-slate-700'}`}
+                                    autoFocus
+                                />
+                            )}
+                        </span>
+                    ))}
+                </div>
+
+                {feedback === 'wrong-second' && (
+                    <div className="mb-8 p-4 bg-red-500/10 rounded-xl border border-red-500/20 text-red-400 animate-fade">
+                        La respuesta correcta era: <span className="font-mono font-bold">{current.a}</span>
+                    </div>
+                )}
+
+                <div className="flex flex-col gap-4">
+                    {feedback === null && <Button onClick={handleCheck} className="w-full">Verificar</Button>}
+                    {feedback === 'wrong-first' && <Button onClick={() => { setFeedback(null); setInput(''); }} variant="accent" className="w-full">Intentar de nuevo</Button>}
+                    {feedback === 'wrong-second' && <Button onClick={moveToNext} className="w-full">Siguiente ➜</Button>}
+                </div>
+
+                <div className="mt-8 flex items-center gap-3 text-xs text-slate-500">
+                    <div className="w-1.5 h-1.5 rounded-full bg-blue-500"></div>
+                    <span>Pista: {current.h}</span>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+const TheoryLesson = ({ data, onComplete, title }) => {
+    const [slide, setSlide] = useState(0);
+    const cur = data[slide];
+    return (
+        <div className="max-w-4xl mx-auto slide-up theory-card">
+            <div className={`flex-1 rounded-[40px] p-8 md:p-12 shadow-2xl flex flex-col justify-between ${cur.bg} border border-white/5`}>
+                <div>
+                    <h2 className="text-blue-400 font-mono text-xs mb-4 uppercase tracking-widest">{title}</h2>
+                    <h1 className="text-4xl md:text-5xl font-black mb-6 text-white">{cur.title}</h1>
+                    <p className="text-slate-300 text-lg mb-10 max-w-2xl">{cur.desc}</p>
+                    <div className="theory-items-grid">
+                        {cur.items.map((item, i) => (
+                            <div key={i} className="bg-black/20 backdrop-blur-md rounded-2xl p-6 text-center border border-white/10">
+                                <div className="text-4xl mb-3">{item.n}</div>
+                                <div className="text-base font-black text-white uppercase">{item.es}</div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+                <div className="flex justify-between items-center mt-10">
+                    <button onClick={() => slide > 0 && setSlide(slide-1)} className={`text-slate-400 font-bold hover:text-white transition-colors ${slide === 0 ? 'invisible' : ''}`}>← Anterior</button>
+                    <div className="flex gap-2">{data.map((_, i) => <div key={i} className={`w-2 h-2 rounded-full transition-all ${i === slide ? 'bg-blue-500 w-6' : 'bg-white/20'}`} />)}</div>
+                    <Button onClick={() => slide < data.length - 1 ? setSlide(slide + 1) : onComplete()} variant="accent">{slide === data.length - 1 ? 'Iniciar Práctica' : 'Siguiente →'}</Button>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+const MemoryGame = ({ data, onComplete }) => {
+    const [cards, setCards] = useState([]);
+    const [flipped, setFlipped] = useState([]);
+    const [matched, setMatched] = useState([]);
+    const [locked, setLocked] = useState(false);
+    const [finished, setFinished] = useState(false);
 
     useEffect(() => {
+        const pool = data.flatMap((item, idx) => [{ id: `${idx}-pt`, content: item.pt, pairId: idx, type: 'pt' }, { id: `${idx}-es`, content: item.es, pairId: idx, type: 'es' }]).sort(() => Math.random() - 0.5);
+        setCards(pool);
+    }, [data]);
+
+    const handleFlip = (card) => {
+        if (locked || flipped.includes(card.id) || matched.includes(card.pairId)) return;
+        const nf = [...flipped, card.id]; setFlipped(nf);
+        if (nf.length === 2) {
+            setLocked(true);
+            const c1 = cards.find(c => c.id === nf[0]), c2 = cards.find(c => c.id === nf[1]);
+            if (c1.pairId === c2.pairId) {
+                const nm = [...matched, c1.pairId]; setMatched(nm); setFlipped([]); setLocked(false);
+                if (nm.length === data.length) setFinished(true);
+            } else { setTimeout(() => { setFlipped([]); setLocked(false); }, 1000); }
+        }
+    };
+
+    return (
+        <div className="w-full max-w-4xl mx-auto slide-up">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 perspective-1000">
+                {cards.map(card => {
+                    const isFlipped = flipped.includes(card.id) || matched.includes(card.pairId);
+                    return (
+                        <div key={card.id} onClick={() => handleFlip(card)} className={`relative h-24 md:h-32 cursor-pointer transition-transform duration-500 transform-style-3d ${isFlipped ? 'rotate-y-180' : ''}`}>
+                            <div className="absolute inset-0 bg-slate-800 rounded-xl flex items-center justify-center border-b-4 border-slate-950 backface-hidden z-20 text-2xl">?</div>
+                            <div className={`absolute inset-0 rounded-xl flex items-center justify-center p-2 text-center rotate-y-180 backface-hidden border-b-4 shadow-xl z-10 ${card.type === 'pt' ? 'bg-indigo-600 border-indigo-900' : 'bg-emerald-600 border-emerald-900'}`}><span className="font-bold text-sm md:text-base">{card.content}</span></div>
+                        </div>
+                    );
+                })}
+            </div>
+            {finished && <div className="mt-10 text-center animate-fade"><Button onClick={() => onComplete(100)} variant="accent">Concluir Aula</Button></div>}
+        </div>
+    );
+};
+
+// ─── APP ──────────────────────────────────────────────────────────────────────
+
+function App() {
+    const [view, setView] = useState('home');
+    const [step, setStep] = useState(0);
+    const [user, setUser] = useState(null);
+    const [db, setDb] = useState(null);
+    const [progress, setProgress] = useState({});
+    const [loading, setLoading] = useState(true);
+
+    const appId = typeof __app_id !== 'undefined' ? __app_id : 'espanol-pro-v5';
+
+    useEffect(() => {
+        let unsubAuth = null;
+        let unsubSnap = null;
+
         const init = async () => {
-            const { initializeApp, getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged, getFirestore } = window.firebaseCore;
-            
             try {
-                const firebaseConfig = JSON.parse(__firebase_config);
+                const { initializeApp, getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken, getFirestore, doc, onSnapshot } = window.firebaseCore;
+                
+                const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
+                if (!firebaseConfig) {
+                    setLoading(false);
+                    return;
+                }
+
                 const app = initializeApp(firebaseConfig);
                 const auth = getAuth(app);
                 const firestore = getFirestore(app);
                 setDb(firestore);
 
                 const token = typeof __initial_auth_token !== 'undefined' && __initial_auth_token ? __initial_auth_token : null;
-                
                 if (token) {
-                    await signInWithCustomToken(auth, token);
+                    await signInWithCustomToken(auth, token).catch(() => signInAnonymously(auth));
                 } else {
                     await signInAnonymously(auth);
                 }
 
-                const unsubscribe = onAuthStateChanged(auth, (u) => {
+                unsubAuth = onAuthStateChanged(auth, (u) => {
                     setUser(u);
                     if (u) {
-                        loadProgress(firestore, u.uid);
+                        const pRef = doc(firestore, 'artifacts', appId, 'users', u.uid, 'data', 'progress');
+                        unsubSnap = onSnapshot(pRef, (snap) => {
+                            if (snap.exists()) setProgress(snap.data());
+                            setLoading(false);
+                        }, (err) => {
+                            setLoading(false);
+                        });
                     } else {
                         setLoading(false);
                     }
                 });
-
-                return () => unsubscribe();
             } catch (err) {
-                console.error("Erro na inicialização:", err);
+                console.error("Firebase Init Error:", err);
                 setLoading(false);
             }
         };
+
         init();
+        return () => {
+            if (unsubAuth) unsubAuth();
+            if (unsubSnap) unsubSnap();
+        };
     }, []);
 
-    const loadProgress = async (firestore, uid) => {
-        const { doc, getDoc } = window.firebaseCore;
-        const pDoc = doc(firestore, 'artifacts', appId, 'users', uid, 'progress', 'v2');
-        try {
-            const snap = await getDoc(pDoc);
-            if (snap.exists()) {
-                const data = snap.data();
-                setIndex(data.index || 0);
-                setAnswers(data.answers || Array(EXERCISES.length).fill(''));
-            }
-        } catch (e) { 
-            console.error("Erro ao carregar progresso:", e); 
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    const saveProgress = async (newIdx, newAnswers) => {
+    const saveResult = async (lessonId, score) => {
         if (!user || !db) return;
         const { doc, setDoc } = window.firebaseCore;
-        const pDoc = doc(db, 'artifacts', appId, 'users', user.uid, 'progress', 'v2');
-        await setDoc(pDoc, { index: newIdx, answers: newAnswers }, { merge: true });
+        const newProgress = { ...progress, [lessonId]: { completed: true, score } };
+        setProgress(newProgress);
+        await setDoc(doc(db, 'artifacts', appId, 'users', user.uid, 'data', 'progress'), newProgress, { merge: true });
+        setView('home'); setStep(0);
     };
 
-    const handleCheck = () => {
-        const current = EXERCISES[index];
-        const isCorrect = answers[index].trim().toLowerCase() === current.a.toLowerCase();
-        
-        if (isCorrect) {
-            setFeedback('correct');
-            setTimeout(() => {
-                const n = index + 1;
-                if (n < EXERCISES.length) {
-                    setIndex(n);
-                    setFeedback(null);
-                    saveProgress(n, answers);
-                } else {
-                    setFeedback('done');
-                }
-            }, 800);
-        } else {
-            setFeedback('error');
-            setTimeout(() => setFeedback(null), 1200);
-        }
+    const ProgressReport = ({ userProgress, onBack }) => {
+        const curriculum = [
+            { id: 'm1a', name: 'Aula 1A: Fundamentos & Fonética', emoji: '💜' },
+            { id: 'm1b', name: 'Aula 1B: Pasado & Datos', emoji: '📊' },
+            { id: 'm2a', name: 'Aula 2A: Verbos Esenciales', emoji: '⚡' }
+        ];
+        const completed = curriculum.filter(c => userProgress[c.id]?.completed);
+        const avg = completed.length > 0 ? Math.round(completed.reduce((a,b) => a + (userProgress[b.id]?.score || 0), 0) / completed.length) : 0;
+        return (
+            <div className="max-w-3xl mx-auto slide-up">
+                <div className="glass-card rounded-[32px] p-10 border-white/10 shadow-2xl">
+                    <div className="flex justify-between items-center mb-10"><h2 className="text-3xl font-black text-white">Boletín de Progreso</h2><div className="text-right"><div className="text-4xl font-black text-emerald-400">{avg}</div><div className="text-[10px] text-slate-500 font-bold uppercase">Promedio</div></div></div>
+                    <div className="space-y-4 text-white">{curriculum.map(lesson => (<div key={lesson.id} className={`flex items-center gap-4 p-5 rounded-2xl border transition-all ${lesson.locked ? 'opacity-30 border-dashed border-white/5' : 'bg-white/5 border-white/10'}`}><div className="text-3xl">{lesson.emoji}</div><div className="flex-1"><div className="text-sm font-bold text-white">{lesson.name}</div>{userProgress[lesson.id]?.completed && <div className="text-[10px] text-emerald-500 font-black">✓ COMPLETADO</div>}</div>{userProgress[lesson.id]?.score !== undefined && <div className="font-black text-xl text-blue-400">{userProgress[lesson.id].score}</div>}</div>))}</div>
+                    <div className="mt-10 text-center"><Button onClick={onBack} variant="ghost">Volver</Button></div>
+                </div>
+            </div>
+        );
     };
 
-    if (loading) return (
-        <div className="h-screen flex flex-col items-center justify-center bg-[#020617]">
-            <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-4"></div>
-            <p className="text-slate-500 font-mono text-xs uppercase tracking-widest">Sincronizando Dashboard...</p>
-        </div>
-    );
+    if (loading) return <div className="h-screen flex items-center justify-center bg-[#020617] text-blue-500 font-mono text-xs animate-pulse tracking-widest uppercase">Cargando Dashboard...</div>;
 
     return (
-        <div className="min-h-screen p-4 md:p-8 max-w-5xl mx-auto">
-            <header className="flex flex-col md:flex-row justify-between items-center mb-10 border-b border-white/10 pb-6 gap-4">
-                <div className="text-center md:text-left">
-                    <h1 className="text-2xl font-black tracking-tighter text-white">ESPAÑOL <span className="text-blue-500">DATA PRO</span></h1>
-                    <p className="text-slate-500 text-xs font-mono">Clase 01: Inmersión en el Trabajo</p>
+        <div className="min-h-screen">
+            <header className="px-6 py-4 border-b border-white/5 flex justify-between items-center sticky top-0 bg-[#020617]/90 backdrop-blur-md z-50">
+                <div onClick={() => {setView('home'); setStep(0);}} className="flex items-center gap-3 cursor-pointer">
+                    <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center font-black">E</div>
+                    <h1 className="text-lg font-black tracking-tight text-white uppercase">Español <span className="text-blue-500">Pro</span></h1>
                 </div>
-                <div className="flex bg-slate-900 p-1 rounded-lg border border-white/5">
-                    {['theory', 'vocab', 'practice'].map(t => (
-                        <button key={t} onClick={() => setTab(t)}
-                            className={`px-4 py-2 rounded text-xs font-bold uppercase tracking-widest transition-all ${tab === t ? 'bg-blue-600 text-white shadow-lg' : 'text-slate-500 hover:text-slate-300'}`}>
-                            {t === 'theory' ? 'Gramática' : t === 'vocab' ? 'Vocabulario' : 'Práctica'}
-                        </button>
-                    ))}
+                <div className="flex gap-4">
+                    {view === 'home' ? <Button onClick={() => setView('report')} variant="ghost" className="text-xs py-2 px-4">📊 Boletín</Button> : <Button onClick={() => {setView('home'); setStep(0);}} variant="ghost" className="text-xs py-2 px-4">Volver</Button>}
                 </div>
             </header>
 
-            <main className="animate-fade">
-                {tab === 'theory' && (
-                    <div className="grid gap-8">
-                        <div className="glass-card rounded-2xl p-8 border-l-4 border-blue-500">
-                            <h2 className="text-xl font-bold mb-6 text-blue-400">📚 El Pasado Reciente</h2>
-                            <p className="text-slate-300 mb-6 leading-relaxed">
-                                No espanhol, usamos o <strong>Pretérito Perfecto Compuesto</strong> para ações concluídas hoje ou recentemente. 
-                                É vital para o seu dia a dia com o time da Espanha e amplamente usado em toda a LatAm.
-                            </p>
-                            <div className="bg-slate-900/50 p-6 rounded-xl border border-white/5">
-                                <p className="text-blue-400 font-mono text-sm mb-4">// Estrutura: Haber (he, has, ha...) + Participio (-ado, -ido)</p>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm font-mono">
-                                    <div className="p-3 bg-slate-800 rounded">Yo <span className="text-emerald-400">he hablado</span></div>
-                                    <div className="p-3 bg-slate-800 rounded">Tú <span className="text-emerald-400">has enviado</span></div>
-                                    <div className="p-3 bg-slate-800 rounded">Él <span className="text-emerald-400">ha dicho</span></div>
-                                    <div className="p-3 bg-slate-800 rounded">Nosotros <span className="text-emerald-400">hemos visto</span></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                )}
-
-                {tab === 'vocab' && (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div className="glass-card rounded-2xl p-6">
-                            <h3 className="font-bold text-blue-400 mb-4 uppercase text-xs">💻 Infra & Data</h3>
-                            <ul className="space-y-2 text-sm">
-                                <li className="flex justify-between border-b border-white/5 pb-2"><span>Hoja de cálculo</span> <span className="text-slate-500">Planilha</span></li>
-                                <li className="flex justify-between border-b border-white/5 pb-2"><span>Carpeta</span> <span className="text-slate-500">Pasta</span></li>
-                                <li className="flex justify-between border-b border-white/5 pb-2"><span>Descargar/Subir</span> <span className="text-slate-500">Download/Upload</span></li>
-                            </ul>
-                        </div>
-                        <div className="glass-card rounded-2xl p-6 bg-blue-900/10">
-                            <h3 className="font-bold text-indigo-400 mb-4 uppercase text-xs">⏳ El Rato (Falso Amigo)</h3>
-                            <p className="text-xs text-slate-400 mb-4">Lembre-se: "Rato" é tempo, não o animal!</p>
-                            <ul className="space-y-2 text-sm">
-                                <li className="flex justify-between border-b border-white/5 pb-2"><span>Un rato</span> <span className="text-slate-500">Um tempo</span></li>
-                                <li className="flex justify-between border-b border-white/5 pb-2"><span>Un ratito</span> <span className="text-slate-500">Um instantinho</span></li>
-                            </ul>
-                        </div>
-                    </div>
-                )}
-
-                {tab === 'practice' && (
-                    <div className="max-w-2xl mx-auto">
-                        <ProgressBar current={index} total={EXERCISES.length} />
-                        {feedback === 'done' || index >= EXERCISES.length ? (
-                            <div className="glass-card rounded-3xl p-12 text-center shadow-2xl">
-                                <div className="text-5xl mb-6">🚀</div>
-                                <h2 className="text-3xl font-bold mb-4 text-blue-400">¡Nivel Superado!</h2>
-                                <p className="text-slate-400 mb-8">Has completado los ejercicios. ¡Buen trabajo!</p>
-                                <button onClick={() => {setIndex(0); setFeedback(null);}} className="bg-blue-600 px-8 py-3 rounded-xl font-bold">Reiniciar</button>
-                            </div>
-                        ) : (
-                            <div className="glass-card rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden">
-                                <div className="mb-10">
-                                    <h3 className="text-2xl font-semibold leading-relaxed text-white">
-                                        {EXERCISES[index].q.split('____').map((p, i) => (
-                                            <span key={i}>{p}{i === 0 && (
-                                                <input type="text" value={answers[index]}
-                                                    onChange={e => { const n = [...answers]; n[index] = e.target.value; setAnswers(n); }}
-                                                    onKeyDown={e => e.key === 'Enter' && handleCheck()}
-                                                    className={`mx-2 w-44 md:w-56 text-center border-b-2 py-1 code-font font-bold transition-all bg-transparent ${feedback === 'correct' ? 'text-emerald-400 border-emerald-500' : feedback === 'error' ? 'text-red-400 border-red-500' : 'text-blue-300 border-slate-700'}`}
-                                                    placeholder="..." autoFocus />
-                                            )}</span>
-                                        ))}
-                                    </h3>
-                                    <p className="mt-4 text-slate-500 italic text-sm">"{EXERCISES[index].trans}"</p>
-                                </div>
-                                <button onClick={handleCheck} className={`mt-8 w-full py-4 rounded-xl font-bold transition-all ${feedback === 'correct' ? 'bg-emerald-600' : feedback === 'error' ? 'bg-red-600' : 'bg-blue-600'}`}>
-                                    {feedback === 'correct' ? '¡Correcto!' : feedback === 'error' ? 'Intenta de nuevo' : 'Verificar'}
+            <main className="px-4 py-12">
+                {view === 'home' && (
+                    <div className="text-center slide-up min-h-[70vh] flex flex-col justify-center">
+                        <h2 className="text-xs font-mono text-blue-400 uppercase tracking-[0.3em] mb-4">Inmersión Profesional</h2>
+                        <h1 className="text-4xl md:text-6xl font-black mb-12 text-white">Hola, ¿qué tal hoy? 👋</h1>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto w-full">
+                            {[
+                                { id: 'm1a', title: 'Aula 1A: Fundamentos', emoji: '💜', color: 'from-indigo-600 to-indigo-800' },
+                                { id: 'm1b', title: 'Aula 1B: Profesional', emoji: '📊', color: 'from-blue-600 to-blue-800' },
+                                { id: 'm2a', title: 'Aula 2A: Verbos Esenciales', emoji: '⚡', color: 'from-purple-600 to-purple-800' }
+                            ].map(m => (
+                                <button key={m.id} disabled={m.locked} onClick={() => setView(m.id)} className={`relative overflow-hidden p-8 rounded-[32px] text-left transition-all hover:scale-[1.03] group ${m.locked ? 'opacity-40 cursor-not-allowed' : `bg-gradient-to-br ${m.color} shadow-xl`}`}>
+                                    <div className="text-4xl mb-4 group-hover:animate-bounce">{m.emoji}</div>
+                                    <h3 className="font-bold text-xl mb-1 text-white">{m.title}</h3>
+                                    {progress[m.id]?.completed ? <div className="text-xs font-black text-emerald-400 mt-2">✓ COMPLETADO ({progress[m.id].score})</div> : <div className="text-xs font-bold text-white/50 mt-2">Iniciar →</div>}
                                 </button>
-                            </div>
-                        )}
+                            ))}
+                        </div>
                     </div>
+                )}
+
+                {view === 'report' && <ProgressReport userProgress={progress} onBack={() => setView('home')} />}
+
+                {view === 'm1a' && (
+                    <>
+                        {step === 0 && <TheoryLesson data={CLASS_1A_THEORY} title="Aula 1A: Fundamentos" onComplete={() => setStep(1)} />}
+                        {step === 1 && <MemoryGame data={CLASS_1A_EXERCISES} onComplete={(s) => saveResult('m1a', s)} />}
+                    </>
+                )}
+
+                {view === 'm1b' && (
+                    <>
+                        {step === 0 && <TheoryLesson data={CLASS_1B_THEORY} title="Aula 1B: Profesional" onComplete={() => setStep(1)} />}
+                        {step === 1 && <FillBlanks data={CLASS_1B_EXERCISES} onComplete={(s) => saveResult('m1b', s)} />}
+                    </>
+                )}
+
+                {view === 'm2a' && (
+                    <>
+                        {step === 0 && <TheoryLesson data={CLASS_2A_THEORY} title="Aula 2A: Verbos Esenciales" onComplete={() => setStep(1)} />}
+                        {step === 1 && <FillBlanks data={CLASS_2A_EXERCISES} onComplete={(s) => saveResult('m2a', s)} />}
+                    </>
                 )}
             </main>
-            <footer className="mt-16 text-center text-slate-600 font-mono text-[10px] uppercase tracking-widest pb-10">
-                Data Science Professional Spanish | V2.1 | Persistência Corrigida
-            </footer>
         </div>
     );
 }
