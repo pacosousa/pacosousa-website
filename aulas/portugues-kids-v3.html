@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oi, Brasil! - Aprenda Português</title>
+    <!-- Bibliotecas Necessárias -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Firebase SDK (Configuração de Margo) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        window.firebaseCore = { initializeApp, getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken, getFirestore, doc, getDoc, setDoc, onSnapshot, collection };
+    </script>
+
+    <style>
+        * { box-sizing: border-box; }
+        html, body { height: 100%; margin: 0; font-family: 'Nunito', sans-serif; background-color: #0F0A1E; overflow-x: hidden; }
+        .perspective-1000 { perspective: 1000px; }
+        .transform-style-3d { transform-style: preserve-3d; }
+        .backface-hidden { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+        .rotate-y-180 { transform: rotateY(180deg); }
+        @keyframes bounce-slow { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+        .animate-bounce-slow { animation: bounce-slow 3s ease-in-out infinite; }
+        @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-8px)} 75%{transform:translateX(8px)} }
+        .animate-shake { animation: shake 0.3s ease-in-out; }
+        @keyframes slide-up { from{transform:translateY(20px);opacity:0} to{transform:translateY(0);opacity:1} }
+        .slide-up { animation: slide-up 0.35s ease-out; }
+        input[type="text"] { outline: none; }
+        
+        .theory-card {
+            height: calc(100vh - 130px);
+            min-height: 420px;
+            max-height: 780px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .theory-item-card {
+            background: rgba(255,255,255,0.18);
+            border-radius: 20px;
+            padding: 14px 8px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: transform 0.2s;
+        }
+        .theory-item-card:hover { transform: scale(1.04); }
+
+        .word-grid-cell {
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1.2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+            touch-action: manipulation;
+        }
+        .cell-locked {
+            background-color: #00F5D4 !important;
+            color: #0F0A1E !important;
+            box-shadow: 0 0 15px rgba(0, 245, 212, 0.4);
+        }
+        .cell-selected {
+            background-color: #FF3CAC !important;
+            color: white !important;
+            transform: scale(1.1);
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState, useEffect, useMemo, useCallback } = React;
+
+// ─── UTILITÁRIOS ──────────────────────────────────────────────────────────────
+const playSound = (type) => {
+    try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain); gain.connect(ctx.destination);
+        const now = ctx.currentTime;
+        if (type === 'correct') {
+            osc.frequency.setValueAtTime(300, now);
+            osc.frequency.exponentialRampToValueAtTime(600, now + 0.15);
+            gain.gain.setValueAtTime(0.1, now); gain.gain.linearRampToValueAtTime(0, now + 0.2);
+        } else if (type === 'error') {
+            osc.frequency.setValueAtTime(200, now);
+            osc.frequency.linearRampToValueAtTime(100, now + 0.15);
+            gain.gain.setValueAtTime(0.1, now); gain.gain.linearRampToValueAtTime(0, now + 0.2);
+        }
+        osc.start(); osc.stop(now + 0.2);
+    } catch(e) {}
+};
+
+const ArrowLeft = ({ size }) => (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+);
+
+// ─── COMPONENTES PARTILHADOS ──────────────────────────────────────────────────
+const Button = ({ children, onClick, variant = 'primary', className = '', disabled = false }) => {
+    const v = {
+        primary: 'bg-[#00F5D4] hover:bg-[#33ffdf] text-[#0F0A1E] shadow-[0_4px_0_rgb(0,180,155)] active:translate-y-[2px] active:shadow-none',
+        ghost: 'bg-transparent border-2 border-white/20 hover:bg-white/10 text-white',
+        accent: 'bg-[#FF3CAC] hover:bg-[#ff5bb9] text-white shadow-[0_4px_0_rgb(190,45,128)] active:translate-y-[2px] active:shadow-none',
+    };
+    return (
+        <button onClick={onClick} disabled={disabled} className={`px-5 py-2.5 rounded-2xl font-black transition-all transform duration-150 ${v[variant]} ${className}`}>
+            {children}
+        </button>
+    );
+};
+
+// ─── DADOS DAS AULAS ──────────────────────────────────────────────────────────
+const CLASS_1A_GREETINGS = [{pt:'Oi!', es:'¡Hola! 👋'}, {pt:'Tudo bem?', es:'¿Todo bem? 😊'}, {pt:'Bom dia', es:'Buen dia ☀️'}, {pt:'Boa tarde', es:'Buenas tardes 🌤️'}, {pt:'Boa noite', es:'Buenas noites 🌙'}, {pt:'Tchau!', es:'¡Chau! 👋'}, {pt:'Até amanhã', es:'Hasta mañana 📅'}, {pt:'Prazer!', es:'¡Mucho gusto! ✨'}, {pt:'Muito prazer!', es:'¡Es um prazer! / ¡Encantado! 🤝'}];
+
+const CLASS_2B_THEORY = [
+    { title: "Quanto custa? 💰", content: "Margo, vamos ver os preços no Roblox!", items: [{n:"🏷️", pt:"Caro", es:"Caro"}, {n:"🏷️", pt:"Barato", es:"Barato"}, {n:"💸", pt:"Quanto custa?", es:"¿Quanto cuesta?"}, {n:"🪙", pt:"Cem Robux", es:"Cien Robux"}], bg: "bg-[#4361EE]" },
+    { title: "Que horas são? ⏰", content: "Não se atrase para o jogo!", items: [{n:"🕒", pt:"São oito horas", es:"Son las oito"}, {n:"🕕", pt:"São seis horas", es:"Son las seis"}, {n:"🕚", pt:"São onze horas", es:"Son las onze"}, {n:"🕛", pt:"Meio-dia", es:"Meio-dia"}], bg: "bg-[#7B2FFF]" }
+];
+
+const CLASS_3A_THEORY = [
+    { title: "As Formas 💠", content: "Geometria no Roblox!", items: [{n:"⭕", pt:"Círculo", es:"Círculo"}, {n:"⬜", pt:"Quadrado", es:"Cuadrado"}, {n:"🔺", pt:"Triângulo", es:"Triângulo"}, {n:"⭐", pt:"Estrela", es:"Estrella"}], bg: "bg-[#FF3CAC]" },
+    { title: "Claro e Escuro 💡", content: "Observa bem os tons reais!", items: [
+        { pt:"Azul claro", es:"Azul claro (Céu)", hex: "#B9E6FF"}, 
+        { pt:"Azul escuro", es:"Azul escuro (Noite)", hex: "#000835"}, 
+        { pt:"Verde claro", es:"Verde claro (Limão)", hex: "#C7FFB9"}, 
+        { pt:"Verde escuro", es:"Verde escuro (Floresta)", hex: "#001A07"}
+    ], bg: "bg-[#0F0A1E]", border: "border-[#00F5D4]", isColorSlide: true },
+    { title: "Concordância (Género) 👔👗", content: "A roupa combina!", items: [{n:"👕", pt:"Camiseta branca", es:"La camiseta blanca"}, {n:"👟", pt:"Sapato branco", es:"El zapato blanco"}, {n:"🧤", pt:"Luva preta", es:"Guante negro"}, {n:"🎩", pt:"Chapéu preto", es:"Sombrero negro"}], bg: "bg-[#FFD60A]", textColor: "text-black" }
+];
+
+const CLASS_3A_CHALLENGES = [
+    { img: "⭐", q: "A estrela é ____.", a: "branca", trans: "La estrella es blanca" },
+    { img: "⭕", q: "O ____ é azul escuro.", a: "círculo", trans: "El círculo es azul oscuro" },
+    { img: "👕", q: "A camiseta é ____.", a: "barata", h: "Pista: 10 Robux", trans: "La camiseta es barata" },
+    { img: "🕛", q: "Agora é ____-dia.", a: "meio", trans: "Agora es meio-dia" }
+];
+
+const COMPLEMENTARY_EXERCISES = [
+    { type: "choice", q: "MISSÃO 1: Para abrir a porta às 12:00, você diz:", opts: ["É meia-noite", "É meio-dia", "É oito horas"], correct: 1, hint: "Meio do dia" },
+    { type: "choice", q: "MISSÃO 2: O cadeado é um TRIÂNGULO. Qual você escolhe?", opts: ["🔺", "⬜", "⭕"], correct: 0 },
+    { type: "choice", q: "MISSÃO 3: A skin custa 100 Robux. Ela é...", opts: ["Barata", "Cara"], correct: 1 },
+    { type: "choice", q: "MISSÃO 4: Você tem 20 minutos. Como escrevemos esse número em português?", opts: ["Vinte", "Trinta", "Dez"], correct: 0 },
+    { type: "choice", q: "CAÇA AO ERRO: Qual está certo?", opts: ["O estrela é branca", "A estrela é branca", "A estrela branco"], correct: 1 },
+    { type: "choice", q: "CAÇA AO ERRO: Qual está certo?", opts: ["A sapato branco", "O sapato branco", "O sapato branca"], correct: 1 },
+    { type: "choice", q: "CAÇA AO ERRO: Como traduzimos 'remera blanca' para o português?", opts: ["A camiseta branco", "A camiseta branca"], correct: 1 },
+    { type: "choice", q: "CAÇA AO ERRO: 'Relógio' é:", opts: ["O relógio", "A relógio"], correct: 0 },
+    { type: "detective", q: "DETETIVE: Qual é o AZUL ESCURO?", opts: ["Opção A", "Opção B"], hexs: ["#B9E6FF", "#000835"], correct: 1 },
+    { type: "detective", q: "DETETIVE: Qual é o VERDE CLARO?", opts: ["Opção A", "Opção B"], hexs: ["#001A07", "#C7FFB9"], correct: 1 },
+    { type: "choice", q: "DETETIVE: Qual forma tem 4 lados iguais?", opts: ["Círculo", "Quadrado", "Triângulo"], correct: 1 },
+    { type: "choice", q: "DETETIVE: Qual forma parece uma pizza?", opts: ["Quadrado", "Círculo", "Estrela"], correct: 1 },
+    { type: "fill", q: "Complete: Cem Robux é ____.", a: "caro", trans: "Cien Robux es caro" },
+    { type: "fill", q: "Complete: São nove ____.", a: "horas", trans: "Son las nove horas" },
+    { type: "fill", q: "Complete: O céu é azul ____ (dia).", a: "claro", trans: "El cielo es azul claro" },
+    { type: "fill", q: "Complete: A noite é azul ____.", a: "escuro", trans: "La noite es azul escuro" },
+    { type: "choice", q: "Margo quer comprar um item de 5 Robux. Ela diz:", opts: ["É muito caro!", "É muito barato!"], correct: 1 },
+    { type: "choice", q: "O jogo começa em 10 minutos. São 07:50. Começa às...", opts: ["Oito horas", "Sete horas"], correct: 0 },
+    { type: "choice", q: "Margo escolhe um chapéu. Ela diz:", opts: ["O chapéu preto", "A chapéu preta"], correct: 0 },
+    { type: "choice", q: "Você terminou a aula! Como dizemos tchau?", opts: ["Oi!", "Até amanhã!", "Tudo bem?"], correct: 1 }
+];
+
+// ─── COMPONENTE CAÇA-PALAVRAS ─────────────────────────────────────────────────
+const WordSearch = ({ onComplete }) => {
+    // Definição das palavras corrigidas e espalhadas
+    const wordDefinitions = [
+        { word: "ESTRELA", coords: [{r:0,c:1},{r:0,c:2},{r:0,c:3},{r:0,c:4},{r:0,c:5},{r:0,c:6},{r:0,c:7}] }, // H
+        { word: "BRANCA", coords: [{r:2,c:2},{r:2,c:3},{r:2,c:4},{r:2,c:5},{r:2,c:6},{r:2,c:7}] }, // H
+        { word: "AZUL", coords: [{r:5,c:1},{r:5,c:2},{r:5,c:3},{r:5,c:4}] }, // H
+        { word: "BARATO", coords: [{r:10,c:1},{r:10,c:2},{r:10,c:3},{r:10,c:4},{r:10,c:5},{r:10,c:6}] }, // H
+        
+        { word: "QUADRADO", coords: [{r:1,c:0},{r:2,c:0},{r:3,c:0},{r:4,c:0},{r:5,c:0},{r:6,c:0},{r:7,c:0},{r:8,c:0}] }, // V (8 letras)
+        { word: "ROBUX", coords: [{r:4,c:5},{r:5,c:5},{r:6,c:5},{r:7,c:5},{r:8,c:5}] }, // V
+        { word: "NOITE", coords: [{r:6,c:8},{r:7,c:8},{r:8,c:8},{r:9,c:8},{r:10,c:8}] }, // V
+        { word: "VERDE", coords: [{r:1,c:9},{r:2,c:9},{r:3,c:9},{r:4,c:9},{r:5,c:9}] } // V
+    ];
+    
+    // Grelha corrigida com letras variadas e aleatórias
+    const initialGrid = [
+        ['P','E','S','T','R','E','L','A','W','K'], // R0
+        ['Q','F','G','H','J','K','L','M','N','V'], // R1 (Q-V)
+        ['U','P','B','R','A','N','C','A','T','E'], // R2 (U-BRANCA-E)
+        ['A','X','Y','Z','W','T','B','S','V','R'], // R3 (A-R)
+        ['D','O','U','B','T','R','O','B','U','D'], // R4 (D-R-D)
+        ['R','A','Z','U','L','O','P','Q','L','E'], // R5 (R-AZUL-O-E)
+        ['A','I','V','C','R','B','S','T','N','O'], // R6 (A-B-N)
+        ['D','A','N','U','D','U','X','Y','O','P'], // R7 (D-U-O)
+        ['O','B','L','I','P','X','Q','R','I','L'], // R8 (O-X-I)
+        ['W','M','X','D','Y','G','S','A','T','U'], // R9 (T)
+        ['K','B','A','R','A','T','O','P','E','J']  // R10 (BARATO-E)
+    ];
+
+    const [foundWords, setFoundWords] = useState([]);
+    const [selectedCells, setSelectedCells] = useState([]);
+    const [lockedCells, setLockedCells] = useState([]); 
+
+    const handleCellClick = (r, c) => {
+        const isLocked = lockedCells.some(cell => cell.r === r && cell.c === c);
+        if (isLocked) return;
+
+        const selectionIndex = selectedCells.findIndex(cell => cell.r === r && cell.c === c);
+        let newSelection = [];
+        if (selectionIndex !== -1) {
+            newSelection = selectedCells.filter((_, i) => i !== selectionIndex);
+        } else {
+            newSelection = [...selectedCells, { r, c }];
+        }
+        setSelectedCells(newSelection);
+    };
+
+    // Lógica de Conjunto: não importa a ordem dos cliques
+    useEffect(() => {
+        if (selectedCells.length < 4) return;
+
+        wordDefinitions.forEach(def => {
+            if (def.coords.length === selectedCells.length && !foundWords.includes(def.word)) {
+                const isMatch = def.coords.every(coord => 
+                    selectedCells.some(sel => sel.r === coord.r && sel.c === coord.c)
+                );
+
+                if (isMatch) {
+                    playSound('correct');
+                    setFoundWords(prev => [...prev, def.word]);
+                    setLockedCells(prev => [...prev, ...selectedCells]);
+                    setSelectedCells([]);
+                }
+            }
+        });
+    }, [selectedCells, foundWords]);
+
+    const isCellSelected = (r, c) => selectedCells.some(cell => cell.r === r && cell.c === c);
+    const isCellLocked = (r, c) => lockedCells.some(cell => cell.r === r && cell.c === c);
+
+    return (
+        <div className="max-w-4xl mx-auto slide-up flex flex-col items-center">
+            <h2 className="text-3xl font-black text-[#00F5D4] mb-4 uppercase tracking-tighter text-center">Caça-Palavras Master 🔍</h2>
+            <p className="text-white/60 mb-8 text-sm font-bold text-center px-4">
+                Encontra as 8 palavras! Estão espalhadas em várias direções.
+            </p>
+            
+            <div className="flex flex-col md:flex-row gap-8 items-center md:items-start">
+                {/* Tabuleiro */}
+                <div className="bg-[#1A1035] p-3 md:p-5 rounded-[40px] border-4 border-[#7B2FFF]/30 shadow-2xl">
+                    {initialGrid.map((row, r) => (
+                        <div key={r} className="flex">
+                            {row.map((char, c) => (
+                                <div 
+                                    key={c} 
+                                    onClick={() => handleCellClick(r, c)}
+                                    className={`word-grid-cell m-0.5 md:m-1 ${isCellSelected(r,c) ? 'cell-selected' : isCellLocked(r,c) ? 'cell-locked' : 'bg-white/5 text-white/40 hover:bg-white/10'}`}
+                                >
+                                    {char}
+                                </div>
+                            ))}
+                        </div>
+                    ))}
+                </div>
+
+                {/* Lista de Missões */}
+                <div className="bg-white/5 p-6 md:p-8 rounded-[32px] border-2 border-white/10 w-full md:w-64">
+                    <h3 className="text-[#7B2FFF] font-black uppercase text-xs mb-6 tracking-widest text-center">Missões</h3>
+                    <div className="grid grid-cols-2 md:grid-cols-1 gap-2">
+                        {wordDefinitions.map(def => (
+                            <div key={def.word} className={`flex items-center gap-2 font-black text-sm transition-all duration-300 ${foundWords.includes(def.word) ? 'text-[#00F5D4] line-through opacity-40' : 'text-white'}`}>
+                                <div className={`w-4 h-4 rounded-md border-2 flex items-center justify-center ${foundWords.includes(def.word) ? 'bg-[#00F5D4] border-[#00F5D4]' : 'border-white/20'}`}>
+                                    {foundWords.includes(def.word) && <span className="text-[10px] text-black font-bold">✓</span>}
+                                </div>
+                                {def.word}
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+            
+            {foundWords.length === wordDefinitions.length && (
+                <div className="mt-12 text-2xl font-black text-[#00F5D4] animate-bounce text-center bg-[#00F5D4]/10 px-8 py-4 rounded-full border border-[#00F5D4]/30 shadow-[0_0_30px_rgba(0,245,212,0.2)]">
+                    🌟 Genial, Margo! Completaste o desafio!
+                </div>
+            )}
+        </div>
+    );
+};
+
+// ─── OUTROS COMPONENTES PRESERVADOS ──────────────────────────────────────────
+
+const TheoryLesson = ({ data, onComplete, title }) => {
+    const [slide, setSlide] = useState(0);
+    const cur = data[slide];
+    return (
+        <div className="max-w-4xl mx-auto slide-up flex flex-col theory-card">
+            <h2 className="text-2xl font-black text-[#00F5D4] text-center mb-6 uppercase tracking-widest">{title}</h2>
+            <div className={`rounded-[40px] p-8 md:p-12 shadow-2xl transition-all duration-500 ${cur.bg} ${cur.textColor || 'text-white'} border-4 ${cur.border || 'border-transparent'} relative overflow-hidden flex-1 flex flex-col justify-between`}>
+                <div>
+                    <h2 className="text-3xl md:text-5xl font-black mb-4 drop-shadow-lg">{cur.title}</h2>
+                    <p className="opacity-80 font-bold mb-8">{cur.content}</p>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        {cur.items.map((item, i) => (
+                            <div key={i} className="theory-item-card" style={item.hex ? {backgroundColor: item.hex + '33', borderColor: item.hex} : {}}>
+                                {cur.isColorSlide ? (
+                                    <div className="w-20 h-20 rounded-full mx-auto mb-4 shadow-xl border-4 border-white/20" style={{backgroundColor: item.hex}}></div>
+                                ) : (
+                                    <div className="text-5xl mb-2" style={item.hex ? {color: item.hex} : {}}>{item.n}</div>
+                                )}
+                                <div className="text-xl font-black">{item.pt}</div>
+                                <div className="text-[10px] uppercase font-bold opacity-60">{item.es}</div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+                <div className="flex justify-between mt-12 items-center">
+                    <Button onClick={() => setSlide(slide-1)} variant="ghost" className={slide === 0 ? 'invisible' : ''}>Atrás</Button>
+                    <Button onClick={()=>slide < data.length - 1 ? setSlide(slide+1) : onComplete()} variant="accent">{slide === data.length - 1 ? 'Pronto!' : 'Próximo'}</Button>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+const MemoryGame = ({ data, onComplete }) => {
+    const [cards, setCards] = useState([]);
+    const [flipped, setFlipped] = useState([]);
+    const [matched, setMatched] = useState([]);
+    const [locked, setLocked] = useState(false);
+    const [isFinished, setIsFinished] = useState(false);
+
+    useEffect(() => {
+        let pool = data.flatMap((item,idx) => [{id:`${idx}-pt`, content:item.pt, pairId:idx, side:'pt'}, {id:`${idx}-es`, content:item.es, pairId:idx, side:'es'}]);
+        setCards([...pool].sort(() => Math.random() - 0.5));
+    }, [data]);
+
+    const handleFlip = (card) => {
+        if (locked || flipped.includes(card.id) || matched.includes(card.pairId)) return;
+        const nf = [...flipped, card.id]; setFlipped(nf);
+        if (nf.length === 2) {
+            setLocked(true);
+            const c1 = cards.find(c => c.id === nf[0]), c2 = cards.find(c => c.id === nf[1]);
+            if (c1.pairId === c2.pairId) { 
+                playSound('correct'); setMatched(m => {
+                    const next = [...m, c1.pairId];
+                    if (next.length === data.length) setIsFinished(true);
+                    return next;
+                }); setFlipped([]); setLocked(false); 
+            } else { 
+                playSound('error'); setTimeout(() => { setFlipped([]); setLocked(false); }, 1000); 
+            }
+        }
+    };
+
+    return (
+        <div className="flex flex-col items-center w-full max-w-4xl mx-auto">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full perspective-1000">
+                {cards.map(card => {
+                    const isFlipped = flipped.includes(card.id) || matched.includes(card.pairId);
+                    return (
+                        <div key={card.id} onClick={()=>handleFlip(card)} className={`relative h-28 md:h-36 cursor-pointer transition-transform duration-500 transform-style-3d ${isFlipped ? 'rotate-y-180' : ''}`}>
+                            <div className="absolute inset-0 bg-[#7B2FFF] rounded-2xl flex items-center justify-center border-b-4 border-indigo-900 backface-hidden z-20 font-black text-2xl text-white/50">?</div>
+                            <div className={`absolute inset-0 rounded-2xl flex items-center justify-center p-2 rotate-y-180 backface-hidden border-b-4 shadow-xl z-10 ${card.side==='pt'?'bg-[#FF3CAC] border-pink-900':'bg-[#00F5D4] border-teal-900'}`}>
+                                <span className="font-black text-lg text-center leading-tight">{card.content}</span>
+                            </div>
+                        </div>
+                    );
+                })}
+            </div>
+            {isFinished && <div className="mt-8 slide-up text-center"><Button onClick={() => onComplete(100)} variant="accent" className="px-12 py-4">Voltar ao Menu</Button></div>}
+        </div>
+    );
+};
+
+const ImageFillChallenge = ({ data, onComplete, title }) => {
+    const [index, setIndex] = useState(0);
+    const [input, setInput] = useState('');
+    const [feedback, setFeedback] = useState(null);
+
+    const current = data[index];
+
+    const handleCheck = () => {
+        if (input.trim().toLowerCase() === current.a.toLowerCase()) {
+            playSound('correct'); setFeedback('correct');
+            setTimeout(() => {
+                if (index + 1 < data.length) { setIndex(index+1); setInput(''); setFeedback(null); }
+                else onComplete(100);
+            }, 1200);
+        } else {
+            playSound('error'); setFeedback('error');
+            setTimeout(() => setFeedback(null), 1000);
+        }
+    };
+
+    return (
+        <div className="max-w-4xl mx-auto slide-up">
+            <h2 className="text-2xl font-black text-[#00F5D4] text-center mb-8 uppercase tracking-widest">{title}</h2>
+            <div className={`bg-[#1A1035] border-2 rounded-[40px] p-8 flex flex-col md:flex-row gap-10 items-center transition-all ${feedback === 'error' ? 'animate-shake border-red-500' : 'border-white/10'}`}>
+                <div className="w-full md:w-1/2 bg-white/5 rounded-3xl h-64 flex items-center justify-center text-9xl">{current.img}</div>
+                <div className="w-full md:w-1/2 text-center md:text-left">
+                    <p className="text-white/40 text-xs font-black uppercase mb-2">Tradução: {current.trans}</p>
+                    <div className="text-3xl font-black text-white mb-8 leading-relaxed">
+                        {current.q.split('____').map((part, i) => (<React.Fragment key={i}>{part}{i === 0 && (<input type="text" value={input} onChange={e => setInput(e.target.value)} onKeyPress={e=>e.key==='Enter'&&handleCheck()} className="mx-2 bg-transparent border-b-4 border-[#00F5D4] text-[#00F5D4] w-40 text-center" autoFocus/>)}</React.Fragment>))}
+                    </div>
+                    <Button onClick={handleCheck} className="w-full py-4 text-xl">Verificar</Button>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+const MissionGame = ({ onComplete }) => {
+    const [missionStep, setMissionStep] = useState(0);
+    const [log, setLog] = useState(["Iniciando servidor brasileiro..."]);
+
+    const missions = [
+        { text: "O guarda da escola pergunta: 'Que horas são?'. O relógio marca 12:00.", options: ["É meia-noite", "É meio-dia", "É barato"], correct: 1, feedback: "Correto! Entraste na escola na hora certa." },
+        { text: "Queres comprar uma Skin de Estrela. Ela custa 90 Robux.", options: ["É caro", "É barato", "Tenho oito"], correct: 0, feedback: "Isso! 90 Robux é bem caro." },
+        { text: "A tua amiga diz: 'Margo, que estrela bonita!'. Como é a estrela?", options: ["Um estrela", "A estrela é branca", "O estrela branco"], correct: 1, feedback: "Boa! 'A estrela' é feminino e agora a frase está completa." }
+    ];
+
+    const handleChoice = (idx) => {
+        if (idx === missions[missionStep].correct) {
+            playSound('correct'); setLog(prev => [...prev, missions[missionStep].feedback]);
+            if (missionStep + 1 < missions.length) setMissionStep(s => s + 1);
+            else setTimeout(() => onComplete(100), 1000);
+        } else {
+            playSound('error'); setLog(prev => [...prev, "❌ Tenta novamente, Margo!"]);
+        }
+    };
+
+    return (
+        <div className="max-w-3xl mx-auto slide-up bg-[#1A1035] rounded-[40px] p-8 border-2 border-[#7B2FFF]/30">
+            <h2 className="text-xl font-black text-[#7B2FFF] uppercase mb-8">Margo: Missão Roblox 🎮</h2>
+            <div className="bg-black/40 p-6 rounded-3xl mb-8 min-h-[120px] flex items-center justify-center text-white text-lg font-bold text-center">{missions[missionStep].text}</div>
+            <div className="grid grid-cols-1 gap-3">{missions[missionStep].options.map((opt, i) => (<button key={i} onClick={() => handleChoice(i)} className="bg-white/5 hover:bg-[#7B2FFF] hover:text-white border-2 border-white/10 p-4 rounded-2xl text-left font-black text-white/80 transition-all">{opt}</button>))}</div>
+            <div className="mt-8 h-20 overflow-y-auto space-y-1 text-xs">{log.slice().reverse().map((line, i) => (<p key={i} className={line.includes('❌') ? 'text-red-400' : 'text-[#00F5D4]'}>{line}</p>))}</div>
+        </div>
+    );
+};
+
+const MegaFixationSession = ({ onComplete }) => {
+    const [index, setIndex] = useState(0);
+    const [input, setInput] = useState('');
+    const [feedback, setFeedback] = useState(null);
+    const [score, setScore] = useState(0);
+
+    const current = COMPLEMENTARY_EXERCISES[index];
+
+    const handleCheck = (val) => {
+        const isCorrect = current.type === 'fill' 
+            ? val.trim().toLowerCase() === current.a.toLowerCase() 
+            : val === current.correct;
+
+        if (isCorrect) {
+            playSound('correct'); setFeedback('correct');
+            setScore(s => s + 5);
+            setTimeout(() => {
+                if (index + 1 < COMPLEMENTARY_EXERCISES.length) { setIndex(index + 1); setInput(''); setFeedback(null); }
+                else onComplete(score + 5);
+            }, 1000);
+        } else {
+            playSound('error'); setFeedback('error');
+            setTimeout(() => setFeedback(null), 1000);
+        }
+    };
+
+    return (
+        <div className="max-w-3xl mx-auto slide-up">
+            <div className="flex justify-between items-center mb-6">
+                <span className="text-[#FF3CAC] font-black uppercase tracking-widest text-xs">Desafio Mestre: {index + 1}/20</span>
+                <span className="text-[#00F5D4] font-black">⭐ {score} pts</span>
+            </div>
+
+            <div className={`bg-[#1A1035] border-4 rounded-[40px] p-8 min-h-[350px] flex flex-col justify-center transition-all ${feedback === 'error' ? 'animate-shake border-red-500' : 'border-[#7B2FFF]/30'}`}>
+                <h3 className="text-2xl font-black text-white mb-8 text-center leading-relaxed">{current.q}</h3>
+                
+                {current.type === 'choice' && (
+                    <div className="grid grid-cols-1 gap-3">
+                        {current.opts.map((opt, i) => (
+                            <button key={i} onClick={() => handleCheck(i)} className="bg-white/5 hover:bg-[#7B2FFF] p-4 rounded-2xl text-left font-bold text-white transition-all border border-white/10">
+                                {opt}
+                            </button>
+                        ))}
+                    </div>
+                )}
+
+                {current.type === 'detective' && (
+                    <div className="grid grid-cols-2 gap-4">
+                        {current.opts.map((opt, i) => (
+                            <button key={i} onClick={() => handleCheck(i)} className="p-10 rounded-3xl flex flex-col items-center gap-3 border-2 border-white/10 hover:border-[#00F5D4] transition-all" style={{backgroundColor: current.hexs[i] + '22'}}>
+                                <div className="w-20 h-20 rounded-full shadow-2xl border-4 border-white/20 mb-2" style={{backgroundColor: current.hexs[i]}}></div>
+                                <span className="text-xs text-white/50 font-black uppercase tracking-widest">{opt}</span>
+                            </button>
+                        ))}
+                    </div>
+                )}
+
+                {current.type === 'fill' && (
+                    <div className="flex flex-col items-center">
+                        <input type="text" value={input} onChange={e => setInput(e.target.value)} onKeyPress={e => e.key === 'Enter' && handleCheck(input)} className="bg-transparent border-b-4 border-[#00F5D4] text-3xl text-center text-[#00F5D4] mb-6 w-full max-w-xs focus:outline-none" autoFocus />
+                        <p className="text-white/30 italic text-sm">"{current.trans}"</p>
+                        <Button onClick={() => handleCheck(input)} className="mt-6 w-full max-w-xs">Enviar</Button>
+                    </div>
+                )}
+            </div>
+        </div>
+    );
+};
+
+// ─── APP PRINCIPAL ────────────────────────────────────────────────────────────
+
+function App() {
+    const [view, setView] = useState('home');
+    const [step, setStep] = useState(0); 
+    const [userProgress, setUserProgress] = useState({});
+    const [user, setUser] = useState(null);
+    const [db, setDb] = useState(null);
+    const appId = 'oi-brasil-margo-v3';
+
+    useEffect(() => {
+        const initFirebase = async () => {
+            if (typeof window.firebaseCore === 'undefined') return;
+            const { initializeApp, getAuth, signInAnonymously, getFirestore, doc, onSnapshot } = window.firebaseCore;
+            if (typeof __firebase_config === 'undefined') return;
+            const firebaseConfig = JSON.parse(__firebase_config);
+            const app = initializeApp(firebaseConfig);
+            const auth = getAuth(app);
+            const firestore = getFirestore(app);
+            setDb(firestore);
+            signInAnonymously(auth);
+            onAuthStateChanged(auth, (u) => {
+                if (u) {
+                    setUser(u);
+                    onSnapshot(doc(firestore, 'artifacts', appId, 'users', u.uid, 'progress', 'data'), (snap) => {
+                        if (snap.exists()) setUserProgress(snap.data());
+                    });
+                }
+            });
+        };
+        initFirebase();
+    }, []);
+
+    const completeLesson = async (lessonId, score = 100) => {
+        const newProgress = { ...userProgress, [lessonId]: { completed: true, score: Math.max(score, userProgress[lessonId]?.score || 0) } };
+        setUserProgress(newProgress);
+        if (user && db) {
+            const { doc, setDoc } = window.firebaseCore;
+            await setDoc(doc(db, 'artifacts', appId, 'users', user.uid, 'progress', 'data'), newProgress, { merge: true });
+        }
+        setView('home'); setStep(0);
+    };
+
+    const menu = [
+        {id:'m1a', emoji:'💜', label:'Aula 1A', color:'#7B2FFF'},
+        {id:'m1b', emoji:'🏠', label:'Aula 1B', color:'#4361EE'},
+        {id:'m2',  emoji:'📖', label:'Aula 1A-C', color:'#00a89c'},
+        {id:'m3',  emoji:'🧪', label:'Aula 1B-C', color:'#FF6B35'},
+        {id:'m2a', emoji:'💎', label:'Aula 2A', color:'#4361EE'},
+        {id:'m2b', emoji:'💰', label:'Aula 2B', color:'#7B2FFF'},
+        {id:'m3a', emoji:'🔺', label:'Aula 3A', color:'#FF3CAC'},
+        {id:'m_word', emoji:'🔍', label:'Caça-Palavras', color:'#FF3CAC'},
+        {id:'m_fix', emoji:'🔥', label:'Super Fixação', color:'#FFD60A', textColor: 'text-black'},
+    ];
+
+    return (
+        <div className="min-h-screen bg-[#0F0A1E] text-white">
+            <header className="px-4 py-3 border-b border-white/5 flex justify-between items-center sticky top-0 bg-[#0F0A1E] z-50">
+                <div onClick={() => setView('home')} className="flex items-center gap-2 cursor-pointer"><span className="text-2xl">👩‍🚀</span><h1 className="text-lg font-black tracking-tight">Oi, Brasil!</h1></div>
+                {view !== 'home' && <Button onClick={() => { setView('home'); setStep(0); }} variant="ghost" className="px-4 py-2 text-sm flex items-center gap-2"><ArrowLeft size={16} /> Voltar</Button>}
+            </header>
+            <main className="px-4 py-10 max-w-6xl mx-auto">
+                {view==='home' && (
+                    <div className="flex flex-col items-center justify-center text-center px-3 slide-up min-h-[70vh]">
+                        <h1 className="text-5xl md:text-8xl font-black mb-2 text-white animate-bounce-slow">Oi, Brasil! <span className="text-[#00F5D4]">BR</span></h1>
+                        <p className="text-base font-bold text-[#00F5D4] mb-12 uppercase tracking-widest">¡Aprendé jogando!</p>
+                        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-3 w-full">
+                            {menu.map(m => (
+                                <button key={m.id} onClick={()=>setView(m.id)} className={`relative rounded-[24px] p-5 transition-all hover:scale-105 shadow-xl border-4 ${userProgress[m.id]?.completed ? 'border-[#00F5D4]' : 'border-transparent'} ${m.textColor || 'text-white'}`} style={{backgroundColor:m.color}}>
+                                    {userProgress[m.id]?.completed && <span className="absolute -top-2 -right-2 bg-[#00F5D4] text-[#0F0A1E] text-[10px] font-black w-6 h-6 flex items-center justify-center rounded-full border-2 border-[#0F0A1E]">✓</span>}
+                                    <span className="text-3xl mb-2 block">{m.emoji}</span>
+                                    <h2 className="text-[10px] font-black leading-tight uppercase">{m.label}</h2>
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                )}
+                
+                {view==='m1a' && <MemoryGame data={CLASS_1A_GREETINGS} onComplete={(s) => completeLesson('m1a', s)}/>}
+                
+                {view==='m2b' && (
+                    <>
+                        {step === 0 && <TheoryLesson data={CLASS_2B_THEORY} title="Aula 2B - Revisão Roblox" onComplete={() => setStep(1)}/>}
+                        {step === 1 && <MissionGame onComplete={(s) => completeLesson('m2b', s)}/>}
+                    </>
+                )}
+
+                {view==='m3a' && (
+                    <>
+                        {step === 0 && <TheoryLesson data={CLASS_3A_THEORY} title="Aula 3A - Formas e Estilos" onComplete={() => setStep(1)}/>}
+                        {step === 1 && <ImageFillChallenge data={CLASS_3A_CHALLENGES} title="Desafio de Estilo" onComplete={(s) => completeLesson('m3a', s)}/>}
+                    </>
+                )}
+
+                {view==='m_word' && <WordSearch onComplete={(s) => completeLesson('m_word', s)} />}
+
+                {view==='m_fix' && <MegaFixationSession onComplete={(s) => completeLesson('m_fix', s)} />}
+
+                {['m1b', 'm2', 'm3', 'm2a'].includes(view) && <div className="text-center p-10 bg-[#1A1035] rounded-3xl">Aula anterior preservada. <Button onClick={() => completeLesson(view, 100)} className="mt-4">Finalizar Aula</Button></div>}
+            </main>
+        </div>
+    );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

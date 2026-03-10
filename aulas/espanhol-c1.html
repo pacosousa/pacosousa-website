@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Português com Alma — Plataforma de Refinamento</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        const firebaseConfig = JSON.parse(__firebase_config || "{}");
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'portugues-alma-susana';
+
+        window.appState = {
+            user: null,
+            progress: {},
+            currentView: 'home',
+            currentClass: null,
+            stepIndex: 0
+        };
+
+        // Auth Logic
+        const initAuth = async () => {
+            if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                await signInWithCustomToken(auth, __initial_auth_token);
+            } else {
+                await signInAnonymously(auth);
+            }
+        };
+
+        onAuthStateChanged(auth, (u) => {
+            window.appState.user = u;
+            if (u) {
+                const progressRef = doc(db, 'artifacts', appId, 'users', u.uid, 'progress', 'data');
+                onSnapshot(progressRef, (snap) => {
+                    if (snap.exists()) {
+                        window.appState.progress = snap.data();
+                        render();
+                    }
+                });
+            }
+        });
+
+        initAuth();
+
+        // Global function to save progress
+        window.saveClassProgress = async (classNum) => {
+            if (!window.appState.user) return;
+            const progressRef = doc(db, 'artifacts', appId, 'users', window.appState.user.uid, 'progress', 'data');
+            const newProgress = { ...window.appState.progress, [classNum]: true };
+            await setDoc(progressRef, newProgress, { merge: true });
+            window.appState.currentView = 'home';
+            render();
+        };
+
+        window.db = db;
+    </script>
+
+    <style>
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: #FDFBF7;
+            color: #1E293B;
+        }
+        .font-serif { font-family: 'Playfair Display', serif; }
+        .slide-up { animation: slide-up 0.7s cubic-bezier(0.16, 1, 0.3, 1); }
+        @keyframes slide-up {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .card-shadow { box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05); }
+        .bg-navy { background-color: #0F172A; }
+        .text-gold { color: #C5A059; }
+        .border-gold { border-color: #C5A059; }
+    </style>
+</head>
+<body class="selection:bg-[#C5A059] selection:text-white">
+
+    <!-- Header -->
+    <header class="px-10 py-8 border-b border-slate-200 bg-white sticky top-0 z-50 flex justify-between items-center shadow-md">
+        <div class="flex items-center gap-4 cursor-pointer" onclick="navigate('home')">
+            <div class="bg-navy p-3 rounded-xl">
+                <i data-lucide="book-text" class="text-gold w-8 h-8"></i>
+            </div>
+            <h1 class="text-3xl font-black uppercase tracking-tighter text-navy">Português com Alma</h1>
+        </div>
+        <div class="flex items-center gap-8">
+            <div class="text-right">
+                <span class="block text-slate-400 font-bold uppercase text-xs tracking-widest">Estudante</span>
+                <span class="text-xl font-bold">Susana</span>
+            </div>
+            <div id="back-btn-container"></div>
+        </div>
+    </header>
+
+    <main id="app-content" class="p-10 max-w-6xl mx-auto flex flex-col items-center min-h-[70vh]">
+        <!-- Content injected here -->
+    </main>
+
+    <footer class="p-16 text-center text-slate-400 border-t border-slate-200 mt-20">
+        <p class="text-lg">© 2025 Português com Alma. Programa de Refinamento Linguístico de Alto Nível.</p>
+        <div class="flex justify-center gap-6 mt-6 opacity-30">
+           <i data-lucide="book-open"></i>
+           <i data-lucide="mic-2"></i>
+           <i data-lucide="award"></i>
+        </div>
+    </footer>
+
+    <script>
+        // --- DATA ---
+        const CLASS_3_STEPS = [
+            {
+                id: "theory",
+                title: "O Problema Real — As Vogais Átonas Finais",
+                content: "Em português brasileiro, as vogais finais -o e -e são reduzidas: a boca quase não abre, a vogal mal sai. Não é um 'u' ou 'i' pleno — é um som frouxo, quase sussurrado, às vezes quase apagado antes de consoante.",
+                table: [
+                    { written: "-o final", es: "[o] claro", pt: "[ʊ] frouxo, curto", example: "texto → textu" },
+                    { written: "-e final", es: "[e] claro", pt: "[ɪ] quase-i, curto", example: "existe → existi" },
+                    { written: "-l final", es: "[l] dental", pt: "[w] semivogal", example: "Brasil → Brasiw" },
+                    { written: "o pretônico", es: "[o] claro", pt: "[u] fechado", example: "dormir → durmir" }
+                ]
+            },
+            {
+                id: "oral1",
+                title: "Exercício Oral 1 — Velocidade e Redução",
+                subtitle: "Repetir: Devagar → Médio → Natural",
+                words: ["texto", "mesmo", "existe", "natural", "grande", "verdade", "Brasil", "dormir", "bonito", "possível"]
+            },
+            {
+                id: "literature",
+                title: "João Cabral: Fonética como Poesia",
+                author: "João Cabral de Melo Neto",
+                poem: "Morte e Vida Severina",
+                lines: [
+                    "O meu nome é Severino,",
+                    "não tenho outro batismado:",
+                    "somos muitos Severinos",
+                    "iguais em tudo na vida:"
+                ]
+            },
+            {
+                id: "grammar",
+                title: "Gramática e Futuro do Subjuntivo",
+                quiz: [
+                    { q: "Se você ___ (fazer) isso, vai arrepender-se.", a: "fizer" },
+                    { q: "Quando eu ___ (ter) tempo, termino o relatório.", a: "tiver" },
+                    { q: "Assim que ele ___ (chegar), começamos.", a: "chegar" }
+                ]
+            }
+        ];
+
+        // --- NAVIGATION & RENDERING ---
+        function navigate(view, classNum = null) {
+            window.appState.currentView = view;
+            window.appState.currentClass = classNum;
+            window.appState.stepIndex = 0;
+            render();
+        }
+
+        function render() {
+            const container = document.getElementById('app-content');
+            const backBtnContainer = document.getElementById('back-btn-container');
+            const { currentView, currentClass, stepIndex, progress } = window.appState;
+
+            // Back button logic
+            backBtnContainer.innerHTML = currentView !== 'home' 
+                ? `<button onclick="navigate('home')" class="border-2 border-gold text-gold px-6 py-2 rounded-xl font-bold hover:bg-gold hover:text-white transition-all">Sair da Aula</button>` 
+                : '';
+
+            if (currentView === 'home') {
+                container.innerHTML = `
+                    <div class="w-full text-center slide-up py-10">
+                        <h2 class="text-6xl font-black text-navy mb-6">O Seu Progresso</h2>
+                        <p class="text-2xl text-slate-500 mb-16">Selecione o módulo para continuar a sua jornada.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                            ${[1, 2, 3].map(num => `
+                                <button onclick="navigate('class', ${num})" class="group relative bg-navy p-12 rounded-[40px] border-4 border-slate-800 hover:border-gold transition-all text-left shadow-2xl">
+                                    <div class="bg-gold text-white w-16 h-16 rounded-2xl flex items-center justify-center mb-8 shadow-xl">
+                                        <i data-lucide="${num === 1 ? 'mic-2' : num === 2 ? 'arrow-right-left' : 'book-open'}" class="w-8 h-8"></i>
+                                    </div>
+                                    <h3 class="text-white text-4xl font-bold mb-3">Aula ${num}</h3>
+                                    <p class="text-slate-400 text-xl">${num === 1 ? 'Fonética e Ritmo' : num === 2 ? 'Elisão e Sintaxe' : 'Vogais e Literatura'}</p>
+                                    ${progress[num] ? '<div class="mt-8 flex items-center text-teal-500 font-black text-xl"><i data-lucide="check-circle-2" class="mr-2"></i> Concluída</div>' : ''}
+                                </button>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            } else if (currentView === 'class' && currentClass === 3) {
+                const step = CLASS_3_STEPS[stepIndex];
+                container.innerHTML = `
+                    <div class="w-full slide-up">
+                        <div class="flex justify-between items-center mb-12">
+                            <h2 class="text-5xl font-black border-l-8 border-gold pl-8">Aula 3: Vogais e Literatura</h2>
+                            <div class="bg-slate-100 px-6 py-2 rounded-full font-bold text-slate-500">Etapa ${stepIndex + 1} de ${CLASS_3_STEPS.length}</div>
+                        </div>
+
+                        <div id="step-content" class="min-h-[500px]">
+                            ${renderStep(step)}
+                        </div>
+
+                        <div class="flex justify-between mt-16">
+                            <button onclick="changeStep(-1)" class="px-8 py-4 rounded-xl font-bold text-xl border-2 border-slate-200 text-slate-500 hover:bg-slate-50 ${stepIndex === 0 ? 'invisible' : ''}">
+                                Etapa Anterior
+                            </button>
+                            <button onclick="changeStep(1)" class="bg-gold hover:bg-[#B38E48] text-white px-8 py-4 rounded-xl font-bold text-xl shadow-md active:scale-95 transition-all">
+                                ${stepIndex === CLASS_3_STEPS.length - 1 ? 'Concluir Aula 3' : 'Próxima Etapa'}
+                            </button>
+                        </div>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = `
+                    <div class="bg-white p-20 rounded-3xl shadow-xl border-b-8 border-gold text-center max-w-2xl">
+                        <h2 class="text-4xl font-black mb-6">Módulo em Revisão</h2>
+                        <p class="text-xl text-slate-500 mb-10">Estamos a atualizar este conteúdo.</p>
+                        <button onclick="navigate('home')" class="bg-gold text-white px-10 py-4 rounded-xl font-bold text-xl">Voltar ao Painel</button>
+                    </div>
+                `;
+            }
+            lucide.createIcons();
+        }
+
+        function renderStep(step) {
+            if (step.id === 'theory') {
+                return `
+                    <div class="bg-white p-10 rounded-3xl shadow-xl border-b-8 border-gold">
+                        <div class="flex items-center gap-4 mb-8">
+                            <i data-lucide="info" class="text-gold w-10 h-10"></i>
+                            <h3 class="text-4xl font-black">${step.title}</h3>
+                        </div>
+                        <p class="text-2xl leading-relaxed text-slate-600 mb-10">${step.content}</p>
+                        <div class="overflow-hidden rounded-2xl border border-slate-200">
+                            <table class="w-full text-left text-xl">
+                                <thead class="bg-navy text-white">
+                                    <tr>
+                                        <th class="p-6">Vogal</th>
+                                        <th class="p-6">Espanhol</th>
+                                        <th class="p-6 text-gold">Português</th>
+                                        <th class="p-6">Exemplo</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${step.table.map(row => `
+                                        <tr class="border-b border-slate-100">
+                                            <td class="p-6 font-bold">${row.written}</td>
+                                            <td class="p-6">${row.es}</td>
+                                            <td class="p-6 font-bold text-gold">${row.pt}</td>
+                                            <td class="p-6 italic">${row.example}</td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `;
+            }
+            if (step.id === 'oral1') {
+                return `
+                    <div class="bg-white p-10 rounded-3xl shadow-xl border-b-8 border-gold">
+                        <div class="flex items-center gap-4 mb-8">
+                            <i data-lucide="volume-2" class="text-gold w-10 h-10"></i>
+                            <h3 class="text-4xl font-black">${step.title}</h3>
+                        </div>
+                        <p class="text-xl font-bold uppercase text-gold mb-10">${step.subtitle}</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            ${step.words.map(w => `
+                                <div class="flex items-center justify-between p-6 bg-slate-50 rounded-2xl border-2 border-transparent hover:border-gold">
+                                    <span class="text-3xl font-black">${w}</span>
+                                    <i data-lucide="play" class="text-slate-300 hover:text-gold cursor-pointer"></i>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+            if (step.id === 'literature') {
+                return `
+                    <div class="bg-navy p-10 rounded-3xl text-white shadow-xl">
+                        <div class="flex items-center gap-4 mb-10">
+                            <i data-lucide="book-text" class="text-gold w-10 h-10"></i>
+                            <h3 class="text-4xl font-black">${step.title}</h3>
+                        </div>
+                        <div class="flex flex-col md:flex-row gap-12">
+                            <div class="flex-1">
+                                <h4 class="text-gold font-bold uppercase tracking-widest mb-2">${step.poem}</h4>
+                                <p class="text-slate-400 mb-8">Por ${step.author}</p>
+                                <div class="space-y-4 font-serif text-4xl italic leading-relaxed">
+                                    ${step.lines.map(line => `<p class="hover:text-gold cursor-pointer">${line}</p>`).join('')}
+                                </div>
+                            </div>
+                            <div class="bg-white/5 p-8 rounded-3xl md:w-80 border border-white/10">
+                                <p class="text-gold font-bold mb-4">Métricas</p>
+                                <p class="text-xl text-slate-300">Cada verso possui 7 sílabas. Reduza as vogais finais para acertar a métrica.</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            if (step.id === 'grammar') {
+                return `
+                    <div class="bg-white p-10 rounded-3xl shadow-xl border-b-8 border-gold">
+                        <h3 class="text-3xl font-black mb-10">Futuro do Subjuntivo</h3>
+                        <div class="space-y-8">
+                            ${step.quiz.map(item => `
+                                <div class="flex items-center justify-between p-6 bg-slate-50 rounded-2xl">
+                                    <p class="text-2xl">${item.q}</p>
+                                    <div class="bg-gold/10 text-gold px-6 py-2 rounded-xl font-black text-2xl">${item.a}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+            return '';
+        }
+
+        function changeStep(dir) {
+            if (dir === 1 && window.appState.stepIndex === CLASS_3_STEPS.length - 1) {
+                window.saveClassProgress(window.appState.currentClass);
+            } else {
+                window.appState.stepIndex += dir;
+                render();
+            }
+        }
+
+        // Initial render
+        window.onload = render;
+    </script>
+</body>
+</html>
