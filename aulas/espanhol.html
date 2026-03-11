@@ -130,7 +130,7 @@ const CLASS_2B_THEORY = [
         title: "Calle y Coloquialismos 🇪🇸", 
         items: [
             {n:"🤙", es:"Tío / Tía"}, 
-            {n:"✅", es:"¡Guay! (Mola)"}, 
+            {n:"✅", es:"¡Guay!"}, 
             {n:"🤝", es:"¡Venga! / Dale"},
             {n:"😲", es:"¡Ostras! / Jolín"}
         ], 
@@ -147,10 +147,10 @@ const CLASS_2B_THEORY = [
                     <strong className="text-blue-400">Ronda 1:</strong> Entrada y pedido de carta. ¿Hay mesa? ¿Tienen reserva?
                 </div>
                 <div className="p-3 bg-white/5 rounded-lg border border-white/10">
-                    <strong className="text-blue-400">Ronda 2:</strong> Elección de platos y preguntas sobre ingredientes (¿Qué lleva esto?).
+                    <strong className="text-blue-400">Ronda 2:</strong> Elección de platos y preguntas sobre ingredientes.
                 </div>
                 <div className="p-3 bg-white/5 rounded-lg border border-white/10">
-                    <strong className="text-blue-400">Ronda 3:</strong> La cuenta y el pago. Preguntar si aceptan tarjeta y dejar propina.
+                    <strong className="text-blue-400">Ronda 3:</strong> La cuenta y el pago. Preguntar si aceptan tarjeta.
                 </div>
                 <p className="text-[10px] uppercase font-black text-emerald-500 mt-4 italic">Tarea: Escribir el diálogo completo y anotar 5 ingredientes nuevos.</p>
             </div>
@@ -177,7 +177,7 @@ const REVISION_BAD_BUNNY_THEORY = [
                 </div>
                 <div className="bridge-broken"></div>
                 <div className="p-4 bg-red-500/5 border-l-4 border-red-500 italic text-sm text-slate-300">
-                    "Yo he comprado el ticket... hace un año" ➔ <span className="text-emerald-400 font-bold uppercase">Compré</span> la entrada hace un año.
+                    "Yo he comprado el ticket... hace un ano" ➔ <span className="text-emerald-400 font-bold uppercase">Compre</span> la entrada hace un ano.
                 </div>
             </div>
         )
@@ -207,7 +207,7 @@ const REVISION_BAD_BUNNY_THEORY = [
     }
 ];
 
-const CLASS_1A_EXERCISES = [{ pt: "Oi!", es: "¡Hola!" }, { pt: "Tudo bem?", es: "¿Todo bien?" }, { pt: "Bom dia", es: "Buen día" }, { pt: "Boa noite", es: "Buenas noches" }, { pt: "Até logo", es: "Hasta luego" }, { pt: "Prazer", es: "Mucho gusto" }, { pt: "Soy brasileño", es: "Soy brasileño" }, { pt: "Quiero vivir...", es: "Quiero vivir..." }];
+const CLASS_1A_EXERCISES = [{ pt: "Oi!", es: "¡Hola!" }, { pt: "Tudo bem?", es: "¿Todo bien?" }, { pt: "Bom dia", es: "Buen dia" }, { pt: "Boa noite", es: "Buenas noches" }, { pt: "Até logo", es: "Hasta luego" }, { pt: "Prazer", es: "Mucho gusto" }, { pt: "Soy brasileño", es: "Soy brasileño" }, { pt: "Quiero vivir...", es: "Quiero vivir..." }];
 
 const CLASS_1B_EXERCISES = [
     { q: "Hoy yo ____ (revisar) los logs del servidor.", a: "he revisado", h: "Acción terminada hoy" },
@@ -322,14 +322,21 @@ const MemoryGame = ({ data, onComplete }) => {
 
     const handleFlip = (card) => {
         if (locked || flipped.includes(card.id) || matched.includes(card.pairId)) return;
-        const nf = [...flipped, card.id]; setFlipped(nf);
+        const nf = [...flipped, card.id]; 
+        setFlipped(nf);
         if (nf.length === 2) {
             setLocked(true);
-            const c1 = cards.find(c => c.id === nf), c2 = cards.find(c => c.id === nf);
-            if (c1.pairId === c2.pairId) {
-                const nm = [...matched, c1.pairId]; setMatched(nm); setFlipped([]); setLocked(false);
+            const c1 = cards.find(c => c.id === nf);
+            const c2 = cards.find(c => c.id === nf);
+            if (c1 && c2 && c1.pairId === c2.pairId) {
+                const nm = [...matched, c1.pairId]; 
+                setMatched(nm); 
+                setFlipped([]); 
+                setLocked(false);
                 if (nm.length === data.length) setFinished(true);
-            } else { setTimeout(() => { setFlipped([]); setLocked(false); }, 1000); }
+            } else { 
+                setTimeout(() => { setFlipped([]); setLocked(false); }, 1000); 
+            }
         }
     };
 
@@ -364,29 +371,55 @@ function App() {
     const appId = typeof __app_id !== 'undefined' ? __app_id : 'espanol-pro-v6';
 
     useEffect(() => {
+        let unsubAuth = null;
+        let unsubSnap = null;
+
         const init = async () => {
-            const { initializeApp, getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken, getFirestore, doc, onSnapshot } = window.firebaseCore;
-            const firebaseConfig = JSON.parse(__firebase_config);
-            const app = initializeApp(firebaseConfig);
-            const auth = getAuth(app);
-            const firestore = getFirestore(app);
-            setDb(firestore);
+            try {
+                const { initializeApp, getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken, getFirestore, doc, onSnapshot } = window.firebaseCore;
+                
+                let config = {};
+                try { config = JSON.parse(__firebase_config); } catch(e) { config = null; }
+                
+                if (!config) {
+                    setLoading(false);
+                    return;
+                }
 
-            const token = typeof __initial_auth_token !== 'undefined' && __initial_auth_token ? __initial_auth_token : null;
-            if (token) await signInWithCustomToken(auth, token).catch(() => signInAnonymously(auth)); else await signInAnonymously(auth);
+                const app = initializeApp(config);
+                const auth = getAuth(app);
+                const firestore = getFirestore(app);
+                setDb(firestore);
 
-            onAuthStateChanged(auth, (u) => {
-                setUser(u);
-                if (u) {
-                    const pRef = doc(firestore, 'artifacts', appId, 'users', u.uid, 'data', 'progress');
-                    onSnapshot(pRef, (snap) => {
-                        if (snap.exists()) setProgress(snap.data());
+                const token = typeof __initial_auth_token !== 'undefined' && __initial_auth_token ? __initial_auth_token : null;
+                if (token) await signInWithCustomToken(auth, token).catch(() => signInAnonymously(auth)); 
+                else await signInAnonymously(auth);
+
+                unsubAuth = onAuthStateChanged(auth, (u) => {
+                    setUser(u);
+                    if (u) {
+                        const pRef = doc(firestore, 'artifacts', appId, 'users', u.uid, 'data', 'progress');
+                        unsubSnap = onSnapshot(pRef, (snap) => {
+                            if (snap.exists()) setProgress(snap.data());
+                            setLoading(false);
+                        }, (err) => {
+                            setLoading(false);
+                        });
+                    } else {
                         setLoading(false);
-                    }, () => setLoading(false));
-                } else setLoading(false);
-            });
+                    }
+                });
+
+            } catch (err) {
+                setLoading(false);
+            }
         };
+
         init();
+        return () => {
+            if (unsubAuth) unsubAuth();
+            if (unsubSnap) unsubSnap();
+        };
     }, []);
 
     const saveResult = async (lessonId, score) => {
@@ -394,11 +427,13 @@ function App() {
         const { doc, setDoc } = window.firebaseCore;
         const newProgress = { ...progress, [lessonId]: { completed: true, score } };
         setProgress(newProgress);
-        await setDoc(doc(db, 'artifacts', appId, 'users', user.uid, 'data', 'progress'), newProgress, { merge: true });
+        try {
+            await setDoc(doc(db, 'artifacts', appId, 'users', user.uid, 'data', 'progress'), newProgress, { merge: true });
+        } catch(e) {}
         setView('home'); setStep(0);
     };
 
-    if (loading) return <div className="h-screen flex items-center justify-center bg-[#020617] text-blue-500 font-mono text-xs animate-pulse">CARGANDO DASHBOARD...</div>;
+    if (loading) return <div className="h-screen flex items-center justify-center bg-[#020617] text-blue-500 font-mono text-xs animate-pulse">CARREGANDO DASHBOARD...</div>;
 
     return (
         <div className="min-h-screen">
@@ -422,6 +457,7 @@ function App() {
                                 { id: 'm_rev_bunny', title: 'Análisis: Bad Bunny', emoji: '🐰', color: 'from-slate-800 to-slate-900', sub: 'Revisión de Pasados' },
                                 { id: 'm2b', title: 'Aula 2B: La Mesa Pro', emoji: '🥘', color: 'from-emerald-600 to-emerald-800', sub: 'Restaurante & Calle' },
                                 { id: 'm2a', title: 'Aula 2A: Verbos Pro', emoji: '⚡', color: 'from-purple-600 to-purple-800', sub: 'Esenciales' },
+                                { id: 'm1b', title: 'Aula 1B: Profesional', emoji: '📊', color: 'from-blue-600 to-blue-800', sub: 'Pasado Reciente' },
                                 { id: 'm1a', title: 'Aula 1A: Fundamentos', emoji: '💜', color: 'from-indigo-600 to-indigo-800', sub: 'Fonética' }
                             ].map(m => (
                                 <button key={m.id} onClick={() => setView(m.id)} className={`relative overflow-hidden p-8 rounded-[32px] text-left transition-all hover:scale-[1.03] bg-gradient-to-br ${m.color} shadow-xl group`}>
