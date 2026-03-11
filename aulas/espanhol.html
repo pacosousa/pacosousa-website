@@ -34,9 +34,15 @@
         .glass-card { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); }
         input[type="text"] { outline: none; border-bottom: 2px solid #3b82f6; background: transparent; }
         
-        .theory-card { height: calc(100vh - 160px); min-height: 500px; display: flex; flex-direction: column; justify-content: space-between; }
+        .theory-card { height: calc(100vh - 160px); min-height: 550px; display: flex; flex-direction: column; justify-content: space-between; }
         .theory-items-grid { display: grid; gap: 15px; flex: 1; align-content: center; grid-template-columns: repeat(2, 1fr); }
         @media (min-width: 768px) { .theory-items-grid { grid-template-columns: repeat(4, 1fr); } }
+
+        .comparison-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px; }
+        .bridge-broken { border-top: 2px dashed #ef4444; position: relative; margin: 20px 0; }
+        .bridge-broken::after { content: '✕'; color: #ef4444; position: absolute; top: -14px; left: 50%; background: #020617; padding: 0 10px; }
+        
+        .travalingua-box { background: rgba(0,0,0,0.3); padding: 20px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1); font-family: 'JetBrains Mono', monospace; }
     </style>
 </head>
 <body>
@@ -66,7 +72,7 @@ const playSound = (type) => {
     } catch(e) {}
 };
 
-// ─── DATA (AULA 2A: VERBOS ESENCIALES) ───────────────────────────────────────
+// ─── DATA CONSTANTS ───────────────────────────────────────────────────────────
 
 const CLASS_1A_THEORY = [
     { title: "¿Qué onda? 🤙", items: [{n:"📍", es:"Objetivo: Madrid"}, {n:"🎧", es:"Bad Bunny / Trap"}, {n:"🗣️", es:"Hablar sin miedo"}, {n:"✈️", es:"Equipo Global"}], bg:"bg-indigo-900/40", desc: "El español no es solo gramática, es tu llave para una carrera internacional." },
@@ -75,106 +81,180 @@ const CLASS_1A_THEORY = [
 
 const CLASS_1B_THEORY = [
     { title: "Pasado Profesional 📊", items: [{n:"✅", es:"He revisado"}, {n:"💬", es:"He hablado"}, {n:"💻", es:"He hecho"}, {n:"🔍", es:"He visto"}], bg:"bg-emerald-900/40", desc: "En español, para acciones de HOY, usamos 'He + Participio'." },
-    { title: "Vocabulario de Dados 💻", items: [{n:"📊", es:"Hoja de cálculo"}, {n:"📁", es:"Carpeta"}, {n:"📥", es:"Descargar"}, {n:"💡", es:"Hallazgos"}], bg:"bg-blue-900/40", desc: "Términos esenciales para tu día a día como Analista de Dados." }
+    { title: "Vocabulario de Datos 💻", items: [{n:"📊", es:"Hoja de cálculo"}, {n:"📁", es:"Carpeta"}, {n:"📥", es:"Descargar"}, {n:"💡", es:"Hallazgos"}], bg:"bg-blue-900/40", desc: "Términos esenciales para tu día a día como Analista de Datos." }
 ];
 
 const CLASS_2A_THEORY = [
+    { title: "Verbos Irregulares ⚡", items: [{n:"⭐", es:"Querer (Quiero)"}, {n:"💪", es:"Poder (Puedo)"}, {n:"🤲", es:"Tener (Tengo)"}, {n:"🏃", es:"Ir (Voy)"}], bg:"bg-purple-900/40", desc: "Verbos de alta frecuencia que cambian su raíz. 'Querer' y 'Poder' son fundamentales para el trabajo." },
+    { title: "Saber vs Conocer 🧠", items: [{n:"📖", es:"Saber: Datos/Hechos"}, {n:"🤝", es:"Conocer: Personas"}, {n:"🗺️", es:"Conocer: Lugares"}, {n:"🎸", es:"Saber: Habilidades"}], bg:"bg-blue-900/40", desc: "Igual que en portugués: 'Sé SQL' (conocimiento) vs 'Conozco Madrid' (familiaridad)." },
+    { title: "¡Cuidado! 🤰", items: [{n:"🤰", es:"Embarazada (Grávida)"}, {n:"😳", es:"Avergonzada (Vergonha)"}, {n:"🏢", es:"Oficina (Escritório)"}, {n:"🏠", es:"Taller (Oficina)"}], bg:"bg-red-900/40", desc: "Nunca digas 'Estoy embarazada' si sientes vergüenza. ¡Estarías diciendo que esperas un bebé!" }
+];
+
+const CLASS_2B_THEORY = [
     { 
-        title: "Super Verbos (Irregulares) ⚡", 
+        title: "La Mesa Española 🍽️", 
         items: [
-            {n:"⭐", es:"Querer (Quiero)"}, 
-            {n:"💪", es:"Poder (Puedo)"}, 
-            {n:"🤲", es:"Tener (Tengo)"},
-            {n:"🧠", es:"Saber (Sé)"}
+            {n:"📋", es:"La carta / El menú"}, 
+            {n:"💁‍♂️", es:"El camarero"}, 
+            {n:"💰", es:"La cuenta / Propina"},
+            {n:"🍲", es:"El menú del día"}
         ], 
-        bg:"bg-purple-900/40",
-        desc: "Verbos fundamentales que cambian la raíz. 'Querer' y 'Poder' son esenciales para peticiones e intenciones."
+        bg:"bg-emerald-900/40", 
+        desc: "Dominar el restaurante es dominar la cultura. En España, el 'menú del día' es una institución." 
     },
     { 
-        title: "Saber vs Conocer 🧠", 
+        title: "Diferencias de Vocabulario 🌍", 
         items: [
-            {n:"📖", es:"Saber: Datos/Hechos"}, 
-            {n:"🤝", es:"Conocer: Personas"}, 
-            {n:"🗺️", es:"Conocer: Lugares"},
-            {n:"🎸", es:"Saber: Habilidades"}
+            {n:"🥤", es:"Zumo (ES) / Jugo (LatAm)"}, 
+            {n:"🍳", es:"Tortilla de patatas"}, 
+            {n:"🍷", es:"Copa (Taça) / Vaso (Copo)"},
+            {n:"🥖", es:"Bocadillo (Sanduíche)"}
         ], 
-        bg:"bg-blue-900/40",
-        desc: "Igual que en portugués: 'Sé programar' (habilidad) vs 'Conozco Madrid' (lugar)."
+        bg:"bg-blue-900/40", 
+        desc: "Cuidado: 'Copa' es para vino. 'Vaso' es para agua o cerveza. 'Zumo' es vital en el desayuno madrileño." 
+    },
+    {
+        title: "Fonética: El Desafío de la R 🐕",
+        bg: "bg-slate-800",
+        desc: "Para hablar como un nativo, necesitas dominar la vibración. Repite este trabalenguas:",
+        content: (
+            <div className="travalingua-box text-blue-400 text-lg leading-relaxed">
+                "Erre con erre guitarra,<br/>
+                erre con erre carril,<br/>
+                rápido ruedan las ruedas,<br/>
+                por los rieles del ferrocarril."
+            </div>
+        )
     },
     { 
-        title: "Peticiones & Necesidad 🆘", 
+        title: "Calle y Coloquialismos 🇪🇸", 
         items: [
-            {n:"❓", es:"¿Puedes ayudarme?"}, 
-            {n:"⚠️", es:"Necesito ayuda"}, 
-            {n:"📍", es:"¿Dónde está...?"},
-            {n:"🚫", es:"No entiendo"}
+            {n:"🤙", es:"Tío / Tía"}, 
+            {n:"✅", es:"¡Guay! (Mola)"}, 
+            {n:"🤝", es:"¡Venga! / Dale"},
+            {n:"😲", es:"¡Ostras! / Jolín"}
         ], 
-        bg:"bg-red-900/40",
-        desc: "Estructuras de supervivencia para Madrid. Usa '¿Puedes...?' para ser educado al pedir algo."
+        bg:"bg-indigo-900/40", 
+        desc: "Expresiones que oirás a diario. 'Tío' es el 'cara' brasileño. 'Ostras' es una expresión de sorpresa suave." 
     },
-    { 
-        title: "¡Cuidado! Falsos Amigos 🚫", 
-        items: [
-            {n:"🤰", es:"Embarazada (Grávida)"}, 
-            {n:"😳", es:"Avergonzada (Avergonhada)"}, 
-            {n:"🥤", es:"Vaso (Copo)"},
-            {n:"🏢", es:"Oficina (Escritório)"}
-        ], 
-        bg:"bg-amber-900/40",
-        desc: "¡Nunca digas 'Estoy embarazada' si sientes vergüenza! Usa 'Tengo vergüenza' o 'Estoy avergonzada'."
+    {
+        title: "Roleplay: Cena en Madrid 🎭",
+        bg: "bg-slate-900",
+        desc: "Guía de interacción para clase y tarea de casa. Imagina un bar en Malasaña.",
+        content: (
+            <div className="space-y-4 text-left text-sm text-slate-300">
+                <div className="p-3 bg-white/5 rounded-lg border border-white/10">
+                    <strong className="text-blue-400">Ronda 1:</strong> Entrada y pedido de carta. ¿Hay mesa? ¿Tienen reserva?
+                </div>
+                <div className="p-3 bg-white/5 rounded-lg border border-white/10">
+                    <strong className="text-blue-400">Ronda 2:</strong> Elección de platos y preguntas sobre ingredientes (¿Qué lleva esto?).
+                </div>
+                <div className="p-3 bg-white/5 rounded-lg border border-white/10">
+                    <strong className="text-blue-400">Ronda 3:</strong> La cuenta y el pago. Preguntar si aceptan tarjeta y dejar propina.
+                </div>
+                <p className="text-[10px] uppercase font-black text-emerald-500 mt-4 italic">Tarea: Escribir el diálogo completo y anotar 5 ingredientes nuevos.</p>
+            </div>
+        )
     }
 ];
 
-const CLASS_1A_EXERCISES = [{ pt: "Oi!", es: "¡Hola!" }, { pt: "Tudo bem?", es: "¿Todo bien?" }, { pt: "Bom dia", es: "Buen día" }, { pt: "Boa noite", es: "Buenas noches" }, { pt: "Até logo", es: "Hasta luego" }, { pt: "Prazer", es: "Mucho gusto" }, { pt: "Sou brasileiro", es: "Soy brasileño" }, { pt: "Quero morar...", es: "Quiero vivir..." }];
+const REVISION_BAD_BUNNY_THEORY = [
+    {
+        title: "¿Hoy o Hace un Año? ⏳",
+        bg: "bg-slate-900",
+        desc: "El Conflicto de Tiempos: ¿Por qué no usamos 'He comprado' para el concierto de Bad Bunny?",
+        content: (
+            <div className="w-full text-left space-y-6">
+                <div className="grid grid-cols-2 gap-8">
+                    <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
+                        <h4 className="text-emerald-400 font-bold mb-2 uppercase text-xs">Tiempo Abierto (Hoy)</h4>
+                        <p className="text-2xl font-black text-white">HE COMPRADO</p>
+                    </div>
+                    <div className="p-4 rounded-xl bg-blue-500/10 border border-blue-500/20">
+                        <h4 className="text-blue-400 font-bold mb-2 uppercase text-xs">Tiempo Cerrado (Ayer)</h4>
+                        <p className="text-2xl font-black text-white">COMPRÉ</p>
+                    </div>
+                </div>
+                <div className="bridge-broken"></div>
+                <div className="p-4 bg-red-500/5 border-l-4 border-red-500 italic text-sm text-slate-300">
+                    "Yo he comprado el ticket... hace un año" ➔ <span className="text-emerald-400 font-bold uppercase">Compré</span> la entrada hace un año.
+                </div>
+            </div>
+        )
+    },
+    {
+        title: "Falsos Amigos 🔍",
+        bg: "bg-slate-900",
+        desc: "Corrección de vicios de linguagem detectados na sua narrativa.",
+        content: (
+            <div className="w-full overflow-x-auto">
+                <table className="w-full text-left border-collapse">
+                    <thead>
+                        <tr className="border-b border-white/10 text-blue-400 text-xs uppercase font-black">
+                            <th className="py-3 px-2">Portunhol / PT</th>
+                            <th className="py-3 px-2">Español Real</th>
+                        </tr>
+                    </thead>
+                    <tbody className="text-sm text-slate-200">
+                        <tr className="border-b border-white/5"><td className="py-3 px-2">Venda</td><td className="py-3 px-2 text-emerald-400 font-bold">Venta</td></tr>
+                        <tr className="border-b border-white/5"><td className="py-3 px-2">Estava</td><td className="py-3 px-2 text-emerald-400 font-bold">Estaba</td></tr>
+                        <tr className="border-b border-white/5"><td className="py-3 px-2">Me recuerdo</td><td className="py-3 px-2 text-emerald-400 font-bold">Recuerdo / Me acuerdo</td></tr>
+                        <tr className="border-b border-white/5"><td className="py-3 px-2">Gole</td><td className="py-3 px-2 text-emerald-400 font-bold">Trago</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        )
+    }
+];
+
+const CLASS_1A_EXERCISES = [{ pt: "Oi!", es: "¡Hola!" }, { pt: "Tudo bem?", es: "¿Todo bien?" }, { pt: "Bom dia", es: "Buen día" }, { pt: "Boa noite", es: "Buenas noches" }, { pt: "Até logo", es: "Hasta luego" }, { pt: "Prazer", es: "Mucho gusto" }, { pt: "Soy brasileño", es: "Soy brasileño" }, { pt: "Quiero vivir...", es: "Quiero vivir..." }];
 
 const CLASS_1B_EXERCISES = [
     { q: "Hoy yo ____ (revisar) los logs del servidor.", a: "he revisado", h: "Acción terminada hoy" },
     { q: "¿Tú ____ (limpiar) ya la base de datos?", a: "has limpiado", h: "Haber (tú) + Participio" },
     { q: "Dame un ____ (momento), estoy cargando los dashboards.", a: "rato", h: "Significa tiempo/momento" },
     { q: "He guardado el informe en la ____ (pasta) de proyectos.", a: "carpeta", h: "No es 'pasta'" },
-    { q: "La ____ (planilha) de Excel tiene errores de sintaxis.", a: "hoja de cálculo", h: "Término técnico" },
-    { q: "Esta mañana ____ (hacer) los gráficos para el socio.", a: "he hecho", h: "Participio irregular" },
-    { q: "Todavía no ____ (ver) los resultados finales del KPI.", a: "he visto", h: "Participio irregular" },
-    { q: "Mañana ____ (ir) a hablar con el equipo de España.", a: "voy", h: "Presente con valor de futuro" },
-    { q: "Nosotros ____ (encontrar) un bug crítico esta tarde.", a: "hemos encontrado", h: "Haber (nosotros)" },
-    { q: "En un ____ (instante) te envío el acceso al servidor.", a: "ratito", h: "Diminutivo de rato" }
+    { q: "La ____ (planilha) de Excel tiene errores de sintaxis.", a: "hoja de cálculo", h: "Término técnico" }
 ];
 
 const CLASS_2A_EXERCISES = [
     { q: "Yo ____ (querer) aprender español para vivir en Madrid.", a: "quiero", h: "Verbo Querer (Yo)" },
     { q: "¿Tú ____ (poder) enviarme el acceso al servidor?", a: "puedes", h: "Verbo Poder (Tú)" },
     { q: "Mi compañero ____ (tener) mucha experiencia en SQL.", a: "tiene", h: "Verbo Tener (Él)" },
-    { q: "Yo no ____ (saber) dónde está el documento.", a: "sé", h: "Verbo Saber (Yo) - Irregular" },
-    { q: "¿____ (conhecer) algún buen restaurante en Malasaña?", a: "conoces", h: "Conocer personas/lugares" },
-    { q: "Ella está ____ (grávida), va a tener un bebé.", a: "embarazada", h: "¡Cuidado! No es avergonzada" },
-    { q: "Yo ____ (fazer) los informes todos los lunes.", a: "hago", h: "Verbo Hacer (Yo) - Irregular" },
-    { q: "¿____ (vir) a la oficina hoy o trabajas desde casa?", a: "vienes", h: "Verbo Venir (Tú)" },
-    { q: "Nosotros ____ (ir) al evento de networking mañana.", a: "vamos", h: "Verbo Ir (Nosotros)" },
-    { q: "Yo ____ (conhecer) muy bien la ciudad de Madrid.", a: "conozco", h: "Verbo Conocer (Yo) - Irregular" },
-    { q: "¿____ (poder) tú explicarme este insight?", a: "puedes", h: "Verbo Poder (Tú)" },
-    { q: "Juan ____ (querer) hablar contigo sobre el KPI.", a: "quiere", h: "Verbo Querer (Él)" },
-    { q: "Ella tiene mucha ____ (vergonha) de hablar en público.", a: "vergüenza", h: "Estado emocional" },
-    { q: "Yo ____ (ter) una reunión a las tres de la tarde.", a: "tengo", h: "Verbo Tener (Yo)" },
-    { q: "Ellos ____ (saber) que los datos son incorrectos.", a: "saben", h: "Verbo Saber (Ellos)" },
-    { q: "Mañana ____ (eu vou) a visitar el Palacio Real.", a: "voy", h: "Verbo Ir (Yo)" },
-    { q: "¿____ (vir) ellos a la presentación final?", a: "vienen", h: "Verbo Venir (Ellos)" },
-    { q: "Yo ____ (poder) terminar el dashboard hoy mismo.", a: "puedo", h: "Verbo Poder (Yo)" },
-    { q: "¿Tú ____ (ter) el enlace de la carpeta compartida?", a: "tienes", h: "Verbo Tener (Tú)" },
-    { q: "Ricardo ____ (fazer) un trabalho excelente con los datos.", a: "hace", h: "Verbo Hacer (Él)" }
+    { q: "Yo no ____ (saber) dónde está el documento.", a: "sé", h: "Saber (Yo) es irregular" },
+    { q: "¿____ (conocer) algún buen restaurante en Malasaña?", a: "conoces", h: "Conocer lugares/personas" },
+    { q: "Ella está ____ (grávida), va a tener un bebé.", a: "embarazada", h: "¡Ojo! No es avergonzada" }
 ];
 
 // ─── COMPONENTS ──────────────────────────────────────────────────────────────
 
-const Button = ({ children, onClick, variant='primary', className='', disabled=false }) => {
-    const v = {
-        primary: 'bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-900/20 active:translate-y-[2px]',
-        ghost:   'bg-transparent border border-white/20 hover:bg-white/5 text-slate-300',
-        accent:  'bg-emerald-600 hover:bg-emerald-500 text-white active:translate-y-[2px]',
-    };
+const TheoryLesson = ({ data, onComplete, title }) => {
+    const [slide, setSlide] = useState(0);
+    const cur = data[slide];
     return (
-        <button onClick={onClick} disabled={disabled} className={`px-6 py-2.5 rounded-xl font-bold transition-all disabled:opacity-50 ${v[variant]} ${className}`}>
-            {children}
-        </button>
+        <div className="max-w-4xl mx-auto slide-up theory-card">
+            <div className={`flex-1 rounded-[40px] p-8 md:p-12 shadow-2xl flex flex-col justify-between ${cur.bg} border border-white/5`}>
+                <div>
+                    <h2 className="text-blue-400 font-mono text-xs mb-4 uppercase tracking-widest">{title}</h2>
+                    <h1 className="text-4xl md:text-5xl font-black mb-6 text-white leading-tight">{cur.title}</h1>
+                    <p className="text-slate-300 text-lg mb-10 max-w-2xl">{cur.desc}</p>
+                    {cur.content && <div className="mt-4 mb-10">{cur.content}</div>}
+                    <div className="theory-items-grid">
+                        {cur.items && cur.items.map((item, i) => (
+                            <div key={i} className="bg-black/20 backdrop-blur-md rounded-2xl p-6 text-center border border-white/10">
+                                <div className="text-4xl mb-3">{item.n}</div>
+                                <div className="text-base font-black text-white uppercase tracking-tighter leading-tight">{item.es}</div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+                <div className="flex justify-between items-center mt-10">
+                    <button onClick={() => slide > 0 && setSlide(slide-1)} className={`text-slate-400 font-bold hover:text-white transition-colors ${slide === 0 ? 'invisible' : ''}`}>← Anterior</button>
+                    <div className="flex gap-2">{data.map((_, i) => <div key={i} className={`w-2 h-2 rounded-full transition-all ${i === slide ? 'bg-blue-500 w-6' : 'bg-white/20'}`} />)}</div>
+                    <button onClick={() => slide < data.length - 1 ? setSlide(slide + 1) : onComplete()} className="px-6 py-2.5 rounded-xl font-bold bg-emerald-600 hover:bg-emerald-500 text-white active:translate-y-[2px]">{slide === data.length - 1 ? 'Finalizar Módulo' : 'Siguiente →'}</button>
+                </div>
+            </div>
+        </div>
     );
 };
 
@@ -185,34 +265,22 @@ const FillBlanks = ({ data, onComplete }) => {
     const [attempts, setAttempts] = useState(0);
     const [hits, setHits] = useState(0);
 
-    const current = data[index];
-
     const handleCheck = () => {
-        if (input.trim().toLowerCase() === current.a.toLowerCase()) {
-            playSound('correct');
-            setFeedback('correct');
+        if (input.trim().toLowerCase() === data[index].a.toLowerCase()) {
+            playSound('correct'); setFeedback('correct');
             if (attempts === 0) setHits(h => h + 1);
             setTimeout(() => moveToNext(), 1000);
         } else {
             playSound('error');
-            if (attempts === 0) {
-                setFeedback('wrong-first');
-                setAttempts(1);
-            } else {
-                setFeedback('wrong-second');
-            }
+            if (attempts === 0) { setFeedback('wrong-first'); setAttempts(1); }
+            else { setFeedback('wrong-second'); }
         }
     };
 
     const moveToNext = () => {
-        setFeedback(null);
-        setAttempts(0);
-        setInput('');
-        if (index + 1 < data.length) {
-            setIndex(index + 1);
-        } else {
-            onComplete(Math.round((hits / data.length) * 100));
-        }
+        setFeedback(null); setAttempts(0); setInput('');
+        if (index + 1 < data.length) setIndex(index + 1);
+        else onComplete(Math.round((hits / data.length) * 100));
     };
 
     return (
@@ -222,70 +290,18 @@ const FillBlanks = ({ data, onComplete }) => {
                     <span>Ejercicio {index + 1} de {data.length}</span>
                     <span className="text-blue-500">Aciertos: {hits}</span>
                 </div>
-
                 <div className="text-2xl font-bold mb-10 leading-relaxed text-white">
-                    {current.q.split('____').map((p, i) => (
-                        <span key={i}>
-                            {p}
-                            {i === 0 && (
-                                <input 
-                                    type="text" 
-                                    value={input} 
-                                    onChange={e => setInput(e.target.value)}
-                                    disabled={feedback === 'correct' || feedback === 'wrong-second'}
-                                    onKeyDown={e => e.key === 'Enter' && feedback === null && handleCheck()}
-                                    className={`mx-2 w-48 text-center border-b-2 code-font transition-all ${feedback === 'correct' ? 'text-emerald-400 border-emerald-500' : feedback?.startsWith('wrong') ? 'text-red-400 border-red-500 animate-shake' : 'text-blue-400 border-slate-700'}`}
-                                    autoFocus
-                                />
-                            )}
-                        </span>
+                    {data[index].q.split('____').map((p, i) => (
+                        <span key={i}>{p}{i === 0 && (
+                            <input type="text" value={input} onChange={e => setInput(e.target.value)} disabled={feedback === 'correct' || feedback === 'wrong-second'} onKeyDown={e => e.key === 'Enter' && feedback === null && handleCheck()} className={`mx-2 w-48 text-center border-b-2 code-font transition-all ${feedback === 'correct' ? 'text-emerald-400 border-emerald-500' : feedback?.startsWith('wrong') ? 'text-red-400 border-red-500 animate-shake' : 'text-blue-400 border-slate-700'}`} autoFocus />
+                        )}</span>
                     ))}
                 </div>
-
-                {feedback === 'wrong-second' && (
-                    <div className="mb-8 p-4 bg-red-500/10 rounded-xl border border-red-500/20 text-red-400 animate-fade">
-                        La respuesta correcta era: <span className="font-mono font-bold">{current.a}</span>
-                    </div>
-                )}
-
+                {feedback === 'wrong-second' && <div className="mb-8 p-4 bg-red-500/10 rounded-xl border border-red-500/20 text-red-400">Respuesta: <span className="font-bold uppercase ml-2">{data[index].a}</span></div>}
                 <div className="flex flex-col gap-4">
-                    {feedback === null && <Button onClick={handleCheck} className="w-full">Verificar</Button>}
-                    {feedback === 'wrong-first' && <Button onClick={() => { setFeedback(null); setInput(''); }} variant="accent" className="w-full">Intentar de nuevo</Button>}
-                    {feedback === 'wrong-second' && <Button onClick={moveToNext} className="w-full">Siguiente ➜</Button>}
-                </div>
-
-                <div className="mt-8 flex items-center gap-3 text-xs text-slate-500">
-                    <div className="w-1.5 h-1.5 rounded-full bg-blue-500"></div>
-                    <span>Pista: {current.h}</span>
-                </div>
-            </div>
-        </div>
-    );
-};
-
-const TheoryLesson = ({ data, onComplete, title }) => {
-    const [slide, setSlide] = useState(0);
-    const cur = data[slide];
-    return (
-        <div className="max-w-4xl mx-auto slide-up theory-card">
-            <div className={`flex-1 rounded-[40px] p-8 md:p-12 shadow-2xl flex flex-col justify-between ${cur.bg} border border-white/5`}>
-                <div>
-                    <h2 className="text-blue-400 font-mono text-xs mb-4 uppercase tracking-widest">{title}</h2>
-                    <h1 className="text-4xl md:text-5xl font-black mb-6 text-white">{cur.title}</h1>
-                    <p className="text-slate-300 text-lg mb-10 max-w-2xl">{cur.desc}</p>
-                    <div className="theory-items-grid">
-                        {cur.items.map((item, i) => (
-                            <div key={i} className="bg-black/20 backdrop-blur-md rounded-2xl p-6 text-center border border-white/10">
-                                <div className="text-4xl mb-3">{item.n}</div>
-                                <div className="text-base font-black text-white uppercase">{item.es}</div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-                <div className="flex justify-between items-center mt-10">
-                    <button onClick={() => slide > 0 && setSlide(slide-1)} className={`text-slate-400 font-bold hover:text-white transition-colors ${slide === 0 ? 'invisible' : ''}`}>← Anterior</button>
-                    <div className="flex gap-2">{data.map((_, i) => <div key={i} className={`w-2 h-2 rounded-full transition-all ${i === slide ? 'bg-blue-500 w-6' : 'bg-white/20'}`} />)}</div>
-                    <Button onClick={() => slide < data.length - 1 ? setSlide(slide + 1) : onComplete()} variant="accent">{slide === data.length - 1 ? 'Iniciar Práctica' : 'Siguiente →'}</Button>
+                    {feedback === null && <button onClick={handleCheck} className="px-6 py-2.5 rounded-xl font-bold bg-blue-600 hover:bg-blue-500 text-white shadow-lg">Verificar</button>}
+                    {feedback === 'wrong-first' && <button onClick={() => { setFeedback(null); setInput(''); }} className="px-6 py-2.5 rounded-xl font-bold bg-emerald-600 hover:bg-emerald-500 text-white">Intentar de nuevo</button>}
+                    {feedback === 'wrong-second' && <button onClick={moveToNext} className="px-6 py-2.5 rounded-xl font-bold bg-blue-600 hover:bg-blue-500 text-white">Siguiente ➜</button>}
                 </div>
             </div>
         </div>
@@ -309,7 +325,7 @@ const MemoryGame = ({ data, onComplete }) => {
         const nf = [...flipped, card.id]; setFlipped(nf);
         if (nf.length === 2) {
             setLocked(true);
-            const c1 = cards.find(c => c.id === nf[0]), c2 = cards.find(c => c.id === nf[1]);
+            const c1 = cards.find(c => c.id === nf), c2 = cards.find(c => c.id === nf);
             if (c1.pairId === c2.pairId) {
                 const nm = [...matched, c1.pairId]; setMatched(nm); setFlipped([]); setLocked(false);
                 if (nm.length === data.length) setFinished(true);
@@ -330,12 +346,12 @@ const MemoryGame = ({ data, onComplete }) => {
                     );
                 })}
             </div>
-            {finished && <div className="mt-10 text-center animate-fade"><Button onClick={() => onComplete(100)} variant="accent">Concluir Aula</Button></div>}
+            {finished && <div className="mt-10 text-center animate-fade"><button onClick={() => onComplete(100)} className="px-6 py-2.5 rounded-xl font-bold bg-emerald-600 hover:bg-emerald-500 text-white">Concluir Aula</button></div>}
         </div>
     );
 };
 
-// ─── APP ──────────────────────────────────────────────────────────────────────
+// ─── MAIN APP ─────────────────────────────────────────────────────────────────
 
 function App() {
     const [view, setView] = useState('home');
@@ -345,59 +361,32 @@ function App() {
     const [progress, setProgress] = useState({});
     const [loading, setLoading] = useState(true);
 
-    const appId = typeof __app_id !== 'undefined' ? __app_id : 'espanol-pro-v5';
+    const appId = typeof __app_id !== 'undefined' ? __app_id : 'espanol-pro-v6';
 
     useEffect(() => {
-        let unsubAuth = null;
-        let unsubSnap = null;
-
         const init = async () => {
-            try {
-                const { initializeApp, getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken, getFirestore, doc, onSnapshot } = window.firebaseCore;
-                
-                const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
-                if (!firebaseConfig) {
-                    setLoading(false);
-                    return;
-                }
+            const { initializeApp, getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken, getFirestore, doc, onSnapshot } = window.firebaseCore;
+            const firebaseConfig = JSON.parse(__firebase_config);
+            const app = initializeApp(firebaseConfig);
+            const auth = getAuth(app);
+            const firestore = getFirestore(app);
+            setDb(firestore);
 
-                const app = initializeApp(firebaseConfig);
-                const auth = getAuth(app);
-                const firestore = getFirestore(app);
-                setDb(firestore);
+            const token = typeof __initial_auth_token !== 'undefined' && __initial_auth_token ? __initial_auth_token : null;
+            if (token) await signInWithCustomToken(auth, token).catch(() => signInAnonymously(auth)); else await signInAnonymously(auth);
 
-                const token = typeof __initial_auth_token !== 'undefined' && __initial_auth_token ? __initial_auth_token : null;
-                if (token) {
-                    await signInWithCustomToken(auth, token).catch(() => signInAnonymously(auth));
-                } else {
-                    await signInAnonymously(auth);
-                }
-
-                unsubAuth = onAuthStateChanged(auth, (u) => {
-                    setUser(u);
-                    if (u) {
-                        const pRef = doc(firestore, 'artifacts', appId, 'users', u.uid, 'data', 'progress');
-                        unsubSnap = onSnapshot(pRef, (snap) => {
-                            if (snap.exists()) setProgress(snap.data());
-                            setLoading(false);
-                        }, (err) => {
-                            setLoading(false);
-                        });
-                    } else {
+            onAuthStateChanged(auth, (u) => {
+                setUser(u);
+                if (u) {
+                    const pRef = doc(firestore, 'artifacts', appId, 'users', u.uid, 'data', 'progress');
+                    onSnapshot(pRef, (snap) => {
+                        if (snap.exists()) setProgress(snap.data());
                         setLoading(false);
-                    }
-                });
-            } catch (err) {
-                console.error("Firebase Init Error:", err);
-                setLoading(false);
-            }
+                    }, () => setLoading(false));
+                } else setLoading(false);
+            });
         };
-
         init();
-        return () => {
-            if (unsubAuth) unsubAuth();
-            if (unsubSnap) unsubSnap();
-        };
     }, []);
 
     const saveResult = async (lessonId, score) => {
@@ -409,26 +398,7 @@ function App() {
         setView('home'); setStep(0);
     };
 
-    const ProgressReport = ({ userProgress, onBack }) => {
-        const curriculum = [
-            { id: 'm1a', name: 'Aula 1A: Fundamentos & Fonética', emoji: '💜' },
-            { id: 'm1b', name: 'Aula 1B: Pasado & Datos', emoji: '📊' },
-            { id: 'm2a', name: 'Aula 2A: Verbos Esenciales', emoji: '⚡' }
-        ];
-        const completed = curriculum.filter(c => userProgress[c.id]?.completed);
-        const avg = completed.length > 0 ? Math.round(completed.reduce((a,b) => a + (userProgress[b.id]?.score || 0), 0) / completed.length) : 0;
-        return (
-            <div className="max-w-3xl mx-auto slide-up">
-                <div className="glass-card rounded-[32px] p-10 border-white/10 shadow-2xl">
-                    <div className="flex justify-between items-center mb-10"><h2 className="text-3xl font-black text-white">Boletín de Progreso</h2><div className="text-right"><div className="text-4xl font-black text-emerald-400">{avg}</div><div className="text-[10px] text-slate-500 font-bold uppercase">Promedio</div></div></div>
-                    <div className="space-y-4 text-white">{curriculum.map(lesson => (<div key={lesson.id} className={`flex items-center gap-4 p-5 rounded-2xl border transition-all ${lesson.locked ? 'opacity-30 border-dashed border-white/5' : 'bg-white/5 border-white/10'}`}><div className="text-3xl">{lesson.emoji}</div><div className="flex-1"><div className="text-sm font-bold text-white">{lesson.name}</div>{userProgress[lesson.id]?.completed && <div className="text-[10px] text-emerald-500 font-black">✓ COMPLETADO</div>}</div>{userProgress[lesson.id]?.score !== undefined && <div className="font-black text-xl text-blue-400">{userProgress[lesson.id].score}</div>}</div>))}</div>
-                    <div className="mt-10 text-center"><Button onClick={onBack} variant="ghost">Volver</Button></div>
-                </div>
-            </div>
-        );
-    };
-
-    if (loading) return <div className="h-screen flex items-center justify-center bg-[#020617] text-blue-500 font-mono text-xs animate-pulse tracking-widest uppercase">Cargando Dashboard...</div>;
+    if (loading) return <div className="h-screen flex items-center justify-center bg-[#020617] text-blue-500 font-mono text-xs animate-pulse">CARGANDO DASHBOARD...</div>;
 
     return (
         <div className="min-h-screen">
@@ -438,7 +408,7 @@ function App() {
                     <h1 className="text-lg font-black tracking-tight text-white uppercase">Español <span className="text-blue-500">Pro</span></h1>
                 </div>
                 <div className="flex gap-4">
-                    {view === 'home' ? <Button onClick={() => setView('report')} variant="ghost" className="text-xs py-2 px-4">📊 Boletín</Button> : <Button onClick={() => {setView('home'); setStep(0);}} variant="ghost" className="text-xs py-2 px-4">Volver</Button>}
+                    {view !== 'home' && <button onClick={() => {setView('home'); setStep(0);}} className="px-4 py-2 rounded-xl border border-white/20 text-slate-300 text-xs">Volver</button>}
                 </div>
             </header>
 
@@ -446,45 +416,30 @@ function App() {
                 {view === 'home' && (
                     <div className="text-center slide-up min-h-[70vh] flex flex-col justify-center">
                         <h2 className="text-xs font-mono text-blue-400 uppercase tracking-[0.3em] mb-4">Inmersión Profesional</h2>
-                        <h1 className="text-4xl md:text-6xl font-black mb-12 text-white">Hola, ¿qué tal hoy? 👋</h1>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto w-full">
+                        <h1 className="text-4xl md:text-6xl font-black mb-12 text-white leading-tight">Tu camino al dominio 👋</h1>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto w-full">
                             {[
-                                { id: 'm1a', title: 'Aula 1A: Fundamentos', emoji: '💜', color: 'from-indigo-600 to-indigo-800' },
-                                { id: 'm1b', title: 'Aula 1B: Profesional', emoji: '📊', color: 'from-blue-600 to-blue-800' },
-                                { id: 'm2a', title: 'Aula 2A: Verbos Esenciales', emoji: '⚡', color: 'from-purple-600 to-purple-800' }
+                                { id: 'm_rev_bunny', title: 'Análisis: Bad Bunny', emoji: '🐰', color: 'from-slate-800 to-slate-900', sub: 'Revisión de Pasados' },
+                                { id: 'm2b', title: 'Aula 2B: La Mesa Pro', emoji: '🥘', color: 'from-emerald-600 to-emerald-800', sub: 'Restaurante & Calle' },
+                                { id: 'm2a', title: 'Aula 2A: Verbos Pro', emoji: '⚡', color: 'from-purple-600 to-purple-800', sub: 'Esenciales' },
+                                { id: 'm1a', title: 'Aula 1A: Fundamentos', emoji: '💜', color: 'from-indigo-600 to-indigo-800', sub: 'Fonética' }
                             ].map(m => (
-                                <button key={m.id} disabled={m.locked} onClick={() => setView(m.id)} className={`relative overflow-hidden p-8 rounded-[32px] text-left transition-all hover:scale-[1.03] group ${m.locked ? 'opacity-40 cursor-not-allowed' : `bg-gradient-to-br ${m.color} shadow-xl`}`}>
+                                <button key={m.id} onClick={() => setView(m.id)} className={`relative overflow-hidden p-8 rounded-[32px] text-left transition-all hover:scale-[1.03] bg-gradient-to-br ${m.color} shadow-xl group`}>
                                     <div className="text-4xl mb-4 group-hover:animate-bounce">{m.emoji}</div>
-                                    <h3 className="font-bold text-xl mb-1 text-white">{m.title}</h3>
-                                    {progress[m.id]?.completed ? <div className="text-xs font-black text-emerald-400 mt-2">✓ COMPLETADO ({progress[m.id].score})</div> : <div className="text-xs font-bold text-white/50 mt-2">Iniciar →</div>}
+                                    <h3 className="font-bold text-lg mb-1 text-white leading-tight">{m.title}</h3>
+                                    <p className="text-[10px] text-white/50 uppercase font-black">{m.sub}</p>
+                                    {progress[m.id]?.completed && <div className="text-[10px] font-black text-emerald-400 mt-2">✓ CONCLUÍDO ({progress[m.id].score})</div>}
                                 </button>
                             ))}
                         </div>
                     </div>
                 )}
 
-                {view === 'report' && <ProgressReport userProgress={progress} onBack={() => setView('home')} />}
-
-                {view === 'm1a' && (
-                    <>
-                        {step === 0 && <TheoryLesson data={CLASS_1A_THEORY} title="Aula 1A: Fundamentos" onComplete={() => setStep(1)} />}
-                        {step === 1 && <MemoryGame data={CLASS_1A_EXERCISES} onComplete={(s) => saveResult('m1a', s)} />}
-                    </>
-                )}
-
-                {view === 'm1b' && (
-                    <>
-                        {step === 0 && <TheoryLesson data={CLASS_1B_THEORY} title="Aula 1B: Profesional" onComplete={() => setStep(1)} />}
-                        {step === 1 && <FillBlanks data={CLASS_1B_EXERCISES} onComplete={(s) => saveResult('m1b', s)} />}
-                    </>
-                )}
-
-                {view === 'm2a' && (
-                    <>
-                        {step === 0 && <TheoryLesson data={CLASS_2A_THEORY} title="Aula 2A: Verbos Esenciales" onComplete={() => setStep(1)} />}
-                        {step === 1 && <FillBlanks data={CLASS_2A_EXERCISES} onComplete={(s) => saveResult('m2a', s)} />}
-                    </>
-                )}
+                {view === 'm_rev_bunny' && <TheoryLesson data={REVISION_BAD_BUNNY_THEORY} title="Revisión de Texto" onComplete={() => saveResult('m_rev_bunny', 100)} />}
+                {view === 'm1a' && <>{step === 0 && <TheoryLesson data={CLASS_1A_THEORY} title="Aula 1A: Fundamentos" onComplete={() => setStep(1)} />}{step === 1 && <MemoryGame data={CLASS_1A_EXERCISES} onComplete={(s) => saveResult('m1a', s)} />}</>}
+                {view === 'm1b' && <>{step === 0 && <TheoryLesson data={CLASS_1B_THEORY} title="Aula 1B: Profesional" onComplete={() => setStep(1)} />}{step === 1 && <FillBlanks data={CLASS_1B_EXERCISES} onComplete={(s) => saveResult('m1b', s)} />}</>}
+                {view === 'm2a' && <>{step === 0 && <TheoryLesson data={CLASS_2A_THEORY} title="Aula 2A: Verbos Pro" onComplete={() => setStep(1)} />}{step === 1 && <FillBlanks data={CLASS_2A_EXERCISES} onComplete={(s) => saveResult('m2a', s)} />}</>}
+                {view === 'm2b' && <TheoryLesson data={CLASS_2B_THEORY} title="Aula 2B: Restaurante & Calle" onComplete={() => saveResult('m2b', 100)} />}
             </main>
         </div>
     );
