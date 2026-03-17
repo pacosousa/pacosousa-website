@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oi, Brasil! - Aprenda Português</title>
+    <!-- Bibliotecas Necessárias -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        window.firebaseCore = { initializeApp, getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken, getFirestore, doc, getDoc, setDoc, onSnapshot, collection };
+    </script>
+
+    <style>
+        * { box-sizing: border-box; }
+        html, body { height: 100%; margin: 0; font-family: 'Nunito', sans-serif; background-color: #0F0A1E; overflow-x: hidden; }
+        .perspective-1000 { perspective: 1000px; }
+        .transform-style-3d { transform-style: preserve-3d; }
+        .backface-hidden { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+        .rotate-y-180 { transform: rotateY(180deg); }
+        @keyframes bounce-slow { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+        .animate-bounce-slow { animation: bounce-slow 3s ease-in-out infinite; }
+        @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-8px)} 75%{transform:translateX(8px)} }
+        .animate-shake { animation: shake 0.3s ease-in-out; }
+        @keyframes slide-up { from{transform:translateY(20px);opacity:0} to{transform:translateY(0);opacity:1} }
+        .slide-up { animation: slide-up 0.35s ease-out; }
+        input[type="text"] { outline: none; }
+        
+        .theory-card {
+            height: calc(100vh - 130px);
+            min-height: 420px;
+            max-height: 780px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .theory-items-grid {
+            display: grid;
+            gap: 10px;
+            flex: 1;
+            align-content: center;
+        }
+        .theory-items-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+        .theory-items-grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
+        .theory-items-grid.cols-5 { grid-template-columns: repeat(5, 1fr); }
+        .theory-item-card {
+            background: rgba(255,255,255,0.18);
+            border-radius: 20px;
+            padding: 14px 8px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: transform 0.2s;
+        }
+        .theory-item-card:hover { transform: scale(1.04); }
+
+        .word-grid-cell {
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1.2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+            touch-action: manipulation;
+        }
+        .cell-locked {
+            background-color: #00F5D4 !important;
+            color: #0F0A1E !important;
+            box-shadow: 0 0 15px rgba(0, 245, 212, 0.4);
+        }
+        .cell-selected {
+            background-color: #FF3CAC !important;
+            color: white !important;
+            transform: scale(1.1);
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState, useEffect, useMemo, useCallback } = React;
+
+// ─── UTILS & SHARED COMPONENTS ───────────────────────────────────────────────
+const numberToExtensive = (num) => {
+    const map = {
+        10: "Dez", 20: "Vinte", 30: "Trinta", 40: "Quarenta", 50: "Cinquenta",
+        60: "Sessenta", 70: "Setenta", 80: "Oitenta", 90: "Noventa", 100: "Cem",
+        200: "Duzentos", 300: "Trezentos", 400: "Quatrocentos", 500: "Quinhentos"
+    };
+    return map[num] || num.toString();
+};
+
+const playSound = (type) => {
+    try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain); gain.connect(ctx.destination);
+        const now = ctx.currentTime;
+        if (type === 'correct') {
+            osc.frequency.setValueAtTime(300, now);
+            osc.frequency.exponentialRampToValueAtTime(600, now + 0.15);
+            gain.gain.setValueAtTime(0.1, now); gain.gain.linearRampToValueAtTime(0, now + 0.2);
+        } else if (type === 'error') {
+            osc.frequency.setValueAtTime(200, now);
+            osc.frequency.linearRampToValueAtTime(100, now + 0.15);
+            gain.gain.setValueAtTime(0.1, now); gain.gain.linearRampToValueAtTime(0, now + 0.2);
+        }
+        osc.start(); osc.stop(now + 0.2);
+    } catch(e) {}
+};
+
+const Button = ({ children, onClick, variant='primary', className='', disabled=false }) => {
+    const v = {
+        primary: 'bg-[#00F5D4] hover:bg-[#33ffdf] text-[#0F0A1E] shadow-[0_4px_0_rgb(0,180,155)] active:translate-y-[2px] active:shadow-none',
+        ghost:   'bg-transparent border-2 border-white/20 hover:bg-white/10 text-white',
+        accent:  'bg-[#FF3CAC] hover:bg-[#ff5bb9] text-white shadow-[0_4px_0_rgb(190,45,128)] active:translate-y-[2px] active:shadow-none',
+    };
+    return (
+        <button onClick={onClick} disabled={disabled} className={`px-5 py-2.5 rounded-2xl font-black transition-all transform duration-150 ${v[variant]} ${className}`}>
+            {children}
+        </button>
+    );
+};
+
+// ─── DATA ───────────────────────────────────────────────────────────────────
+const REVISION_DATA = [
+    { q: "Oi! Tudo ____?", a: "bem", h: "Saudações", trans: "¡Hola! ¿Todo bien?" },
+    { q: "Bom ____", a: "dia", h: "Manhã", trans: "Buen día" },
+    { q: "Boa ____", a: "tarde", h: "Pós-meio-dia", trans: "Buenas tardes" },
+    { q: "Boa ____", a: "noite", h: "Anoitecer", trans: "Buenas noches" },
+    { q: "Meu ____ é Margo", a: "nome", h: "Identidade", trans: "Mi nombre es Margo" },
+    { q: "Eu ____ da Argentina", a: "sou", h: "Origem", trans: "Yo soy de Argentina" },
+    { q: "Eu tenho 8 ____", a: "anos", h: "Idade", trans: "Tengo 8 anos" },
+    { q: "Muito ____!", a: "prazer", h: "Cortesia", trans: "¡Mucho gusto!" },
+    { q: "Até ____", a: "amanhã", h: "Próximo dia", trans: "Hasta mañana" },
+    { q: "____!", a: "Tchau", h: "Adeus", trans: "¡Chau!" },
+    { q: "Eu ____ em Buenos Aires", a: "moro", h: "Residência", trans: "Yo vivo en Buenos Aires" },
+    { q: "Eu ____ espanhol", a: "falo", h: "Idioma", trans: "Yo hablo español" },
+    { q: "Eu ____ português", a: "aprendo", h: "Ação", trans: "Yo aprendo português" },
+    { q: "Eu ____ de desenhar", a: "gosto", h: "Preferência", trans: "Me gusta dibujar" },
+    { q: "Eu ____ Roblox", a: "adoro", h: "Gosto muito", trans: "Me encanta Roblox" },
+    { q: "____ gosto de brócolis", a: "Não", h: "Negação", trans: "No me gusta el brócoli" },
+    { q: "Não gosto ____ de mosquitos", a: "nada", h: "Intensidade", trans: "No me gustan nada los mosquitos" },
+    { q: "____ sou a Margo", a: "Eu", h: "1ª Pessoa", trans: "Yo soy Margo" },
+    { q: "____ é meu amigo", a: "Você", h: "2ª Pessoa", trans: "Tú eres mi amigo" },
+    { q: "____ é o meu pai", a: "Ele", h: "Masculino", trans: "Él es mi padre" }
+];
+
+const CLASS_1A_GREETINGS = [{pt:'Oi!', es:'¡Hola! 👋'}, {pt:'Tudo bem?', es:'¿Todo bem? 😊'}, {pt:'Bom dia', es:'Buen dia ☀️'}, {pt:'Boa tarde', es:'Buenas tardes 🌤️'}, {pt:'Boa noite', es:'Buenas noites 🌙'}, {pt:'Tchau!', es:'¡Chau! 👋'}, {pt:'Até amanhã', es:'Hasta mañana 📅'}, {pt:'Prazer!', es:'¡Mucho gusto! ✨'}, {pt:'Muito prazer!', es:'¡Es um prazer! / ¡Encantado! 🤝'}];
+
+const CLASS_1B_THEORY = [{ title: "Onde eu moro? 🏠", items: [{n:"🏠", pt:"Eu moro em...", es:"Yo vivo en..."}, {n:"🗣️", pt:"Eu falo...", es:"Yo hablo..."}, {n:"📖", pt:"Eu aprendo...", es:"Yo aprendo..."}], bg:"bg-[#4361EE]" }, { title: "Gostos ❤️", items: [{n:"👍", pt:"Eu gosto de...", es:"Me gusta..."}, {n:"🌟", pt:"Eu adoro...", es:"Me encanta..."}, {n:"👎", pt:"Não gosto de...", es:"No me gusta..."}, {n:"😑", pt:"Não gosto nada de...", es:"No me gusta para nada..."}], bg:"bg-[#7B2FFF]" }, { title: "Os Pronomes 👤", items: [{n:"☝️", pt:"Eu", es:"Yo"}, {n:"🫵", pt:"Você", es:"Tú / Vos"}, {n:"👦", pt:"Ele", es:"Él"}, {n:"👧", pt:"Ela", es:"Ella"}], bg:"bg-[#FF3CAC]" }];
+
+const CLASS_1B_EXERCISES = [
+    { q: "Eu ____ em Buenos Aires", a: "moro", h: "Moradia", trans: "Yo vivo en Buenos Aires" },
+    { q: "Eu ____ espanhol", a: "falo", h: "Idioma", trans: "Yo hablo español" },
+    { q: "Eu ____ português", a: "aprendo", h: "Estudo", trans: "Yo aprendo português" },
+    { q: "Eu ____ de chocolate", a: "gosto", h: "Gosto", trans: "Me gusta el chocolate" }
+];
+
+const CLASS_1A_COMP_THEORY = [
+    { title:"Os Números (1–5) 🔢", items:[{n:"1",pt:"Um"},{n:"2",pt:"Dois"},{n:"3",pt:"Três"},{n:"4",pt:"Quatro"},{n:"5",pt:"Cinco"}], bg:"bg-[#7B2FFF]" },
+    { title:"Os Números (6–10) 💎", items:[{n:"6",pt:"Seis"},{n:"7",pt:"Sete"},{n:"8",pt:"Oito"},{n:"9",pt:"Nove"},{n:"10",pt:"Dez"}], bg:"bg-[#FF3CAC]" },
+    { title:"As Cores 🎨", items:[{n:"🟥",pt:"Vermelho"},{n:"🟦",pt:"Azul"},{n:"🟩",pt:"Verde"},{n:"🟨",pt:"Amarelo"}], bg:"bg-[#042f24]" }
+];
+
+const CLASS_1B_COMP_THEORY = [
+    { title: "Na Mochila 🎒", items: [{ n: "📓", pt: "Caderno" }, { n: "✏️", pt: "Lápis" }, { n: "🎒", pt: "Mochila" }, { n: "📏", pt: "Régua" }, { n: "📚", pt: "Livro" }, { n: "🍱", pt: "Lancheira" }], bg: "bg-[#FF6B35]" },
+    { title: "No Estojo 👝", items: [{ n: "👝", pt: "Estojo" }, { n: "🖊️", pt: "Caneta" }, { n: "✂️", pt: "Tesoura" }, { n: "🧼", pt: "Borracha" }, { n: "🖍️", pt: "Apontador" }], bg: "bg-[#2EC4B6]", textColor: "text-[#0F0A1E]" },
+    { title: "Quadro de Cores 🎨", items: [{ n: "🟥", pt: "Vermelho" }, { n: "🟦", pt: "Azul" }, { n: "🟩", pt: "Verde" }, { n: "🟨", pt: "Amarelo" }, { n: "🟧", pt: "Laranja" }, { n: "🟪", pt: "Roxo" }, { n: "🩷", pt: "Rosa" }, { n: "⬛", pt: "Preto" }, { n: "⬜", pt: "Branco" }], bg: "bg-[#7B2FFF]" }
+];
+
+const CLASS_1B_COMP_MEM = [
+    { pt: "Mochila", emoji: "🎒" }, { pt: "Lancheira", emoji: "🍱" }, { pt: "Estojo", emoji: "👝" }, { pt: "Caneta", emoji: "🖊️" },
+    { pt: "Borracha", emoji: "🧼" }, { pt: "Tesoura", emoji: "✂️" }, { pt: "Laranja", emoji: "🟧" }, { pt: "Roxo", emoji: "🟪" }
+];
+
+const CLASS_2A_THEORY = [
+    { title: "As Dezenas (10-50) 🪙", items: [{ n: "10", pt: "Dez" }, { n: "20", pt: "Vinte" }, { n: "30", pt: "Trinta" }, { n: "40", pt: "Quarenta" }, { n: "50", pt: "Cinquenta" }], bg: "bg-[#4361EE]" },
+    { title: "As Dezenas (60-100) 💰", items: [{ n: "60", pt: "Sessenta" }, { n: "70", pt: "Setenta" }, { n: "80", pt: "Oitenta" }, { n: "90", pt: "Noventa" }, { n: "100", pt: "Cem" }], bg: "bg-[#7B2FFF]" },
+    { title: "O Verbo TER 🤝", items: [{ n: "🙋‍♂️", pt: "Eu tenho" }, { n: "🫵", pt: "Você tem" }, { n: "👦", pt: "Ele tem" }, { n: "👧", pt: "Ela tem" }], bg: "bg-[#FF3CAC]" }
+];
+
+const CLASS_2B_THEORY = [
+    { title: "Quanto custa? 💰", items: [{n:"🏷️", pt:"Caro"}, {n:"🏷️", pt:"Barato"}, {n:"💸", pt:"Quanto custa?"}, {n:"🪙", pt:"Cem Robux"}], bg: "bg-[#4361EE]" },
+    { title: "Que horas são? ⏰", items: [{n:"🕒", pt:"Oito horas"}, {n:"🕕", pt:"Seis horas"}, {n:"🕚", pt:"Onze horas"}, {n:"🕛", pt:"Meio-dia"}], bg: "bg-[#7B2FFF]" }
+];
+
+const CLASS_3A_THEORY = [
+    { title: "As Formas 💠", items: [{n:"⭕", pt:"Círculo"}, {n:"⬜", pt:"Quadrado"}, {n:"🔺", pt:"Triângulo"}, {n:"⭐", pt:"Estrela"}], bg: "bg-[#FF3CAC]" },
+    { title: "Concordância 👔👗", items: [{n:"👕", pt:"Camiseta branca"}, {n:"👟", pt:"Sapato branco"}, {n:"🧤", pt:"Luva preta"}, {n:"🎩", pt:"Chapéu preto"}], bg: "bg-[#FFD60A]", textColor: "text-black" }
+];
+
+const CLASS_3A_CHALLENGES = [
+    { q: "A estrela é ____.", a: "branca", trans: "La estrella es blanca" },
+    { q: "O ____ é azul escuro.", a: "círculo", trans: "El círculo es azul oscuro" },
+    { q: "Agora é ____-dia.", a: "meio", trans: "Ahora es mediodía" }
+];
+
+const CLASS_2A_MARKET_ITEMS = [
+    { id: 1, name: "Skin de Dragão", price: 80, emoji: "🐲" },
+    { id: 2, name: "Espada de Diamante", price: 100, emoji: "⚔️" },
+    { id: 3, name: "Mochila Gigante", price: 50, emoji: "🎒" },
+    { id: 4, name: "Capa de Herói", price: 20, emoji: "🦸‍♀️" },
+    { id: 5, name: "Gema Mágica", price: 90, emoji: "💎" }
+];
+
+const COMPLEMENTARY_EXERCISES = [
+    { q: "Para abrir a porta às 12:00, você diz: É meio-____", a: "dia", h: "12:00", trans: "Es mediodía" },
+    { q: "O cadeado é um ____.", a: "triângulo", h: "🔺", trans: "El candado es un triângulo" },
+    { q: "A skin custa 100 Robux. Ela é ____.", a: "cara", h: "Preço alto", trans: "La skin es cara" },
+    { q: "Você tem 20 minutos. Escrevemos: ____", a: "vinte", h: "20", trans: "Veinte" },
+    { q: "A estrela é ____.", a: "branca", h: "Cor", trans: "La estrella es blanca" },
+    { q: "O sapato é ____.", a: "branco", h: "Cor (Masculino)", trans: "El sapato es blanco" },
+    { q: "A camiseta é ____.", a: "branca", h: "Cor (Feminino)", trans: "La camiseta es blanca" },
+    { q: "O relógio marca oito ____.", a: "horas", h: "Tempo", trans: "Son las oscho horas" }
+];
+
+// 🆕 NOVOS DADOS AULA 3B & CALENDÁRIO
+const CLASS_3B_THEORY = [
+    { title: "Adjetivos Físicos 📏", items: [{n:"🦒", pt:"Alto/Alta"}, {n:"🐭", pt:"Baixo/Baixa"}, {n:"🐘", pt:"Grande"}, {n:"🐜", pt:"Pequeno/Pequena"}, {n:"✨", pt:"Bonito/Bonita"}, {n:"👹", pt:"Feio/Feia"}], bg: "bg-[#4361EE]" },
+    { title: "Personalidade 🧠", items: [{n:"😎", pt:"Legal"}, {n:"😤", pt:"Chato/Chata"}, {n:"😂", pt:"Engraçado"}, {n:"🛡️", pt:"Corajoso"}, {n:"🫣", pt:"Tímido/Tímida"}], bg: "bg-[#7B2FFF]" },
+    { title: "Comparações ⚖️", items: [{n:"➕", pt:"Mais ... que"}, {n:"➖", pt:"Menos ... que"}], bg: "bg-[#FF3CAC]" }
+];
+
+const CLASS_3B_QUIZ = [
+    { q: "Anya é ____.", trans: "Anya es valiente", opts: ["corajosa", "tímida", "chata"], correct: "corajosa" },
+    { q: "O elefante é ____ que o rato.", trans: "El elefante es más grande que el ratón", opts: ["mais pequeno", "menor", "maior"], correct: "maior" },
+    { q: "O professor é muito ____.", trans: "El profesor es muy genial", opts: ["chato", "legal", "feio"], correct: "legal" },
+    { q: "Ele é ____ que eu.", trans: "Él es más alto que yo", opts: ["mais alto", "mais baixo", "tão alto"], correct: "mais alto" }
+];
+
+const CLASS_CALENDAR_THEORY = [
+    { title: "Dias da Semana 🗓️", items: [{n:"1", pt:"Segunda"}, {n:"2", pt:"Terça"}, {n:"3", pt:"Quarta"}, {n:"4", pt:"Quinta"}, {n:"5", pt:"Sexta"}, {n:"6", pt:"Sábado"}, {n:"7", pt:"Domingo"}], bg: "bg-[#00a89c]" },
+    { title: "Meses (1-6) 🌸", items: [{n:"1", pt:"Janeiro"}, {n:"2", pt:"Fevereiro"}, {n:"3", pt:"Março"}, {n:"4", pt:"Abril"}, {n:"5", pt:"Maio"}, {n:"6", pt:"Junho"}], bg: "bg-[#FF6B35]" },
+    { title: "Meses (7-12) ❄️", items: [{n:"7", pt:"Julho"}, {n:"8", pt:"Agosto"}, {n:"9", pt:"Setembro"}, {n:"10", pt:"Outubro"}, {n:"11", pt:"Novembro"}, {n:"12", pt:"Dezembro"}], bg: "bg-[#4361EE]" }
+];
+
+const CALENDAR_MEM_DATA = [
+    { pt: "Segunda", es: "Lunes" }, { pt: "Terça", es: "Martes" }, { pt: "Quarta", es: "Miércoles" }, 
+    { pt: "Quinta", es: "Jueves" }, { pt: "Sexta", es: "Viernes" }, { pt: "Sábado", es: "Sábado" },
+    { pt: "Domingo", es: "Domingo" }, { pt: "Janeiro", es: "Enero" }
+];
+
+const CALENDAR_QUIZ = [
+    { q: "Hoje é segunda. Amanhã é ____.", trans: "Hoy es lunes. Mañana es martes", opts: ["quarta", "terça", "sexta"], correct: "terça" },
+    { q: "O primeiro mês do ano é ____.", trans: "El primer mes del año es enero", opts: ["Janeiro", "Março", "Abril"], correct: "Janeiro" },
+    { q: "Sábado e ____ são o fim de semana.", trans: "Sábado y domingo son el fin de semana", opts: ["Sexta", "Domingo", "Segunda"], correct: "Domingo" }
+];
+
+// ─── COMPONENTS ─────────────────────────────────────────────────────────────
+
+const ChoiceQuiz = ({ data, onComplete, title }) => {
+    const [idx, setIdx] = useState(0);
+    const [feedback, setFeedback] = useState(null);
+    const current = data[idx];
+
+    const handleChoice = (opt) => {
+        if (feedback) return;
+        if (opt === current.correct) {
+            playSound('correct'); setFeedback('correct');
+            setTimeout(() => {
+                if (idx + 1 < data.length) { setIdx(idx + 1); setFeedback(null); }
+                else onComplete(100);
+            }, 1000);
+        } else {
+            playSound('error'); setFeedback('wrong');
+            setTimeout(() => setFeedback(null), 1000);
+        }
+    };
+
+    return (
+        <div className="max-w-xl mx-auto slide-up text-center">
+            <h3 className="text-xl font-black text-[#00F5D4] mb-8 uppercase tracking-widest">{title}</h3>
+            <div className={`bg-[#1A1035] border-2 rounded-[40px] p-8 transition-all ${feedback === 'correct' ? 'border-green-500' : (feedback === 'wrong' ? 'border-red-500' : 'border-[#FF3CAC]/30')}`}>
+                <h2 className="text-2xl font-black text-white mb-2">{current.q.replace('____', '______')}</h2>
+                <p className="text-white/40 italic text-sm mb-8">"{current.trans}"</p>
+                <div className="grid grid-cols-1 gap-3">
+                    {current.opts.map(opt => (
+                        <button key={opt} onClick={() => handleChoice(opt)} className="bg-white/5 border-2 border-white/10 rounded-2xl py-4 font-black text-white hover:bg-white/10 transition-all">
+                            {opt}
+                        </button>
+                    ))}
+                </div>
+            </div>
+        </div>
+    );
+};
+
+const FillBlanks = ({ data, onComplete, title, subtitle }) => {
+    const [index, setIndex] = useState(0);
+    const [input, setInput] = useState('');
+    const [feedback, setFeedback] = useState(null); 
+    const currentData = data[index];
+    const handleCheck = () => {
+        if (input.trim().toLowerCase() === currentData.a.toLowerCase()) {
+            playSound('correct'); setFeedback('correct');
+            setTimeout(() => {
+                if (index + 1 < data.length) { setIndex(index + 1); setInput(''); setFeedback(null); }
+                else onComplete(100);
+            }, 1000);
+        } else { playSound('error'); setFeedback('wrong'); setTimeout(() => setFeedback(null), 1000); }
+    };
+    return (
+        <div className="max-w-xl mx-auto slide-up">
+            <div className="text-center mb-6"><h3 className="text-xl font-black text-[#00F5D4] tracking-widest uppercase">{title}</h3><p className="text-white/40 text-xs font-bold">{subtitle}</p></div>
+            <div className={`bg-[#1A1035] border-2 rounded-[32px] p-8 text-center ${feedback === 'correct' ? 'border-green-500' : (feedback === 'wrong' ? 'border-red-500' : 'border-[#FF3CAC]/30')}`}>
+                <div className="text-2xl font-black text-white mb-2 leading-relaxed">
+                    {currentData.q.split('____').map((p,i) => i===0 ? (<span key={i}>{p}<input type="text" value={input} onChange={e=>setInput(e.target.value)} onKeyPress={e=>e.key==='Enter'&&handleCheck()} className="mx-2 bg-transparent border-b-4 border-[#00F5D4] w-24 text-center text-[#00F5D4]" autoFocus/></span>) : <span key={i}>{p}</span>)}
+                </div>
+                <p className="text-white/40 italic text-sm mb-6">"{currentData.trans}"</p>
+                <Button onClick={handleCheck} variant="primary" className="w-full">Verificar</Button>
+            </div>
+        </div>
+    );
+};
+
+const WordSearch = ({ onComplete }) => {
+    const wordDefinitions = [
+        { word: "ESTRELA", coords: [{r:0,c:1},{r:0,c:2},{r:0,c:3},{r:0,c:4},{r:0,c:5},{r:0,c:6},{r:0,c:7}] },
+        { word: "BRANCA", coords: [{r:2,c:2},{r:2,c:3},{r:2,c:4},{r:2,c:5},{r:2,c:6},{r:2,c:7}] },
+        { word: "AZUL", coords: [{r:5,c:1},{r:5,c:2},{r:5,c:3},{r:5,c:4}] },
+        { word: "VERDE", coords: [{r:1,c:9},{r:2,c:9},{r:3,c:9},{r:4,c:9},{r:5,c:9}] },
+        { word: "LEGAL", coords: [{r:8,c:0},{r:8,c:1},{r:8,c:2},{r:8,c:3},{r:8,c:4}] },
+        { word: "GRANDE", coords: [{r:4,c:0},{r:4,c:1},{r:4,c:2},{r:4,c:3},{r:4,c:4},{r:4,c:5}] }
+    ];
+    const initialGrid = [
+        ['P','E','S','T','R','E','L','A','W','K'],
+        ['Q','F','G','H','J','K','L','M','N','V'],
+        ['U','P','B','R','A','N','C','A','T','E'],
+        ['A','X','Y','Z','W','T','B','S','V','R'],
+        ['G','R','A','N','D','E','R','O','B','D'],
+        ['R','A','Z','U','L','O','P','Q','L','E'],
+        ['A','I','V','C','R','B','S','T','N','O'],
+        ['D','A','N','U','D','U','X','Y','O','P'],
+        ['L','E','G','A','L','X','Q','R','I','L'],
+        ['W','M','X','D','Y','G','S','A','T','U']
+    ];
+    const [foundWords, setFoundWords] = useState([]);
+    const [selectedCells, setSelectedCells] = useState([]);
+    const [lockedCells, setLockedCells] = useState([]); 
+
+    const handleCellClick = (r, c) => {
+        if (lockedCells.some(cell => cell.r === r && cell.c === c)) return;
+        const selectionIndex = selectedCells.findIndex(cell => cell.r === r && cell.c === c);
+        let newSelection = selectionIndex !== -1 ? selectedCells.filter((_, i) => i !== selectionIndex) : [...selectedCells, { r, c }];
+        setSelectedCells(newSelection);
+    };
+
+    useEffect(() => {
+        if (selectedCells.length < 4) return;
+        wordDefinitions.forEach(def => {
+            if (def.coords.length === selectedCells.length && !foundWords.includes(def.word)) {
+                const isMatch = def.coords.every(coord => selectedCells.some(sel => sel.r === coord.r && sel.c === coord.c));
+                if (isMatch) {
+                    playSound('correct');
+                    setFoundWords(prev => [...prev, def.word]);
+                    setLockedCells(prev => [...prev, ...selectedCells]);
+                    setSelectedCells([]);
+                }
+            }
+        });
+    }, [selectedCells]);
+
+    return (
+        <div className="max-w-4xl mx-auto slide-up flex flex-col items-center">
+            <h2 className="text-3xl font-black text-[#00F5D4] mb-8 uppercase tracking-tighter">Caça-Palavras 🔍</h2>
+            <div className="flex flex-col md:flex-row gap-8 items-start">
+                <div className="bg-[#1A1035] p-5 rounded-[40px] border-4 border-[#7B2FFF]/30 shadow-2xl">
+                    {initialGrid.map((row, r) => (
+                        <div key={r} className="flex">
+                            {row.map((char, c) => {
+                                const isSel = selectedCells.some(cell => cell.r === r && cell.c === c);
+                                const isLock = lockedCells.some(cell => cell.r === r && cell.c === c);
+                                return (
+                                    <div key={c} onClick={() => handleCellClick(r, c)} className={`word-grid-cell m-1 ${isSel ? 'cell-selected' : isLock ? 'cell-locked' : 'bg-white/5 text-white/40 hover:bg-white/10'}`}>
+                                        {char}
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    ))}
+                </div>
+                <div className="bg-white/5 p-8 rounded-3xl border-2 border-white/10 w-full md:w-64">
+                    <h3 className="text-[#7B2FFF] font-black uppercase text-xs mb-6 text-center tracking-widest">Missões</h3>
+                    <div className="space-y-2">
+                        {wordDefinitions.map(def => (
+                            <div key={def.word} className={`flex items-center gap-2 font-black text-sm transition-all ${foundWords.includes(def.word) ? 'text-[#00F5D4] line-through opacity-40' : 'text-white'}`}>
+                                <div className={`w-4 h-4 rounded-md border-2 ${foundWords.includes(def.word) ? 'bg-[#00F5D4] border-[#00F5D4]' : 'border-white/20'}`}></div>
+                                {def.word}
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+            {foundWords.length === wordDefinitions.length && <Button onClick={() => onComplete(100)} variant="accent" className="mt-12 px-12 py-4">Finalizar Caça-Palavras</Button>}
+        </div>
+    );
+};
+
+const ProgressReport = ({ userProgress, onBack }) => {
+    const curriculum = [
+        { id: 'm1a', lesson: '1A', name: 'Saudações', emoji: '💜' },
+        { id: 'm1b', lesson: '1B', name: 'Gostos e Pronomes', emoji: '🏠' },
+        { id: 'm2a', lesson: '2A', name: 'Dezenas e Verbo Ter', emoji: '💎' },
+        { id: 'm2b', lesson: '2B', name: 'Robux e Horas', emoji: '💰' },
+        { id: 'm3a', lesson: '3A', name: 'Formas e Cores', emoji: '🔺' },
+        { id: 'm3b', lesson: '3B', name: 'Adjetivos', emoji: '🦒' },
+        { id: 'm_calendar', lesson: 'Extra', name: 'Calendário', emoji: '🗓️' }
+    ];
+    return (
+        <div className="max-w-4xl mx-auto slide-up">
+            <div className="bg-[#1A1035] rounded-[40px] p-8 border-2 border-[#00F5D4]/20 shadow-2xl">
+                <h2 className="text-3xl font-black text-white mb-8 text-center">Boletim de Progresso</h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {curriculum.map((lesson) => (
+                        <div key={lesson.id} className={`flex items-center gap-4 p-5 rounded-3xl border-2 ${userProgress[lesson.id]?.completed ? 'bg-[#00F5D4]/5 border-[#00F5D4]/30' : 'bg-white/5 border-white/10'}`}>
+                            <div className="text-3xl">{lesson.emoji}</div>
+                            <div className="flex-1">
+                                <div className="text-[10px] font-black text-white/30 uppercase">{lesson.lesson}</div>
+                                <div className="text-sm font-black text-white">{lesson.name}</div>
+                            </div>
+                            {userProgress[lesson.id]?.completed && <div className="text-xl font-black text-[#00F5D4]">{userProgress[lesson.id].score}</div>}
+                        </div>
+                    ))}
+                </div>
+                <div className="mt-12 text-center"><Button onClick={onBack} variant="ghost" className="px-12">Voltar às Aulas</Button></div>
+            </div>
+        </div>
+    );
+};
+
+const TerPractice = ({ inventory, onComplete }) => {
+    const subjects = ["Eu", "Você", "Ele", "Ela"];
+    const exercises = inventory.length > 0 ? inventory.map((it, i) => ({ subj: subjects[i % 4], verb: (i%4===0?"tenho":"tem"), item: it.name, emoji: it.emoji, q: `${subjects[i % 4]} ____ um(a) ${it.name} ${it.emoji}`, a: (i%4===0?"tenho":"tem"), trans: "Yo tengo/Él tiene..." })) : [{subj:"Eu", a:"tenho", q:"Eu ____ Robux 💰", trans: "Yo tengo Robux"}];
+    return <FillBlanks data={exercises} onComplete={onComplete} title="Prática: Verbo TER" subtitle="Eu tenho, você tem..." />;
+};
+
+const RobuxMarket = ({ onComplete }) => {
+    const [inv, setInv] = useState([]);
+    const [points, setPoints] = useState(500);
+    const [sel, setSel] = useState(null);
+    const buy = (confirm) => {
+        if (confirm === sel.price) { playSound('correct'); setPoints(p => p - sel.price); setInv([...inv, sel]); setSel(null); }
+        else { playSound('error'); }
+    };
+    if (sel) return (
+        <div className="max-w-2xl mx-auto text-center slide-up">
+            <div className="bg-[#1A1035] border-2 rounded-[40px] p-8 border-[#4361EE]/30">
+                <div className="text-8xl mb-6">{sel.emoji}</div>
+                <h3 className="text-3xl font-black text-white mb-2">{sel.name}</h3>
+                <p className="text-[#00F5D4] font-black text-xl mb-8">Preço: {numberToExtensive(sel.price)} Robux</p>
+                <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+                    {[10, 20, 30, 40, 50, 60, 70, 80, 90, 100].map(p => <button key={p} onClick={() => buy(p)} className="bg-white/5 border-2 border-white/10 rounded-2xl py-3 font-black text-white">{numberToExtensive(p)}</button>)}
+                </div>
+                <Button onClick={() => setSel(null)} variant="ghost" className="mt-6">Voltar</Button>
+            </div>
+        </div>
+    );
+    return (
+        <div className="max-w-4xl mx-auto slide-up">
+            <div className="flex justify-between items-center mb-6"><h2 className="text-2xl font-black text-white">Mercado Roblox 🛍️</h2><span className="text-[#FFD60A] font-black">💰 {points} Robux</span></div>
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+                {CLASS_2A_MARKET_ITEMS.map(it => <button key={it.id} onClick={() => setSel(it)} className="p-4 rounded-[28px] border-2 bg-white/5 flex flex-col items-center"><span className="text-4xl mb-2">{it.emoji}</span><span className="text-xs font-black text-[#00F5D4]">{it.price} Robux</span></button>)}
+            </div>
+            <div className="mt-12 text-center"><Button onClick={() => onComplete(inv, 0)} variant="accent">Pronto!</Button></div>
+        </div>
+    );
+};
+
+const MemoryGame = ({ data, onComplete, type='text-text' }) => {
+    const [cards, setCards] = useState([]);
+    const [flipped, setFlipped] = useState([]);
+    const [matched, setMatched] = useState([]);
+    const [locked, setLocked] = useState(false);
+    useEffect(() => {
+        let pool = type==='text-text' ? data.flatMap((it,idx) => [{id:`${idx}-pt`, content:it.pt, pairId:idx, side:'pt'}, {id:`${idx}-es`, content:it.es, pairId:idx, side:'es'}]) : data.flatMap((it,idx) => [{id:`${idx}-emoji`, content:it.emoji, pairId:idx, side:'emoji'}, {id:`${idx}-pt`, content:it.pt, pairId:idx, side:'pt'}]);
+        setCards([...pool].sort(() => Math.random() - 0.5));
+    }, [data, type]);
+    const handleFlip = (c) => {
+        if (locked || flipped.includes(c.id) || matched.includes(c.pairId)) return;
+        const nf = [...flipped, c.id]; setFlipped(nf);
+        if (nf.length === 2) {
+            setLocked(true);
+            if (cards.find(x=>x.id===nf[0]).pairId === cards.find(x=>x.id===nf[1]).pairId) {
+                playSound('correct'); setMatched([...matched, cards.find(x=>x.id===nf[0]).pairId]); setFlipped([]); setLocked(false);
+            } else { playSound('error'); setTimeout(() => { setFlipped([]); setLocked(false); }, 1000); }
+        }
+    };
+    if (matched.length === data.length) return <div className="text-center slide-up text-white flex flex-col items-center"><h2 className="text-4xl font-black text-[#00F5D4] mb-8">Parabéns!</h2><Button onClick={() => onComplete(100)}>Próximo</Button></div>;
+    return (
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto slide-up perspective-1000">
+            {cards.map(c => {
+                const isF = flipped.includes(c.id) || matched.includes(c.pairId);
+                return (
+                    <div key={c.id} onClick={()=>handleFlip(c)} className={`relative h-28 md:h-36 cursor-pointer transition-transform duration-500 transform-style-3d ${isF ? 'rotate-y-180' : ''}`}>
+                        <div className="absolute inset-0 bg-[#7B2FFF] rounded-2xl flex items-center justify-center border-b-4 border-indigo-900 backface-hidden z-20 font-black text-2xl text-white/50">?</div>
+                        <div className={`absolute inset-0 rounded-2xl flex items-center justify-center p-2 rotate-y-180 backface-hidden border-b-4 shadow-xl z-10 ${c.side==='pt'?'bg-[#FF3CAC]':'bg-[#00F5D4]'}`}>
+                            <span className="font-black text-lg md:text-2xl text-center leading-tight">{c.content}</span>
+                        </div>
+                    </div>
+                );
+            })}
+        </div>
+    );
+};
+
+const TheoryLesson = ({ data, onComplete, title }) => {
+    const [slide, setSlide] = useState(0);
+    const cur = data[slide];
+    return (
+        <div className="max-w-4xl mx-auto slide-up flex flex-col theory-card">
+            <h2 className="text-2xl font-black text-[#00F5D4] text-center mb-6">{title}</h2>
+            <div className={`rounded-[40px] p-8 md:p-12 shadow-2xl transition-all duration-500 ${cur.bg} text-white relative overflow-hidden flex-1 flex flex-col justify-between`}>
+                <div>
+                    <h2 className="text-3xl md:text-5xl font-black mb-4 drop-shadow-lg">{cur.title}</h2>
+                    <div className="theory-items-grid cols-3 mt-4">
+                        {cur.items.map((item, i) => (<div key={i} className="theory-item-card"><div className="text-4xl mb-2">{item.n}</div><div className="text-xl font-black">{item.pt}</div></div>))}
+                    </div>
+                </div>
+                <div className="flex justify-between mt-12 items-center">
+                    <Button onClick={() => slide > 0 && setSlide(slide-1)} variant="ghost" className={slide === 0 ? 'invisible' : ''}>Atrás</Button>
+                    <Button onClick={()=>slide < data.length - 1 ? setSlide(slide+1) : onComplete(100)} variant="accent">{slide === data.length - 1 ? 'Pronto!' : 'Próximo'}</Button>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+// ─── MAIN APP ─────────────────────────────────────────────────────────────────
+function App() {
+    const [view, setView] = useState('home');
+    const [step, setStep] = useState(0); 
+    const [currentInv, setCurrentInv] = useState([]);
+    const [user, setUser] = useState(null);
+    const [userProgress, setUserProgress] = useState({});
+    const [db, setDb] = useState(null);
+    const appId = typeof __app_id !== 'undefined' ? __app_id : 'oi-brasil-margo-v4';
+
+    useEffect(() => {
+        const initFirebase = async () => {
+            if (typeof window.firebaseCore === 'undefined') return;
+            const { initializeApp, getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken, getFirestore, doc, onSnapshot } = window.firebaseCore;
+            if (typeof __firebase_config === 'undefined') return;
+            const firebaseConfig = JSON.parse(__firebase_config);
+            const app = initializeApp(firebaseConfig);
+            const auth = getAuth(app);
+            const firestore = getFirestore(app);
+            setDb(firestore);
+            const initAuth = async () => {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) { await signInWithCustomToken(auth, __initial_auth_token); } 
+                else { await signInAnonymously(auth); }
+            };
+            initAuth();
+            onAuthStateChanged(auth, (u) => {
+                setUser(u);
+                if (u) {
+                    const progressRef = doc(firestore, 'artifacts', appId, 'users', u.uid, 'progress', 'data');
+                    onSnapshot(progressRef, (snap) => { if (snap.exists()) setUserProgress(snap.data()); });
+                }
+            });
+        };
+        initFirebase();
+    }, []);
+
+    const completeLesson = async (lessonId, score = 100) => {
+        const newProgress = { ...userProgress, [lessonId]: { completed: true, score: score } };
+        setUserProgress(newProgress);
+        if (user && db) {
+            const { doc, setDoc } = window.firebaseCore;
+            await setDoc(doc(db, 'artifacts', appId, 'users', user.uid, 'progress', 'data'), newProgress, { merge: true });
+        }
+        goHome();
+    };
+
+    const goHome = () => { setView('home'); setStep(0); };
+
+    return (
+        <div className="min-h-screen bg-[#0F0A1E] text-white">
+            <header className="px-4 py-3 border-b border-white/5 flex justify-between items-center sticky top-0 bg-[#0F0A1E] z-50">
+                <div onClick={goHome} className="flex items-center gap-2 cursor-pointer"><span className="text-2xl">👩‍🚀</span><h1 className="text-lg font-black tracking-tight">Oi, Brasil!</h1></div>
+                <div className="flex gap-2">
+                    {view === 'home' && <Button onClick={() => setView('boletim')} variant="ghost" className="text-xs">📊 Boletim</Button>}
+                    {view !== 'home' && <Button onClick={goHome} variant="ghost" className="text-xs">Voltar</Button>}
+                </div>
+            </header>
+            <main className="px-4 py-10 max-w-6xl mx-auto">
+                {view==='home' && (
+                    <div className="flex flex-col items-center justify-center text-center px-3 slide-up min-h-[70vh]">
+                        <h1 className="text-5xl md:text-7xl font-black mb-2 animate-bounce-slow">Oi, Brasil! 🇧🇷</h1>
+                        <p className="text-base font-bold text-[#00F5D4] mb-12 uppercase tracking-widest">¡Aprendé jogando!</p>
+                        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3 w-full">
+                            {[
+                                {id:'m1a', emoji:'💜', label:'Aula 1A', color:'#7B2FFF'},
+                                {id:'m1b', emoji:'🏠', label:'Aula 1B', color:'#4361EE'},
+                                {id:'m2a', emoji:'💎', label:'Aula 2A', color:'#4361EE'},
+                                {id:'m2b', emoji:'💰', label:'Aula 2B', color:'#7B2FFF'},
+                                {id:'m3a', emoji:'🔺', label:'Aula 3A', color:'#FF3CAC'},
+                                {id:'m3b', emoji:'🦒', label:'Aula 3B', color:'#FF3CAC'},
+                                {id:'m_calendar', emoji:'🗓️', label:'Calendário', color:'#00a89c'},
+                                {id:'m_fix', emoji:'🔥', label:'Super Fixação', color:'#FFD60A'},
+                                {id:'m_word', emoji:'🔍', label:'Caça-Palavras', color:'#00F5D4'},
+                                {id:'m_rev', emoji:'🌟', label:'Super Revisão', color:'#FF3CAC'}
+                            ].map(m => (
+                                <button key={m.id} onClick={()=>setView(m.id)} className={`relative rounded-[24px] p-5 transition-all hover:scale-105 shadow-xl border-4 ${userProgress[m.id]?.completed ? 'border-[#00F5D4]' : 'border-transparent'}`} style={{backgroundColor:m.color}}>
+                                    <span className="text-3xl mb-2 block">{m.emoji}</span>
+                                    <h2 className="text-[10px] font-black text-white uppercase leading-tight">{m.label}</h2>
+                                    {userProgress[m.id]?.completed && <span className="absolute -top-2 -right-2 bg-[#00F5D4] text-[#0F0A1E] text-[10px] font-black w-6 h-6 flex items-center justify-center rounded-full border-2 border-[#0F0A1E]">✓</span>}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                )}
+                {view==='boletim' && <ProgressReport userProgress={userProgress} onBack={goHome} />}
+                {view==='m1a' && <MemoryGame data={CLASS_1A_GREETINGS} onComplete={(s) => completeLesson('m1a', s)}/>}
+                {view==='m1b' && (
+                    <>
+                        {step === 0 && <TheoryLesson data={CLASS_1B_THEORY} title="Aula 1B" onComplete={() => setStep(1)}/>}
+                        {step === 1 && <FillBlanks data={CLASS_1B_EXERCISES} title="Praticando" subtitle="Gostos e Pronomes" onComplete={(s) => completeLesson('m1b', s)}/>}
+                    </>
+                )}
+                {view==='m2a' && (
+                    <>
+                        {step === 0 && <TheoryLesson data={CLASS_2A_THEORY} title="Aula 2A" onComplete={() => setStep(1)}/>}
+                        {step === 1 && <RobuxMarket onComplete={(inv) => { setCurrentInv(inv); setStep(2); }}/>}
+                        {step === 2 && <TerPractice inventory={currentInv} onComplete={(s) => completeLesson('m2a', s)}/>}
+                    </>
+                )}
+                {view==='m2b' && <TheoryLesson data={CLASS_2B_THEORY} title="Aula 2B" onComplete={(s) => completeLesson('m2b', s)}/>}
+                {view==='m3a' && (
+                    <>
+                        {step === 0 && <TheoryLesson data={CLASS_3A_THEORY} title="Aula 3A" onComplete={() => setStep(1)}/>}
+                        {step === 1 && <FillBlanks data={CLASS_3A_CHALLENGES} title="Concordância" onComplete={(s) => completeLesson('m3a', s)}/>}
+                    </>
+                )}
+                {/* 🆕 NOVAS AULAS 3B E CALENDÁRIO */}
+                {view==='m3b' && (
+                    <>
+                        {step === 0 && <TheoryLesson data={CLASS_3B_THEORY} title="Aula 3B - Adjetivos" onComplete={() => setStep(1)}/>}
+                        {step === 1 && <ChoiceQuiz data={CLASS_3B_QUIZ} title="Personalidade" onComplete={(s) => completeLesson('m3b', s)}/>}
+                    </>
+                )}
+                {view==='m_calendar' && (
+                    <>
+                        {step === 0 && <TheoryLesson data={CLASS_CALENDAR_THEORY} title="Calendário" onComplete={() => setStep(1)}/>}
+                        {step === 1 && <MemoryGame data={CALENDAR_MEM_DATA} onComplete={() => setStep(2)}/>}
+                        {step === 2 && <ChoiceQuiz data={CALENDAR_QUIZ} title="Quiz de Tempo" onComplete={(s) => completeLesson('m_calendar', s)}/>}
+                    </>
+                )}
+                {view==='m_fix' && <FillBlanks data={COMPLEMENTARY_EXERCISES} title="Super Fixação" onComplete={(s) => completeLesson('m_fix', s)} />}
+                {view==='m_word' && <WordSearch onComplete={(s) => completeLesson('m_word', s)} />}
+                {view==='m_rev' && <FillBlanks data={REVISION_DATA} title="Super Revisão" onComplete={(s) => completeLesson('m_rev', s)} />}
+            </main>
+        </div>
+    );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>
