@@ -63,23 +63,30 @@
         .theory-item-card:hover { transform: scale(1.04); }
 
         .word-grid-cell {
-            width: 42px;
-            height: 42px;
+            width: 32px;
+            height: 32px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 900;
-            font-size: 1.2rem;
-            border-radius: 10px;
+            font-size: 0.9rem;
+            border-radius: 6px;
             cursor: pointer;
             transition: all 0.2s;
             user-select: none;
             touch-action: manipulation;
         }
+        @media (min-width: 768px) {
+            .word-grid-cell {
+                width: 40px;
+                height: 40px;
+                font-size: 1.1rem;
+            }
+        }
         .cell-locked {
             background-color: #00F5D4 !important;
             color: #0F0A1E !important;
-            box-shadow: 0 0 15px rgba(0, 245, 212, 0.4);
+            box-shadow: 0 0 10px rgba(0, 245, 212, 0.4);
         }
         .cell-selected {
             background-color: #FF3CAC !important;
@@ -87,6 +94,40 @@
             transform: scale(1.1);
             z-index: 10;
         }
+        .dialogue-bubble {
+            position: relative;
+            background: #1A1035;
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .dialogue-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 20px;
+            border-width: 10px 10px 0;
+            border-style: solid;
+            border-color: #1A1035 transparent;
+        }
+        .option-btn {
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(255,255,255,0.1);
+            padding: 14px;
+            border-radius: 15px;
+            text-align: left;
+            transition: all 0.2s;
+            color: white;
+            font-weight: bold;
+        }
+        .option-btn:hover { background: rgba(255,255,255,0.1); transform: translateX(5px); }
+        .option-btn.correct { background: #00F5D4; color: #0F0A1E; border-color: #00F5D4; }
+        .option-btn.wrong { background: #FF3CAC; color: white; border-color: #FF3CAC; }
+        
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(0, 245, 212, 0.3); border-radius: 10px; }
     </style>
 </head>
 <body>
@@ -145,7 +186,7 @@ const REVISION_DATA = [
     { q: "Boa ____", a: "tarde", h: "Pós-meio-dia", trans: "Buenas tardes" },
     { q: "Boa ____", a: "noite", h: "Anoitecer", trans: "Buenas noches" },
     { q: "Meu ____ é Margo", a: "nome", h: "Identidade", trans: "Mi nombre es Margo" },
-    { q: "Eu ____ da Argentina", a: "sou", h: "Origem", trans: "Yo soy de Argentina" },
+    { q: "Eu ____ da Russia", a: "sou", h: "Origem", trans: "Yo soy de Rusia" }, 
     { q: "Eu tenho 8 ____", a: "anos", h: "Idade", trans: "Tengo 8 anos" },
     { q: "Muito ____!", a: "prazer", h: "Cortesia", trans: "¡Mucho gusto!" },
     { q: "Até ____", a: "amanhã", h: "Próximo dia", trans: "Hasta mañana" },
@@ -171,23 +212,6 @@ const CLASS_1B_EXERCISES = [
     { q: "Eu ____ espanhol", a: "falo", h: "Idioma", trans: "Yo hablo español" },
     { q: "Eu ____ português", a: "aprendo", h: "Estudo", trans: "Yo aprendo português" },
     { q: "Eu ____ de chocolate", a: "gosto", h: "Gosto", trans: "Me gusta el chocolate" }
-];
-
-const CLASS_1A_COMP_THEORY = [
-    { title:"Os Números (1–5) 🔢", items:[{n:"1",pt:"Um"},{n:"2",pt:"Dois"},{n:"3",pt:"Três"},{n:"4",pt:"Quatro"},{n:"5",pt:"Cinco"}], bg:"bg-[#7B2FFF]" },
-    { title:"Os Números (6–10) 💎", items:[{n:"6",pt:"Seis"},{n:"7",pt:"Sete"},{n:"8",pt:"Oito"},{n:"9",pt:"Nove"},{n:"10",pt:"Dez"}], bg:"bg-[#FF3CAC]" },
-    { title:"As Cores 🎨", items:[{n:"🟥",pt:"Vermelho"},{n:"🟦",pt:"Azul"},{n:"🟩",pt:"Verde"},{n:"🟨",pt:"Amarelo"}], bg:"bg-[#042f24]" }
-];
-
-const CLASS_1B_COMP_THEORY = [
-    { title: "Na Mochila 🎒", items: [{ n: "📓", pt: "Caderno" }, { n: "✏️", pt: "Lápis" }, { n: "🎒", pt: "Mochila" }, { n: "📏", pt: "Régua" }, { n: "📚", pt: "Livro" }, { n: "🍱", pt: "Lancheira" }], bg: "bg-[#FF6B35]" },
-    { title: "No Estojo 👝", items: [{ n: "👝", pt: "Estojo" }, { n: "🖊️", pt: "Caneta" }, { n: "✂️", pt: "Tesoura" }, { n: "🧼", pt: "Borracha" }, { n: "🖍️", pt: "Apontador" }], bg: "bg-[#2EC4B6]", textColor: "text-[#0F0A1E]" },
-    { title: "Quadro de Cores 🎨", items: [{ n: "🟥", pt: "Vermelho" }, { n: "🟦", pt: "Azul" }, { n: "🟩", pt: "Verde" }, { n: "🟨", pt: "Amarelo" }, { n: "🟧", pt: "Laranja" }, { n: "🟪", pt: "Roxo" }, { n: "🩷", pt: "Rosa" }, { n: "⬛", pt: "Preto" }, { n: "⬜", pt: "Branco" }], bg: "bg-[#7B2FFF]" }
-];
-
-const CLASS_1B_COMP_MEM = [
-    { pt: "Mochila", emoji: "🎒" }, { pt: "Lancheira", emoji: "🍱" }, { pt: "Estojo", emoji: "👝" }, { pt: "Caneta", emoji: "🖊️" },
-    { pt: "Borracha", emoji: "🧼" }, { pt: "Tesoura", emoji: "✂️" }, { pt: "Laranja", emoji: "🟧" }, { pt: "Roxo", emoji: "🟪" }
 ];
 
 const CLASS_2A_THEORY = [
@@ -231,7 +255,6 @@ const COMPLEMENTARY_EXERCISES = [
     { q: "O relógio marca oito ____.", a: "horas", h: "Tempo", trans: "Son las oscho horas" }
 ];
 
-// 🆕 NOVOS DADOS AULA 3B & CALENDÁRIO
 const CLASS_3B_THEORY = [
     { title: "Adjetivos Físicos 📏", items: [{n:"🦒", pt:"Alto/Alta"}, {n:"🐭", pt:"Baixo/Baixa"}, {n:"🐘", pt:"Grande"}, {n:"🐜", pt:"Pequeno/Pequena"}, {n:"✨", pt:"Bonito/Bonita"}, {n:"👹", pt:"Feio/Feia"}], bg: "bg-[#4361EE]" },
     { title: "Personalidade 🧠", items: [{n:"😎", pt:"Legal"}, {n:"😤", pt:"Chato/Chata"}, {n:"😂", pt:"Engraçado"}, {n:"🛡️", pt:"Corajoso"}, {n:"🫣", pt:"Tímido/Tímida"}], bg: "bg-[#7B2FFF]" },
@@ -241,7 +264,7 @@ const CLASS_3B_THEORY = [
 const CLASS_3B_QUIZ = [
     { q: "Anya é ____.", trans: "Anya es valiente", opts: ["corajosa", "tímida", "chata"], correct: "corajosa" },
     { q: "O elefante é ____ que o rato.", trans: "El elefante es más grande que el ratón", opts: ["mais pequeno", "menor", "maior"], correct: "maior" },
-    { q: "O professor é muito ____.", trans: "El profesor es muy genial", opts: ["chato", "legal", "feio"], correct: "legal" },
+    { q: "O professor é muito ____.", trans: "El professor es muy genial", opts: ["chato", "legal", "feio"], correct: "legal" },
     { q: "Ele é ____ que eu.", trans: "Él es más alto que yo", opts: ["mais alto", "mais baixo", "tão alto"], correct: "mais alto" }
 ];
 
@@ -259,8 +282,32 @@ const CALENDAR_MEM_DATA = [
 
 const CALENDAR_QUIZ = [
     { q: "Hoje é segunda. Amanhã é ____.", trans: "Hoy es lunes. Mañana es martes", opts: ["quarta", "terça", "sexta"], correct: "terça" },
-    { q: "O primeiro mês do ano é ____.", trans: "El primer mes del año es enero", opts: ["Janeiro", "Março", "Abril"], correct: "Janeiro" },
+    { q: "O primeiro mês do ano é ____.", trans: "El primeiro mês do ano é janeiro", opts: ["Janeiro", "Março", "Abril"], correct: "Janeiro" },
     { q: "Sábado e ____ são o fim de semana.", trans: "Sábado y domingo son el fin de semana", opts: ["Sexta", "Domingo", "Segunda"], correct: "Domingo" }
+];
+
+// DIÁLOGO EXPANDIDO
+const DIALOGUE_TEST = [
+    { speaker: "Leo", avatar: "👦", text: "Oi! Bom ____!", trans: "¡Hola! ¡Buen día!", options: ["tarde", "dia", "noite"], correct: "dia" },
+    { speaker: "Margo", avatar: "👧", text: "Olá! Tudo ____?", trans: "¡Hola! ¿Todo bien?", options: ["bem", "mal", "nome"], correct: "bem" },
+    { speaker: "Leo", avatar: "👦", text: "Qual é o seu ____?", trans: "¿Cuál es tu nombre?", options: ["anos", "nome", "prazer"], correct: "nome" },
+    { speaker: "Margo", avatar: "👧", text: "Meu nome ____ Margo.", trans: "Mi nombre es Margo.", options: ["sou", "falo", "é"], correct: "é" },
+    { speaker: "Leo", avatar: "👦", text: "Eu sou o Leo. Muito ____!", trans: "Yo soy Leo. ¡Mucho gusto!", options: ["tchau", "prazer", "gosto"], correct: "prazer" },
+    { speaker: "Margo", avatar: "👧", text: "O prazer é ____!", trans: "¡El gusto es mío!", options: ["meu", "teu", "seu"], correct: "meu" },
+    { speaker: "Leo", avatar: "👦", text: "Quantos ____ você tem?", trans: "¿Cuántos años tienes?", options: ["quilos", "anos", "horas"], correct: "anos" },
+    { speaker: "Margo", avatar: "👧", text: "Eu tenho ____ anos.", trans: "Tengo ocho años.", options: ["dez", "dois", "oito"], correct: "oito" },
+    { speaker: "Leo", avatar: "👦", text: "De onde você ____?", trans: "¿De dónde eres?", options: ["é", "sou", "tem"], correct: "é" },
+    { speaker: "Margo", avatar: "👧", text: "Eu sou da ____.", trans: "Soy de Rusia.", options: ["Brasil", "Espanha", "Russia"], correct: "Russia" }, 
+    { speaker: "Leo", avatar: "👦", text: "Hoje é ____. Você estuda?", trans: "Hoy es lunes. ¿Estudias?", options: ["segunda", "sábado", "domingo"], correct: "segunda" },
+    { speaker: "Margo", avatar: "👧", text: "Não, hoje eu ____ português.", trans: "No, hoy aprendo português.", options: ["aprendo", "moro", "falo"], correct: "aprendo" },
+    { speaker: "Leo", avatar: "👦", text: "Você ____ de desenhar?", trans: "¿Te gusta dibujar?", options: ["sou", "gosta", "tenho"], correct: "gosta" },
+    { speaker: "Margo", avatar: "👧", text: "Sim, eu ____ desenhar!", trans: "¡Sí, me encanta dibujar!", options: ["adoro", "não", "chato"], correct: "adoro" },
+    { speaker: "Leo", avatar: "👦", text: "Qual é a sua ____ favorita?", trans: "¿Cuál es tu color favorito?", options: ["forma", "cor", "hora"], correct: "cor" },
+    { speaker: "Margo", avatar: "👧", text: "Minha cor favorita é ____.", trans: "Mi color favorito es rosa.", options: ["preto", "branco", "rosa"], correct: "rosa" },
+    { speaker: "Leo", avatar: "👦", text: "O seu lápis é ____?", trans: "¿Tu lápiz es azul?", options: ["azul", "vermelho", "verde"], correct: "azul" },
+    { speaker: "Margo", avatar: "👧", text: "Não, o meu é ____.", trans: "No, el mío es negro.", options: ["amarelo", "preto", "roxo"], correct: "preto" },
+    { speaker: "Leo", avatar: "👦", text: "Você é ____ que eu?", trans: "¿Eres más alta que yo?", options: ["menor", "maior", "grande"], correct: "maior" },
+    { speaker: "Margo", avatar: "👧", text: "Não, eu sou mais ____.", trans: "No, yo soy más baixa.", options: ["alta", "baixa", "legal"], correct: "baixa" }
 ];
 
 // ─── COMPONENTS ─────────────────────────────────────────────────────────────
@@ -302,6 +349,116 @@ const ChoiceQuiz = ({ data, onComplete, title }) => {
     );
 };
 
+const DialogueChallenge = ({ onComplete }) => {
+    const [currentStep, setCurrentStep] = useState(() => {
+        const saved = localStorage.getItem('margo_dialogue_step');
+        return (saved && parseInt(saved) < DIALOGUE_TEST.length) ? parseInt(saved) : 0;
+    });
+    const [history, setHistory] = useState(() => {
+        const saved = localStorage.getItem('margo_dialogue_history');
+        return saved ? JSON.parse(saved) : [];
+    });
+    const [feedback, setFeedback] = useState(null);
+    const [showFull, setShowFull] = useState(false);
+
+    const currentLine = DIALOGUE_TEST[currentStep];
+
+    const handleAnswer = (opt) => {
+        if (feedback) return;
+        if (opt === currentLine.correct) {
+            playSound('correct');
+            const filledText = currentLine.text.replace('____', opt);
+            const newHistory = [...history, { ...currentLine, filledText }];
+            
+            setFeedback({ type: 'correct', choice: opt });
+            setHistory(newHistory);
+            localStorage.setItem('margo_dialogue_history', JSON.stringify(newHistory));
+
+            setTimeout(() => {
+                const nextStep = currentStep + 1;
+                if (nextStep < DIALOGUE_TEST.length) {
+                    setCurrentStep(nextStep);
+                    localStorage.setItem('margo_dialogue_step', nextStep.toString());
+                    setFeedback(null);
+                } else {
+                    setShowFull(true);
+                    localStorage.removeItem('margo_dialogue_step');
+                }
+            }, 1000);
+        } else {
+            playSound('error');
+            setFeedback({ type: 'wrong', choice: opt });
+            setTimeout(() => setFeedback(null), 800);
+        }
+    };
+
+    if (showFull) {
+        return (
+            <div className="max-w-2xl mx-auto slide-up bg-[#1A1035] p-8 rounded-[40px] border-2 border-[#00F5D4] shadow-2xl">
+                <h2 className="text-3xl font-black text-[#00F5D4] mb-8 text-center uppercase">Diálogo Completo 🏆</h2>
+                <div className="space-y-4 mb-10 max-h-[50vh] overflow-y-auto pr-4 custom-scrollbar">
+                    {history.map((h, i) => (
+                        <div key={i} className={`flex items-start gap-3 ${h.speaker === 'Leo' ? 'flex-row' : 'flex-row-reverse'}`}>
+                            <div className="text-3xl">{h.avatar}</div>
+                            <div className={`p-4 rounded-2xl max-w-[80%] ${h.speaker === 'Leo' ? 'bg-[#7B2FFF] rounded-tl-none' : 'bg-[#FF3CAC] rounded-tr-none'}`}>
+                                <p className="font-bold text-white leading-tight">{h.filledText}</p>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+                <div className="text-center">
+                    <Button onClick={() => { localStorage.removeItem('margo_dialogue_history'); onComplete(100); }} variant="accent" className="px-12 py-4">Finalizar Desafio</Button>
+                </div>
+            </div>
+        );
+    }
+
+    return (
+        <div className="max-w-2xl mx-auto slide-up">
+            <h2 className="text-center text-2xl font-black text-[#00F5D4] mb-8 uppercase tracking-tighter">Super Teste: O Encontro</h2>
+            
+            <div className="flex justify-between mb-4 items-center">
+                <div className="h-3 bg-white/10 flex-1 rounded-full mr-4 overflow-hidden">
+                    <div className="h-full bg-[#00F5D4] transition-all duration-500" style={{ width: `${(currentStep / DIALOGUE_TEST.length) * 100}%` }}></div>
+                </div>
+                <div className="text-[10px] font-black text-white/30">{currentStep + 1} / {DIALOGUE_TEST.length}</div>
+            </div>
+            
+            <div className="flex items-end gap-4 mb-8">
+                <div className="text-7xl animate-bounce-slow">{currentLine.avatar}</div>
+                <div className="dialogue-bubble flex-1 shadow-2xl">
+                    <div className="text-[10px] font-black text-[#FF3CAC] mb-1 uppercase tracking-widest">{currentLine.speaker}</div>
+                    <div className="text-2xl text-white font-black leading-tight">
+                        {currentLine.text.split('____').map((part, i, arr) => (
+                            <span key={i}>
+                                {part}
+                                {i < arr.length - 1 && <span className="text-[#00F5D4] border-b-4 border-dotted border-[#00F5D4]">_______</span>}
+                            </span>
+                        ))}
+                    </div>
+                    <div className="mt-2 text-xs text-white/30 italic">"{currentLine.trans}"</div>
+                </div>
+            </div>
+
+            <div className="grid grid-cols-1 gap-3">
+                {currentLine.options.map((opt, idx) => (
+                    <button 
+                        key={idx}
+                        onClick={() => handleAnswer(opt)}
+                        className={`option-btn ${feedback?.choice === opt ? (feedback.type === 'correct' ? 'correct' : 'wrong animate-shake') : ''}`}
+                    >
+                        {opt}
+                    </button>
+                ))}
+            </div>
+
+            <div className="mt-12 text-center">
+                <Button onClick={() => { if(confirm("Reiniciar o diálogo?")) { localStorage.removeItem('margo_dialogue_step'); localStorage.removeItem('margo_dialogue_history'); setCurrentStep(0); setHistory([]); } }} variant="ghost" className="text-[10px] opacity-20 hover:opacity-100">Reiniciar Teste</Button>
+            </div>
+        </div>
+    );
+};
+
 const FillBlanks = ({ data, onComplete, title, subtitle }) => {
     const [index, setIndex] = useState(0);
     const [input, setInput] = useState('');
@@ -330,27 +487,42 @@ const FillBlanks = ({ data, onComplete, title, subtitle }) => {
     );
 };
 
+// CAÇA PALAVRAS MISTURADO (MESES DO ANO)
 const WordSearch = ({ onComplete }) => {
+    // Definição das coordenadas das palavras em direções variadas
     const wordDefinitions = [
-        { word: "ESTRELA", coords: [{r:0,c:1},{r:0,c:2},{r:0,c:3},{r:0,c:4},{r:0,c:5},{r:0,c:6},{r:0,c:7}] },
-        { word: "BRANCA", coords: [{r:2,c:2},{r:2,c:3},{r:2,c:4},{r:2,c:5},{r:2,c:6},{r:2,c:7}] },
-        { word: "AZUL", coords: [{r:5,c:1},{r:5,c:2},{r:5,c:3},{r:5,c:4}] },
-        { word: "VERDE", coords: [{r:1,c:9},{r:2,c:9},{r:3,c:9},{r:4,c:9},{r:5,c:9}] },
-        { word: "LEGAL", coords: [{r:8,c:0},{r:8,c:1},{r:8,c:2},{r:8,c:3},{r:8,c:4}] },
-        { word: "GRANDE", coords: [{r:4,c:0},{r:4,c:1},{r:4,c:2},{r:4,c:3},{r:4,c:4},{r:4,c:5}] }
+        { word: "JANEIRO", coords: [{r:0,c:1},{r:0,c:2},{r:0,c:3},{r:0,c:4},{r:0,c:5},{r:0,c:6},{r:0,c:7}] }, // H
+        { word: "FEVEREIRO", coords: [{r:1,c:0},{r:2,c:0},{r:3,c:0},{r:4,c:0},{r:5,c:0},{r:6,c:0},{r:7,c:0},{r:8,c:0},{r:9,c:0}] }, // V
+        { word: "MARCO", coords: [{r:10,c:0},{r:10,c:1},{r:10,c:2},{r:10,c:3},{r:10,c:4}] }, // H
+        { word: "ABRIL", coords: [{r:2,c:12},{r:3,c:12},{r:4,c:12},{r:5,c:12},{r:6,c:12}] }, // V
+        { word: "MAIO", coords: [{r:1,c:9},{r:1,c:10},{r:1,c:11},{r:1,c:12}] }, // H
+        { word: "JUNHO", coords: [{r:3,c:3},{r:4,c:4},{r:5,c:5},{r:6,c:6},{r:7,c:7}] }, // D
+        { word: "JULHO", coords: [{r:8,c:13},{r:9,c:13},{r:10,c:13},{r:11,c:13},{r:12,c:13}] }, // V
+        { word: "AGOSTO", coords: [{r:13,c:1},{r:13,c:2},{r:13,c:3},{r:13,c:4},{r:13,c:5},{r:13,c:6}] }, // H
+        { word: "SETEMBRO", coords: [{r:0,c:13},{r:1,c:13},{r:2,c:13},{r:3,c:13},{r:4,c:13},{r:5,c:13},{r:6,c:13},{r:7,c:13}] }, // V
+        { word: "OUTUBRO", coords: [{r:7,c:7},{r:8,c:8},{r:9,c:9},{r:10,c:10},{r:11,c:11},{r:12,c:12},{r:13,c:13}] }, // D (Overlap com Junho no O)
+        { word: "NOVEMBRO", coords: [{r:11,c:4},{r:11,c:5},{r:11,c:6},{r:11,c:7},{r:11,c:8},{r:11,c:9},{r:11,c:10},{r:11,c:11}] }, // H
+        { word: "DEZEMBRO", coords: [{r:2,c:8},{r:3,c:8},{r:4,c:8},{r:5,c:8},{r:6,c:8},{r:7,c:8},{r:8,c:8},{r:9,c:8}] } // V
     ];
+    
+    // Grade 14x14 misturada
     const initialGrid = [
-        ['P','E','S','T','R','E','L','A','W','K'],
-        ['Q','F','G','H','J','K','L','M','N','V'],
-        ['U','P','B','R','A','N','C','A','T','E'],
-        ['A','X','Y','Z','W','T','B','S','V','R'],
-        ['G','R','A','N','D','E','R','O','B','D'],
-        ['R','A','Z','U','L','O','P','Q','L','E'],
-        ['A','I','V','C','R','B','S','T','N','O'],
-        ['D','A','N','U','D','U','X','Y','O','P'],
-        ['L','E','G','A','L','X','Q','R','I','L'],
-        ['W','M','X','D','Y','G','S','A','T','U']
+        ['P','J','A','N','E','I','R','O','L','X','Y','Z','Q','S'],
+        ['F','W','E','R','T','Y','U','I','O','M','A','I','O','E'],
+        ['E','Q','R','S','T','U','V','W','D','X','Y','Z','A','T'],
+        ['V','A','S','J','U','I','K','L','E','O','P','Q','B','E'],
+        ['E','B','C','D','U','F','G','H','Z','I','J','K','R','M'],
+        ['R','L','M','N','O','N','P','Q','E','R','S','T','I','B'],
+        ['E','X','Y','Z','W','R','H','T','M','U','V','W','L','R'],
+        ['I','Q','R','S','T','U','V','O','B','X','Y','Z','W','O'],
+        ['R','G','H','I','J','K','L','M','R','U','V','W','X','J'],
+        ['O','Z','X','Y','K','L','M','N','O','T','B','N','M','U'],
+        ['M','A','R','C','O','Q','R','S','T','U','U','V','W','L'],
+        ['S','T','U','V','N','O','V','E','M','B','R','O','X','H'],
+        ['A','B','C','D','E','F','G','H','I','J','K','R','O','O'],
+        ['X','A','G','O','S','T','O','W','Y','Z','Q','R','S','O']
     ];
+
     const [foundWords, setFoundWords] = useState([]);
     const [selectedCells, setSelectedCells] = useState([]);
     const [lockedCells, setLockedCells] = useState([]); 
@@ -378,17 +550,17 @@ const WordSearch = ({ onComplete }) => {
     }, [selectedCells]);
 
     return (
-        <div className="max-w-4xl mx-auto slide-up flex flex-col items-center">
-            <h2 className="text-3xl font-black text-[#00F5D4] mb-8 uppercase tracking-tighter">Caça-Palavras 🔍</h2>
-            <div className="flex flex-col md:flex-row gap-8 items-start">
-                <div className="bg-[#1A1035] p-5 rounded-[40px] border-4 border-[#7B2FFF]/30 shadow-2xl">
+        <div className="max-w-5xl mx-auto slide-up flex flex-col items-center">
+            <h2 className="text-3xl font-black text-[#00F5D4] mb-8 uppercase tracking-tighter">Caça-Meses 🗓️</h2>
+            <div className="flex flex-col xl:flex-row gap-8 items-start w-full justify-center">
+                <div className="bg-[#1A1035] p-3 md:p-5 rounded-[40px] border-4 border-[#7B2FFF]/30 shadow-2xl overflow-x-auto w-full max-w-max self-center">
                     {initialGrid.map((row, r) => (
                         <div key={r} className="flex">
                             {row.map((char, c) => {
                                 const isSel = selectedCells.some(cell => cell.r === r && cell.c === c);
                                 const isLock = lockedCells.some(cell => cell.r === r && cell.c === c);
                                 return (
-                                    <div key={c} onClick={() => handleCellClick(r, c)} className={`word-grid-cell m-1 ${isSel ? 'cell-selected' : isLock ? 'cell-locked' : 'bg-white/5 text-white/40 hover:bg-white/10'}`}>
+                                    <div key={c} onClick={() => handleCellClick(r, c)} className={`word-grid-cell m-0.5 ${isSel ? 'cell-selected' : isLock ? 'cell-locked' : 'bg-white/5 text-white/40 hover:bg-white/10'}`}>
                                         {char}
                                     </div>
                                 );
@@ -396,19 +568,19 @@ const WordSearch = ({ onComplete }) => {
                         </div>
                     ))}
                 </div>
-                <div className="bg-white/5 p-8 rounded-3xl border-2 border-white/10 w-full md:w-64">
-                    <h3 className="text-[#7B2FFF] font-black uppercase text-xs mb-6 text-center tracking-widest">Missões</h3>
-                    <div className="space-y-2">
+                <div className="bg-white/5 p-8 rounded-3xl border-2 border-white/10 w-full xl:w-64 max-h-[600px] overflow-y-auto custom-scrollbar">
+                    <h3 className="text-[#7B2FFF] font-black uppercase text-xs mb-6 text-center tracking-widest">Os 12 Meses</h3>
+                    <div className="grid grid-cols-2 xl:grid-cols-1 gap-2">
                         {wordDefinitions.map(def => (
-                            <div key={def.word} className={`flex items-center gap-2 font-black text-sm transition-all ${foundWords.includes(def.word) ? 'text-[#00F5D4] line-through opacity-40' : 'text-white'}`}>
-                                <div className={`w-4 h-4 rounded-md border-2 ${foundWords.includes(def.word) ? 'bg-[#00F5D4] border-[#00F5D4]' : 'border-white/20'}`}></div>
+                            <div key={def.word} className={`flex items-center gap-2 font-black text-xs transition-all ${foundWords.includes(def.word) ? 'text-[#00F5D4] line-through opacity-40' : 'text-white'}`}>
+                                <div className={`w-3 h-3 rounded-sm border-2 ${foundWords.includes(def.word) ? 'bg-[#00F5D4] border-[#00F5D4]' : 'border-white/20'}`}></div>
                                 {def.word}
                             </div>
                         ))}
                     </div>
                 </div>
             </div>
-            {foundWords.length === wordDefinitions.length && <Button onClick={() => onComplete(100)} variant="accent" className="mt-12 px-12 py-4">Finalizar Caça-Palavras</Button>}
+            {foundWords.length === wordDefinitions.length && <Button onClick={() => onComplete(100)} variant="accent" className="mt-12 px-12 py-4">Missão Cumprida!</Button>}
         </div>
     );
 };
@@ -421,7 +593,8 @@ const ProgressReport = ({ userProgress, onBack }) => {
         { id: 'm2b', lesson: '2B', name: 'Robux e Horas', emoji: '💰' },
         { id: 'm3a', lesson: '3A', name: 'Formas e Cores', emoji: '🔺' },
         { id: 'm3b', lesson: '3B', name: 'Adjetivos', emoji: '🦒' },
-        { id: 'm_calendar', lesson: 'Extra', name: 'Calendário', emoji: '🗓️' }
+        { id: 'm_calendar', lesson: 'Extra', name: 'Calendário', emoji: '🗓️' },
+        { id: 'm_test', lesson: 'Teste', name: 'O Diálogo', emoji: '🎬' }
     ];
     return (
         <div className="max-w-4xl mx-auto slide-up">
@@ -613,9 +786,9 @@ function App() {
                                 {id:'m3a', emoji:'🔺', label:'Aula 3A', color:'#FF3CAC'},
                                 {id:'m3b', emoji:'🦒', label:'Aula 3B', color:'#FF3CAC'},
                                 {id:'m_calendar', emoji:'🗓️', label:'Calendário', color:'#00a89c'},
-                                {id:'m_fix', emoji:'🔥', label:'Super Fixação', color:'#FFD60A'},
+                                {id:'m_test', emoji:'🎬', label:'SUPER TESTE', color:'#FF3CAC'},
                                 {id:'m_word', emoji:'🔍', label:'Caça-Palavras', color:'#00F5D4'},
-                                {id:'m_rev', emoji:'🌟', label:'Super Revisão', color:'#FF3CAC'}
+                                {id:'m_fix', emoji:'🔥', label:'Fixação', color:'#FFD60A'}
                             ].map(m => (
                                 <button key={m.id} onClick={()=>setView(m.id)} className={`relative rounded-[24px] p-5 transition-all hover:scale-105 shadow-xl border-4 ${userProgress[m.id]?.completed ? 'border-[#00F5D4]' : 'border-transparent'}`} style={{backgroundColor:m.color}}>
                                     <span className="text-3xl mb-2 block">{m.emoji}</span>
@@ -648,7 +821,6 @@ function App() {
                         {step === 1 && <FillBlanks data={CLASS_3A_CHALLENGES} title="Concordância" onComplete={(s) => completeLesson('m3a', s)}/>}
                     </>
                 )}
-                {/* 🆕 NOVAS AULAS 3B E CALENDÁRIO */}
                 {view==='m3b' && (
                     <>
                         {step === 0 && <TheoryLesson data={CLASS_3B_THEORY} title="Aula 3B - Adjetivos" onComplete={() => setStep(1)}/>}
@@ -662,6 +834,7 @@ function App() {
                         {step === 2 && <ChoiceQuiz data={CALENDAR_QUIZ} title="Quiz de Tempo" onComplete={(s) => completeLesson('m_calendar', s)}/>}
                     </>
                 )}
+                {view==='m_test' && <DialogueChallenge onComplete={(s) => completeLesson('m_test', s)} />}
                 {view==='m_fix' && <FillBlanks data={COMPLEMENTARY_EXERCISES} title="Super Fixação" onComplete={(s) => completeLesson('m_fix', s)} />}
                 {view==='m_word' && <WordSearch onComplete={(s) => completeLesson('m_word', s)} />}
                 {view==='m_rev' && <FillBlanks data={REVISION_DATA} title="Super Revisão" onComplete={(s) => completeLesson('m_rev', s)} />}

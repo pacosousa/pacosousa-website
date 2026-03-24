@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Srpski / Crnogorski — Vježbe</title>
+
+<style>
+
+body{
+font-family:Arial, Helvetica, sans-serif;
+background:#f5f0e8;
+margin:0;
+}
+
+header{
+background:#1a1008;
+color:white;
+padding:30px;
+text-align:center;
+}
+
+.container{
+max-width:900px;
+margin:auto;
+padding:20px;
+}
+
+.card{
+background:white;
+padding:20px;
+margin-bottom:15px;
+border-left:5px solid #c9962a;
+}
+
+button{
+padding:8px 14px;
+margin:5px;
+cursor:pointer;
+}
+
+.correct{color:green}
+.wrong{color:red}
+
+.stats{
+position:fixed;
+bottom:0;
+left:0;
+right:0;
+background:#1a1008;
+color:white;
+display:flex;
+justify-content:space-around;
+padding:10px;
+}
+
+input{
+padding:6px;
+font-size:14px;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>Srpski / Crnogorski — Vježbe</h1>
+<p>Treino: restaurante, amigos e cidade</p>
+</header>
+
+<div class="container" id="exerciseContainer"></div>
+
+<div class="stats">
+<div>XP: <span id="xp">0</span></div>
+<div>Streak: <span id="streak">0</span></div>
+<div>Respondidas: <span id="answered">0</span></div>
+</div>
+
+<script>
+
+let xp=0
+let streak=0
+let answered=0
+
+let exercises=[
+
+{q:"Ja _____ kafu.",options:["pijem","piješ","pije"],a:"pijem"},
+
+{q:"Prijatelj _____ pivo.",options:["pijem","pije","piju"],a:"pije"},
+
+{q:"Mi _____ vino.",options:["pijemo","piješ","pije"],a:"pijemo"},
+
+{q:"Prijatelj _____ vodu.",options:["kupujem","kupuje","kupujemo"],a:"kupuje"},
+
+{q:"Ja _____ restoran.",options:["vidim","vidiš","vide"],a:"vidim"},
+
+{q:"Oni _____ u restoran.",options:["idem","idu","idemo"],a:"idu"},
+
+{q:"Ja _____ kafu.",options:["volim","voliš","voli"],a:"volim"},
+
+{q:"Prijatelj _____ novac.",options:["imam","ima","imaš"],a:"ima"},
+
+{q:"Mi _____ za stolom.",options:["sedimo","sedim","sede"],a:"sedimo"},
+
+{q:"Konobar _____ račun.",options:["tražim","traži","tražimo"],a:"traži"},
+
+
+{q:"Ja pijem _____ (kafa).",options:["kafa","kafu","kafe"],a:"kafu"},
+
+{q:"Vidim _____ (konobar).",options:["konobar","konobara","konobaru"],a:"konobara"},
+
+{q:"Idem u _____ (grad).",options:["grad","gradu","grada"],a:"grad"},
+
+{q:"Sedim u _____ (restoran).",options:["restoran","restoranu","restorana"],a:"restoranu"},
+
+{q:"Razgovaram sa _____ (prijatelj).",options:["prijatelja","prijateljem","prijatelju"],a:"prijateljem"},
+
+{q:"Bez _____ nema kafe.",options:["novac","novca","novcu"],a:"novca"},
+
+
+{q:"Pijem pivo _____ vino.",options:["i","ili","ali"],a:"i"},
+
+{q:"Pijem pivo _____ vino. (escolha)",options:["ili","i","ali"],a:"ili"},
+
+{q:"Volim vino, _____ pijem pivo.",options:["ali","i","ili"],a:"ali"},
+
+{q:"Ja idem u restoran, _____ prijatelj ide u grad.",options:["a","i","ali"],a:"a"},
+
+
+{q:"Pijem _____ vodu.",options:["hladnu","hladan","hladno"],a:"hladnu"},
+
+{q:"Restoran je _____.",options:["dobar","dobra","dobro"],a:"dobar"},
+
+{q:"Imam _____ sto.",options:["mali","mala","malo"],a:"mali"},
+
+{q:"Voda je _____.",options:["hladna","hladan","hladno"],a:"hladna"},
+
+
+{q:"Traduza: Eu bebo café.",type:"text",a:"ja pijem kafu"},
+
+{q:"Traduza: Vou ao restaurante.",type:"text",a:"idem u restoran"},
+
+{q:"Traduza: O garçom procura a conta.",type:"text",a:"konobar traži račun"},
+
+{q:"Traduza: Estou sentado no restaurante.",type:"text",a:"sedim u restoranu"},
+
+{q:"Traduza: Sem dinheiro não há café.",type:"text",a:"bez novca nema kafe"},
+
+{q:"Traduza: Eu gosto de vinho e cerveja.",type:"text",a:"volim vino i pivo"},
+
+
+{q:"Ko dolazi? (responda)",type:"text",a:"prijatelj dolazi"},
+
+{q:"Šta piješ? (use espreso)",type:"text",a:"pijem espreso"},
+
+{q:"Gde sediš?",type:"text",a:"sedim u restoranu"},
+
+{q:"Šta voliš? (use pivo)",type:"text",a:"volim pivo"}
+
+]
+
+
+function shuffle(arr){
+for(let i=arr.length-1;i>0;i--){
+let j=Math.floor(Math.random()*(i+1))
+[arr[i],arr[j]]=[arr[j],arr[i]]
+}
+}
+
+shuffle(exercises)
+
+let container=document.getElementById("exerciseContainer")
+
+function loadExercises(){
+
+container.innerHTML=""
+
+exercises.forEach((ex,i)=>{
+
+let card=document.createElement("div")
+card.className="card"
+
+let html=`<div>${ex.q}</div>`
+
+if(ex.type==="text"){
+
+html+=`<input id="input${i}">`
+html+=`<button onclick="checkText(${i})">Verificar</button>`
+
+}else{
+
+ex.options.forEach(opt=>{
+html+=`<button onclick="answer(${i},'${opt}')">${opt}</button>`
+})
+
+}
+
+html+=`<div id="fb${i}"></div>`
+
+card.innerHTML=html
+container.appendChild(card)
+
+})
+
+}
+
+function normalize(str){
+
+return str.toLowerCase()
+.trim()
+.replace(/[čć]/g,"c")
+.replace(/[š]/g,"s")
+.replace(/[ž]/g,"z")
+.replace(/[đ]/g,"dj")
+
+}
+
+function answer(i,opt){
+
+let ex=exercises[i]
+let fb=document.getElementById("fb"+i)
+
+answered++
+
+if(opt===ex.a){
+
+fb.innerHTML="<span class='correct'>✓ tačno</span>"
+xp+=10
+streak++
+
+}else{
+
+fb.innerHTML="<span class='wrong'>✗ tačno: "+ex.a+"</span>"
+streak=0
+
+}
+
+updateStats()
+
+}
+
+function checkText(i){
+
+let ex=exercises[i]
+let fb=document.getElementById("fb"+i)
+
+let val=document.getElementById("input"+i).value
+
+answered++
+
+if(normalize(val)===normalize(ex.a)){
+
+fb.innerHTML="<span class='correct'>✓ tačno</span>"
+xp+=15
+streak++
+
+}else{
+
+fb.innerHTML="<span class='wrong'>✗ tačno: "+ex.a+"</span>"
+streak=0
+
+}
+
+updateStats()
+
+}
+
+function updateStats(){
+
+document.getElementById("xp").innerText=xp
+document.getElementById("streak").innerText=streak
+document.getElementById("answered").innerText=answered
+
+}
+
+loadExercises()
+
+</script>
+
+</body>
+</html>
