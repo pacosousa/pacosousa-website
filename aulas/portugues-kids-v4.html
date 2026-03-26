@@ -236,25 +236,6 @@ const CLASS_3A_CHALLENGES = [
     { q: "Agora é ____-dia.", a: "meio", trans: "Ahora es mediodía" }
 ];
 
-const CLASS_2A_MARKET_ITEMS = [
-    { id: 1, name: "Skin de Dragão", price: 80, emoji: "🐲" },
-    { id: 2, name: "Espada de Diamante", price: 100, emoji: "⚔️" },
-    { id: 3, name: "Mochila Gigante", price: 50, emoji: "🎒" },
-    { id: 4, name: "Capa de Herói", price: 20, emoji: "🦸‍♀️" },
-    { id: 5, name: "Gema Mágica", price: 90, emoji: "💎" }
-];
-
-const COMPLEMENTARY_EXERCISES = [
-    { q: "Para abrir a porta às 12:00, você diz: É meio-____", a: "dia", h: "12:00", trans: "Es mediodía" },
-    { q: "O cadeado é um ____.", a: "triângulo", h: "🔺", trans: "El candado es un triângulo" },
-    { q: "A skin custa 100 Robux. Ela é ____.", a: "cara", h: "Preço alto", trans: "La skin es cara" },
-    { q: "Você tem 20 minutos. Escrevemos: ____", a: "vinte", h: "20", trans: "Veinte" },
-    { q: "A estrela é ____.", a: "branca", h: "Cor", trans: "La estrella es blanca" },
-    { q: "O sapato é ____.", a: "branco", h: "Cor (Masculino)", trans: "El sapato es blanco" },
-    { q: "A camiseta é ____.", a: "branca", h: "Cor (Feminino)", trans: "La camiseta es blanca" },
-    { q: "O relógio marca oito ____.", a: "horas", h: "Tempo", trans: "Son las oscho horas" }
-];
-
 const CLASS_3B_THEORY = [
     { title: "Adjetivos Físicos 📏", items: [{n:"🦒", pt:"Alto/Alta"}, {n:"🐭", pt:"Baixo/Baixa"}, {n:"🐘", pt:"Grande"}, {n:"🐜", pt:"Pequeno/Pequena"}, {n:"✨", pt:"Bonito/Bonita"}, {n:"👹", pt:"Feio/Feia"}], bg: "bg-[#4361EE]" },
     { title: "Personalidade 🧠", items: [{n:"😎", pt:"Legal"}, {n:"😤", pt:"Chato/Chata"}, {n:"😂", pt:"Engraçado"}, {n:"🛡️", pt:"Corajoso"}, {n:"🫣", pt:"Tímido/Tímida"}], bg: "bg-[#7B2FFF]" },
@@ -286,21 +267,47 @@ const CALENDAR_QUIZ = [
     { q: "Sábado e ____ são o fim de semana.", trans: "Sábado y domingo son el fin de semana", opts: ["Sexta", "Domingo", "Segunda"], correct: "Domingo" }
 ];
 
-// DIÁLOGO EXPANDIDO
+// --- NOVA AULA: PRAIA ---
+const CLASS_BEACH_THEORY = [
+    { title: "Vocabulário da Praia 🏖️", items: [{n:"🏖️", pt:"praia"}, {n:"🌊", pt:"mar"}, {n:"🏜️", pt:"areia"}, {n:"☀️", pt:"sol"}, {n:"🌊", pt:"onda"}], bg: "bg-[#00a89c]" },
+    { title: "Objetos de Praia 🕶️", items: [{n:"🧖‍♀️", pt:"toalha"}, {n:"🕶️", pt:"óculos de sol"}, {n:"🧴", pt:"protetor solar"}, {n:"🍦", pt:"sorvete"}, {n:"🥥", pt:"água de coco"}], bg: "bg-[#FF6B35]" },
+    { title: "Frases de Praia 🗣️", items: [{n:"🔥", pt:"Está quente"}, {n:"🚶‍♀️", pt:"Vamos à praia"}, {n:"❤️", pt:"Eu gosto da praia"}, {n:"❄️", pt:"O mar está frio"}, {n:"🌞", pt:"Está muito sol"}], bg: "bg-[#4361EE]" }
+];
+
+const BEACH_MEMORY_DATA = [
+    { pt: "praia", es: "playa" },
+    { pt: "mar", es: "mar" },
+    { pt: "areia", es: "arena" },
+    { pt: "sol", es: "sol" },
+    { pt: "onda", es: "ola" },
+    { pt: "toalha", es: "toalla" },
+    { pt: "sorvete", es: "helado" },
+    { pt: "quente", es: "caliente" }
+];
+
+const BEACH_QUIZ = [
+    { q: "Está ____ hoje", trans: "Hace calor hoy", opts: ["quente", "frio", "noite"], correct: "quente" },
+    { q: "Vamos à ____", trans: "Vamos a la playa", opts: ["praia", "cidade", "escola"], correct: "praia" },
+    { q: "O ____ está azul", trans: "El mar está azul", opts: ["mar", "sol", "areia"], correct: "mar" },
+    { q: "Eu gosto da ____", trans: "Me gusta la playa", opts: ["praia", "noite", "rua"], correct: "praia" },
+    { q: "O mar tem ____", trans: "El mar tiene olas", opts: ["ondas", "fogo", "casa"], correct: "ondas" }
+];
+
+// DIÁLOGO DE TESTE ORIGINAL
 const DIALOGUE_TEST = [
     { speaker: "Leo", avatar: "👦", text: "Oi! Bom ____!", trans: "¡Hola! ¡Buen día!", options: ["tarde", "dia", "noite"], correct: "dia" },
     { speaker: "Margo", avatar: "👧", text: "Olá! Tudo ____?", trans: "¡Hola! ¿Todo bien?", options: ["bem", "mal", "nome"], correct: "bem" },
     { speaker: "Leo", avatar: "👦", text: "Qual é o seu ____?", trans: "¿Cuál es tu nombre?", options: ["anos", "nome", "prazer"], correct: "nome" },
-    { speaker: "Margo", avatar: "👧", text: "Meu nome ____ Margo.", trans: "Mi nombre es Margo.", options: ["sou", "falo", "é"], correct: "é" },
+    { speaker: "Margo", avatar: "👧", text: "Meu nome ____ Margo.", trans: "Mi nome es Margo.", options: ["sou", "falo", "é"], correct: "é" },
     { speaker: "Leo", avatar: "👦", text: "Eu sou o Leo. Muito ____!", trans: "Yo soy Leo. ¡Mucho gusto!", options: ["tchau", "prazer", "gosto"], correct: "prazer" },
     { speaker: "Margo", avatar: "👧", text: "O prazer é ____!", trans: "¡El gusto es mío!", options: ["meu", "teu", "seu"], correct: "meu" },
-    { speaker: "Leo", avatar: "👦", text: "Quantos ____ você tem?", trans: "¿Cuántos años tienes?", options: ["quilos", "anos", "horas"], correct: "anos" },
-    { speaker: "Margo", avatar: "👧", text: "Eu tenho ____ anos.", trans: "Tengo ocho años.", options: ["dez", "dois", "oito"], correct: "oito" },
+    { speaker: "Leo", avatar: "👦", text: "Quantos ____ você tem?", trans: "¿Cuántos anos tienes?", options: ["quilos", "anos", "horas"], correct: "anos" },
+    { speaker: "Margo", avatar: "👧", text: "Eu tenho ____ anos.", trans: "Tengo ocho anos.", options: ["dez", "dois", "oito"], correct: "oito" },
     { speaker: "Leo", avatar: "👦", text: "De onde você ____?", trans: "¿De dónde eres?", options: ["é", "sou", "tem"], correct: "é" },
     { speaker: "Margo", avatar: "👧", text: "Eu sou da ____.", trans: "Soy de Rusia.", options: ["Brasil", "Espanha", "Russia"], correct: "Russia" }, 
     { speaker: "Leo", avatar: "👦", text: "Hoje é ____. Você estuda?", trans: "Hoy es lunes. ¿Estudias?", options: ["segunda", "sábado", "domingo"], correct: "segunda" },
     { speaker: "Margo", avatar: "👧", text: "Não, hoje eu ____ português.", trans: "No, hoy aprendo português.", options: ["aprendo", "moro", "falo"], correct: "aprendo" },
-    { speaker: "Leo", avatar: "👦", text: "Você ____ de desenhar?", trans: "¿Te gusta dibujar?", options: ["sou", "gosta", "tenho"], correct: "gosta" },
+    { speaker: "Leo", avatar: "👦", text: "Você ____ de desenhar?", trans: "¿Te gusta dibujar?", options: ["sou", "gosta", "tem"], correct: "gosta" },
     { speaker: "Margo", avatar: "👧", text: "Sim, eu ____ desenhar!", trans: "¡Sí, me encanta dibujar!", options: ["adoro", "não", "chato"], correct: "adoro" },
     { speaker: "Leo", avatar: "👦", text: "Qual é a sua ____ favorita?", trans: "¿Cuál es tu color favorito?", options: ["forma", "cor", "hora"], correct: "cor" },
     { speaker: "Margo", avatar: "👧", text: "Minha cor favorita é ____.", trans: "Mi color favorito es rosa.", options: ["preto", "branco", "rosa"], correct: "rosa" },
@@ -308,6 +315,49 @@ const DIALOGUE_TEST = [
     { speaker: "Margo", avatar: "👧", text: "Não, o meu é ____.", trans: "No, el mío es negro.", options: ["amarelo", "preto", "roxo"], correct: "preto" },
     { speaker: "Leo", avatar: "👦", text: "Você é ____ que eu?", trans: "¿Eres más alta que yo?", options: ["menor", "maior", "grande"], correct: "maior" },
     { speaker: "Margo", avatar: "👧", text: "Não, eu sou mais ____.", trans: "No, yo soy más baixa.", options: ["alta", "baixa", "legal"], correct: "baixa" }
+];
+
+// --- ROLEPLAY NA PRAIA (MARGO E LUNA) ---
+const DIALOGUE_BEACH_ROLEPLAY = [
+    { speaker: "Luna", avatar: "👧", text: "Oi! Tudo ____?", trans: "¡Hola! ¿Todo bien?", options: ["bem", "mal", "ruim"], correct: "bem" },
+    { speaker: "Margo", avatar: "👧", text: "Oi! Eu sou a Margo. Qual é o seu ____?", trans: "Hola! Soy Margo. ¿Cuál es tu nome?", options: ["anos", "cor", "nome"], correct: "nome" },
+    { speaker: "Luna", avatar: "👧", text: "Meu nome é Luna. Muito ____!", trans: "Mi nome es Luna. ¡Mucho gusto!", options: ["tchau", "prazer", "gosto"], correct: "prazer" },
+    { speaker: "Margo", avatar: "👧", text: "De onde você ____?", trans: "¿De dónde eres?", options: ["é", "tem", "sou"], correct: "é" },
+    { speaker: "Luna", avatar: "👧", text: "Eu sou do Brasil. E você?", trans: "Soy de Brasil. ¿Y tú?", options: ["-", "-", "-"], correct: "-" }, // Fala passiva
+    { speaker: "Margo", avatar: "👧", text: "Eu sou da ____.", trans: "Soy de Rusia.", options: ["Argentina", "Espanha", "Russia"], correct: "Russia" },
+    { speaker: "Luna", avatar: "👧", text: "Quantos ____ você tem?", trans: "¿Cuántos anos tienes?", options: ["quilos", "anos", "dias"], correct: "anos" },
+    { speaker: "Margo", avatar: "👧", text: "Eu tenho ____ anos.", trans: "Tengo ocho anos.", options: ["dez", "seis", "oito"], correct: "oito" },
+    { speaker: "Luna", avatar: "👧", text: "Hoje é ____. O dia está lindo!", trans: "Hoy es sábado. ¡El día está lindo!", options: ["segunda", "quinta", "sábado"], correct: "sábado" },
+    { speaker: "Margo", avatar: "👧", text: "Sim! Eu ____ da praia.", trans: "¡Sí! Me gusta la playa.", options: ["gosto", "falo", "sou"], correct: "gosto" },
+    { speaker: "Luna", avatar: "👧", text: "O ____ está muito azul hoje.", trans: "El mar está muy azul hoy.", options: ["areia", "sol", "mar"], correct: "mar" },
+    { speaker: "Margo", avatar: "👧", text: "E o ____ está muito quente!", trans: "¡Y el sol está muy caliente!", options: ["sol", "frio", "noite"], correct: "sol" },
+    { speaker: "Luna", avatar: "👧", text: "Olha o meu ____ de sol roxo.", trans: "Mira mis lentes de sol púrpura.", options: ["protetor", "óculos", "toalha"], correct: "óculos" }, 
+    { speaker: "Margo", avatar: "👧", text: "Ele é muito ____!", trans: "¡Es muy bonito!", options: ["chato", "feio", "bonito"], correct: "bonito" },
+    { speaker: "Luna", avatar: "👧", text: "Você tem ____ solar?", trans: "¿Tienes protector solar?", options: ["sorvete", "areia", "protetor"], correct: "protetor" },
+    { speaker: "Margo", avatar: "👧", text: "Sim, eu ____ protetor solar na mochila.", trans: "Sí, tengo protector solar en la mochila.", options: ["sou", "falo", "tenho"], correct: "tenho" },
+    { speaker: "Luna", avatar: "👧", text: "Vamos brincar na ____?", trans: "¿Vamos a jugar en la arena?", options: ["mar", "areia", "casa"], correct: "areia" },
+    { speaker: "Margo", avatar: "👧", text: "Sim! Eu ____ brincar!", trans: "¡Sí! ¡Me encanta jugar!", options: ["adoro", "não", "chata"], correct: "adoro" }, 
+    { speaker: "Luna", avatar: "👧", text: "Você quer um ____ de chocolate?", trans: "¿Quieres un helado de chocolate?", options: ["mar", "peixe", "sorvete"], correct: "sorvete" },
+    { speaker: "Margo", avatar: "👧", text: "Sim! Tchau Luna, até ____!", trans: "¡Sí! Chau Luna, ¡hasta mañana!", options: ["logo", "prazer", "amanhã"], correct: "amanhã" }
+];
+
+const CLASS_2A_MARKET_ITEMS = [
+    { id: 1, name: "Skin de Dragão", price: 80, emoji: "🐲" },
+    { id: 2, name: "Espada de Diamante", price: 100, emoji: "⚔️" },
+    { id: 3, name: "Mochila Gigante", price: 50, emoji: "🎒" },
+    { id: 4, name: "Capa de Herói", price: 20, emoji: "🦸‍♀️" },
+    { id: 5, name: "Gema Mágica", price: 90, emoji: "💎" }
+];
+
+const COMPLEMENTARY_EXERCISES = [
+    { q: "Para abrir a porta às 12:00, você diz: É meio-____", a: "dia", h: "12:00", trans: "Es mediodía" },
+    { q: "O cadeado é um ____.", a: "triângulo", h: "🔺", trans: "El candado es un triângulo" },
+    { q: "A skin custa 100 Robux. Ela é ____.", a: "cara", h: "Preço alto", trans: "La skin es cara" },
+    { q: "Você tem 20 minutos. Escrevemos: ____", a: "vinte", h: "20", trans: "Veinte" },
+    { q: "A estrela é ____.", a: "branca", h: "Cor", trans: "La estrella es blanca" },
+    { q: "O sapato é ____.", a: "branco", h: "Cor (Masculino)", trans: "El sapato es blanco" },
+    { q: "A camiseta é ____.", a: "branca", h: "Cor (Feminino)", trans: "La camiseta es blanca" },
+    { q: "O relógio marca oito ____.", a: "horas", h: "Tempo", trans: "Son las oscho horas" }
 ];
 
 // ─── COMPONENTS ─────────────────────────────────────────────────────────────
@@ -349,22 +399,54 @@ const ChoiceQuiz = ({ data, onComplete, title }) => {
     );
 };
 
-const DialogueChallenge = ({ onComplete }) => {
-    const [currentStep, setCurrentStep] = useState(() => {
-        const saved = localStorage.getItem('margo_dialogue_step');
-        return (saved && parseInt(saved) < DIALOGUE_TEST.length) ? parseInt(saved) : 0;
-    });
-    const [history, setHistory] = useState(() => {
-        const saved = localStorage.getItem('margo_dialogue_history');
-        return saved ? JSON.parse(saved) : [];
-    });
+const DialogueChallenge = ({ onComplete, dialogueData = DIALOGUE_TEST, storageKey = 'margo_dialogue', db, user, appId }) => {
+    const [currentStep, setCurrentStep] = useState(0);
+    const [history, setHistory] = useState([]);
     const [feedback, setFeedback] = useState(null);
     const [showFull, setShowFull] = useState(false);
+    const [loading, setLoading] = useState(true);
 
-    const currentLine = DIALOGUE_TEST[currentStep];
+    const currentLine = dialogueData[currentStep];
 
-    const handleAnswer = (opt) => {
+    // Persistência: Carregar progresso da nuvem (equivale a carregar dos cookies/sessão)
+    useEffect(() => {
+        if (!user || !db) return;
+        const loadProgress = async () => {
+            const { doc, getDoc } = window.firebaseCore;
+            const docRef = doc(db, 'artifacts', appId, 'users', user.uid, 'dialogueProgress', storageKey);
+            try {
+                const snap = await getDoc(docRef);
+                if (snap.exists()) {
+                    const data = snap.data();
+                    if (data.step !== undefined) setCurrentStep(data.step);
+                    if (data.history) setHistory(data.history);
+                    if (data.step >= dialogueData.length) setShowFull(true);
+                }
+            } catch(e) {}
+            setLoading(false);
+        };
+        loadProgress();
+    }, [user, db]);
+
+    const saveDialogueState = async (step, hist) => {
+        if (!user || !db) return;
+        const { doc, setDoc } = window.firebaseCore;
+        const docRef = doc(db, 'artifacts', appId, 'users', user.uid, 'dialogueProgress', storageKey);
+        await setDoc(docRef, { step, history: hist }, { merge: true });
+    };
+
+    const handleAnswer = async (opt) => {
         if (feedback) return;
+        
+        if (currentLine.options[0] === "-") {
+            const newHistory = [...history, { ...currentLine, filledText: currentLine.text }];
+            setHistory(newHistory);
+            const nextStep = currentStep + 1;
+            setCurrentStep(nextStep);
+            await saveDialogueState(nextStep, newHistory);
+            return;
+        }
+
         if (opt === currentLine.correct) {
             playSound('correct');
             const filledText = currentLine.text.replace('____', opt);
@@ -372,17 +454,15 @@ const DialogueChallenge = ({ onComplete }) => {
             
             setFeedback({ type: 'correct', choice: opt });
             setHistory(newHistory);
-            localStorage.setItem('margo_dialogue_history', JSON.stringify(newHistory));
 
-            setTimeout(() => {
+            setTimeout(async () => {
                 const nextStep = currentStep + 1;
-                if (nextStep < DIALOGUE_TEST.length) {
+                await saveDialogueState(nextStep, newHistory);
+                if (nextStep < dialogueData.length) {
                     setCurrentStep(nextStep);
-                    localStorage.setItem('margo_dialogue_step', nextStep.toString());
                     setFeedback(null);
                 } else {
                     setShowFull(true);
-                    localStorage.removeItem('margo_dialogue_step');
                 }
             }, 1000);
         } else {
@@ -392,22 +472,31 @@ const DialogueChallenge = ({ onComplete }) => {
         }
     };
 
+    useEffect(() => {
+        if (currentLine && currentLine.options[0] === "-" && !loading) {
+            const timer = setTimeout(() => handleAnswer("-"), 2000);
+            return () => clearTimeout(timer);
+        }
+    }, [currentStep, loading]);
+
+    if (loading) return <div className="text-center py-20 animate-pulse text-white/20">Carregando Diálogo...</div>;
+
     if (showFull) {
         return (
             <div className="max-w-2xl mx-auto slide-up bg-[#1A1035] p-8 rounded-[40px] border-2 border-[#00F5D4] shadow-2xl">
                 <h2 className="text-3xl font-black text-[#00F5D4] mb-8 text-center uppercase">Diálogo Completo 🏆</h2>
                 <div className="space-y-4 mb-10 max-h-[50vh] overflow-y-auto pr-4 custom-scrollbar">
                     {history.map((h, i) => (
-                        <div key={i} className={`flex items-start gap-3 ${h.speaker === 'Leo' ? 'flex-row' : 'flex-row-reverse'}`}>
+                        <div key={i} className={`flex items-start gap-3 ${h.speaker === (storageKey.includes('beach') ? 'Luna' : 'Leo') ? 'flex-row' : 'flex-row-reverse'}`}>
                             <div className="text-3xl">{h.avatar}</div>
-                            <div className={`p-4 rounded-2xl max-w-[80%] ${h.speaker === 'Leo' ? 'bg-[#7B2FFF] rounded-tl-none' : 'bg-[#FF3CAC] rounded-tr-none'}`}>
+                            <div className={`p-4 rounded-2xl max-w-[80%] ${h.speaker === (storageKey.includes('beach') ? 'Luna' : 'Leo') ? 'bg-[#7B2FFF] rounded-tl-none' : 'bg-[#FF3CAC] rounded-tr-none'}`}>
                                 <p className="font-bold text-white leading-tight">{h.filledText}</p>
                             </div>
                         </div>
                     ))}
                 </div>
                 <div className="text-center">
-                    <Button onClick={() => { localStorage.removeItem('margo_dialogue_history'); onComplete(100); }} variant="accent" className="px-12 py-4">Finalizar Desafio</Button>
+                    <Button onClick={() => onComplete(100)} variant="accent" className="px-12 py-4">Finalizar Desafio</Button>
                 </div>
             </div>
         );
@@ -415,18 +504,18 @@ const DialogueChallenge = ({ onComplete }) => {
 
     return (
         <div className="max-w-2xl mx-auto slide-up">
-            <h2 className="text-center text-2xl font-black text-[#00F5D4] mb-8 uppercase tracking-tighter">Super Teste: O Encontro</h2>
+            <h2 className="text-center text-2xl font-black text-[#00F5D4] mb-8 uppercase tracking-tighter">Desafio de Diálogo</h2>
             
             <div className="flex justify-between mb-4 items-center">
                 <div className="h-3 bg-white/10 flex-1 rounded-full mr-4 overflow-hidden">
-                    <div className="h-full bg-[#00F5D4] transition-all duration-500" style={{ width: `${(currentStep / DIALOGUE_TEST.length) * 100}%` }}></div>
+                    <div className="h-full bg-[#00F5D4] transition-all duration-500" style={{ width: `${(currentStep / dialogueData.length) * 100}%` }}></div>
                 </div>
-                <div className="text-[10px] font-black text-white/30">{currentStep + 1} / {DIALOGUE_TEST.length}</div>
+                <div className="text-[10px] font-black text-white/30">{currentStep + 1} / {dialogueData.length}</div>
             </div>
             
-            <div className="flex items-end gap-4 mb-8">
+            <div className={`flex items-end gap-4 mb-8 ${currentLine.speaker === 'Margo' ? 'flex-row-reverse' : 'flex-row'}`}>
                 <div className="text-7xl animate-bounce-slow">{currentLine.avatar}</div>
-                <div className="dialogue-bubble flex-1 shadow-2xl">
+                <div className={`dialogue-bubble flex-1 shadow-2xl ${currentLine.speaker === 'Margo' ? 'after:left-auto after:right-5' : ''}`}>
                     <div className="text-[10px] font-black text-[#FF3CAC] mb-1 uppercase tracking-widest">{currentLine.speaker}</div>
                     <div className="text-2xl text-white font-black leading-tight">
                         {currentLine.text.split('____').map((part, i, arr) => (
@@ -441,7 +530,7 @@ const DialogueChallenge = ({ onComplete }) => {
             </div>
 
             <div className="grid grid-cols-1 gap-3">
-                {currentLine.options.map((opt, idx) => (
+                {currentLine.options[0] !== "-" ? currentLine.options.map((opt, idx) => (
                     <button 
                         key={idx}
                         onClick={() => handleAnswer(opt)}
@@ -449,11 +538,16 @@ const DialogueChallenge = ({ onComplete }) => {
                     >
                         {opt}
                     </button>
-                ))}
+                )) : (
+                    <div className="text-center italic text-white/20 animate-pulse">Luna está falando...</div>
+                )}
             </div>
 
             <div className="mt-12 text-center">
-                <Button onClick={() => { if(confirm("Reiniciar o diálogo?")) { localStorage.removeItem('margo_dialogue_step'); localStorage.removeItem('margo_dialogue_history'); setCurrentStep(0); setHistory([]); } }} variant="ghost" className="text-[10px] opacity-20 hover:opacity-100">Reiniciar Teste</Button>
+                <Button onClick={async () => { if(confirm("Reiniciar o diálogo?")) { 
+                    setCurrentStep(0); setHistory([]); 
+                    await saveDialogueState(0, []);
+                } }} variant="ghost" className="text-[10px] opacity-20 hover:opacity-100">Reiniciar Teste</Button>
             </div>
         </div>
     );
@@ -487,31 +581,28 @@ const FillBlanks = ({ data, onComplete, title, subtitle }) => {
     );
 };
 
-// CAÇA PALAVRAS MISTURADO (MESES DO ANO)
 const WordSearch = ({ onComplete }) => {
-    // Definição das coordenadas das palavras em direções variadas
     const wordDefinitions = [
-        { word: "JANEIRO", coords: [{r:0,c:1},{r:0,c:2},{r:0,c:3},{r:0,c:4},{r:0,c:5},{r:0,c:6},{r:0,c:7}] }, // H
-        { word: "FEVEREIRO", coords: [{r:1,c:0},{r:2,c:0},{r:3,c:0},{r:4,c:0},{r:5,c:0},{r:6,c:0},{r:7,c:0},{r:8,c:0},{r:9,c:0}] }, // V
-        { word: "MARCO", coords: [{r:10,c:0},{r:10,c:1},{r:10,c:2},{r:10,c:3},{r:10,c:4}] }, // H
-        { word: "ABRIL", coords: [{r:2,c:12},{r:3,c:12},{r:4,c:12},{r:5,c:12},{r:6,c:12}] }, // V
-        { word: "MAIO", coords: [{r:1,c:9},{r:1,c:10},{r:1,c:11},{r:1,c:12}] }, // H
-        { word: "JUNHO", coords: [{r:3,c:3},{r:4,c:4},{r:5,c:5},{r:6,c:6},{r:7,c:7}] }, // D
-        { word: "JULHO", coords: [{r:8,c:13},{r:9,c:13},{r:10,c:13},{r:11,c:13},{r:12,c:13}] }, // V
-        { word: "AGOSTO", coords: [{r:13,c:1},{r:13,c:2},{r:13,c:3},{r:13,c:4},{r:13,c:5},{r:13,c:6}] }, // H
-        { word: "SETEMBRO", coords: [{r:0,c:13},{r:1,c:13},{r:2,c:13},{r:3,c:13},{r:4,c:13},{r:5,c:13},{r:6,c:13},{r:7,c:13}] }, // V
-        { word: "OUTUBRO", coords: [{r:7,c:7},{r:8,c:8},{r:9,c:9},{r:10,c:10},{r:11,c:11},{r:12,c:12},{r:13,c:13}] }, // D (Overlap com Junho no O)
-        { word: "NOVEMBRO", coords: [{r:11,c:4},{r:11,c:5},{r:11,c:6},{r:11,c:7},{r:11,c:8},{r:11,c:9},{r:11,c:10},{r:11,c:11}] }, // H
-        { word: "DEZEMBRO", coords: [{r:2,c:8},{r:3,c:8},{r:4,c:8},{r:5,c:8},{r:6,c:8},{r:7,c:8},{r:8,c:8},{r:9,c:8}] } // V
+        { word: "JANEIRO", coords: [{r:0,c:1},{r:0,c:2},{r:0,c:3},{r:0,c:4},{r:0,c:5},{r:0,c:6},{r:0,c:7}] }, 
+        { word: "FEVEREIRO", coords: [{r:1,c:0},{r:2,c:0},{r:3,c:0},{r:4,c:0},{r:5,c:0},{r:6,c:0},{r:7,c:0},{r:8,c:0},{r:9,c:0}] }, 
+        { word: "MARCO", coords: [{r:10,c:0},{r:10,c:1},{r:10,c:2},{r:10,c:3},{r:10,c:4}] }, 
+        { word: "ABRIL", coords: [{r:2,c:12},{r:3,c:12},{r:4,c:12},{r:5,c:12},{r:6,c:12}] }, 
+        { word: "MAIO", coords: [{r:1,c:9},{r:1,c:10},{r:1,c:11},{r:1,c:12}] }, 
+        { word: "JUNHO", coords: [{r:4,c:1},{r:4,c:2},{r:4,c:3},{r:4,c:4},{r:4,c:5}] }, 
+        { word: "JULHO", coords: [{r:8,c:13},{r:9,c:13},{r:10,c:13},{r:11,c:13},{r:12,c:13}] }, 
+        { word: "AGOSTO", coords: [{r:13,c:1},{r:13,c:2},{r:13,c:3},{r:13,c:4},{r:13,c:5},{r:13,c:6}] }, 
+        { word: "SETEMBRO", coords: [{r:0,c:13},{r:1,c:13},{r:2,c:13},{r:3,c:13},{r:4,c:13},{r:5,c:13},{r:6,c:13},{r:7,c:13}] }, 
+        { word: "OUTUBRO", coords: [{r:2,c:1},{r:2,c:2},{r:2,c:3},{r:2,c:4},{r:2,c:5},{r:2,c:6},{r:2,c:7}] }, 
+        { word: "NOVEMBRO", coords: [{r:11,c:4},{r:11,c:5},{r:11,c:6},{r:11,c:7},{r:11,c:8},{r:11,c:9},{r:11,c:10},{r:11,c:11}] }, 
+        { word: "DEZEMBRO", coords: [{r:2,c:8},{r:3,c:8},{r:4,c:8},{r:5,c:8},{r:6,c:8},{r:7,c:8},{r:8,c:8},{r:9,c:8}] } 
     ];
-    
-    // Grade 14x14 misturada
+
     const initialGrid = [
         ['P','J','A','N','E','I','R','O','L','X','Y','Z','Q','S'],
         ['F','W','E','R','T','Y','U','I','O','M','A','I','O','E'],
-        ['E','Q','R','S','T','U','V','W','D','X','Y','Z','A','T'],
+        ['E','O','U','T','U','B','R','O','D','X','Y','Z','A','T'],
         ['V','A','S','J','U','I','K','L','E','O','P','Q','B','E'],
-        ['E','B','C','D','U','F','G','H','Z','I','J','K','R','M'],
+        ['E','J','U','N','H','O','G','H','Z','I','J','K','R','M'],
         ['R','L','M','N','O','N','P','Q','E','R','S','T','I','B'],
         ['E','X','Y','Z','W','R','H','T','M','U','V','W','L','R'],
         ['I','Q','R','S','T','U','V','O','B','X','Y','Z','W','O'],
@@ -528,7 +619,6 @@ const WordSearch = ({ onComplete }) => {
     const [lockedCells, setLockedCells] = useState([]); 
 
     const handleCellClick = (r, c) => {
-        if (lockedCells.some(cell => cell.r === r && cell.c === c)) return;
         const selectionIndex = selectedCells.findIndex(cell => cell.r === r && cell.c === c);
         let newSelection = selectionIndex !== -1 ? selectedCells.filter((_, i) => i !== selectionIndex) : [...selectedCells, { r, c }];
         setSelectedCells(newSelection);
@@ -547,7 +637,7 @@ const WordSearch = ({ onComplete }) => {
                 }
             }
         });
-    }, [selectedCells]);
+    }, [selectedCells, foundWords]);
 
     return (
         <div className="max-w-5xl mx-auto slide-up flex flex-col items-center">
@@ -594,6 +684,8 @@ const ProgressReport = ({ userProgress, onBack }) => {
         { id: 'm3a', lesson: '3A', name: 'Formas e Cores', emoji: '🔺' },
         { id: 'm3b', lesson: '3B', name: 'Adjetivos', emoji: '🦒' },
         { id: 'm_calendar', lesson: 'Extra', name: 'Calendário', emoji: '🗓️' },
+        { id: 'm_beach', lesson: 'Extra', name: 'Praia', emoji: '🏖️' },
+        { id: 'm_roleplay_beach', lesson: 'Extra', name: 'Roleplay Praia', emoji: '🎭' },
         { id: 'm_test', lesson: 'Teste', name: 'O Diálogo', emoji: '🎬' }
     ];
     return (
@@ -786,6 +878,8 @@ function App() {
                                 {id:'m3a', emoji:'🔺', label:'Aula 3A', color:'#FF3CAC'},
                                 {id:'m3b', emoji:'🦒', label:'Aula 3B', color:'#FF3CAC'},
                                 {id:'m_calendar', emoji:'🗓️', label:'Calendário', color:'#00a89c'},
+                                {id:'m_beach', emoji:'🏖️', label:'Praia', color:'#00a89c'},
+                                {id:'m_roleplay_beach', emoji:'🎭', label:'Roleplay Praia', color:'#7B2FFF'},
                                 {id:'m_test', emoji:'🎬', label:'SUPER TESTE', color:'#FF3CAC'},
                                 {id:'m_word', emoji:'🔍', label:'Caça-Palavras', color:'#00F5D4'},
                                 {id:'m_fix', emoji:'🔥', label:'Fixação', color:'#FFD60A'}
@@ -824,7 +918,7 @@ function App() {
                 {view==='m3b' && (
                     <>
                         {step === 0 && <TheoryLesson data={CLASS_3B_THEORY} title="Aula 3B - Adjetivos" onComplete={() => setStep(1)}/>}
-                        {step === 1 && <ChoiceQuiz data={CLASS_3B_QUIZ} title="Personalidade" onComplete={(s) => completeLesson('m3b', s)}/>}
+                        {step === 1 && <ChoiceQuiz data={CLASS_3B_QUIZ} title="Personalidade" onComplete={(s) => completeLesson('m3b', s)}/> }
                     </>
                 )}
                 {view==='m_calendar' && (
@@ -834,7 +928,31 @@ function App() {
                         {step === 2 && <ChoiceQuiz data={CALENDAR_QUIZ} title="Quiz de Tempo" onComplete={(s) => completeLesson('m_calendar', s)}/>}
                     </>
                 )}
-                {view==='m_test' && <DialogueChallenge onComplete={(s) => completeLesson('m_test', s)} />}
+                {view==='m_beach' && (
+                    <>
+                        {step === 0 && <TheoryLesson data={CLASS_BEACH_THEORY} title="Aula: Praia 🏖️" onComplete={() => setStep(1)}/>}
+                        {step === 1 && <MemoryGame data={BEACH_MEMORY_DATA} onComplete={() => setStep(2)}/>}
+                        {step === 2 && <ChoiceQuiz data={BEACH_QUIZ} title="Quiz de Praia" onComplete={(s) => completeLesson('m_beach', s)}/>}
+                    </>
+                )}
+                {view==='m_roleplay_beach' && (
+                    <DialogueChallenge 
+                        dialogueData={DIALOGUE_BEACH_ROLEPLAY} 
+                        storageKey="margo_beach_roleplay"
+                        db={db}
+                        user={user}
+                        appId={appId}
+                        onComplete={(s) => completeLesson('m_roleplay_beach', s)} 
+                    />
+                )}
+                {view==='m_test' && (
+                    <DialogueChallenge 
+                        onComplete={(s) => completeLesson('m_test', s)} 
+                        db={db}
+                        user={user}
+                        appId={appId}
+                    />
+                )}
                 {view==='m_fix' && <FillBlanks data={COMPLEMENTARY_EXERCISES} title="Super Fixação" onComplete={(s) => completeLesson('m_fix', s)} />}
                 {view==='m_word' && <WordSearch onComplete={(s) => completeLesson('m_word', s)} />}
                 {view==='m_rev' && <FillBlanks data={REVISION_DATA} title="Super Revisão" onComplete={(s) => completeLesson('m_rev', s)} />}
