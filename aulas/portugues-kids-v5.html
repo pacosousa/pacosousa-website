@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oi, Brasil! - Aprenda Português</title>
+    <!-- Bibliotecas Necessárias -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        window.firebaseCore = { initializeApp, getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken, getFirestore, doc, getDoc, setDoc, onSnapshot, collection };
+    </script>
+
+    <style>
+        * { box-sizing: border-box; }
+        html, body { height: 100%; margin: 0; font-family: 'Nunito', sans-serif; background-color: #0F0A1E; overflow-x: hidden; }
+        .perspective-1000 { perspective: 1000px; }
+        .transform-style-3d { transform-style: preserve-3d; }
+        .backface-hidden { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+        .rotate-y-180 { transform: rotateY(180deg); }
+        @keyframes bounce-slow { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+        .animate-bounce-slow { animation: bounce-slow 3s ease-in-out infinite; }
+        @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-8px)} 75%{transform:translateX(8px)} }
+        .animate-shake { animation: shake 0.3s ease-in-out; }
+        @keyframes slide-up { from{transform:translateY(20px);opacity:0} to{transform:translateY(0);opacity:1} }
+        .slide-up { animation: slide-up 0.35s ease-out; }
+        input[type="text"] { outline: none; }
+        
+        .theory-card {
+            min-height: 450px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding-bottom: 80px;
+        }
+        .theory-items-grid {
+            display: grid;
+            gap: 10px;
+            flex: 1;
+            align-content: center;
+        }
+        .theory-item-card {
+            background: rgba(255,255,255,0.18);
+            border-radius: 20px;
+            padding: 14px 8px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: transform 0.2s;
+        }
+        .theory-item-card:hover { transform: scale(1.04); }
+
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(0, 245, 212, 0.3); border-radius: 10px; }
+
+        .apartment-map svg { width: 100%; height: auto; max-width: 650px; border-radius: 20px; background: #1a152e; }
+        .map-room { fill: #251b4d; stroke: #7B2FFF; stroke-width: 3; }
+        .map-item { cursor: pointer; transition: all 0.3s; fill: rgba(255,255,255,0.1); stroke: rgba(255,255,255,0.3); stroke-width: 1.5; }
+        .map-item:hover { fill: rgba(0, 245, 212, 0.3); stroke: #00F5D4; filter: drop-shadow(0 0 8px #00F5D4); }
+        .room-label { fill: rgba(255,255,255,0.3); font-weight: 900; font-size: 14px; pointer-events: none; text-transform: uppercase; letter-spacing: 1px; }
+
+        .dialogue-bubble {
+            position: relative;
+            background: #1A1035;
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .dialogue-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 20px;
+            border-width: 10px 10px 0;
+            border-style: solid;
+            border-color: #1A1035 transparent;
+        }
+        .option-btn {
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(255,255,255,0.1);
+            padding: 14px;
+            border-radius: 15px;
+            text-align: left;
+            transition: all 0.2s;
+            color: white;
+            font-weight: bold;
+        }
+        .option-btn:hover { background: rgba(255,255,255,0.1); transform: translateX(5px); }
+        .option-btn.correct { background: #00F5D4; color: #0F0A1E; border-color: #00F5D4; }
+        .option-btn.wrong { background: #FF3CAC; color: white; border-color: #FF3CAC; }
+
+        .word-grid-cell {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 0.9rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+            touch-action: manipulation;
+        }
+        @media (min-width: 768px) {
+            .word-grid-cell { width: 40px; height: 40px; font-size: 1.1rem; }
+        }
+        .cell-locked { background-color: #00F5D4 !important; color: #0F0A1E !important; box-shadow: 0 0 10px rgba(0, 245, 212, 0.4); }
+        .cell-selected { background-color: #FF3CAC !important; color: white !important; transform: scale(1.1); z-index: 10; }
+    </style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState, useEffect, useMemo, useCallback } = React;
+
+// ─── UTILS & SHARED COMPONENTS ───────────────────────────────────────────────
+const playSound = (type) => {
+    try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain); gain.connect(ctx.destination);
+        const now = ctx.currentTime;
+        if (type === 'correct') {
+            osc.frequency.setValueAtTime(300, now);
+            osc.frequency.exponentialRampToValueAtTime(600, now + 0.15);
+            gain.gain.setValueAtTime(0.1, now); gain.gain.linearRampToValueAtTime(0, now + 0.2);
+        } else if (type === 'error') {
+            osc.frequency.setValueAtTime(200, now);
+            osc.frequency.linearRampToValueAtTime(100, now + 0.15);
+            gain.gain.setValueAtTime(0.1, now); gain.gain.linearRampToValueAtTime(0, now + 0.2);
+        }
+        osc.start(); osc.stop(now + 0.2);
+    } catch(e) {}
+};
+
+const Button = ({ children, onClick, variant='primary', className='', disabled=false }) => {
+    const v = {
+        primary: 'bg-[#00F5D4] hover:bg-[#33ffdf] text-[#0F0A1E] shadow-[0_4px_0_rgb(0,180,155)] active:translate-y-[2px] active:shadow-none',
+        ghost:   'bg-transparent border-2 border-white/20 hover:bg-white/10 text-white',
+        accent:  'bg-[#FF3CAC] hover:bg-[#ff5bb9] text-white shadow-[0_4px_0_rgb(190,45,128)] active:translate-y-[2px] active:shadow-none',
+    };
+    return (
+        <button onClick={onClick} disabled={disabled} className={`px-5 py-2.5 rounded-2xl font-black transition-all transform duration-150 ${v[variant]} ${className}`}>
+            {children}
+        </button>
+    );
+};
+
+// ─── DATA ───────────────────────────────────────────────────────────────────
+const CLASS_1A_GREETINGS = [{pt:'Oi!', es:'¡Hola! 👋'}, {pt:'Tudo bem?', es:'¿Todo bem? 😊'}, {pt:'Bom dia', es:'Buen dia ☀️'}, {pt:'Boa tarde', es:'Buenas tardes 🌤️'}, {pt:'Boa noite', es:'Buenas noites 🌙'}, {pt:'Tchau!', es:'¡Chau! 👋'}, {pt:'Até amanhã', es:'Hasta mañana 📅'}, {pt:'Prazer!', es:'¡Mucho gusto! ✨'}, {pt:'Muito prazer!', es:'¡Es um prazer! / ¡Encantado! 🤝'}];
+const CLASS_1B_THEORY = [{ title: "Onde eu moro? 🏠", items: [{n:"🏠", pt:"Eu moro em...", es:"Yo vivo en..."}, {n:"🗣️", pt:"Eu falo...", es:"Yo hablo..."}, {n:"📖", pt:"Eu aprendo...", es:"Yo aprendo..."}], bg:"bg-[#4361EE]" }, { title: "Gostos ❤️", items: [{n:"👍", pt:"Eu gosto de...", es:"Me gusta..."}, {n:"🌟", pt:"Eu adoro...", es:"Me encanta..."}, {n:"👎", pt:"Não gosto de...", es:"No me gusta..."}, {n:"😑", pt:"Não gosto nada de...", es:"No me gusta para nada..."}], bg:"bg-[#7B2FFF]" }, { title: "Os Pronomes 👤", items: [{n:"☝️", pt:"Eu", es:"Yo"}, {n:"🫵", pt:"Você", es:"Tú / Vos"}, {n:"👦", pt:"Ele", es:"Él"}, {n:"👧", pt:"Ela", es:"Ella"}], bg:"bg-[#FF3CAC]" }];
+const CLASS_1B_QUIZ_DATA = [
+    { q: "Eu ____ em Buenos Aires", opts: ["moro", "falo", "tenho"], correct: "moro", trans: "Yo vivo en Buenos Aires" },
+    { q: "Eu ____ espanhol", opts: ["falo", "gosto", "moro"], correct: "falo", trans: "Yo hablo español" },
+    { q: "Eu ____ português", opts: ["aprendo", "sou", "falo"], correct: "aprendo", trans: "Yo aprendo português" },
+    { q: "Eu ____ de chocolate", opts: ["gosto", "tenho", "moro"], correct: "gosto", trans: "Me gusta el chocolate" }
+];
+const CLASS_2A_THEORY = [{ title: "As Dezenas (10-50) 🪙", items: [{ n: "10", pt: "Dez" }, { n: "20", pt: "Vinte" }, { n: "30", pt: "Trinta" }, { n: "40", pt: "Quarenta" }, { n: "50", pt: "Cinquenta" }], bg: "bg-[#4361EE]" }, { title: "As Dezenas (60-100) 💰", items: [{ n: "60", pt: "Sessenta" }, { n: "70", pt: "Setenta" }, { n: "80", pt: "Oitenta" }, { n: "90", pt: "Noventa" }, { n: "100", pt: "Cem" }], bg: "bg-[#7B2FFF]" }, { title: "O Verbo TER 🤝", items: [{ n: "🙋‍♂️", pt: "Eu tenho" }, { n: "🫵", pt: "Você tem" }, { n: "👦", pt: "Ele tem" }, { n: "👧", pt: "Ela tem" }], bg: "bg-[#FF3CAC]" }];
+const CLASS_2B_THEORY = [{ title: "Quanto custa? 💰", items: [{n:"🏷️", pt:"Caro"}, {n:"🏷️", pt:"Barato"}, {n:"💸", pt:"Quanto custa?"}, {n:"🪙", pt:"Cem Robux"}], bg: "bg-[#4361EE]" }, { title: "Que horas são? ⏰", items: [{n:"🕒", pt:"Oito horas"}, {n:"🕕", pt:"Seis horas"}, {n:"🕚", pt:"Onze horas"}, {n:"🕛", pt:"Meio-dia"}], bg: "bg-[#7B2FFF]" }];
+const CLASS_3A_THEORY = [{ title: "As Formas 💠", items: [{n:"⭕", pt:"Círculo"}, {n:"⬜", pt:"Quadrado"}, {n:"🔺", pt:"Triângulo"}, {n:"⭐", pt:"Estrela"}], bg: "bg-[#FF3CAC]" }, { title: "Concordância 👔👗", items: [{n:"👕", pt:"Camiseta branca"}, {n:"👟", pt:"Sapato branco"}, {n:"🧤", pt:"Luva preta"}, {n:"🎩", pt:"Chapéu preto"}], bg: "bg-[#FFD60A]", textColor: "text-black" }];
+const CLASS_3B_THEORY = [{ title: "Adjetivos Físicos 📏", items: [{n:"🦒", pt:"Alto/Alta"}, {n:"🐭", pt:"Baixo/Baixa"}, {n:"🐘", pt:"Grande"}, {n:"🐜", pt:"Pequeno/Pequena"}, {n:"✨", pt:"Bonito/Bonita"}, {n:"👹", pt:"Feio/Feia"}], bg: "bg-[#4361EE]" }, { title: "Personalidade 🧠", items: [{n:"😎", pt:"Legal"}, {n:"😤", pt:"Chato/Chata"}, {n:"😂", pt:"Engraçado"}, {n:"🛡️", pt:"Corajoso"}, {n:"🫣", pt:"Tímido/Tímida"}], bg: "bg-[#7B2FFF]" }, { title: "Comparações ⚖️", items: [{n:"➕", pt:"Mais ... que"}, {n:"➖", pt:"Menos ... que"}], bg: "bg-[#FF3CAC]" }];
+const CLASS_3B_QUIZ = [{ q: "Anya é ____.", trans: "Anya es valiente", opts: ["corajosa", "tímida", "chata"], correct: "corajosa" }, { q: "O elefante é ____ que o rato.", trans: "El elefante es más grande que el ratón", opts: ["mais pequeno", "menor", "maior"], correct: "maior" }, { q: "O professor é muito ____.", trans: "El professor es muy genial", opts: ["chato", "legal", "feio"], correct: "legal" }, { q: "Ele é ____ que eu.", trans: "Él es más alto que yo", opts: ["mais alto", "mais baixo", "tão alto"], correct: "mais alto" }];
+
+const CLASS_CALENDAR_THEORY = [{ title: "Dias da Semana 🗓️", items: [{n:"1", pt:"Segunda"}, {n:"2", pt:"Terça"}, {n:"3", pt:"Quarta"}, {n:"4", pt:"Quinta"}, {n:"5", pt:"Sexta"}, {n:"6", pt:"Sábado"}, {n:"7", pt:"Domingo"}], bg: "bg-[#00a89c]" }, { title: "Meses (1-12)", items: [{n:"1", pt:"Janeiro"}, {n:"6", pt:"Junho"}, {n:"12", pt:"Dezembro"}], bg: "bg-[#FF6B35]" }];
+const CALENDAR_MEM_DATA = [{ pt: "Segunda", es: "Lunes" }, { pt: "Terça", es: "Martes" }, { pt: "Quarta", es: "Miércoles" }, { pt: "Quinta", es: "Jueves" }, { pt: "Sexta", es: "Viernes" }, { pt: "Sábado", es: "Sábado" }, { pt: "Domingo", es: "Domingo" }, { pt: "Janeiro", es: "Enero" }];
+const CALENDAR_QUIZ = [{ q: "Hoje é segunda. Amanhã é ____.", trans: "Hoy es lunes. Mañana es martes", opts: ["quarta", "terça", "sexta"], correct: "terça" }, { q: "O primeiro mês do ano é ____.", trans: "El primeiro mês do ano é janeiro", opts: ["Janeiro", "Março", "Abril"], correct: "Janeiro" }, { q: "Sábado e ____ são o fim de semana.", trans: "Sábado y domingo son el fin de semana", opts: ["Sexta", "Domingo", "Segunda"], correct: "Domingo" }];
+
+const CLASS_BEACH_THEORY = [{ title: "Vocabulário da Praia 🏖️", items: [{n:"🏖️", pt:"praia"}, {n:"🌊", pt:"mar"}, {n:"☀️", pt:"sol"}], bg: "bg-[#00a89c]" }];
+const BEACH_MEMORY_DATA = [{ pt: "praia", es: "playa" }, { pt: "mar", es: "mar" }, { pt: "sol", es: "sol" }, { pt: "areia", es: "arena" }];
+const BEACH_QUIZ = [{ q: "Está ____ hoje", trans: "Hace calor hoy", opts: ["quente", "frio", "noite"], correct: "quente" }, { q: "Vamos à ____", trans: "Vamos a la playa", opts: ["praia", "cidade", "escola"], correct: "praia" }, { q: "O ____ está azul", trans: "El mar está azul", opts: ["mar", "sol", "areia"], correct: "mar" }];
+
+const REVISION_QUIZ_DATA = [
+    { q: "Oi! Tudo ____?", opts: ["bem", "mal", "bom"], correct: "bem", trans: "¡Hola! ¿Todo bem?" },
+    { q: "Meu ____ é Margo", opts: ["nome", "anos", "casa"], correct: "nome", trans: "Mi nome es Margo" }
+];
+const COMPLEMENTARY_QUIZ_EXERCISES = [
+    { q: "Para abrir a porta às 12:00, você diz: É meio-____", opts: ["dia", "noite", "tarde"], correct: "dia", trans: "Es mediodía" },
+    { q: "O cadeado é um ____.", opts: ["triângulo", "quadrado", "círculo"], correct: "triângulo", trans: "El candado es un triângulo" }
+];
+
+// --- AULA 5A: MINHA CASA ---
+const APARTMENT_ROOMS = [
+    { id: 'quarto', pt: 'Quarto', emoji: '🛏️', x: 20, y: 20, w: 260, h: 200, labelX: 130, labelY: 45 },
+    { id: 'sala', pt: 'Sala de Estar', emoji: '🛋️', x: 280, y: 20, w: 300, h: 250, labelX: 430, labelY: 45 },
+    { id: 'cozinha', pt: 'Cozinha', emoji: '🍳', x: 20, y: 220, w: 260, h: 210, labelX: 130, labelY: 245 },
+    { id: 'banheiro', pt: 'Banheiro', emoji: '🚿', x: 280, y: 270, w: 300, h: 160, labelX: 430, labelY: 295 }
+];
+
+const APARTMENT_ITEMS = [
+    { id: 'cama', pt: 'Cama', emoji: '🛌', x: 40, y: 70, w: 100, h: 120, roomId: 'quarto' },
+    { id: 'sofa', pt: 'Sofá', emoji: '🛋️', x: 300, y: 70, w: 150, h: 60, roomId: 'sala' },
+    { id: 'tv', pt: 'Televisão', emoji: '📺', x: 300, y: 180, w: 80, h: 20, roomId: 'sala' },
+    { id: 'geladeira', pt: 'Geladeira', emoji: '🧊', x: 40, y: 270, w: 50, h: 70, roomId: 'cozinha' },
+    { id: 'fogao', pt: 'Fogão', emoji: '🔥', x: 120, y: 270, w: 60, h: 60, roomId: 'cozinha' },
+    { id: 'mesa', pt: 'Mesa de Jantar', emoji: '🍽️', x: 100, y: 360, w: 80, h: 50, roomId: 'cozinha' },
+    { id: 'chuveiro', pt: 'Chuveiro', emoji: '🚿', x: 300, y: 320, w: 60, h: 60, roomId: 'banheiro' },
+    { id: 'privada', pt: 'Vaso Sanitário', emoji: '🚽', x: 450, y: 320, w: 50, h: 60, roomId: 'banheiro' }
+];
+
+const CLASS_5A_MATCHING = [
+    { pt: "quarto", es: "habitación" }, { pt: "cozinha", es: "cocina" }, { pt: "sala", es: "sala" },
+    { pt: "banheiro", es: "baño" }, { pt: "cama", es: "cama" }, { pt: "sofá", es: "sofá" },
+    { pt: "geladeira", es: "nevera" }, { pt: "chuveiro", es: "ducha" }
+];
+
+const CLASS_5A_PREPOSITIONS_THEORY = [
+    { title: "Onde estão as coisas? 📦", items: [
+        { n: "🔝", pt: "em cima de", es: "encima de" },
+        { n: "🔽", pt: "embaixo de", es: "debajo de" },
+        { n: "📥", pt: "dentro de", es: "dentro de" },
+        { n: "➡️", pt: "ao lado de", es: "al lado de" },
+        { n: "👤", pt: "na frente de", es: "enfrente de" },
+        { n: "🚪", pt: "atrás de", es: "atrás de" }
+    ], bg: "bg-[#4361EE]" }
+];
+
+const CLASS_5A_DETETIVE_QUIZ = [
+    { q: "O livro está ____ da mesa.", opts: ["em cima", "embaixo", "atrás"], correct: "em cima", trans: "El libro está encima de la mesa" },
+    { q: "A mochila está ____ da cadeira.", opts: ["embaixo", "ao lado", "atrás"], correct: "embaixo", trans: "La mochila está debajo de la silla" },
+    { q: "O tablet está ____ da gaveta.", opts: ["dentro", "na frente", "em cima"], correct: "dentro", trans: "El tablet está dentro del cajón" },
+    { q: "A Luna está ____ da Margo.", opts: ["ao lado", "atrás", "dentro"], correct: "ao lado", trans: "Luna está al lado de Margo" }
+];
+
+// --- AULA 5B: VERBOS E ROTINA ---
+const FORCA_WORDS = [
+    { word: "COMER", hint: "O que fazemos quando temos fome 🍎" },
+    { word: "DORMIR", hint: "O que fazemos à noite na cama 😴" },
+    { word: "JOGAR", hint: "O que fazemos no Roblox 🎮" },
+    { word: "ESTUDAR", hint: "O que fazemos na escola com livros 📖" },
+    { word: "BEBER", hint: "O que fazemos com a água ou o leite 🥛" }
+];
+
+const CLASS_5B_MATCH_SENTENCES = [
+    { word: "despertar", sentence: "Eu acordo quando o sol nasce.", trans: "Yo despierto cuando el sol sale." },
+    { word: "comer", sentence: "Eu adoro uma maçã vermelha.", trans: "Yo adoro una manzana roja." },
+    { word: "beber", sentence: "Eu tomo água fria na garrafa.", trans: "Yo tomo agua fría en la botella." },
+    { word: "estudar", sentence: "Eu leio livros na escola.", trans: "Yo leo livros en la escuela." },
+    { word: "jogar", sentence: "Eu me divirto muito no videogame.", trans: "Yo juego mucho en el videogame." },
+    { word: "ver", sentence: "Eu assisto TV na sala.", trans: "Yo veo TV en la sala." },
+    { word: "dormir", sentence: "Eu fecho os olhos e descanso.", trans: "Yo duermo y descanso." }
+];
+
+const DIALOGUE_BEACH_ROLEPLAY = [{ speaker: "Luna", avatar: "👧", text: "Oi! Tudo ____?", trans: "¡Hola! ¿Todo bem?", options: ["bem", "mal", "ruim"], correct: "bem" }, { speaker: "Margo", avatar: "👧", text: "Oi! Eu sou a Margo. Qual é o seu ____?", trans: "Hola! Soy Margo. ¿Cuál es tu nome?", options: ["anos", "cor", "nome"], correct: "nome" }, { speaker: "Luna", avatar: "👧", text: "Meu nome é Luna. Muito ____!", trans: "Mi nome es Luna. ¡Mucho gusto!", options: ["tchau", "prazer", "gosto"], correct: "prazer" }];
+
+const DIALOGUE_TEST = [{ speaker: "Leo", avatar: "👦", text: "Oi! Bom ____!", trans: "¡Hola! ¡Buen día!", options: ["tarde", "dia", "noite"], correct: "dia" }, { speaker: "Margo", avatar: "👧", text: "Olá! Tudo ____?", trans: "¡Hola! ¿Todo bem?", options: ["bem", "mal", "nome"], correct: "bem" }];
+
+// ─── COMPONENTS ─────────────────────────────────────────────────────────────
+
+const TheoryLesson = ({ data, onComplete, title }) => {
+    const [slide, setSlide] = useState(0);
+    const cur = data[slide];
+    return (
+        <div className="max-w-4xl mx-auto slide-up flex flex-col theory-card custom-scrollbar">
+            <h2 className="text-2xl font-black text-[#00F5D4] text-center mb-6 uppercase tracking-tighter">{title}</h2>
+            <div className={`rounded-[40px] p-8 md:p-12 shadow-2xl transition-all duration-500 ${cur.bg} text-white relative overflow-hidden flex-1 flex flex-col justify-between`}>
+                <div className="z-10">
+                    <h2 className="text-3xl md:text-5xl font-black mb-8 drop-shadow-lg">{cur.title}</h2>
+                    <div className="theory-items-grid grid-cols-2 md:grid-cols-3 gap-4">
+                        {cur.items.map((item, i) => (
+                            <div key={i} className="theory-item-card bg-white/10 p-6 rounded-3xl border border-white/20 backdrop-blur-sm">
+                                <div className="text-4xl mb-2">{item.n}</div>
+                                <div className="text-xl font-black">{item.pt}</div>
+                                {item.es && <div className="text-[10px] opacity-60 uppercase">{item.es}</div>}
+                            </div>
+                        ))}
+                    </div>
+                </div>
+                <div className="flex justify-between mt-12 items-center z-10 pb-4">
+                    <Button onClick={() => slide > 0 && setSlide(slide-1)} variant="ghost" className={slide === 0 ? 'invisible' : ''}>Atrás</Button>
+                    <Button onClick={() => slide < data.length - 1 ? setSlide(slide+1) : onComplete(100)} variant="accent">{slide === data.length - 1 ? 'Pronto!' : 'Próximo'}</Button>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+const ChoiceQuiz = ({ data, onComplete, title }) => {
+    const [idx, setIdx] = useState(0);
+    const [feedback, setFeedback] = useState(null);
+    const current = data[idx];
+    const handleChoice = (opt) => {
+        if (feedback) return;
+        if (opt === current.correct) {
+            playSound('correct'); setFeedback('correct');
+            setTimeout(() => { if (idx + 1 < data.length) { setIdx(idx + 1); setFeedback(null); } else onComplete(100); }, 1000);
+        } else { playSound('error'); setFeedback('wrong'); setTimeout(() => setFeedback(null), 1000); }
+    };
+    return (
+        <div className="max-w-xl mx-auto slide-up text-center h-full overflow-y-auto pb-32 custom-scrollbar">
+            <h3 className="text-xl font-black text-[#00F5D4] mb-8 uppercase tracking-widest">{title}</h3>
+            <div className={`bg-[#1A1035] border-2 rounded-[40px] p-8 transition-all ${feedback === 'correct' ? 'border-green-500' : (feedback === 'wrong' ? 'border-red-500' : 'border-[#FF3CAC]/30')}`}>
+                <h2 className="text-2xl font-black text-white mb-2">{current.q.replace('____', '______')}</h2>
+                {current.trans && <p className="text-white/40 italic text-sm mb-8">"{current.trans}"</p>}
+                <div className="grid grid-cols-1 gap-3">
+                    {current.opts.map(opt => (
+                        <button key={opt} onClick={() => handleChoice(opt)} className="bg-white/5 border-2 border-white/10 rounded-2xl py-4 font-black text-white hover:bg-white/10 transition-all">{opt}</button>
+                    ))}
+                </div>
+            </div>
+        </div>
+    );
+};
+
+const MemoryGame = ({ data, onComplete }) => {
+    const [cards, setCards] = useState([]);
+    const [flipped, setFlipped] = useState([]);
+    const [matched, setMatched] = useState([]);
+    const [locked, setLocked] = useState(false);
+    useEffect(() => {
+        let pool = data.flatMap((it,idx) => [{id:`${idx}-pt`, content:it.pt, pairId:idx, side:'pt'}, {id:`${idx}-es`, content:it.es, pairId:idx, side:'es'}]);
+        setCards([...pool].sort(() => Math.random() - 0.5));
+    }, [data]);
+    const handleFlip = (c) => {
+        if (locked || flipped.includes(c.id) || matched.includes(c.pairId)) return;
+        const nf = [...flipped, c.id]; setFlipped(nf);
+        if (nf.length === 2) {
+            setLocked(true);
+            if (cards.find(x=>x.id===nf[0]).pairId === cards.find(x=>x.id===nf[1]).pairId) {
+                playSound('correct'); setMatched([...matched, cards.find(x=>x.id===nf[0]).pairId]); setFlipped([]); setLocked(false);
+            } else { playSound('error'); setTimeout(() => { setFlipped([]); setLocked(false); }, 1000); }
+        }
+    };
+    if (matched.length === data.length && data.length > 0) return <div className="text-center slide-up text-white py-10"><h2 className="text-4xl font-black text-[#00F5D4] mb-8">Muito bem! 🎉</h2><Button onClick={() => onComplete(100)}>Próximo</Button></div>;
+    return (
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto slide-up h-full overflow-y-auto pb-32 custom-scrollbar">
+            {cards.map(c => {
+                const isF = flipped.includes(c.id) || matched.includes(c.pairId);
+                return (
+                    <div key={c.id} onClick={()=>handleFlip(c)} className={`relative h-28 md:h-36 cursor-pointer transition-transform duration-500 transform-style-3d ${isF ? 'rotate-y-180' : ''}`}>
+                        <div className="absolute inset-0 bg-[#7B2FFF] rounded-2xl flex items-center justify-center border-b-4 border-indigo-900 backface-hidden z-20 font-black text-2xl text-white/50">?</div>
+                        <div className={`absolute inset-0 rounded-2xl flex items-center justify-center p-2 rotate-y-180 backface-hidden border-b-4 shadow-xl z-10 ${c.side==='pt'?'bg-[#FF3CAC]':'bg-[#00F5D4]'}`}><span className="font-black text-lg text-center leading-tight">{c.content}</span></div>
+                    </div>
+                );
+            })}
+        </div>
+    );
+};
+
+const ApartmentMap = ({ onComplete }) => {
+    const [selected, setSelected] = useState(null);
+    const [seen, setSeen] = useState([]);
+    const handleClick = (item) => { setSelected(item); if (!seen.includes(item.id)) setSeen([...seen, item.id]); };
+    const isAllSeen = seen.length >= (APARTMENT_ROOMS.length + APARTMENT_ITEMS.length - 2);
+    return (
+        <div className="flex flex-col items-center gap-6 slide-up w-full h-full overflow-y-auto pb-32 custom-scrollbar">
+            <h3 className="text-xl font-black text-[#00F5D4] uppercase tracking-widest text-center px-4">Missão 5A: Explore seu Espaço! 🏠</h3>
+            <div className="bg-white/5 p-4 rounded-3xl border-2 border-white/10 relative w-full max-w-[650px] shadow-2xl">
+                <svg viewBox="0 0 600 450" className="w-full h-full">
+                    {APARTMENT_ROOMS.map(room => (
+                        <g key={room.id}><rect x={room.x} y={room.y} width={room.w} height={room.h} className="map-room" rx="10" /><text x={room.labelX} y={room.labelY} textAnchor="middle" className="room-label">{room.pt}</text>
+                        <g onClick={() => handleClick(room)} className="map-item"><rect x={room.x} y={room.y} width={room.w} height={room.h} fill="transparent" /></g></g>
+                    ))}
+                    {APARTMENT_ITEMS.map(item => (
+                        <g key={item.id} onClick={() => handleClick(item)} className="map-item"><rect x={item.x} y={item.y} width={item.w} height={item.h} rx="5" /><text x={item.x + (item.w/2)} y={item.y + (item.h/2) + 10} textAnchor="middle" fontSize="30" dominantBaseline="middle">{item.emoji}</text></g>
+                    ))}
+                </svg>
+                {selected && (<div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#1A1035] p-6 rounded-2xl border-4 border-[#00F5D4] text-center shadow-2xl animate-bounce-slow min-w-[200px] z-50">
+                    <div className="text-5xl mb-2">{selected.emoji}</div><div className="text-2xl font-black text-white">{selected.pt}</div><Button onClick={() => setSelected(null)} variant="ghost" className="mt-4 text-xs">Continuar</Button></div>)}
+            </div>
+            <div className="text-center px-4"><p className="text-white/40 text-sm italic mb-4">Descubra os nomes dos cômodos e móveis!</p>
+            {isAllSeen && <Button onClick={() => onComplete()} variant="accent" className="px-12 py-4">Missão Cumprida! 🚀</Button>}</div>
+        </div>
+    );
+};
+
+const MatchingGame = ({ pairs, onComplete, title }) => {
+    const [leftItems, setLeftItems] = useState([]);
+    const [rightItems, setRightItems] = useState([]);
+    const [selectedLeft, setSelectedLeft] = useState(null);
+    const [matched, setMatched] = useState([]);
+    useEffect(() => { setLeftItems(pairs.map(p => p.pt).sort(() => Math.random() - 0.5)); setRightItems(pairs.map(p => p.es).sort(() => Math.random() - 0.5)); }, [pairs]);
+    const handleMatch = (rightWord) => { if (!selectedLeft) return; if (pairs.find(p => p.pt === selectedLeft).es === rightWord) { playSound('correct'); setMatched([...matched, selectedLeft]); setSelectedLeft(null); } else { playSound('error'); setSelectedLeft(null); } };
+    useEffect(() => { if (matched.length === pairs.length && pairs.length > 0) setTimeout(onComplete, 1000); }, [matched]);
+    return (
+        <div className="max-w-xl mx-auto slide-up h-full overflow-y-auto pb-32 custom-scrollbar">
+            <h3 className="text-center text-xl font-black text-[#00F5D4] mb-8 uppercase tracking-widest">{title}</h3>
+            <div className="grid grid-cols-2 gap-4 md:gap-8 px-2">
+                <div className="space-y-3">{leftItems.map(word => (<button key={word} disabled={matched.includes(word)} onClick={() => setSelectedLeft(word)} className={`w-full p-4 rounded-xl font-black border-2 transition-all ${matched.includes(word) ? 'bg-[#00F5D4] border-[#00F5D4] text-[#0F0A1E] opacity-50' : selectedLeft === word ? 'bg-[#FF3CAC] border-[#FF3CAC] text-white scale-105' : 'bg-white/5 border-white/10 text-white active:scale-95'}`}>{word}</button>))}</div>
+                <div className="space-y-3">{rightItems.map(word => { const isMatched = matched.some(m => pairs.find(p => p.pt === m).es === word); return <button key={word} disabled={isMatched} onClick={() => handleMatch(word)} className={`w-full p-4 rounded-xl font-black border-2 transition-all ${isMatched ? 'bg-[#00F5D4] border-[#00F5D4] text-[#0F0A1E] opacity-50' : 'bg-white/5 border-white/10 text-white hover:bg-white/20 active:scale-95'}`}>{word}</button> })}</div>
+            </div>
+        </div>
+    );
+};
+
+const SentenceMatching = ({ items, onComplete }) => {
+    const [selectedWord, setSelectedWord] = useState(null);
+    const [matched, setMatched] = useState([]);
+    const [scrambledSentences, setScrambledSentences] = useState([]);
+    useEffect(() => { setScrambledSentences(items.map(i => ({ word: i.word, sentence: i.sentence, trans: i.trans })).sort(() => Math.random() - 0.5)); }, [items]);
+    const handleMatch = (sentenceWord) => { if (!selectedWord) return; if (selectedWord === sentenceWord) { playSound('correct'); setMatched([...matched, selectedWord]); setSelectedWord(null); } else { playSound('error'); setSelectedWord(null); } };
+    useEffect(() => { if (matched.length === items.length && items.length > 0) setTimeout(onComplete, 1200); }, [matched]);
+    return (
+        <div className="max-w-2xl mx-auto slide-up h-full overflow-y-auto pb-48 custom-scrollbar">
+            <h3 className="text-center text-xl font-black text-[#00F5D4] mb-8 uppercase tracking-widest px-4">Ligue o Verbo à Frase correta!</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 px-4">
+                <div className="flex flex-col gap-2">{items.map(item => (<button key={item.word} disabled={matched.includes(item.word)} onClick={() => setSelectedWord(item.word)} className={`p-4 rounded-xl font-black border-2 transition-all ${matched.includes(item.word) ? 'bg-[#00F5D4] border-[#00F5D4] text-[#0F0A1E] line-through' : selectedWord === item.word ? 'bg-[#FF3CAC] border-[#FF3CAC] text-white scale-105' : 'bg-white/5 border-white/10 text-white hover:bg-white/10'}`}>{item.word}</button>))}</div>
+                <div className="flex flex-col gap-2">{scrambledSentences.map(s => (<button key={s.word} disabled={matched.includes(s.word)} onClick={() => handleMatch(s.word)} className={`p-4 rounded-xl text-left border-2 transition-all ${matched.includes(s.word) ? 'bg-[#00F5D4] border-[#00F5D4] text-[#0F0A1E] opacity-50' : 'bg-white/5 border-white/10 text-white hover:bg-white/10'}`}><div className="font-bold text-sm mb-1">{s.sentence}</div><div className="text-[10px] opacity-60 italic">"{s.trans}"</div></button>))}</div>
+            </div>
+            {matched.length === items.length && <div className="mt-12 text-center pb-20"><Button onClick={() => onComplete()} variant="accent">Pronto! 🎉</Button></div>}
+        </div>
+    );
+};
+
+const HangmanGame = ({ words, onComplete }) => {
+    const [wordIdx, setWordIdx] = useState(0);
+    const [guessed, setGuessed] = useState([]);
+    const [errors, setErrors] = useState(0);
+    const currentData = words[wordIdx];
+    const maxErrors = 15;
+    const handleGuess = (letter) => {
+        if (guessed.includes(letter) || errors >= maxErrors) return;
+        setGuessed([...guessed, letter]);
+        if (!currentData.word.includes(letter)) { setErrors(errors + 1); playSound('error'); }
+        else { playSound('correct'); }
+    };
+    const isWon = currentData.word.split('').every(l => guessed.includes(l));
+    const isLost = errors >= maxErrors;
+    const reset = () => { if (wordIdx + 1 < words.length) { setWordIdx(wordIdx + 1); setGuessed([]); setErrors(0); } else { onComplete(); } };
+    const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('');
+    return (
+        <div className="max-w-xl mx-auto text-center slide-up flex flex-col items-center h-full overflow-y-auto pb-32 custom-scrollbar">
+            <h3 className="text-xl font-black text-[#00F5D4] mb-4 uppercase">Jogo da Forca! 😵</h3>
+            <div className="bg-white/5 p-4 rounded-2xl mb-6 border border-white/10 w-full"><p className="text-[#FF3CAC] font-black uppercase text-xs mb-2">Dica:</p><p className="text-white font-bold">{currentData.hint}</p></div>
+            <div className="text-5xl md:text-6xl mb-8 font-mono tracking-widest text-white flex justify-center flex-wrap gap-2">
+                {currentData.word.split('').map((l, i) => (<span key={i} className="border-b-4 border-[#00F5D4] min-w-[35px]">{guessed.includes(l) ? l : "_"}</span>))}
+            </div>
+            <div className="mb-6 flex items-center gap-3"><span className="text-sm font-black text-white/50 uppercase">Erros:</span>
+                <div className="h-4 w-48 bg-white/10 rounded-full overflow-hidden border border-white/5"><div className={`h-full transition-all duration-300 ${errors > 10 ? 'bg-red-500' : 'bg-[#FF3CAC]'}`} style={{ width: `${(errors / maxErrors) * 100}%` }}></div></div>
+                <span className={`font-black ${errors > 12 ? 'text-red-500' : 'text-white'}`}>{errors}/{maxErrors}</span>
+            </div>
+            <div className="grid grid-cols-6 sm:grid-cols-9 gap-2 mb-8">
+                {alphabet.map(l => (<button key={l} disabled={guessed.includes(l) || isWon || isLost} onClick={() => handleGuess(l)} className={`p-3 rounded-xl font-black border-2 transition-all text-sm ${guessed.includes(l) ? (currentData.word.includes(l) ? 'bg-[#00F5D4] border-[#00F5D4] text-[#0F0A1E]' : 'bg-red-500 border-red-500 opacity-40') : 'bg-white/10 border-white/20 text-white hover:bg-white/20 active:scale-95'}`}>{l}</button>))}
+            </div>
+            {(isWon || isLost) && (<div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"><div className="bg-[#1A1035] p-8 rounded-[40px] border-4 border-[#00F5D4] shadow-2xl text-center max-w-sm w-full animate-bounce-slow">
+                <h2 className="text-3xl font-black text-white mb-4">{isWon ? "Muito bem! 🎉" : "Ops! 😢"}</h2><p className="mb-6 text-lg">Era: <span className="text-[#00F5D4] font-black">{currentData.word}</span></p>
+                <Button onClick={reset} variant="accent" className="w-full py-4 text-xl">{wordIdx + 1 < words.length ? "Próxima" : "Finalizar"}</Button></div></div>)}
+        </div>
+    );
+};
+
+const DialogueChallenge = ({ onComplete, dialogueData = DIALOGUE_TEST, storageKey = 'margo_dialogue', db, user, appId }) => {
+    const [currentStep, setCurrentStep] = useState(0);
+    const [history, setHistory] = useState([]);
+    const [feedback, setFeedback] = useState(null);
+    const [showFull, setShowFull] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const currentLine = dialogueData[currentStep];
+    useEffect(() => {
+        if (!user || !db) return;
+        const loadProgress = async () => {
+            const { doc, getDoc } = window.firebaseCore;
+            const docRef = doc(db, 'artifacts', appId, 'users', user.uid, 'dialogueProgress', storageKey);
+            try { const snap = await getDoc(docRef); if (snap.exists()) { const data = snap.data(); if (data.step !== undefined) setCurrentStep(data.step); if (data.history) setHistory(data.history); if (data.step >= dialogueData.length) setShowFull(true); } } catch(e) {}
+            setLoading(false);
+        };
+        loadProgress();
+    }, [user, db]);
+    const saveDialogueState = async (step, hist) => { if (!user || !db) return; const { doc, setDoc } = window.firebaseCore; await setDoc(doc(db, 'artifacts', appId, 'users', user.uid, 'dialogueProgress', storageKey), { step, history: hist }, { merge: true }); };
+    const handleAnswer = async (opt) => {
+        if (feedback) return;
+        if (opt === currentLine.correct) { playSound('correct'); const filledText = currentLine.text.replace('____', opt); const newHistory = [...history, { ...currentLine, filledText }]; setFeedback({ type: 'correct', choice: opt }); setHistory(newHistory); setTimeout(async () => { const nextStep = currentStep + 1; await saveDialogueState(nextStep, newHistory); if (nextStep < dialogueData.length) { setCurrentStep(nextStep); setFeedback(null); } else { setShowFull(true); } }, 1000); } 
+        else { playSound('error'); setFeedback({ type: 'wrong', choice: opt }); setTimeout(() => setFeedback(null), 800); }
+    };
+    if (loading) return <div className="text-center py-20 text-white/20">Carregando...</div>;
+    if (showFull) return (
+        <div className="max-w-2xl mx-auto slide-up bg-[#1A1035] p-8 rounded-[40px] border-2 border-[#00F5D4] shadow-2xl h-full overflow-y-auto pb-20 custom-scrollbar">
+            <h2 className="text-3xl font-black text-[#00F5D4] mb-8 text-center uppercase">Diálogo Completo 🏆</h2>
+            <div className="space-y-4 mb-10">{history.map((h, i) => (<div key={i} className={`flex items-start gap-3 ${h.speaker !== 'Margo' ? 'flex-row' : 'flex-row-reverse'}`}><div className="text-3xl">{h.avatar}</div><div className={`p-4 rounded-2xl ${h.speaker !== 'Margo' ? 'bg-[#7B2FFF] rounded-tl-none' : 'bg-[#FF3CAC] rounded-tr-none'}`}><p className="font-bold text-white leading-tight">{h.filledText}</p></div></div>))}</div>
+            <div className="text-center"><Button onClick={() => onComplete(100)} variant="accent" className="px-12 py-4">Finalizar</Button></div>
+        </div>
+    );
+    return (
+        <div className="max-w-2xl mx-auto slide-up h-full overflow-y-auto pb-20 custom-scrollbar">
+            <h2 className="text-center text-2xl font-black text-[#00F5D4] mb-8 uppercase tracking-tighter">Desafio de Diálogo</h2>
+            <div className={`flex items-end gap-4 mb-8 ${currentLine.speaker === 'Margo' ? 'flex-row-reverse' : 'flex-row'}`}><div className="text-7xl animate-bounce-slow">{currentLine.avatar}</div><div className={`dialogue-bubble flex-1 shadow-2xl ${currentLine.speaker === 'Margo' ? 'after:left-auto after:right-5' : ''}`}><div className="text-[10px] font-black text-[#FF3CAC] mb-1 uppercase tracking-widest">{currentLine.speaker}</div><div className="text-2xl text-white font-black leading-tight">{currentLine.text.split('____').map((part, i, arr) => (<span key={i}>{part}{i < arr.length - 1 && <span className="text-[#00F5D4] border-b-4 border-dotted border-[#00F5D4]">_______</span>}</span>))}</div></div></div>
+            <div className="grid grid-cols-1 gap-3">{currentLine.options.map((opt, idx) => (<button key={idx} onClick={() => handleAnswer(opt)} className={`option-btn ${feedback?.choice === opt ? (feedback.type === 'correct' ? 'correct' : 'wrong animate-shake') : ''}`}>{opt}</button>))}</div>
+        </div>
+    );
+};
+
+// ─── MAIN APP ─────────────────────────────────────────────────────────────────
+function App() {
+    const [view, setView] = useState('home');
+    const [step, setStep] = useState(0); 
+    const [user, setUser] = useState(null);
+    const [userProgress, setUserProgress] = useState({});
+    const [db, setDb] = useState(null);
+    const appId = typeof __app_id !== 'undefined' ? __app_id : 'oi-brasil-margo-v4';
+
+    useEffect(() => {
+        const initFirebase = async () => {
+            if (typeof window.firebaseCore === 'undefined' || typeof __firebase_config === 'undefined') return;
+            const { initializeApp, getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken, getFirestore, doc, onSnapshot } = window.firebaseCore;
+            const app = initializeApp(JSON.parse(__firebase_config));
+            const auth = getAuth(app);
+            const firestore = getFirestore(app);
+            setDb(firestore);
+            const initAuth = async () => { if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) { await signInWithCustomToken(auth, __initial_auth_token); } else { await signInAnonymously(auth); } };
+            initAuth();
+            onAuthStateChanged(auth, (u) => { setUser(u); if (u) { onSnapshot(doc(firestore, 'artifacts', appId, 'users', u.uid, 'progress', 'data'), (snap) => { if (snap.exists()) setUserProgress(snap.data()); }); } });
+        };
+        initFirebase();
+    }, []);
+
+    const completeLesson = async (lessonId, score = 100) => {
+        const newProgress = { ...userProgress, [lessonId]: { completed: true, score: score } };
+        setUserProgress(newProgress);
+        if (user && db) { const { doc, setDoc } = window.firebaseCore; await setDoc(doc(db, 'artifacts', appId, 'users', user.uid, 'progress', 'data'), newProgress, { merge: true }); }
+        goHome();
+    };
+
+    const goHome = () => { setView('home'); setStep(0); };
+
+    return (
+        <div className="min-h-screen bg-[#0F0A1E] text-white flex flex-col">
+            <header className="px-4 py-3 border-b border-white/5 flex justify-between items-center sticky top-0 bg-[#0F0A1E] z-50">
+                <div onClick={goHome} className="flex items-center gap-2 cursor-pointer"><span className="text-2xl">👩‍🚀</span><h1 className="text-lg font-black tracking-tight">Oi, Brasil!</h1></div>
+                <div className="flex gap-2">{view !== 'home' && <Button onClick={goHome} variant="ghost" className="text-xs">Voltar</Button>}</div>
+            </header>
+            <main className="flex-1 px-4 py-6 max-w-6xl mx-auto w-full">
+                {view==='home' && (
+                    <div className="flex flex-col items-center justify-center text-center px-3 slide-up min-h-[70vh]">
+                        <h1 className="text-5xl md:text-7xl font-black mb-2 animate-bounce-slow">Oi, Brasil! 🇧🇷</h1>
+                        <p className="text-base font-bold text-[#00F5D4] mb-12 uppercase tracking-widest">¡Aprendé jogando!</p>
+                        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 w-full">
+                            {[
+                                {id:'m1a', emoji:'💜', label:'Aula 1A', color:'#7B2FFF'},{id:'m1b', emoji:'🏠', label:'Aula 1B', color:'#4361EE'},{id:'m2a', emoji:'💎', label:'Aula 2A', color:'#4361EE'},{id:'m2b', emoji:'💰', label:'Aula 2B', color:'#7B2FFF'},{id:'m3a', emoji:'🔺', label:'Aula 3A', color:'#FF3CAC'},{id:'m3b', emoji:'🦒', label:'Aula 3B', color:'#FF3CAC'},{id:'m_calendar', emoji:'🗓️', label:'Aula 4A', color:'#00a89c'},{id:'m_beach', emoji:'🏖️', label:'Aula 4B', color:'#00a89c'},{id:'m5a', emoji:'🏠', label:'Aula 5A', color:'#FF3CAC'},{id:'m5b', emoji:'⏰', label:'Aula 5B', color:'#7B2FFF'},{id:'m_roleplay_beach', emoji:'🎭', label:'Roleplay Praia', color:'#7B2FFF'},{id:'m_test', emoji:'🎬', label:'SUPER TESTE', color:'#FF3CAC'},{id:'m_word', emoji:'🔍', label:'Caça-Palavras', color:'#00F5D4'},{id:'m_fix', emoji:'🔥', label:'Fixação', color:'#FFD60A'}
+                            ].map(m => (
+                                <button key={m.id} onClick={()=>setView(m.id)} className={`relative rounded-[24px] p-5 transition-all hover:scale-105 shadow-xl border-4 ${userProgress[m.id]?.completed ? 'border-[#00F5D4]' : 'border-transparent'}`} style={{backgroundColor:m.color}}>
+                                    <span className="text-3xl mb-2 block">{m.emoji}</span><h2 className="text-[10px] font-black text-white uppercase leading-tight">{m.label}</h2>
+                                    {userProgress[m.id]?.completed && <span className="absolute -top-2 -right-2 bg-[#00F5D4] text-[#0F0A1E] text-[10px] font-black w-6 h-6 flex items-center justify-center rounded-full border-2 border-[#0F0A1E]">✓</span>}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                )}
+                
+                {view==='m1a' && <MemoryGame data={CLASS_1A_GREETINGS} onComplete={() => completeLesson('m1a')}/>}
+                {view==='m1b' && (<>{step === 0 && <TheoryLesson data={CLASS_1B_THEORY} title="Aula 1B" onComplete={() => setStep(1)}/>}{step === 1 && <ChoiceQuiz data={CLASS_1B_QUIZ_DATA} title="Praticando" onComplete={() => completeLesson('m1b')}/>}</>)}
+                {view==='m2a' && (<>{step === 0 && <TheoryLesson data={CLASS_2A_THEORY} title="Aula 2A" onComplete={() => completeLesson('m2a')}/>}</>)}
+                {view==='m2b' && <TheoryLesson data={CLASS_2B_THEORY} title="Aula 2B" onComplete={() => completeLesson('m2b')}/>}
+                {view==='m3a' && <TheoryLesson data={CLASS_3A_THEORY} title="Aula 3A" onComplete={() => completeLesson('m3a')}/>}
+                {view==='m3b' && (<>{step === 0 && <TheoryLesson data={CLASS_3B_THEORY} title="Aula 3B" onComplete={() => setStep(1)}/>}{step === 1 && <ChoiceQuiz data={CLASS_3B_QUIZ} title="Personalidade" onComplete={() => completeLesson('m3b')}/>}</>)}
+                {view==='m_calendar' && (<>{step === 0 && <TheoryLesson data={CLASS_CALENDAR_THEORY} title="Aula 4A" onComplete={() => setStep(1)}/>}{step === 1 && <MemoryGame data={CALENDAR_MEM_DATA} onComplete={() => completeLesson('m_calendar')}/>}</>)}
+                {view==='m_beach' && (<>{step === 0 && <TheoryLesson data={CLASS_BEACH_THEORY} title="Aula 4B" onComplete={() => setStep(1)}/>}{step === 1 && <MemoryGame data={BEACH_MEMORY_DATA} onComplete={() => completeLesson('m_beach')}/>}</>)}
+
+                {/* AULA 5A - ESPAÇO E PREPOSIÇÕES */}
+                {view==='m5a' && (
+                    <>
+                        {step === 0 && <ApartmentMap onComplete={() => setStep(1)} />}
+                        {step === 1 && <MatchingGame pairs={CLASS_5A_MATCHING} title="Ligue os Pares da Casa! 🏠" onComplete={() => setStep(2)} />}
+                        {step === 2 && <TheoryLesson data={CLASS_5A_PREPOSITIONS_THEORY} title="Aula 5A - Preposições" onComplete={() => setStep(3)} />}
+                        {step === 3 && <ChoiceQuiz data={CLASS_5A_DETETIVE_QUIZ} title="Detetive de Objetos 🔍" onComplete={() => completeLesson('m5a')} />}
+                    </>
+                )}
+
+                {/* AULA 5B - ROTINA */}
+                {view==='m5b' && (
+                    <>
+                        {step === 0 && <TheoryLesson data={[{ title: "Minha Rotina ⏰", items: [{ n: "🌅", pt: "despertar", es: "despertarse" },{ n: "🍎", pt: "comer", es: "comer" },{ n: "🎮", pt: "jogar", es: "jugar" },{ n: "😴", pt: "dormir", es: "dormir" }], bg: "bg-[#7B2FFF]" }]} title="Aula 5B" onComplete={() => setStep(1)} />}
+                        {step === 1 && <HangmanGame words={FORCA_WORDS} onComplete={() => setStep(2)} />}
+                        {step === 2 && <SentenceMatching items={CLASS_5B_MATCH_SENTENCES} onComplete={() => completeLesson('m5b')} />}
+                    </>
+                )}
+
+                {/* OUTROS */}
+                {view==='m_roleplay_beach' && <DialogueChallenge dialogueData={DIALOGUE_BEACH_ROLEPLAY} storageKey="margo_beach_roleplay" db={db} user={user} appId={appId} onComplete={() => completeLesson('m_roleplay_beach')} />}
+                {view==='m_test' && <DialogueChallenge onComplete={() => completeLesson('m_test')} db={db} user={user} appId={appId} />}
+                {view==='m_fix' && <ChoiceQuiz data={COMPLEMENTARY_QUIZ_EXERCISES} title="Super Fixação" onComplete={() => completeLesson('m_fix')} />}
+                {view==='m_word' && <WordSearch onComplete={() => completeLesson('m_word')} />}
+                {view==='m_rev' && <ChoiceQuiz data={REVISION_QUIZ_DATA} title="Super Revisão" onComplete={() => completeLesson('m_rev')} />}
+            </main>
+        </div>
+    );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>
