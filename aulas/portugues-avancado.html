@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Ilusão Bem-Intencionada — Texto de Leitura C1/C2</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:     #18130e;
+    --paper:   #faf6ef;
+    --cream:   #f0e9d8;
+    --gold:    #b8852e;
+    --rust:    #7d3320;
+    --slate:   #5a6072;
+    --border:  #d4c5a9;
+    --muted:   #8a7f70;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Lora', Georgia, serif;
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 18px;
+    line-height: 1.85;
+  }
+
+  /* ── MASTHEAD ── */
+  .masthead {
+    background: var(--ink);
+    padding: 0.6rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .masthead-brand {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .masthead-meta {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: #5a5040;
+    letter-spacing: 0.1em;
+  }
+
+  /* ── HEADER ── */
+  .article-header {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 4rem 2rem 2.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .rubrica {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .rubrica::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+    max-width: 4rem;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 5vw, 3.6rem);
+    font-weight: 900;
+    line-height: 1.08;
+    margin-bottom: 1rem;
+    letter-spacing: -0.01em;
+  }
+  h1 em {
+    font-style: italic;
+    color: var(--rust);
+  }
+
+  .deck {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.05rem, 2vw, 1.3rem);
+    font-weight: 400;
+    font-style: italic;
+    color: var(--slate);
+    line-height: 1.55;
+    margin-bottom: 2rem;
+    max-width: 640px;
+  }
+
+  .byline {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  .byline span { display: flex; align-items: center; gap: 0.4rem; }
+
+  /* ── READING TIME BAR ── */
+  .reading-bar {
+    background: var(--cream);
+    border-bottom: 1px solid var(--border);
+    padding: 0.6rem 2rem;
+    display: flex;
+    justify-content: center;
+  }
+  .reading-inner {
+    max-width: 820px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+  }
+  .progress-track {
+    flex: 1;
+    height: 2px;
+    background: var(--border);
+    max-width: 200px;
+    position: relative;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--gold);
+    width: 0%;
+    transition: width 0.1s;
+  }
+
+  /* ── ARTICLE BODY ── */
+  .article-body {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 3rem 2rem 5rem;
+  }
+
+  /* Drop cap */
+  .article-body > p:first-of-type::first-letter {
+    font-family: 'Playfair Display', serif;
+    font-size: 4.5em;
+    font-weight: 900;
+    line-height: 0.8;
+    float: left;
+    margin-right: 0.08em;
+    margin-top: 0.06em;
+    color: var(--rust);
+  }
+
+  p {
+    margin-bottom: 1.6rem;
+    font-size: 1.02rem;
+    color: var(--ink);
+    text-align: justify;
+    hyphens: auto;
+  }
+
+  /* Section breaks */
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin: 3rem 0 1.2rem;
+    color: var(--ink);
+    line-height: 1.25;
+  }
+
+  /* Pull quote */
+  .pullquote {
+    border-left: 3px solid var(--gold);
+    margin: 2.5rem 0 2.5rem -1.5rem;
+    padding: 0.5rem 0 0.5rem 1.5rem;
+  }
+  .pullquote p {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem;
+    font-style: italic;
+    color: var(--ink);
+    line-height: 1.45;
+    text-align: left;
+    margin: 0;
+  }
+
+  /* Inline annotation for vocabulary */
+  .vocab {
+    border-bottom: 1px dashed var(--gold);
+    cursor: help;
+    position: relative;
+    color: inherit;
+  }
+  .vocab:hover::after {
+    content: attr(data-def);
+    position: absolute;
+    bottom: calc(100% + 6px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--ink);
+    color: #f5efe4;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    line-height: 1.5;
+    padding: 0.5rem 0.8rem;
+    white-space: nowrap;
+    max-width: 260px;
+    white-space: normal;
+    pointer-events: none;
+    z-index: 10;
+    letter-spacing: 0.02em;
+  }
+
+  /* Section ornament */
+  .ornament {
+    text-align: center;
+    color: var(--gold);
+    font-size: 1rem;
+    letter-spacing: 0.8rem;
+    margin: 2.5rem 0;
+    opacity: 0.6;
+  }
+
+  /* Nota de rodapé */
+  .nota {
+    font-size: 0.82rem;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+    margin-top: 3rem;
+    padding-top: 1.2rem;
+    font-style: italic;
+    line-height: 1.6;
+  }
+
+  /* Glossário lateral (desktop) */
+  @media (min-width: 1100px) {
+    .article-layout {
+      display: grid;
+      grid-template-columns: 680px 220px;
+      gap: 0 3rem;
+      max-width: 940px;
+      margin: 0 auto;
+      padding: 3rem 2rem 5rem;
+      align-items: start;
+    }
+    .article-body {
+      max-width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    .glossario {
+      display: block;
+      position: sticky;
+      top: 2rem;
+    }
+  }
+
+  .glossario {
+    display: none;
+  }
+
+  .glossario-inner {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    padding: 1.2rem;
+  }
+  .glossario-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .glos-item {
+    margin-bottom: 0.9rem;
+  }
+  .glos-word {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--rust);
+    display: block;
+  }
+  .glos-def {
+    font-size: 0.78rem;
+    color: var(--slate);
+    line-height: 1.5;
+  }
+
+  /* ── FOOTER ── */
+  .article-footer {
+    background: var(--ink);
+    color: #5a5040;
+    padding: 2rem;
+    text-align: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+  }
+  .article-footer span { color: var(--gold); }
+
+  /* Mobile tweaks */
+  @media (max-width: 600px) {
+    .article-header { padding: 2.5rem 1.2rem 2rem; }
+    .article-body { padding: 2rem 1.2rem 4rem; }
+    .pullquote { margin-left: -0.5rem; }
+    .reading-bar { padding: 0.6rem 1.2rem; }
+    .masthead { padding: 0.6rem 1.2rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-brand">Texto de Leitura · C1 / C2</div>
+  <div class="masthead-meta">Léxico Avançado · Português para Falantes de Espanhol</div>
+</div>
+
+<div class="reading-bar">
+  <div class="reading-inner">
+    <span>⏱ aprox. 15 min de leitura</span>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <span id="progressPct">0%</span>
+  </div>
+</div>
+
+<header class="article-header">
+  <div class="rubrica">Ensaio · Sociedade e Identidade</div>
+  <h1>A Ilusão <em>Bem&#8209;Intencionada</em></h1>
+  <p class="deck">Como a meritocracia se tornou o mais sofisticado mecanismo de legitimação da desigualdade — e por que tão poucos conseguem enxergar isso.</p>
+  <div class="byline">
+    <span>Texto elaborado para fins didáticos</span>
+    <span>Nível C1/C2 · PLE</span>
+  </div>
+</header>
+
+<!-- LAYOUT WRAPPER -->
+<div class="article-layout">
+
+<div class="article-body">
+
+<p>Há uma crença que permeia o imaginário social brasileiro com a persistência de um resquício que nenhuma evidência consegue dissipar completamente: a de que o esforço individual, quando genuíno e sustentado, é condição suficiente para a ascensão social. Essa crença — que atende pelo nome de meritocracia — não é, em si, desprovida de fundamento empírico. Há, de fato, trajetórias que a corroboram. O problema reside não na existência de exceções, mas na violência epistêmica de tomá-las como regra.</p>
+
+<p>O que distingue a meritocracia de outras ideologias que também já gozaram de amplo respaldo simbólico em suas épocas é a sua capacidade de se apresentar como neutra. Ela não apela a hierarquias de sangue nem à anuência divina — apela à competência verificável, ao esforço mensurável, ao mérito supostamente objetivo. É exatamente essa neutralidade <em>performática</em> que a torna tão eficaz como instrumento de legitimação das assimetrias distributivas existentes. Quanto mais acreditamos que o sistema é justo, menos nos dispomos a questionar por que seus resultados são tão sistematicamente desiguais.</p>
+
+<div class="pullquote">
+  <p>"A meritocracia não distribui oportunidades de forma equitativa — ela distribui a responsabilidade pela desigualdade de forma equitativa. E nisso reside sua crueldade mais refinada."</p>
+</div>
+
+<p>Para compreender o alcance dessa <span class="vocab" data-def="distorção sistemática no processo de julgamento, que opera muitas vezes de forma inconsciente">viés</span> estrutural, é necessário recuar alguns passos e considerar o que a sociologia contemporânea denomina de <em>capital herdado</em> — um conjunto de recursos que inclui não apenas bens materiais, mas redes de contato, disposições culturais, familiaridade com códigos institucionais e, talvez mais decisivamente, a segurança psicológica de quem cresce sabendo que o sistema foi, em grande medida, concebido com pessoas como ela em mente.</p>
+
+<h2>O que se herda antes de começar</h2>
+
+<p>Considere dois estudantes que ingressam simultaneamente numa universidade pública de prestígio. Ambos foram aprovados no mesmo processo seletivo, enfrentaram a mesma prova, responderam às mesmas questões. Pelos critérios meritocráticos estritos, estão em pé de igualdade. Mas essa igualdade formal <span class="vocab" data-def="abrange, engloba — diferente de 'compreender' (entender)">abarca</span> uma desigualdade real que antecede em décadas o momento da prova: um deles frequentou escolas bem equipadas, teve acesso a cursos preparatórios, viveu numa casa com biblioteca, com pais que o incentivaram ativamente — e, sobretudo, nunca precisou trabalhar durante o período de preparação. O outro acumulou <span class="vocab" data-def="reveses, dificuldades variadas ao longo do tempo">vicissitudes</span> que o primeiro sequer consegue imaginar.</p>
+
+<p>O processo seletivo não mede o mérito bruto de nenhum dos dois. Mede, em larga medida, a acumulação histórica de vantagens que um recebeu e o outro não. Chamar esse resultado de "merecido" é um eufemismo que escamoteia uma realidade estrutural bastante mais complexa. É também, e aqui está o ponto central deste ensaio, um ato de <span class="vocab" data-def="conferir legitimidade social ou moral a algo — diferente de 'legalizar'">legitimação</span> de uma ordem que, sem esse véu ideológico, se revelaria difícil de defender.</p>
+
+<p>A filósofa estadunidense Martha Nussbaum, ao desenvolver sua abordagem das capacidades humanas, <span class="vocab" data-def="sustenta com argumentos; mais preciso do que 'defende' em contexto acadêmico">sustenta</span> que a justiça social não pode ser avaliada apenas pelo que as pessoas recebem, mas pelo que efetivamente conseguem fazer e ser. Uma bolsa de estudos oferecida a quem mal tem como se alimentar de forma regular não transforma o beneficiário num agente plenamente capaz — porque a capacidade de aprender, de concentrar-se, de elaborar projetos de longo prazo exige um substrato de segurança material e emocional que a bolsa, sozinha, não provê.</p>
+
+<div class="ornament">· · ·</div>
+
+<h2>O estigma silencioso da mobilidade</h2>
+
+<p>Há um fenômeno que a literatura sociológica documenta com regularidade crescente e que permanece subteorizado no debate público brasileiro: o custo identitário da ascensão social. Quando um indivíduo oriundo de camadas populares adentra ambientes de elite — seja numa universidade, seja numa empresa, seja num espaço cultural —, ele frequentemente experimenta o que a socióloga francesa Chantal Jaquet denomina de <em>síndrome do transclasse</em>: uma sensação aguda de não pertencimento simultâneo a dois mundos, o de origem e o de chegada.</p>
+
+<p>Esse não pertencimento não é uma fragilidade individual. É a consequência direta de um <span class="vocab" data-def="marca identitária depreciativa atribuída socialmente — diferente de 'preconceito' ou 'discriminação'">estigma</span> que opera em duas direções opostas e igualmente paralisantes. No ambiente de origem, o indivíduo é visto como aquele que "se achou", que adotou maneiras e vocabulário que não lhe pertencem, que traiu a comunidade ao <span class="vocab" data-def="fazer parte com dimensão identitária e afetiva — diferente de 'pertencer' apenas funcionalmente">pertencer</span> a um projeto que os seus não compartilham. No ambiente de chegada, é visto — às vezes de forma explícita, mais frequentemente através de microagressões que mal chegam à superfície da consciência de quem as pratica — como alguém que ainda precisa provar que <span class="vocab" data-def="merece estar ali, tem reconhecimento social e moral — não apenas legal">legitima</span> sua presença.</p>
+
+<p>A <span class="vocab" data-def="comiseração: sentimento de pena acompanhado de certo condescendência — diferente de 'empatia'">comiseração</span> com que esses indivíduos são frequentemente tratados nos ambientes de elite — sob a forma de um cuidado excessivo e levemente patronizador — revela uma incapacidade de reconhecê-los como pares plenos. Eles são admitidos, mas não inteiramente incluídos. Sua presença é tolerada como uma exceção que confirma a regra, não como evidência de que a regra precisa ser reescrita.</p>
+
+<div class="pullquote">
+  <p>"Não basta abrir as portas se o ambiente interno foi concebido para tornar determinadas pessoas permanentemente conscientes de que estão sendo toleradas, não acolhidas."</p>
+</div>
+
+<h2>A aritmética do viés estrutural</h2>
+
+<p>Um dos argumentos mais recorrentes entre os defensores da meritocracia é que ela se aperfeiçoa com o tempo: à medida que mais grupos antes excluídos ganham acesso a espaços de poder e prestígio, o sistema se torna progressivamente mais justo. Esse argumento tem uma elegância considerável — e uma falha igualmente considerável.</p>
+
+<p>O problema é que a estrutura do campo, para usar o vocabulário bourdieusiano, não permanece passiva enquanto novos agentes tentam adentrá-la. Ela se reconfigura. Os critérios de excelência migram, os códigos de distinção se tornam mais sutis, as fronteiras simbólicas se deslocam de forma a preservar, <span class="vocab" data-def="apesar de; mesmo que — equivale a 'a pesar de' em espanhol">malgrado</span> as transformações superficiais, a hierarquia fundamental. Quando as mulheres ingressaram em massa nas universidades, o prestígio migrou para as pós-graduações. Quando a pós-graduação se democratizou, o prestígio migrou para as publicações internacionais. Quando as publicações internacionais se tornaram mais acessíveis, o prestígio migrou para os índices de impacto — e assim por diante.</p>
+
+<p>Não se trata de uma conspiração deliberada. Trata-se de algo mais <span class="vocab" data-def="arriscado de forma imprudente; que assume riscos desnecessários">temerário</span> de enfrentar, porque é difuso e inconsciente: a tendência natural dos grupos dominantes de redefinir a excelência a partir de seus próprios parâmetros culturais, de modo que a excelência continue a parecer universal enquanto serve, na prática, a interesses particulares.</p>
+
+<p>O <span class="vocab" data-def="distorção sistemática no processo perceptivo ou de julgamento, frequentemente inconsciente">viés</span> aqui não é necessariamente intencional. Pode se manifestar na forma como uma banca avaliadora interpreta a "desenvoltura" de um candidato — lendo como naturalidade o que é, na verdade, familiaridade de classe —, ou na forma como um texto é avaliado como "sofisticado" quando reproduz os cânones retóricos de determinada tradição cultural e como "confuso" quando os desafia. A objetividade dos critérios é, ela própria, um produto histórico <span class="vocab" data-def="fundamentado, apoiado — 'lastreado em evidências' = respaldado por evidências">lastreado</span> em escolhas que nunca foram neutras.</p>
+
+<div class="ornament">· · ·</div>
+
+<h2>Legitimidade sem legalidade — e legalidade sem legitimidade</h2>
+
+<p>Há uma distinção que o debate público frequentemente colapsa, e que é necessário restabelecer com cuidado: a diferença entre o que é legal e o que é legítimo. Um processo seletivo pode ser inteiramente legal — transparente em seus critérios, rigoroso em sua aplicação, auditável em seus resultados — e ainda assim carecer de <span class="vocab" data-def="validade moral e social reconhecida coletivamente, que pode existir independentemente da lei">legitimidade</span> substantiva, se os critérios que o orientam perpetuam, de forma sistemática, as vantagens de quem já partia à frente.</p>
+
+<p>A confusão entre as duas categorias serve a propósitos ideológicos bastante específicos. Quando um processo é descrito como "legítimo" apenas porque é "legal", o que se está fazendo, na prática, é transferir o <span class="vocab" data-def="âmbito, extensão — diferente de 'alcance' ou 'tamanho'">escopo</span> da discussão do plano ético para o plano procedimental. Deixamos de perguntar <em>se</em> o sistema é justo e passamos a perguntar apenas <em>se</em> as regras do sistema foram seguidas. É uma substituição de perguntas que beneficia, quase sempre, quem já se beneficiava das respostas anteriores.</p>
+
+<p>A legitimidade, entendida em sua dimensão sociológica mais densa, é um conceito relacional: ela não existe em abstrato, mas emerge — ou não emerge — do reconhecimento coletivo de que determinadas regras, instituições ou hierarquias refletem valores que a comunidade efetivamente <span class="vocab" data-def="concorda com; consente — substantivo: 'anuência'">anui</span>. Quando uma parcela significativa da população começa a <span class="vocab" data-def="revelar algo que é uma irregularidade ou injustiça — diferente do neutro 'revelar'">denunciar</span> que as regras do jogo foram escritas sem sua participação, isso não é apenas uma queixa emocional — é um sinal de erosão da legitimidade que nenhuma legalidade formal consegue repor.</p>
+
+<h2>O custo de não nomear</h2>
+
+<p>Uma das formas mais eficazes de perpetuar uma estrutura injusta é impedir que ela seja nomeada com precisão. E aqui chegamos a um terreno que <span class="vocab" data-def="abrange, engloba — diferente de 'compreende' no sentido de 'entende'">abarca</span> tanto a dimensão linguística quanto a política do problema: a batalha pelo vocabulário é, ela própria, uma batalha pelo poder de definir a realidade.</p>
+
+<p>Quando se substitui "desigualdade estrutural" por "diferença de esforço", quando se troca "discriminação sistêmica" por "preferência pessoal", quando se converte "acumulação histórica de desvantagens" em "falta de atitude" — o que se está fazendo é impondo um <span class="vocab" data-def="filtro interpretativo que distorce sistematicamente a percepção">viés</span> semântico que torna certas explicações invisíveis antes mesmo de serem formuladas. A linguagem, longe de ser um veículo neutro de transmissão de ideias, é o campo onde as ideias se constituem — ou se interditam.</p>
+
+<p>É por isso que a discussão sobre meritocracia é também, necessariamente, uma discussão sobre a <span class="vocab" data-def="validade e autoridade reconhecidas socialmente">legitimidade</span> de determinados modos de narrar a realidade social. Quem tem o poder de <span class="vocab" data-def="tornar legítimo, conferir reconhecimento social ou moral">legitimar</span> certas narrativas e desqualificar outras não está apenas participando de um debate acadêmico — está participando da produção simbólica da desigualdade que, em seguida, será administrada como se fosse natural.</p>
+
+<div class="pullquote">
+  <p>"A gramática da meritocracia é ao mesmo tempo a sua arma mais poderosa e o seu ponto mais vulnerável: ela pode ser desconstruída, mas apenas por quem domina os seus próprios termos com a precisão de quem deseja subvertê-los."</p>
+</div>
+
+<div class="ornament">· · ·</div>
+
+<h2>O que resta, malgrado a ilusão</h2>
+
+<p>Seria fulgurante, mas intelectualmente desonesto, concluir este ensaio com uma proposta simples. A crítica à meritocracia não implica o abandono de qualquer critério de avaliação — implicaria, isso sim, que esses critérios fossem construídos com consciência de seu próprio <span class="vocab" data-def="distorção sistemática no processo de avaliação">viés</span>, e que os processos de seleção fossem desenhados de modo a compensar, e não apenas a ignorar, as desigualdades que antecedem o momento da avaliação.</p>
+
+<p>Implica também reconhecer que o <span class="vocab" data-def="senso de vínculo identitário com um grupo ou lugar">pertencimento</span> não pode ser concedido de forma unilateral por uma instituição. Ele precisa ser construído — o que exige transformações que vão muito além das cotas de acesso e chegam até a cultura organizacional, ao repertório de referências cultivado, aos modelos que se apresentam como aspiracionais, à forma como o mérito mesmo é definido e narrado.</p>
+
+<p>Os <span class="vocab" data-def="resquícios: vestígios, traços que permanecem de algo anterior">resquícios</span> da crença meritocrática são tenizes precisamente porque ela contém uma verdade parcial: o esforço, de fato, importa. A competência, de fato, deveria ser valorizada. O problema não é o ideal, mas a omissão sistemática das condições que tornam esse ideal alcançável de forma desigualmente distribuída. Uma meritocracia genuína — se tal coisa é possível — exigiria, como pré-condição, uma igualdade de condições de partida que ainda não existe, e cuja construção demandaria exatamente o tipo de intervenção estrutural que os defensores da meritocracia, com grande frequência, <span class="vocab" data-def="consideram excessivamente arriscado ou imprudente">julgam temerário</span> propor.</p>
+
+<p>Não é uma contradição pequena. É, talvez, a contradição central de uma sociedade que <span class="vocab" data-def="sustenta com argumentos, mantém como tese">sustenta</span> valores de igualdade e ao mesmo tempo produz, com notável consistência, resultados que os contradizem. Enquanto essa tensão não for nomeada com a precisão que ela exige — e não apenas com a <span class="vocab" data-def="sentimento de pena com certa condescendência">comiseração</span> difusa de quem reconhece que algo está errado sem conseguir articular o quê —, ela continuará sendo administrada em vez de enfrentada.</p>
+
+<p>E a ilusão, bem-intencionada como sempre, seguirá fazendo seu trabalho.</p>
+
+<div class="nota">
+  <strong>Nota para o leitor:</strong> Este texto foi elaborado com fins estritamente pedagógicos, como material de leitura para o nível C1/C2 de português como língua estrangeira. O vocabulário marcado com sublinhado tracejado contém definições contextuais ao passar o cursor. O texto <span class="vocab" data-def="abrange, inclui — diferente de 'compreende' no sentido de entender">abarca</span> intencionalmente parte do léxico trabalhado nas atividades anteriores da aula.
+</div>
+
+</div><!-- .article-body -->
+
+<!-- GLOSSÁRIO LATERAL (desktop) -->
+<aside class="glossario">
+  <div class="glossario-inner">
+    <div class="glossario-title">Léxico da Aula</div>
+
+    <div class="glos-item">
+      <span class="glos-word">abarcar</span>
+      <span class="glos-def">englobar, incluir — distinto de "compreender" (entender)</span>
+    </div>
+    <div class="glos-item">
+      <span class="glos-word">anuir / anuência</span>
+      <span class="glos-def">concordar com, dar consentimento</span>
+    </div>
+    <div class="glos-item">
+      <span class="glos-word">comiseração</span>
+      <span class="glos-def">pena acompanhada de condescendência</span>
+    </div>
+    <div class="glos-item">
+      <span class="glos-word">denunciar</span>
+      <span class="glos-def">revelar algo injusto — ≠ neutro "revelar"</span>
+    </div>
+    <div class="glos-item">
+      <span class="glos-word">escopo</span>
+      <span class="glos-def">âmbito, extensão de algo</span>
+    </div>
+    <div class="glos-item">
+      <span class="glos-word">estigma</span>
+      <span class="glos-def">marca identitária depreciativa socialmente atribuída</span>
+    </div>
+    <div class="glos-item">
+      <span class="glos-word">fulgurante</span>
+      <span class="glos-def">brilhante, reluzente; intenso e repentino</span>
+    </div>
+    <div class="glos-item">
+      <span class="glos-word">lastreado</span>
+      <span class="glos-def">fundamentado, respaldado por algo sólido</span>
+    </div>
+    <div class="glos-item">
+      <span class="glos-word">legitimar</span>
+      <span class="glos-def">conferir legitimidade moral/social — ≠ legalizar</span>
+    </div>
+    <div class="glos-item">
+      <span class="glos-word">malgrado</span>
+      <span class="glos-def">apesar de, mesmo que</span>
+    </div>
+    <div class="glos-item">
+      <span class="glos-word">pertencimento</span>
+      <span class="glos-def">vínculo identitário e afetivo com um grupo</span>
+    </div>
+    <div class="glos-item">
+      <span class="glos-word">resquício</span>
+      <span class="glos-def">vestígio, traço remanescente de algo anterior</span>
+    </div>
+    <div class="glos-item">
+      <span class="glos-word">sustentar</span>
+      <span class="glos-def">manter uma tese com argumentos — ≠ defender (combativo)</span>
+    </div>
+    <div class="glos-item">
+      <span class="glos-word">temerário</span>
+      <span class="glos-def">imprudentemente arriscado</span>
+    </div>
+    <div class="glos-item">
+      <span class="glos-word">vicissitudes</span>
+      <span class="glos-def">reveses e dificuldades variadas ao longo do tempo</span>
+    </div>
+    <div class="glos-item">
+      <span class="glos-word">viés</span>
+      <span class="glos-def">distorção sistemática e frequentemente inconsciente no julgamento</span>
+    </div>
+  </div>
+</aside>
+
+</div><!-- .article-layout -->
+
+<footer class="article-footer">
+  Texto de Leitura · <span>Léxico Avançado C1/C2</span> · Português como Língua Estrangeira · Material Didático
+</footer>
+
+<script>
+  // Reading progress bar
+  window.addEventListener('scroll', () => {
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const scrolled = window.scrollY;
+    const pct = docHeight > 0 ? Math.round((scrolled / docHeight) * 100) : 0;
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressPct').textContent = pct + '%';
+  });
+</script>
+
+</body>
+</html>
