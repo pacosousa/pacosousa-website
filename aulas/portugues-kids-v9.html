@@ -1724,6 +1724,114 @@ const EXTRAS = {
       { pt:'Boa noite',    opts:['Buen día','Buenas tardes','Hasta mañana','Buenas noches'], correct:'Buenas noches' },
       { pt:'Quanto custa?',opts:['¿Cómo estás?','¿Cuánto cuesta?','¿Dónde vives?','¿Qué hora es?'], correct:'¿Cuánto cuesta?' },
     ]
+  },
+
+  prova: {
+    id:'prova', type:'prova', label:'Prova Final — Semanas 1 a 7',
+    icon:'🏆', sub:'Teste completo de todo o conteúdo!',
+    rounds:[
+      // ── BLOCO 1: Saudações e apresentação ──
+      { type:'quiz', tema:'Saudações 👋',
+        q:'Como você responde "Tudo bem?"', trans:'¿Cómo respondés "¿Todo bien?"?',
+        opts:['Bom dia!','Tudo bem!','Muito prazer!','Até logo!'], correct:'Tudo bem!',
+        dica:'"Tudo bem" pode ser pergunta e resposta!' },
+      { type:'quiz', tema:'Apresentação 🪪',
+        q:'Meu ____ é Margo.', trans:'"Mi nombre es Margo"',
+        opts:['prazer','nome','dia','tarde'], correct:'nome',
+        dica:'Nome = nombre em espanhol!' },
+
+      // ── BLOCO 2: Números ──
+      { type:'quiz', tema:'Números 🔢',
+        q:'Como se escreve o número 15?', trans:'¿Cómo se escribe el 15?',
+        opts:['Quince','Quinze','Quatorze','Dezesseis'], correct:'Quinze',
+        dica:'"Quinze" parece com "quince"!' },
+      { type:'quiz', tema:'Preços 💰',
+        q:'"¿Cuánto cuesta?" em português é…', trans:'"¿Cuánto cuesta?" en portugués',
+        opts:['Quanto custa?','Como está?','Onde fica?','Quanto tempo?'], correct:'Quanto custa?',
+        dica:'"Quanto" = cuánto, "custa" = cuesta!' },
+
+      // ── BLOCO 3: Cores e adjetivos ──
+      { type:'quiz', tema:'Cores 🎨',
+        q:'A skin favorita da Margo é ____. (morada)',  trans:'"La skin favorita de Margo es morada"',
+        opts:['azul','verde','roxa','amarela'], correct:'roxa',
+        dica:'"Roxo/Roxa" = morado/morada!' },
+      { type:'quiz', tema:'Adjetivos ⭐',
+        q:'Ela é muito ____. (valiente)', trans:'"Ella es muy valiente"',
+        opts:['engraçada','corajosa','tímida','simpática'], correct:'corajosa',
+        dica:'"Corajosa" = valiente em espanhol!' },
+
+      // ── BLOCO 4: Casa ──
+      { type:'quiz', tema:'Casa 🏠',
+        q:'O sofá fica na ____.',  trans:'"El sofá está en la sala"',
+        opts:['cozinha','banheiro','sala','quarto'], correct:'sala',
+        dica:'Sofá → sala. Cama → quarto. Geladeira → cozinha!' },
+      { type:'quiz', tema:'Preposições 📍',
+        q:'O gato está ____ da cama. (debajo)', trans:'"El gato está debajo de la cama"',
+        opts:['em cima','ao lado','embaixo','dentro'], correct:'embaixo',
+        dica:'"Embaixo de" = debajo de!' },
+
+      // ── BLOCO 5: Rotina ──
+      { type:'quiz', tema:'Rotina ⏰',
+        q:'Eu ____ às 7h da manhã. (despertarse)', trans:'"Me despierto a las 7 de la mañana"',
+        opts:['desperto','desperta','dormir','durmo'], correct:'desperto',
+        dica:'EU → desperto. Sempre terminação -o!' },
+      { type:'quiz', tema:'Frequência 📅',
+        q:'"A veces" em português é…', trans:'"A veces" en portugués es…',
+        opts:['sempre','nunca','às vezes','todo dia'], correct:'às vezes',
+        dica:'"Às vezes" = a veces!' },
+
+      // ── BLOCO 6: Escola ──
+      { type:'quiz', tema:'Materiais 🎒',
+        q:'A ____ apaga o erro.', trans:'"La goma borra el error"',
+        opts:['tesoura','régua','borracha','caneta'], correct:'borracha',
+        dica:'"Borracha" = goma de borrar!' },
+      { type:'quiz', tema:'Verbos escola ✏️',
+        q:'Eu ____ no caderno todo dia. (escribir)', trans:'"Escribo en el cuaderno todos los días"',
+        opts:['leio','escrevo','corro','canto'], correct:'escrevo',
+        dica:'ESCREVER → eu escrevo!' },
+      { type:'quiz', tema:'Verbos escola ✏️',
+        q:'Ela ____ a explicação com atenção. (escuchar)', trans:'"Escucha la explicación"',
+        opts:['pergunta','responde','canta','escuta'], correct:'escuta',
+        dica:'ESCUTAR → ela escuta!' },
+
+      // ── BLOCO 7: Família ──
+      { type:'quiz', tema:'Família 👨‍👩‍👧',
+        q:'Esta é a minha ____. (mamá)', trans:'"Esta es mi mamá"',
+        opts:['tia','mãe','avó','prima'], correct:'mãe',
+        dica:'"Mãe" = mamá!' },
+      { type:'quiz', tema:'Família 👨‍👩‍👧',
+        q:'"Abuela" em português é…', trans:'"Abuela" en portugués es…',
+        opts:['avô','tia','avó','prima'], correct:'avó',
+        dica:'Avó = abuela (feminino)!' },
+      { type:'quiz', tema:'Família 👨‍👩‍👧',
+        q:'Meu ____ ama Roblox! (primo)', trans:'"Mi primo ama Roblox"',
+        opts:['prima','primo','irmão','avô'], correct:'primo',
+        dica:'"Primo" é igual nos dois idiomas!' },
+
+      // ── MATCHING: Verbos da escola ──
+      { type:'matching', tema:'Verbos: PT ↔ ES 🔗',
+        pairs:[
+          { a:'Ler',       b:'Leer' },
+          { a:'Escrever',  b:'Escribir' },
+          { a:'Desenhar',  b:'Dibujar' },
+          { a:'Escutar',   b:'Escuchar' },
+          { a:'Correr',    b:'Correr' },
+          { a:'Perguntar', b:'Preguntar' },
+        ]
+      },
+
+      // ── MATCHING: Família ──
+      { type:'matching', tema:'Família: PT ↔ ES 👨‍👩‍👧',
+        pairs:[
+          { a:'Mãe',   b:'Mamá' },
+          { a:'Pai',   b:'Papá' },
+          { a:'Irmã',  b:'Hermana' },
+          { a:'Avó',   b:'Abuela' },
+          { a:'Tio',   b:'Tío' },
+          { a:'Primo', b:'Primo' },
+        ]
+      },
+    ]
   }
 };
 
@@ -1842,14 +1950,34 @@ function renderHome() {
   html += `
     </div>
 
+    <div class="block-section" style="border-color:rgba(255,214,10,0.3);background:rgba(255,214,10,0.04)">
+      <div class="block-header" style="border-color:rgba(255,214,10,0.2)">
+        <span class="block-dot" style="background:var(--yellow)"></span>
+        <span class="block-title" style="color:var(--yellow)">🏆 Prova Final</span>
+        <span class="block-sub">Semanas 1 a 7</span>
+      </div>
+      <div style="padding:16px">
+        <div onclick="openExtra('prova')" style="background:var(--surface2);border:2px solid var(--yellow);border-radius:16px;padding:20px 22px;cursor:pointer;display:flex;align-items:center;gap:18px;transition:transform 0.15s,box-shadow 0.15s"
+          onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 24px rgba(255,214,10,0.2)'"
+          onmouseout="this.style.transform='';this.style.boxShadow=''">
+          <span style="font-size:2.5rem">🏆</span>
+          <div>
+            <div style="font-family:var(--font-head);font-size:1.1rem;color:var(--yellow);margin-bottom:4px">Prova Final — Semanas 1 a 7</div>
+            <div style="font-size:0.78rem;font-weight:700;color:var(--muted)">Quiz + Combinação + Velocidade • 18 questões • Todo o conteúdo</div>
+          </div>
+          <span style="margin-left:auto;font-size:1.4rem;color:var(--yellow)">→</span>
+        </div>
+      </div>
+    </div>
+
     <div class="block-section">
       <div class="block-header">
-        <span class="block-dot" style="background:var(--yellow)"></span>
+        <span class="block-dot" style="background:var(--purple)"></span>
         <span class="block-title">⚡ Atividades Extras</span>
         <span class="block-sub">Explore e treine!</span>
       </div>
       <div class="extras-grid">
-        ${Object.values(EXTRAS).map(e => `
+        ${Object.values(EXTRAS).filter(e => e.type !== 'prova').map(e => `
           <div class="extra-card" onclick="openExtra('${e.id}')">
             <span class="extra-icon">${e.icon}</span>
             <div class="extra-title">${e.label}</div>
@@ -2447,6 +2575,7 @@ function renderExtra(ex) {
   if (ex.type === 'wordsearch')    html = renderWordSearch(ex);
   if (ex.type === 'hangman')       html = renderHangman(ex);
   if (ex.type === 'speed')         html = renderSpeed(ex);
+  if (ex.type === 'prova')         { renderProva(ex); return; }
   el.innerHTML = `<div class="screen lesson-wrap">
     <div class="lesson-header">
       <div class="lesson-tag">Atividade Extra</div>
@@ -2921,6 +3050,244 @@ function speedNext(ex) {
   }
 }
 
+
+// ─── PROVA FINAL ENGINE ───────────────────────────
+
+function renderProva(ex) {
+  extraState.prova = {
+    rounds: ex.rounds, idx: -1,
+    totalQuiz:0, correctQuiz:0, totalMatch:0, correctMatch:0,
+    matchState:null, answered:false,
+  };
+  provaShowIntro(ex);
+}
+
+function provaShowIntro(ex) {
+  const el = document.getElementById('main-content');
+  const quizCount  = ex.rounds.filter(r=>r.type==='quiz').length;
+  const matchCount = ex.rounds.filter(r=>r.type==='matching').length;
+  el.innerHTML = `<div class="screen lesson-wrap">
+    <div style="text-align:center;padding:20px 0 28px">
+      <div style="font-size:4rem;margin-bottom:12px">🏆</div>
+      <div style="font-family:var(--font-head);font-size:2rem;color:var(--yellow);margin-bottom:6px">Prova Final</div>
+      <div style="font-size:0.78rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:2px;margin-bottom:20px">Semanas 1 a 7</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:24px">
+        <div style="background:var(--surface);border-radius:12px;padding:14px 8px;border:1px solid var(--border)">
+          <div style="font-family:var(--font-head);font-size:1.6rem;color:var(--cyan)">${quizCount}</div>
+          <div style="font-size:0.7rem;font-weight:800;color:var(--muted);text-transform:uppercase">Questões</div>
+        </div>
+        <div style="background:var(--surface);border-radius:12px;padding:14px 8px;border:1px solid var(--border)">
+          <div style="font-family:var(--font-head);font-size:1.6rem;color:var(--pink)">${matchCount}</div>
+          <div style="font-size:0.7rem;font-weight:800;color:var(--muted);text-transform:uppercase">Combinações</div>
+        </div>
+        <div style="background:var(--surface);border-radius:12px;padding:14px 8px;border:1px solid var(--border)">
+          <div style="font-family:var(--font-head);font-size:1.6rem;color:var(--yellow)">${ex.rounds.length}</div>
+          <div style="font-size:0.7rem;font-weight:800;color:var(--muted);text-transform:uppercase">Total</div>
+        </div>
+      </div>
+      <div style="background:var(--surface);border-radius:14px;padding:14px 18px;margin-bottom:24px;text-align:left;border:1px solid var(--border)">
+        <div style="font-size:0.75rem;font-weight:900;color:var(--yellow);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">📋 O que vai cair:</div>
+        <div style="font-size:0.85rem;font-weight:700;color:var(--muted);line-height:1.9">
+          👋 Saudações &amp; Apresentação &nbsp;•&nbsp; 🔢 Números &amp; Preços<br>
+          🎨 Cores &amp; Adjetivos &nbsp;•&nbsp; 🏠 Casa &amp; Preposições<br>
+          ⏰ Rotina &amp; Frequência &nbsp;•&nbsp; 🎒 Escola &amp; Verbos<br>
+          👨‍👩‍👧 Família
+        </div>
+      </div>
+      <button class="btn btn-primary" style="padding:16px 40px;font-size:1rem" onclick="provaNextRound('${ex.id}')">Começar a Prova →</button>
+    </div>
+  </div>`;
+}
+
+function provaNextRound(exId) {
+  const ex = EXTRAS[exId];
+  const st = extraState.prova;
+  st.idx++;
+  if (st.idx >= ex.rounds.length) { provaShowResult(ex); return; }
+  const round = ex.rounds[st.idx];
+  if (round.type==='quiz')     provaShowQuiz(ex, round);
+  if (round.type==='matching') provaShowMatching(ex, round);
+}
+
+function provaShowQuiz(ex, round) {
+  const st = extraState.prova;
+  st.answered = false;
+  st.totalQuiz++;
+  const done = st.idx;
+  const total = ex.rounds.length;
+  const progPct = Math.round((done/total)*100);
+  const opts = round.opts.map(o =>
+    `<button class="opt-btn" onclick="provaAnswerQuiz('${escQ(o)}','${ex.id}')">${o}</button>`
+  ).join('');
+  const el = document.getElementById('main-content');
+  el.innerHTML = `<div class="screen lesson-wrap">
+    <div style="margin-bottom:16px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+        <span style="font-size:0.68rem;font-weight:900;color:var(--yellow);text-transform:uppercase;letter-spacing:1px">${round.tema}</span>
+        <span style="font-size:0.68rem;font-weight:900;color:var(--muted)">${done+1} / ${total}</span>
+      </div>
+      <div style="height:6px;background:var(--surface2);border-radius:99px;overflow:hidden">
+        <div style="height:100%;width:${progPct}%;background:linear-gradient(90deg,var(--cyan),var(--purple));border-radius:99px;transition:width 0.4s"></div>
+      </div>
+    </div>
+    <div class="quiz-question">
+      <div class="quiz-q-text">${round.q}</div>
+      <div class="quiz-trans">${round.trans}</div>
+      <div class="options-grid" id="popts-grid">${opts}</div>
+      <div id="prova-feedback" style="display:none"></div>
+    </div>
+    <div class="action-row" id="prova-next" style="display:none">
+      <button class="btn btn-primary" onclick="provaNextRound('${ex.id}')">Próxima →</button>
+    </div>
+  </div>`;
+}
+
+function provaAnswerQuiz(choice, exId) {
+  const ex = EXTRAS[exId];
+  const st = extraState.prova;
+  if (st.answered) return;
+  st.answered = true;
+  const round = ex.rounds[st.idx];
+  const ok = choice === round.correct;
+  if (ok) { st.correctQuiz++; beep('ok'); } else beep('fail');
+  document.querySelectorAll('.opt-btn').forEach(btn => {
+    btn.disabled = true;
+    if (btn.textContent===round.correct) btn.classList.add('correct');
+    else if (btn.textContent===choice && !ok) btn.classList.add('wrong');
+  });
+  const fb = document.getElementById('prova-feedback');
+  if (fb) {
+    fb.style.display='block';
+    fb.className = ok ? 'quiz-feedback ok' : 'quiz-feedback fail';
+    fb.innerHTML = ok
+      ? `✅ Correto! <span class="tip">${round.dica}</span>`
+      : `❌ Era "<strong style="color:var(--cyan)">${round.correct}</strong>" — <span class="tip">${round.dica}</span>`;
+  }
+  document.getElementById('prova-next').style.display='flex';
+}
+
+function provaShowMatching(ex, round) {
+  const st = extraState.prova;
+  const done  = st.idx;
+  const total = ex.rounds.length;
+  const progPct = Math.round((done/total)*100);
+  const pairs = round.pairs;
+  const rights = [...pairs.map(p=>p.b)].sort(()=>Math.random()-0.5);
+  st.matchState = { pairs, selected:null, matched:[], rights };
+  st.totalMatch += pairs.length;
+  const leftHTML  = pairs.map((p,i)  => `<div class="match-item" id="pml-${i}" onclick="provaSelectMatch('left',${i},'${ex.id}')">${p.a}</div>`).join('');
+  const rightHTML = rights.map((r,i) => `<div class="match-item" id="pmr-${i}" onclick="provaSelectMatch('right',${i},'${ex.id}')" data-val="${escQ(r)}">${r}</div>`).join('');
+  const el = document.getElementById('main-content');
+  el.innerHTML = `<div class="screen lesson-wrap">
+    <div style="margin-bottom:16px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+        <span style="font-size:0.68rem;font-weight:900;color:var(--pink);text-transform:uppercase;letter-spacing:1px">${round.tema}</span>
+        <span style="font-size:0.68rem;font-weight:900;color:var(--muted)">${done+1} / ${total}</span>
+      </div>
+      <div style="height:6px;background:var(--surface2);border-radius:99px;overflow:hidden">
+        <div style="height:100%;width:${progPct}%;background:linear-gradient(90deg,var(--cyan),var(--purple));border-radius:99px"></div>
+      </div>
+    </div>
+    <div style="font-size:0.78rem;font-weight:800;color:var(--muted);text-align:center;margin-bottom:12px;text-transform:uppercase;letter-spacing:1px">Ligue o português ao espanhol!</div>
+    <div class="match-wrap">
+      <div class="match-col">${leftHTML}</div>
+      <div class="match-col">${rightHTML}</div>
+    </div>
+    <div id="prova-match-next" style="display:none">
+      <div class="action-row"><button class="btn btn-primary" onclick="provaNextRound('${ex.id}')">Próxima →</button></div>
+    </div>
+  </div>`;
+}
+
+function provaSelectMatch(side, idx, exId) {
+  const ex = EXTRAS[exId];
+  const ms = extraState.prova.matchState;
+  if (!ms) return;
+  const elId = side==='left' ? `pml-${idx}` : `pmr-${idx}`;
+  if (ms.matched.includes(elId)) return;
+  if (!ms.selected) {
+    ms.selected = {side, idx};
+    document.getElementById(elId).classList.add('selected');
+    return;
+  }
+  if (ms.selected.side===side) {
+    document.getElementById(ms.selected.side==='left'?`pml-${ms.selected.idx}`:`pmr-${ms.selected.idx}`).classList.remove('selected');
+    ms.selected = {side, idx};
+    document.getElementById(elId).classList.add('selected');
+    return;
+  }
+  const leftIdx  = side==='left'  ? idx : ms.selected.idx;
+  const rightIdx = side==='right' ? idx : ms.selected.idx;
+  const leftEl   = document.getElementById(`pml-${leftIdx}`);
+  const rightEl  = document.getElementById(`pmr-${rightIdx}`);
+  const isMatch  = ms.pairs[leftIdx].b === rightEl.dataset.val;
+  if (isMatch) {
+    beep('ok');
+    extraState.prova.correctMatch++;
+    leftEl.classList.remove('selected');  leftEl.classList.add('matched');
+    rightEl.classList.remove('selected'); rightEl.classList.add('matched');
+    ms.matched.push(`pml-${leftIdx}`,`pmr-${rightIdx}`);
+    ms.selected = null;
+    if (ms.matched.length===ms.pairs.length*2) {
+      beep('win');
+      setTimeout(()=>{const d=document.getElementById('prova-match-next');if(d)d.style.display='block';},400);
+    }
+  } else {
+    beep('fail');
+    leftEl.classList.add('wrong-flash');  rightEl.classList.add('wrong-flash');
+    setTimeout(()=>{
+      leftEl.classList.remove('selected','wrong-flash');
+      rightEl.classList.remove('selected','wrong-flash');
+    },500);
+    ms.selected = null;
+  }
+}
+
+function provaShowResult(ex) {
+  const st = extraState.prova;
+  const quizPct  = st.totalQuiz  > 0 ? Math.round((st.correctQuiz  / st.totalQuiz)  * 100) : 100;
+  const matchPct = st.totalMatch > 0 ? Math.round((st.correctMatch / st.totalMatch) * 100) : 100;
+  const overall  = Math.round((quizPct + matchPct) / 2);
+  let grade, gradeColor, gradeMsg;
+  if (overall>=90) { grade='A'; gradeColor='var(--green)';  gradeMsg='Excelente! Você dominou o conteúdo! 🌟'; }
+  else if (overall>=75) { grade='B'; gradeColor='var(--cyan)';   gradeMsg='Muito bem! Pequenos detalhes a revisar. 👍'; }
+  else if (overall>=60) { grade='C'; gradeColor='var(--yellow)'; gradeMsg='Bom! Vale revisar algumas semanas. 📖'; }
+  else                  { grade='D'; gradeColor='var(--red)';    gradeMsg='Continue praticando! Você chega lá! 💪'; }
+  beep('win');
+  const el = document.getElementById('main-content');
+  el.innerHTML = `<div class="screen lesson-wrap">
+    <div style="text-align:center;padding:20px 0 28px">
+      <div style="font-size:1rem;font-weight:900;color:var(--muted);text-transform:uppercase;letter-spacing:2px;margin-bottom:12px">Resultado da Prova</div>
+      <div style="font-family:var(--font-head);font-size:5rem;color:${gradeColor};line-height:1;margin-bottom:8px;text-shadow:0 0 30px ${gradeColor}44">${grade}</div>
+      <div style="font-size:0.95rem;font-weight:700;color:var(--muted);margin-bottom:24px">${gradeMsg}</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:24px">
+        <div style="background:var(--surface);border-radius:12px;padding:14px 8px;border:2px solid ${gradeColor}44">
+          <div style="font-family:var(--font-head);font-size:1.8rem;color:${gradeColor}">${overall}%</div>
+          <div style="font-size:0.65rem;font-weight:900;color:var(--muted);text-transform:uppercase">Nota Geral</div>
+        </div>
+        <div style="background:var(--surface);border-radius:12px;padding:14px 8px;border:1px solid var(--border)">
+          <div style="font-family:var(--font-head);font-size:1.8rem;color:var(--cyan)">${quizPct}%</div>
+          <div style="font-size:0.65rem;font-weight:900;color:var(--muted);text-transform:uppercase">Questões</div>
+        </div>
+        <div style="background:var(--surface);border-radius:12px;padding:14px 8px;border:1px solid var(--border)">
+          <div style="font-family:var(--font-head);font-size:1.8rem;color:var(--pink)">${matchPct}%</div>
+          <div style="font-size:0.65rem;font-weight:900;color:var(--muted);text-transform:uppercase">Combinações</div>
+        </div>
+      </div>
+      <div style="background:var(--surface);border-radius:14px;padding:16px 18px;margin-bottom:24px;text-align:left;border:1px solid var(--border)">
+        <div style="font-size:0.72rem;font-weight:900;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">📊 Detalhes</div>
+        <div style="font-size:0.88rem;font-weight:700;color:var(--text);line-height:2">
+          ✅ Quiz: <span style="color:var(--cyan)">${st.correctQuiz} / ${st.totalQuiz}</span> corretas<br>
+          🔗 Combinações: <span style="color:var(--pink)">${st.correctMatch} / ${st.totalMatch}</span> corretas
+        </div>
+      </div>
+      <div class="action-row">
+        <button class="btn btn-ghost" onclick="goHome()">← Mapa</button>
+        <button class="btn btn-primary" onclick="openExtra('prova')">Refazer 🔄</button>
+      </div>
+    </div>
+  </div>`;
+}
 
 function nextStep() {
   const L = currentLesson;
