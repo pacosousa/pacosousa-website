@@ -1,0 +1,3471 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oi, Brasil! — Margo</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════
+   DESIGN SYSTEM — Poppy Playtime × Roblox vibes
+   Dark world, neon accents, chunky UI
+═══════════════════════════════════════════════════ */
+:root {
+  --bg:        #0D0B1A;
+  --surface:   #16132A;
+  --surface2:  #1E1A36;
+  --border:    rgba(255,255,255,0.08);
+  --cyan:      #00F5D4;
+  --pink:      #FF3CAC;
+  --yellow:    #FFD60A;
+  --purple:    #7B2FFF;
+  --green:     #39D353;
+  --red:       #FF4757;
+  --text:      #F0EEF8;
+  --muted:     rgba(240,238,248,0.45);
+  --radius:    18px;
+  --radius-sm: 10px;
+  --font-head: 'Fredoka One', cursive;
+  --font-body: 'Nunito', sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  min-height: 100%;
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* ── LAYOUT ── */
+#app { min-height: 100vh; display: flex; flex-direction: column; }
+
+header {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 20px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px;
+}
+
+.header-left { display: flex; align-items: center; gap: 10px; }
+
+.btn-back {
+  display: none;
+  align-items: center; gap: 6px;
+  padding: 6px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--muted);
+  font-family: var(--font-body);
+  font-weight: 800;
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+.btn-back:hover { color: var(--text); border-color: rgba(255,255,255,0.2); background: var(--surface2); }
+.btn-back.visible { display: flex; }
+
+.logo {
+  font-family: var(--font-head);
+  font-size: 1.5rem;
+  color: var(--cyan);
+  letter-spacing: 1px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.xp-bar-wrap {
+  display: flex; align-items: center; gap: 10px;
+}
+.xp-label { font-size: 0.75rem; font-weight: 800; color: var(--yellow); letter-spacing: 1px; text-transform: uppercase; }
+.xp-track { width: 100px; height: 8px; background: var(--surface2); border-radius: 99px; overflow: hidden; }
+.xp-fill { height: 100%; background: linear-gradient(90deg, var(--cyan), var(--purple)); border-radius: 99px; transition: width 0.6s ease; }
+.progress-pill {
+  font-size: 0.7rem; font-weight: 900;
+  color: var(--cyan);
+  background: rgba(0,245,212,0.1);
+  border: 1px solid rgba(0,245,212,0.25);
+  border-radius: 99px;
+  padding: 3px 10px;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+main { flex: 1; padding: 24px 20px; max-width: 780px; margin: 0 auto; width: 100%; }
+
+/* ── SCREENS ── */
+.screen { animation: fadeUp 0.35s ease; }
+@keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+
+/* ── HOME: MISSION MAP ── */
+.home-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+.home-title {
+  font-family: var(--font-head);
+  font-size: clamp(2rem, 7vw, 3.2rem);
+  color: var(--cyan);
+  text-shadow: 0 0 40px rgba(0,245,212,0.3);
+  line-height: 1.1;
+}
+.home-sub {
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--pink);
+  margin-top: 4px;
+}
+
+.blocks-wrap { display: flex; flex-direction: column; gap: 24px; }
+
+.block-section {
+  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.block-header {
+  padding: 14px 20px;
+  display: flex; align-items: center; gap: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.block-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.block-title {
+  font-family: var(--font-head);
+  font-size: 1rem;
+  color: var(--text);
+  letter-spacing: 0.5px;
+}
+
+.block-sub { font-size: 0.72rem; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-left: auto; }
+
+.weeks-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 12px;
+  padding: 16px;
+}
+
+.week-card {
+  background: var(--surface2);
+  border-radius: 14px;
+  border: 2px solid transparent;
+  padding: 16px 14px;
+  cursor: pointer;
+  transition: transform 0.18s, border-color 0.18s, box-shadow 0.18s;
+  position: relative;
+  overflow: hidden;
+}
+.week-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.18s;
+  background: radial-gradient(circle at 50% 0%, rgba(0,245,212,0.1), transparent 70%);
+}
+.week-card:hover::before { opacity: 1; }
+.week-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
+.week-card.done { border-color: var(--cyan); }
+.week-card.done::after {
+  content: '✓';
+  position: absolute;
+  top: 8px; right: 10px;
+  font-size: 0.75rem; font-weight: 900;
+  color: var(--cyan);
+}
+.week-card.locked { opacity: 0.45; cursor: not-allowed; pointer-events: none; }
+.week-card.locked::before { display: none; }
+
+.wk-emoji { font-size: 1.8rem; margin-bottom: 8px; display: block; }
+.wk-label { font-size: 0.68rem; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 2px; }
+.wk-title { font-size: 0.88rem; font-weight: 800; color: var(--text); line-height: 1.25; }
+
+/* ── LESSON SHELL ── */
+.lesson-wrap { max-width: 660px; margin: 0 auto; }
+
+.lesson-header { margin-bottom: 24px; }
+.lesson-tag { font-size: 0.68rem; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; color: var(--pink); margin-bottom: 6px; }
+.lesson-title { font-family: var(--font-head); font-size: 1.8rem; color: var(--cyan); }
+.lesson-obj {
+  margin-top: 10px;
+  background: var(--surface);
+  border-left: 3px solid var(--purple);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  padding: 10px 14px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* progress dots */
+.step-dots {
+  display: flex; gap: 6px; margin-bottom: 20px;
+}
+.step-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--surface2);
+  border: 2px solid var(--border);
+  transition: background 0.3s, border-color 0.3s;
+}
+.step-dot.active { background: var(--cyan); border-color: var(--cyan); box-shadow: 0 0 8px var(--cyan); }
+.step-dot.done   { background: var(--purple); border-color: var(--purple); }
+
+/* ── STORY CARD ── */
+.story-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  padding: 24px;
+  margin-bottom: 20px;
+}
+.story-chars { display: flex; gap: 16px; align-items: flex-end; margin-bottom: 16px; }
+.char-avatar {
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  border: 2px solid var(--pink);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.6rem;
+  background: var(--surface2);
+  flex-shrink: 0;
+}
+.char-avatar.cyan-border { border-color: var(--cyan); }
+.speech-bubble {
+  flex: 1;
+  background: var(--surface2);
+  border-radius: 14px 14px 14px 4px;
+  padding: 12px 16px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.55;
+  border: 1px solid var(--border);
+}
+.speech-bubble.margo { border-radius: 14px 14px 4px 14px; }
+
+.story-body {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--muted);
+  line-height: 1.7;
+}
+.story-body strong { color: var(--cyan); font-weight: 800; }
+
+/* ── THEORY CARDS ── */
+.theory-section { margin-bottom: 20px; }
+.theory-title {
+  font-family: var(--font-head);
+  font-size: 1.2rem;
+  margin-bottom: 12px;
+  color: var(--yellow);
+}
+.vocab-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 10px;
+}
+.vocab-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px 10px;
+  text-align: center;
+  transition: transform 0.15s, border-color 0.15s;
+  cursor: default;
+}
+.vocab-card:hover { transform: scale(1.04); border-color: var(--purple); }
+.vocab-icon { font-size: 2rem; margin-bottom: 6px; display: block; }
+.vocab-pt { font-size: 1rem; font-weight: 900; color: var(--text); }
+.vocab-es { font-size: 0.75rem; font-weight: 700; color: var(--muted); margin-top: 2px; }
+.vocab-example { font-size: 0.7rem; color: var(--cyan); margin-top: 4px; font-style: italic; }
+
+/* ── BUTTONS ── */
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 13px 26px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-weight: 900;
+  font-size: 0.95rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.btn-primary {
+  background: var(--cyan);
+  color: #0D0B1A;
+  box-shadow: 0 4px 0 rgba(0,180,155,0.6);
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 0 rgba(0,180,155,0.6); }
+.btn-primary:active { transform: translateY(2px); box-shadow: 0 2px 0 rgba(0,180,155,0.6); }
+.btn-pink {
+  background: var(--pink);
+  color: white;
+  box-shadow: 0 4px 0 rgba(190,45,128,0.6);
+}
+.btn-pink:hover { transform: translateY(-2px); }
+.btn-pink:active { transform: translateY(2px); }
+.btn-ghost {
+  background: transparent;
+  color: var(--muted);
+  border: 2px solid var(--border);
+}
+.btn-ghost:hover { background: var(--surface); color: var(--text); }
+
+.btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
+
+.action-row {
+  display: flex; justify-content: center; gap: 12px;
+  margin-top: 24px;
+  flex-wrap: wrap;
+}
+
+/* ── QUIZ ── */
+.quiz-question {
+  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  padding: 24px;
+  margin-bottom: 16px;
+}
+.quiz-q-text {
+  font-family: var(--font-head);
+  font-size: 1.5rem;
+  color: var(--text);
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+.quiz-trans {
+  font-size: 0.78rem;
+  color: var(--muted);
+  font-weight: 700;
+  font-style: italic;
+}
+.options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 16px; }
+.opt-btn {
+  padding: 14px 12px;
+  background: var(--surface2);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-weight: 800;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-align: center;
+}
+.opt-btn:hover:not(:disabled) { border-color: var(--purple); background: rgba(123,47,255,0.15); }
+.opt-btn.correct { background: rgba(57,211,83,0.2); border-color: var(--green); color: var(--green); }
+.opt-btn.wrong { background: rgba(255,71,87,0.2); border-color: var(--red); color: var(--red); }
+.opt-btn:disabled { cursor: default; }
+
+.quiz-feedback {
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  margin-top: 12px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1.5;
+  border: 1px solid var(--border);
+  animation: fadeUp 0.2s ease;
+}
+.quiz-feedback.ok { border-color: var(--green); color: var(--green); }
+.quiz-feedback.fail { border-color: var(--red); color: var(--text); }
+.quiz-feedback .tip { color: var(--cyan); font-style: italic; }
+
+.quiz-progress {
+  text-align: right;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--muted);
+  margin-bottom: 8px;
+  letter-spacing: 1px;
+}
+
+/* ── MEMORY GAME ── */
+.memory-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.mem-card {
+  aspect-ratio: 1;
+  perspective: 600px;
+  cursor: pointer;
+}
+.mem-inner {
+  width: 100%; height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.35s;
+}
+.mem-card.flipped .mem-inner { transform: rotateY(180deg); }
+.mem-card.matched .mem-inner { transform: rotateY(180deg); }
+.mem-card.matched .mem-back { background: rgba(57,211,83,0.2); border-color: var(--green); }
+
+.mem-front, .mem-back {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  border-radius: 12px;
+  border: 2px solid var(--border);
+  backface-visibility: hidden;
+  padding: 6px;
+}
+.mem-front {
+  background: var(--surface);
+  font-size: 1.5rem;
+}
+.mem-back {
+  background: var(--surface2);
+  transform: rotateY(180deg);
+}
+.mem-back-ptside { border-color: var(--purple) !important; }
+.mem-back-esside { border-color: var(--pink)   !important; }
+.mem-back-pt { font-size: 0.88rem; font-weight: 900; color: var(--text); text-align: center; }
+.mem-back-es { font-size: 0.72rem; font-weight: 700; color: var(--muted); text-align: center; margin-top: 2px; }
+
+/* ── MATCHING ── */
+.match-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+.match-col { display: flex; flex-direction: column; gap: 8px; }
+.match-item {
+  padding: 12px 14px;
+  background: var(--surface2);
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--border);
+  cursor: pointer;
+  font-weight: 800;
+  font-size: 0.88rem;
+  color: var(--text);
+  transition: all 0.15s;
+  min-height: 48px;
+  display: flex; align-items: center;
+}
+.match-item:hover:not(.matched):not(:disabled) { border-color: var(--purple); }
+.match-item.selected { border-color: var(--pink); background: rgba(255,60,172,0.12); color: var(--pink); }
+.match-item.matched { border-color: var(--green); background: rgba(57,211,83,0.1); color: var(--green); pointer-events: none; text-decoration: line-through; opacity: 0.7; }
+.match-item.wrong-flash { border-color: var(--red); background: rgba(255,71,87,0.15); }
+
+/* ── HANGMAN ── */
+.hangman-word {
+  display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;
+  margin: 20px 0;
+}
+.hw-letter {
+  width: 40px; height: 50px;
+  border-bottom: 3px solid var(--cyan);
+  display: flex; align-items: flex-end; justify-content: center;
+  font-family: var(--font-head);
+  font-size: 1.5rem;
+  color: var(--text);
+  padding-bottom: 4px;
+}
+.hw-letter.blank { color: transparent; }
+.hw-letter.reveal { color: var(--red); border-bottom-color: var(--red); }
+
+.hangman-error-bar {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 16px;
+}
+.err-track { flex: 1; height: 6px; background: var(--surface2); border-radius: 99px; overflow: hidden; }
+.err-fill { height: 100%; background: var(--red); border-radius: 99px; transition: width 0.3s; }
+
+.keyboard {
+  display: flex; flex-wrap: wrap; gap: 6px; justify-content: center;
+  margin-bottom: 20px;
+}
+.key-btn {
+  width: 38px; height: 38px;
+  background: var(--surface2);
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-weight: 900;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.1s;
+}
+.key-btn:hover:not(:disabled) { border-color: var(--purple); background: rgba(123,47,255,0.2); }
+.key-btn.hit { background: rgba(57,211,83,0.2); border-color: var(--green); color: var(--green); }
+.key-btn.miss { background: rgba(255,71,87,0.1); border-color: rgba(255,71,87,0.3); color: var(--red); opacity: 0.5; }
+.key-btn:disabled { cursor: default; }
+
+/* ── SENTENCE ORDER ── */
+.sentence-pool {
+  display: flex; flex-wrap: wrap; gap: 8px; min-height: 48px;
+  padding: 12px; border-radius: var(--radius-sm);
+  background: var(--surface); border: 1px solid var(--border);
+  margin-bottom: 12px;
+}
+.sentence-slots {
+  display: flex; flex-wrap: wrap; gap: 8px; min-height: 52px;
+  padding: 12px; border-radius: var(--radius-sm);
+  background: var(--surface2); border: 2px dashed var(--border);
+  margin-bottom: 16px;
+  align-items: center;
+}
+.word-chip {
+  padding: 8px 14px;
+  background: var(--purple);
+  border-radius: 8px;
+  font-weight: 800;
+  font-size: 0.88rem;
+  color: white;
+  cursor: pointer;
+  transition: all 0.12s;
+  user-select: none;
+}
+.word-chip:hover { transform: scale(1.06); }
+.word-chip.in-slot { background: var(--surface); border: 2px solid var(--purple); color: var(--muted); }
+.word-chip.correct-chip { background: rgba(57,211,83,0.2); border: 2px solid var(--green); color: var(--green); cursor: default; }
+
+/* ── DIALOGUE ── */
+.dialogue-line {
+  display: flex; align-items: flex-end; gap: 12px;
+  margin-bottom: 18px;
+}
+.dialogue-line.right { flex-direction: row-reverse; }
+.d-avatar { font-size: 2rem; flex-shrink: 0; }
+.d-bubble {
+  flex: 1;
+  max-width: 75%;
+  background: var(--surface);
+  border-radius: 16px 16px 16px 4px;
+  padding: 12px 16px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  border: 1px solid var(--border);
+  line-height: 1.5;
+}
+.dialogue-line.right .d-bubble { border-radius: 16px 16px 4px 16px; }
+.d-speaker { font-size: 0.65rem; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+.d-blank { color: var(--cyan); border-bottom: 2px dashed var(--cyan); }
+
+/* ── VERB TABLE ── */
+.verb-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 6px;
+  margin-bottom: 20px;
+}
+.verb-table th {
+  padding: 8px 12px;
+  font-size: 0.7rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--muted);
+  text-align: left;
+}
+.verb-table td {
+  padding: 11px 14px;
+  background: var(--surface);
+  font-weight: 800;
+  font-size: 0.92rem;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.verb-table td:first-child { border-radius: 10px 0 0 10px; border-left: 1px solid var(--border); }
+.verb-table td:last-child  { border-radius: 0 10px 10px 0; border-right: 1px solid var(--border); }
+.verb-table tr:hover td { border-color: var(--purple); }
+.vt-verb { color: var(--yellow); font-family: var(--font-head); font-size: 1rem; }
+.vt-eu   { color: var(--cyan); }
+.vt-vc   { color: var(--pink); }
+.vt-ele  { color: var(--purple); }
+
+/* ── COMPLETION SCREEN ── */
+.complete-screen {
+  text-align: center;
+  padding: 40px 20px;
+  animation: fadeUp 0.4s ease;
+}
+.complete-stars {
+  font-size: 2.5rem;
+  letter-spacing: 4px;
+  margin-bottom: 16px;
+  display: block;
+}
+.complete-title {
+  font-family: var(--font-head);
+  font-size: 2.2rem;
+  color: var(--yellow);
+  margin-bottom: 8px;
+}
+.complete-sub { font-size: 0.9rem; font-weight: 700; color: var(--muted); margin-bottom: 24px; line-height: 1.6; }
+.apostila-box {
+  background: var(--surface);
+  border: 2px solid var(--yellow);
+  border-radius: var(--radius);
+  padding: 18px 24px;
+  margin: 20px auto;
+  max-width: 400px;
+  text-align: left;
+}
+.apostila-label { font-size: 0.7rem; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; color: var(--yellow); margin-bottom: 6px; }
+.apostila-text { font-size: 0.88rem; font-weight: 700; color: var(--text); line-height: 1.6; }
+
+/* ── ANIMATIONS ── */
+@keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.06)} }
+@keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)} }
+@keyframes pop { 0%{transform:scale(0.5);opacity:0} 70%{transform:scale(1.1)} 100%{transform:scale(1);opacity:1} }
+.animate-pulse { animation: pulse 0.5s ease; }
+.animate-shake { animation: shake 0.3s ease; }
+.animate-pop   { animation: pop 0.35s ease forwards; }
+
+/* ── PREPOSITIONS VISUAL ── */
+.prep-visual {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 16px;
+}
+.room-svg-wrap { text-align: center; margin-bottom: 16px; }
+.prep-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 8px; }
+.prep-item {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--surface2);
+  border-radius: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+}
+.prep-icon { font-size: 1.3rem; flex-shrink: 0; }
+.prep-pt { font-weight: 900; font-size: 0.88rem; color: var(--cyan); }
+.prep-es { font-size: 0.73rem; color: var(--muted); font-weight: 700; }
+
+/* FREQUENCY ── */
+.freq-meter {
+  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  padding: 20px;
+  margin-bottom: 16px;
+}
+.freq-row {
+  display: flex; align-items: center; gap: 14px;
+  margin-bottom: 12px;
+}
+.freq-row:last-child { margin-bottom: 0; }
+.freq-word { font-weight: 900; font-size: 0.95rem; width: 110px; color: var(--text); flex-shrink: 0; }
+.freq-bar-track { flex: 1; height: 10px; background: var(--surface2); border-radius: 99px; overflow: hidden; }
+.freq-bar { height: 100%; border-radius: 99px; }
+.freq-pct { font-size: 0.72rem; font-weight: 900; color: var(--muted); width: 36px; text-align: right; }
+
+/* ── EXIT MODAL ── */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 999;
+  background: rgba(0,0,0,0.75);
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+  animation: fadeUp 0.2s ease;
+}
+.modal-box {
+  background: var(--surface);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: var(--radius);
+  padding: 28px 24px;
+  max-width: 360px; width: 100%;
+  text-align: center;
+}
+.modal-title { font-family: var(--font-head); font-size: 1.4rem; color: var(--yellow); margin-bottom: 8px; }
+.modal-body  { font-size: 0.88rem; font-weight: 700; color: var(--muted); margin-bottom: 22px; line-height: 1.6; }
+.modal-btns  { display: flex; gap: 10px; justify-content: center; }
+
+/* ── PERFORMANCE SUMMARY ── */
+.perf-summary {
+  background: var(--surface2);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  margin: 16px 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  text-align: center;
+}
+.perf-stat-val { font-family: var(--font-head); font-size: 1.5rem; }
+.perf-stat-lbl { font-size: 0.65rem; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-top: 2px; }
+
+/* ── EXTRAS SECTION ── */
+.extras-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 12px;
+  padding: 16px;
+}
+.extra-card {
+  background: var(--surface2);
+  border: 2px solid transparent;
+  border-radius: 14px;
+  padding: 18px 14px;
+  cursor: pointer;
+  transition: all 0.18s;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.extra-card:hover { transform: translateY(-3px); border-color: var(--purple); }
+.extra-card .extra-icon { font-size: 2rem; display: block; margin-bottom: 8px; }
+.extra-card .extra-title { font-size: 0.82rem; font-weight: 900; color: var(--text); }
+.extra-card .extra-sub   { font-size: 0.68rem; color: var(--muted); margin-top: 3px; font-weight: 700; }
+
+/* ── WORD SEARCH ── */
+.ws-table {
+  border-collapse: collapse;
+  margin: 0 auto;
+}
+.ws-cell {
+  width: 28px; height: 28px;
+  text-align: center; vertical-align: middle;
+  font-weight: 900; font-size: 0.78rem;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  user-select: none;
+  color: var(--muted);
+  transition: background 0.1s, color 0.1s;
+  padding: 0;
+}
+.ws-cell:hover { background: rgba(123,47,255,0.2); color: var(--text); }
+.ws-cell.selecting { background: rgba(0,245,212,0.3); color: var(--cyan); border-color: var(--cyan); }
+.ws-cell.found     { background: rgba(0,245,212,0.2); color: var(--cyan); border-color: rgba(0,245,212,0.5); font-weight:900; }
+.ws-cell.wrong-flash { background: rgba(255,71,87,0.3); color: var(--red); border-color: var(--red); }
+@media (min-width: 600px) { .ws-cell { width: 34px; height: 34px; font-size: 0.88rem; } }
+
+.ws-words-list {
+  display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; justify-content: center;
+}
+.ws-word-tag {
+  padding: 5px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.78rem; font-weight: 900;
+  color: var(--text);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.2s;
+}
+.ws-word-tag.found { background: rgba(0,245,212,0.15); border-color: var(--cyan); color: var(--cyan); text-decoration: line-through; }
+
+/* ── HANGMAN ── */
+.hm-figure { text-align:center; font-size: 3rem; margin: 10px 0; }
+
+/* ── SPEED CHALLENGE ── */
+.speed-target {
+  text-align: center;
+  background: var(--surface);
+  border: 2px solid var(--purple);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 16px;
+}
+.speed-word { font-family: var(--font-head); font-size: 2.5rem; color: var(--cyan); }
+.speed-hint { font-size: 0.82rem; color: var(--muted); font-weight: 700; margin-top: 6px; }
+.speed-timer-bar { height: 8px; background: var(--surface2); border-radius: 99px; overflow:hidden; margin-bottom:16px; }
+.speed-timer-fill { height:100%; border-radius:99px; transition: width 0.1s linear; }
+.speed-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(123,47,255,0.4); border-radius: 99px; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 520px) {
+  .options-grid { grid-template-columns: 1fr; }
+  .weeks-grid { grid-template-columns: 1fr 1fr; }
+  .match-wrap { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <div class="header-left">
+      <button class="btn-back" id="btn-back" onclick="confirmGoHome()">← Sair</button>
+      <div class="logo" onclick="confirmGoHome()">🇧🇷 Oi, Brasil!</div>
+    </div>
+    <div class="xp-bar-wrap">
+      <span class="progress-pill" id="lesson-progress">0/10 aulas</span>
+      <span class="xp-label" id="xp-display">0 XP</span>
+      <div class="xp-track"><div class="xp-fill" id="xp-fill" style="width:0%"></div></div>
+    </div>
+  </header>
+  <main id="main-content"></main>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+//  CURRICULUM DATA — all lessons defined here
+//  To add a new lesson: add an entry to LESSONS and link it
+//  in CURRICULUM below.
+// ═══════════════════════════════════════════════════════════
+const LESSONS = {
+
+  // ────────────────────────────────────────────────
+  //  SEMANA 1 — Quem sou eu?
+  // ────────────────────────────────────────────────
+  s1a: {
+    id:'s1a', semana:'Semana 1A', titulo:'Saudações e Apresentação',
+    objetivo:'Dizer oi, tchau e se apresentar em português!',
+    apostila:{ vol:1, paginas:'3–4', descricao:'Diálogo com a Luna (pág. 3) e saudações (pág. 4)' },
+    steps: ['story','theory','activity','complete'],
+    story: {
+      lines: [
+        { speaker:'Luna',  avatar:'🌙', text:'Oi! Bom dia! Eu sou a Luna. E você?' },
+        { speaker:'Margo', avatar:'⭐', text:'Olá! Meu nome é Margo! Muito prazer!', right:true },
+        { speaker:'Luna',  avatar:'🌙', text:'O prazer é meu! De onde você é, Margo?' },
+        { speaker:'Margo', avatar:'⭐', text:'Eu sou da Rússia! Mas morei na Argentina e agora moro aqui no Brasil! 🇷🇺🇦🇷🇧🇷', right:true },
+        { speaker:'Luna',  avatar:'🌙', text:'Uau! Você fala russo, espanhol E português?!' },
+        { speaker:'Margo', avatar:'⭐', text:'Estou aprendendo! É por isso que estamos aqui! 😄', right:true },
+      ]
+    },
+    theory: [
+      { title:'Saudações 👋', items:[
+        { icon:'☀️', pt:'Bom dia',    es:'Buen día',        ex:'Bom dia, Luna!' },
+        { icon:'🌤️', pt:'Boa tarde',  es:'Buenas tardes',   ex:'Boa tarde, professora!' },
+        { icon:'🌙', pt:'Boa noite',  es:'Buenas noches',   ex:'Boa noite, mamãe!' },
+        { icon:'👋', pt:'Oi / Olá',   es:'Hola',            ex:'Oi! Tudo bem?' },
+        { icon:'✌️', pt:'Tchau!',     es:'¡Chau!',          ex:'Tchau, até amanhã!' },
+        { icon:'📅', pt:'Até amanhã', es:'Hasta mañana',    ex:'Até amanhã, Luna!' },
+      ]},
+      { title:'Apresentação 🙋', items:[
+        { icon:'🪪', pt:'Meu nome é…',  es:'Mi nombre es…',   ex:'Meu nome é Margo.' },
+        { icon:'🎂', pt:'Eu tenho … anos', es:'Tengo … años', ex:'Eu tenho 8 anos.' },
+        { icon:'🌎', pt:'Eu sou de…',   es:'Soy de…',         ex:'Eu sou da Rússia.' },
+        { icon:'🤝', pt:'Muito prazer!', es:'¡Mucho gusto!',  ex:'Muito prazer, Margo!' },
+      ]}
+    ],
+    activity: {
+      type:'quiz',
+      questions: [
+        { q:'Como se diz "Buen día" em português?', trans:'"Buen día" en español', opts:['Boa noite','Bom dia','Boa tarde','Olá'], correct:'Bom dia', dica:'De manhã usamos "bom", não "boa"!' },
+        { q:'Meu ____ é Margo.', trans:'"Mi nombre es Margo"', opts:['prazer','nome','dia','tarde'], correct:'nome', dica:'Nome = nombre em espanhol!' },
+        { q:'Eu sou ____ Rússia.', trans:'"Soy de Rusia"', opts:['em','de','da','do'], correct:'da', dica:'Usamos "da" para países femininos! Rússia, Argentina, França…' },
+        { q:'Como você responde "Tudo bem?"', trans:'¿Cómo respondes "¿Todo bien?"?', opts:['Bom dia!','Tudo bem!','Muito prazer!','Até logo!'], correct:'Tudo bem!', dica:'"Tudo bem" pode ser pergunta e resposta!' },
+        { q:'"Até amanhã" significa…', trans:'Significa…', opts:['Hasta mañana','Hasta luego','Buenos días','Por favor'], correct:'Hasta mañana', dica:'"Amanhã" = mañana 🌅' },
+        { q:'Qual saudação usamos à noite?', trans:'¿Qué saludo usamos de noche?', opts:['Bom dia','Boa tarde','Boa noite','Olá'], correct:'Boa noite', dica:'Noite = noche — fácil!' },
+      ]
+    }
+  },
+
+  s1b: {
+    id:'s1b', semana:'Semana 1B', titulo:'Gostos e Pronomes',
+    objetivo:'Falar o que você ama e usar eu, você, ele, ela!',
+    apostila:{ vol:1, paginas:'5–7', descricao:'Gostos (pág. 5-6) e apresentação da família (pág. 7)' },
+    steps: ['story','theory','activity','complete'],
+    story: {
+      lines: [
+        { speaker:'Luna', avatar:'🌙', text:'Margo, você gosta de Roblox?' },
+        { speaker:'Margo',avatar:'⭐', text:'Eu ADORO Roblox! E você gosta de música?', right:true },
+        { speaker:'Luna', avatar:'🌙', text:'Eu gosto muito! Mas não gosto de matemática.' },
+        { speaker:'Margo',avatar:'⭐', text:'Ela (a professora) gosta de matemática? 😅', right:true },
+        { speaker:'Luna', avatar:'🌙', text:'Haha! Ele (o gato) gosta de dormir mais!' },
+      ]
+    },
+    theory: [
+      { title:'Pronomes 👤', items:[
+        { icon:'☝️', pt:'Eu',   es:'Yo',   ex:'Eu gosto de Roblox.' },
+        { icon:'🫵', pt:'Você', es:'Tú/Vos', ex:'Você gosta de música?' },
+        { icon:'👦', pt:'Ele',  es:'Él',   ex:'Ele é meu amigo.' },
+        { icon:'👧', pt:'Ela',  es:'Ella', ex:'Ela é divertida.' },
+      ]},
+      { title:'Gostos ❤️', items:[
+        { icon:'💚', pt:'Eu gosto de…',      es:'Me gusta…',            ex:'Eu gosto de Roblox.' },
+        { icon:'🌟', pt:'Eu adoro…',          es:'Me encanta…',          ex:'Eu adoro pizza!' },
+        { icon:'❌', pt:'Não gosto de…',      es:'No me gusta…',         ex:'Não gosto de espinafre.' },
+        { icon:'😑', pt:'Odeio…',             es:'Odio…',                ex:'Odeio acordar cedo.' },
+      ]},
+      { title:'Moradia e idiomas 🏠', items:[
+        { icon:'🏠', pt:'Eu moro em…',  es:'Vivo en…',     ex:'Eu moro no Brasil.' },
+        { icon:'🗣️', pt:'Eu falo…',     es:'Yo hablo…',    ex:'Eu falo russo e espanhol.' },
+        { icon:'📖', pt:'Eu aprendo…',  es:'Yo aprendo…',  ex:'Eu aprendo português.' },
+      ]}
+    ],
+    activity: {
+      type:'memory',
+      pairs:[
+        { icon:'☝️', pt:'Eu',        es:'Yo' },
+        { icon:'🫵', pt:'Você',      es:'Tú / Vos' },
+        { icon:'👦', pt:'Ele',       es:'Él' },
+        { icon:'👧', pt:'Ela',       es:'Ella' },
+        { icon:'💚', pt:'Eu gosto',  es:'Me gusta' },
+        { icon:'🌟', pt:'Eu adoro',  es:'Me encanta' },
+        { icon:'❌', pt:'Não gosto', es:'No me gusta' },
+        { icon:'🏠', pt:'Eu moro',   es:'Yo vivo' },
+      ]
+    }
+  },
+
+  // ────────────────────────────────────────────────
+  //  SEMANA 2 — Números
+  // ────────────────────────────────────────────────
+  s2a: {
+    id:'s2a', semana:'Semana 2A', titulo:'Números 1–20 e Verbo TER',
+    objetivo:'Contar até 20 e dizer quantas coisas você tem!',
+    apostila:{ vol:1, paginas:'8–9', descricao:'Cobra numérica (pág. 8) e relógio (pág. 9)' },
+    steps: ['story','theory','activity','complete'],
+    story: {
+      lines: [
+        { speaker:'Luna', avatar:'🌙', text:'Margo, quantos Robux você tem?' },
+        { speaker:'Margo',avatar:'⭐', text:'Eu tenho 500 Robux! Você tem itens raros?', right:true },
+        { speaker:'Luna', avatar:'🌙', text:'Eu tenho 3 skins lendárias! E você?' },
+        { speaker:'Margo',avatar:'⭐', text:'Eu tenho 12 skins! Conte comigo: um, dois…', right:true },
+      ]
+    },
+    theory: [
+      { title:'Números 1–10 🎮', items:[
+        { icon:'1️⃣', pt:'Um / Uma',  es:'Uno / Una',  ex:'Tenho um gato.' },
+        { icon:'2️⃣', pt:'Dois / Duas',es:'Dos',       ex:'Dois amigos.' },
+        { icon:'3️⃣', pt:'Três',      es:'Tres',       ex:'Três skins.' },
+        { icon:'4️⃣', pt:'Quatro',    es:'Cuatro',     ex:'Quatro vidas.' },
+        { icon:'5️⃣', pt:'Cinco',     es:'Cinco',      ex:'Cinco estrelas.' },
+        { icon:'6️⃣', pt:'Seis',      es:'Seis',       ex:'Seis pontos.' },
+        { icon:'7️⃣', pt:'Sete',      es:'Siete',      ex:'Sete dias.' },
+        { icon:'8️⃣', pt:'Oito',      es:'Ocho',       ex:'Oito horas.' },
+        { icon:'9️⃣', pt:'Nove',      es:'Nueve',      ex:'Nove vidas.' },
+        { icon:'🔟', pt:'Dez',       es:'Diez',       ex:'Dez Robux.' },
+      ]},
+      { title:'Números 11–20 🎯', items:[
+        { icon:'🔢', pt:'Onze',      es:'Once',       ex:'Onze itens.' },
+        { icon:'🔢', pt:'Doze',      es:'Doce',       ex:'Doze meses.' },
+        { icon:'🔢', pt:'Treze',     es:'Trece',      ex:'Treze players.' },
+        { icon:'🔢', pt:'Quatorze',  es:'Catorce',    ex:'Quatorze dias.' },
+        { icon:'🔢', pt:'Quinze',    es:'Quince',     ex:'Quinze moedas.' },
+        { icon:'🔢', pt:'Dezesseis', es:'Dieciséis',  ex:'Dezesseis cartas.' },
+        { icon:'🔢', pt:'Dezessete', es:'Diecisiete', ex:'Dezessete pontos.' },
+        { icon:'🔢', pt:'Dezoito',   es:'Dieciocho',  ex:'Dezoito anos.' },
+        { icon:'🔢', pt:'Dezenove',  es:'Diecinueve', ex:'Dezenove níveis.' },
+        { icon:'💯', pt:'Vinte',     es:'Veinte',     ex:'Vinte Robux.' },
+      ]},
+      { title:'Verbo TER 🤝', items:[
+        { icon:'🙋', pt:'Eu tenho',   es:'Yo tengo',    ex:'Eu tenho 8 anos.' },
+        { icon:'🫵', pt:'Você tem',   es:'Tú tienes',   ex:'Você tem Roblox?' },
+        { icon:'👦', pt:'Ele tem',    es:'Él tiene',    ex:'Ele tem um gato.' },
+        { icon:'👧', pt:'Ela tem',    es:'Ella tiene',  ex:'Ela tem 3 irmãs.' },
+      ]}
+    ],
+    activity: {
+      type:'quiz',
+      questions:[
+        { q:'Como se escreve o número 15?',  trans:'¿Cómo se escribe el número 15?', opts:['Quince','Quinze','Quatorze','Dezesseis'], correct:'Quinze', dica:'"Quinze" parece com "quince" em espanhol!' },
+        { q:'Eu ____ 8 anos.',               trans:'"Tengo 8 años"', opts:['tenho','tem','temos','têm'], correct:'tenho', dica:'EU → tenho. Você → tem!' },
+        { q:'1, 2, 3… Qual vem depois?',     trans:'1, 2, 3… ¿Cuál sigue?', opts:['Cinco','Quatro','Seis','Três'], correct:'Quatro', dica:'Três, quatro, cinco… é igual em espanhol!' },
+        { q:'Como se diz "doce" (12)?',      trans:'¿Cómo se dice "doce" (12)?', opts:['Dez','Doze','Onze','Treze'], correct:'Doze', dica:'"Doze" soa parecido com "doce" em espanhol!' },
+        { q:'Ela ____ dois gatos.',          trans:'"Ella tiene dos gatos"', opts:['tenho','tem','ter','tenhas'], correct:'tem', dica:'Ela/Ele → tem!' },
+        { q:'Quantas letras tem "ROBLOX"?',  trans:'¿Cuántas letras tiene "ROBLOX"?', opts:['Cinco','Seis','Sete','Quatro'], correct:'Seis', dica:'R-O-B-L-O-X = 6 = seis!' },
+      ]
+    }
+  },
+
+  s2b: {
+    id:'s2b', semana:'Semana 2B', titulo:'Dezenas e Preços',
+    objetivo:'Contar de 10 em 10 até 100 e perguntar preços!',
+    apostila:{ vol:1, paginas:'10–11', descricao:'Preços (pág. 10) e loja de Robux (pág. 8-9)' },
+    steps: ['story','theory','activity','complete'],
+    story: {
+      lines: [
+        { speaker:'Luna', avatar:'🌙', text:'Quanto custa essa skin no Roblox?' },
+        { speaker:'Margo',avatar:'⭐', text:'Custa oitenta Robux. É barato!', right:true },
+        { speaker:'Luna', avatar:'🌙', text:'E aquela ali? A skin roxa?' },
+        { speaker:'Margo',avatar:'⭐', text:'Aquela custa quinhentos. É cara!', right:true },
+        { speaker:'Luna', avatar:'🌙', text:'Meu Deus, isso é caro demais! 😱 Que horas são agora?' },
+        { speaker:'Margo',avatar:'⭐', text:'São três horas da tarde!', right:true },
+      ]
+    },
+    theory: [
+      { title:'Dezenas 💰', items:[
+        { icon:'💰', pt:'Dez',       es:'Diez',       ex:'Dez Robux.' },
+        { icon:'💰', pt:'Vinte',     es:'Veinte',     ex:'Vinte reais.' },
+        { icon:'💰', pt:'Trinta',    es:'Treinta',    ex:'Trinta pontos.' },
+        { icon:'💰', pt:'Quarenta',  es:'Cuarenta',   ex:'Quarenta itens.' },
+        { icon:'💰', pt:'Cinquenta', es:'Cincuenta',  ex:'Cinquenta moedas.' },
+        { icon:'💎', pt:'Sessenta',  es:'Sesenta',    ex:'Sessenta XP.' },
+        { icon:'💎', pt:'Setenta',   es:'Setenta',    ex:'Setenta níveis.' },
+        { icon:'💎', pt:'Oitenta',   es:'Ochenta',    ex:'Oitenta Robux.' },
+        { icon:'💎', pt:'Noventa',   es:'Noventa',    ex:'Noventa players.' },
+        { icon:'💯', pt:'Cem',       es:'Cien',       ex:'Cem pontos!' },
+      ]},
+      { title:'Preços 🏷️', items:[
+        { icon:'🏷️', pt:'Quanto custa?', es:'¿Cuánto cuesta?', ex:'Quanto custa a skin?' },
+        { icon:'💸', pt:'Custa…',        es:'Cuesta…',         ex:'Custa cinquenta Robux.' },
+        { icon:'✅', pt:'Barato!',       es:'¡Barato!',         ex:'Dez reais é barato!' },
+        { icon:'😱', pt:'Caro!',         es:'¡Caro!',           ex:'Mil reais é caro!' },
+      ]},
+      { title:'Que horas são? ⏰', items:[
+        { icon:'🕐', pt:'São … horas.',    es:'Son las … horas.',  ex:'São oito horas.' },
+        { icon:'🕛', pt:'É meio-dia.',      es:'Es mediodía.',       ex:'É meio-dia!' },
+        { icon:'🌅', pt:'De manhã.',        es:'De la mañana.',      ex:'São 8h da manhã.' },
+        { icon:'🌆', pt:'Da tarde.',        es:'De la tarde.',       ex:'São 3h da tarde.' },
+      ]}
+    ],
+    activity: {
+      type:'quiz',
+      questions:[
+        { q:'Quanto custa? ___ oitenta Robux.', trans:'"Cuesta ochenta Robux"', opts:['É','Tem','Custa','Gosto'], correct:'Custa', dica:'"Custa" = cuesta em espanhol!' },
+        { q:'50 + 30 = ___', trans:'50 + 30 = …?', opts:['Oitenta','Setenta','Noventa','Sessenta'], correct:'Oitenta', dica:'Cinquenta + trinta = oitenta!' },
+        { q:'"Barato" significa…', trans:'"Barato" significa…', opts:['Caro','Barato','Bonito','Novo'], correct:'Barato', dica:'Barato é igual em espanhol!' },
+        { q:'São ___ horas. (3:00)', trans:'¿Cómo se dice "Son las 3:00"?', opts:['três','trinta','treinta','ter'], correct:'três', dica:'São TRÊS horas. 3 = três!' },
+        { q:'10, 20, 30… Qual vem depois?', trans:'10, 20, 30… ¿cuál sigue?', opts:['Cinquenta','Trinta','Quarenta','Sessenta'], correct:'Quarenta', dica:'Vinte, trinta, quarenta… igual ao espanhol!' },
+        { q:'"¿Cuánto cuesta?" em português é…', trans:'"¿Cuánto cuesta?" en portugués es…', opts:['Quanto custa?','Como está?','Onde fica?','Quanto tempo?'], correct:'Quanto custa?', dica:'"Quanto" = cuánto, "custa" = cuesta!' },
+      ]
+    }
+  },
+
+  // ────────────────────────────────────────────────
+  //  SEMANA 3 — Cores e Adjetivos
+  // ────────────────────────────────────────────────
+  s3a: {
+    id:'s3a', semana:'Semana 3A', titulo:'Cores e Formas',
+    objetivo:'Nomear cores e formas em português!',
+    apostila:{ vol:1, paginas:'11–15', descricao:'Cores (pág. 12) e monstro colorido (pág. 15)' },
+    steps: ['story','theory','activity','complete'],
+    story: {
+      lines: [
+        { speaker:'Luna', avatar:'🌙', text:'Margo, qual é a cor da sua skin favorita no Roblox?' },
+        { speaker:'Margo',avatar:'⭐', text:'Eu amo roxo! E azul escuro. E rosa! 💜', right:true },
+        { speaker:'Luna', avatar:'🌙', text:'A minha skin tem um coração vermelho no centro.' },
+        { speaker:'Margo',avatar:'⭐', text:'Que linda! O círculo ou o quadrado?', right:true },
+        { speaker:'Luna', avatar:'🌙', text:'É uma estrela! ⭐ Igual ao meu nome!' },
+      ]
+    },
+    theory: [
+      { title:'Cores 🎨', items:[
+        { icon:'🔴', pt:'Vermelho/a', es:'Rojo/a',    ex:'A maçã é vermelha.' },
+        { icon:'🔵', pt:'Azul',       es:'Azul',      ex:'O mar é azul.' },
+        { icon:'🟢', pt:'Verde',      es:'Verde',     ex:'A grama é verde.' },
+        { icon:'🟡', pt:'Amarelo/a',  es:'Amarillo/a',ex:'O sol é amarelo.' },
+        { icon:'🟠', pt:'Laranja',    es:'Naranja',   ex:'A laranja é laranja.' },
+        { icon:'🟣', pt:'Roxo/a',     es:'Morado/a',  ex:'A pera é roxa.' },
+        { icon:'🩷', pt:'Rosa',       es:'Rosa',      ex:'O flamingo é rosa.' },
+        { icon:'⚫', pt:'Preto/a',    es:'Negro/a',   ex:'O gato é preto.' },
+        { icon:'⚪', pt:'Branco/a',   es:'Blanco/a',  ex:'A neve é branca.' },
+        { icon:'🟤', pt:'Marrom',     es:'Marrón',    ex:'O chocolate é marrom.' },
+      ]},
+      { title:'Formas ⭐', items:[
+        { icon:'⭕', pt:'Círculo',    es:'Círculo',   ex:'A lua é um círculo.' },
+        { icon:'⬜', pt:'Quadrado',   es:'Cuadrado',  ex:'A janela é quadrada.' },
+        { icon:'🔺', pt:'Triângulo',  es:'Triángulo', ex:'Pizza tem triângulos.' },
+        { icon:'⭐', pt:'Estrela',    es:'Estrella',  ex:'Eu desenho estrelas.' },
+      ]},
+      { title:'Concordância 👗', items:[
+        { icon:'👕', pt:'Camiseta branca', es:'Camisa blanca', ex:'A camiseta é branca.' },
+        { icon:'👟', pt:'Tênis azul',      es:'Zapatilla azul',ex:'O tênis é azul.' },
+        { icon:'💜', pt:'Skin roxa',       es:'Skin morada',   ex:'A skin é roxa.' },
+      ]}
+    ],
+    activity: {
+      type:'matching',
+      pairs:[
+        { a:'🔴 Vermelho', b:'Rojo' },
+        { a:'🔵 Azul', b:'Azul' },
+        { a:'🟢 Verde', b:'Verde' },
+        { a:'🟡 Amarelo', b:'Amarillo' },
+        { a:'🟣 Roxo', b:'Morado' },
+        { a:'🩷 Rosa', b:'Rosa' },
+        { a:'⚫ Preto', b:'Negro' },
+        { a:'⚪ Branco', b:'Blanco' },
+      ]
+    }
+  },
+
+  s3b: {
+    id:'s3b', semana:'Semana 3B', titulo:'Adjetivos e Comparações',
+    objetivo:'Descrever pessoas e comparar coisas em português!',
+    apostila:{ vol:1, paginas:'13–15', descricao:'Adjetivos (pág. 13), animais (pág. 14)' },
+    steps: ['story','theory','activity','complete'],
+    story: {
+      lines: [
+        { speaker:'Luna', avatar:'🌙', text:'Margo, o elefante é maior ou menor que o rato?' },
+        { speaker:'Margo',avatar:'⭐', text:'Hahaha! O elefante é MUITO maior que o rato!', right:true },
+        { speaker:'Luna', avatar:'🌙', text:'E você? Você é alta ou baixa?' },
+        { speaker:'Margo',avatar:'⭐', text:'Sou alta! E você é muito corajosa e simpática!', right:true },
+        { speaker:'Luna', avatar:'🌙', text:'Obrigada! Você também é muito engraçada! 😂', },
+      ]
+    },
+    theory: [
+      { title:'Adjetivos físicos 📏', items:[
+        { icon:'🦒', pt:'Alto/Alta',       es:'Alto/Alta',          ex:'O girafa é alto.' },
+        { icon:'🐭', pt:'Baixo/Baixa',     es:'Bajo/Baja',          ex:'O rato é baixo.' },
+        { icon:'🐘', pt:'Grande',          es:'Grande',             ex:'O elefante é grande.' },
+        { icon:'🐜', pt:'Pequeno/Pequena', es:'Pequeño/Pequeña',    ex:'A formiga é pequena.' },
+        { icon:'✨', pt:'Bonito/Bonita',   es:'Bonito/Bonita',      ex:'A skin é bonita.' },
+      ]},
+      { title:'Personalidade 🧠', items:[
+        { icon:'😎', pt:'Legal',           es:'Genial/Chévere',     ex:'Você é muito legal!' },
+        { icon:'😂', pt:'Engraçado/a',     es:'Gracioso/a',         ex:'A Luna é engraçada.' },
+        { icon:'🛡️', pt:'Corajoso/a',     es:'Valiente',           ex:'Ela é corajosa.' },
+        { icon:'😊', pt:'Simpático/a',     es:'Simpático/a',        ex:'Ele é simpático.' },
+        { icon:'🤫', pt:'Tímido/a',        es:'Tímido/a',           ex:'O gato é tímido.' },
+      ]},
+      { title:'Comparações ⚖️', items:[
+        { icon:'🔼', pt:'Mais … que',      es:'Más … que',          ex:'Mais alto que eu.' },
+        { icon:'🔽', pt:'Menos … que',     es:'Menos … que',        ex:'Menos caro que aquele.' },
+        { icon:'↔️', pt:'Tão … quanto',   es:'Tan … como',         ex:'Tão alto quanto eu.' },
+      ]}
+    ],
+    activity: {
+      type:'quiz',
+      questions:[
+        { q:'O elefante é ____ que o rato.', trans:'"El elefante es más grande que el ratón"', opts:['mais pequeno','menor','mais grande','maior'], correct:'maior', dica:'"Maior" é o superlativo de "grande"!' },
+        { q:'Ela é muito ____. (valiente)', trans:'"Ella es muy valiente"', opts:['engraçada','corajosa','tímida','simpática'], correct:'corajosa', dica:'"Corajosa" = valiente em espanhol!' },
+        { q:'O tênis é ____. (azul, masculino)', trans:'"La zapatilla es azul"', opts:['azula','azul','azulo','azule'], correct:'azul', dica:'Azul não muda com gênero!' },
+        { q:'A skin é ____. (roxa)', trans:'"La skin es morada"', opts:['roxo','roxu','roxa','roxe'], correct:'roxa', dica:'Feminino: roxa (não roxo)!' },
+        { q:'"Gracioso" em português é…', trans:'"Gracioso" en portugués es…', opts:['legal','simpático','engraçado','corajoso'], correct:'engraçado', dica:'"Engraçado" = gracioso, quem faz rir!' },
+        { q:'Margo é ____ alta ____ Luna.', trans:'"Margo es tan alta como Luna"', opts:['mais…que','tão…quanto','menos…que','muito…que'], correct:'tão…quanto', dica:'"Tan…como" = "tão…quanto" em PT!' },
+      ]
+    }
+  },
+
+  // ────────────────────────────────────────────────
+  //  SEMANA 4 — Casa, Calendário e Rotina
+  // ────────────────────────────────────────────────
+  s4a: {
+    id:'s4a', semana:'Semana 4A', titulo:'A Casa e o Calendário',
+    objetivo:'Nomear partes da casa e os dias da semana!',
+    apostila:{ vol:1, paginas:'16–17', descricao:'A casa (pág. 16-17) e dias da semana (pág. 9 — horários)' },
+    steps: ['story','theory','activity','complete'],
+    story: {
+      lines: [
+        { speaker:'Luna', avatar:'🌙', text:'Margo, que dia é hoje?' },
+        { speaker:'Margo',avatar:'⭐', text:'Hoje é sexta-feira! Fim de semana chegando! 🎉', right:true },
+        { speaker:'Luna', avatar:'🌙', text:'No sábado vou ficar na sala jogando Roblox!' },
+        { speaker:'Margo',avatar:'⭐', text:'Eu vou ficar no quarto estudando português!', right:true },
+        { speaker:'Luna', avatar:'🌙', text:'E a geladeira na cozinha cheia de sorvete? 🍦' },
+        { speaker:'Margo',avatar:'⭐', text:'Parte do plano! 😂', right:true },
+      ]
+    },
+    theory: [
+      { title:'Cômodos da casa 🏠', items:[
+        { icon:'🛋️', pt:'Sala',       es:'Sala',        ex:'O sofá fica na sala.' },
+        { icon:'🍳', pt:'Cozinha',    es:'Cocina',      ex:'A geladeira é na cozinha.' },
+        { icon:'🛁', pt:'Banheiro',   es:'Baño',        ex:'O chuveiro é no banheiro.' },
+        { icon:'🛏️', pt:'Quarto',     es:'Habitación',  ex:'A cama é no quarto.' },
+        { icon:'🚿', pt:'Chuveiro',   es:'Ducha',       ex:'O chuveiro é legal!' },
+        { icon:'🛋️', pt:'Sofá',       es:'Sofá',        ex:'Eu sento no sofá.' },
+        { icon:'🌡️', pt:'Geladeira',  es:'Heladera',    ex:'O sorvete fica na geladeira.' },
+        { icon:'🛏️', pt:'Cama',       es:'Cama',        ex:'Eu durmo na cama.' },
+      ]},
+      { title:'Dias da Semana 📅', items:[
+        { icon:'1️⃣', pt:'Segunda-feira', es:'Lunes',      ex:'Segunda tem escola.' },
+        { icon:'2️⃣', pt:'Terça-feira',   es:'Martes',     ex:'Terça tem inglês.' },
+        { icon:'3️⃣', pt:'Quarta-feira',  es:'Miércoles',  ex:'Quarta é dia de treino.' },
+        { icon:'4️⃣', pt:'Quinta-feira',  es:'Jueves',     ex:'Quinta tem português!' },
+        { icon:'5️⃣', pt:'Sexta-feira',   es:'Viernes',    ex:'Sexta é quase fim de semana!' },
+        { icon:'🎉', pt:'Sábado',         es:'Sábado',     ex:'Sábado = Roblox!' },
+        { icon:'😴', pt:'Domingo',        es:'Domingo',    ex:'Domingo é para descansar.' },
+      ]}
+    ],
+    activity: {
+      type:'matching',
+      pairs:[
+        { a:'Segunda-feira', b:'Lunes' },
+        { a:'Terça-feira',   b:'Martes' },
+        { a:'Quarta-feira',  b:'Miércoles' },
+        { a:'Quinta-feira',  b:'Jueves' },
+        { a:'Sexta-feira',   b:'Viernes' },
+        { a:'Sábado',        b:'Sábado' },
+        { a:'Domingo',       b:'Domingo' },
+      ]
+    }
+  },
+
+  s4b: {
+    id:'s4b', semana:'Semana 4B', titulo:'Rotina e Verbos do Dia',
+    objetivo:'Descrever sua rotina usando verbos no presente!',
+    apostila:{ vol:1, paginas:'18–19', descricao:'Rotina (pág. 18-19) e geladeira (pág. 19)' },
+    steps: ['story','theory','activity','complete'],
+    story: {
+      lines: [
+        { speaker:'Luna', avatar:'🌙', text:'Margo, o que você faz de manhã?' },
+        { speaker:'Margo',avatar:'⭐', text:'Eu desperto às 7h, como cereal e estudo!', right:true },
+        { speaker:'Luna', avatar:'🌙', text:'Eu sempre bebo leite gelado no café da manhã.' },
+        { speaker:'Margo',avatar:'⭐', text:'À tarde eu jogo Roblox com você, né? 🎮', right:true },
+        { speaker:'Luna', avatar:'🌙', text:'Sempre! E à noite eu dormo às 9h. Você também?' },
+        { speaker:'Margo',avatar:'⭐', text:'Às vezes. Às vezes jogo até mais tarde… 🌙', right:true },
+      ]
+    },
+    theory: [
+      { title:'Verbos da Rotina 🌅', items:[
+        { icon:'⏰', pt:'Despertar',  es:'Despertarse', ex:'Eu desperto às 7h.' },
+        { icon:'🍎', pt:'Comer',      es:'Comer',       ex:'Eu como cereal.' },
+        { icon:'🥤', pt:'Beber',      es:'Beber/Tomar', ex:'Eu bebo leite.' },
+        { icon:'📚', pt:'Estudar',    es:'Estudiar',    ex:'Eu estudo português.' },
+        { icon:'🎮', pt:'Jogar',      es:'Jugar',       ex:'Eu jogo Roblox.' },
+        { icon:'📺', pt:'Ver',        es:'Ver',         ex:'Eu vejo TV.' },
+        { icon:'😴', pt:'Dormir',     es:'Dormir',      ex:'Eu durmo às 9h.' },
+      ]},
+      { title:'Conjugação Presente 📝', verbTable: true, verbs:[
+        { inf:'DESPERTAR', eu:'desperto', voce:'desperta', ele:'desperta' },
+        { inf:'COMER',     eu:'como',     voce:'come',     ele:'come' },
+        { inf:'BEBER',     eu:'bebo',     voce:'bebe',     ele:'bebe' },
+        { inf:'ESTUDAR',   eu:'estudo',   voce:'estuda',   ele:'estuda' },
+        { inf:'JOGAR',     eu:'jogo',     voce:'joga',     ele:'joga' },
+        { inf:'VER',       eu:'vejo',     voce:'vê',       ele:'vê' },
+        { inf:'DORMIR',    eu:'durmo',    voce:'dorme',    ele:'dorme' },
+      ]},
+      { title:'Frequência ⏱️', freqMeter: true, freqs:[
+        { word:'SEMPRE',   pct:100, color:'#00F5D4', es:'siempre' },
+        { word:'TODO DIA', pct:90,  color:'#7B2FFF', es:'todos los días' },
+        { word:'ÀS VEZES', pct:50,  color:'#FFD60A', es:'a veces' },
+        { word:'NUNCA',    pct:0,   color:'#FF4757', es:'nunca' },
+      ]},
+      { title:'Partes do dia 🕐', items:[
+        { icon:'🌅', pt:'De manhã',  es:'Por la mañana', ex:'De manhã eu estudo.' },
+        { icon:'🌆', pt:'À tarde',   es:'Por la tarde',  ex:'À tarde eu jogo.' },
+        { icon:'🌙', pt:'À noite',   es:'Por la noche',  ex:'À noite eu durmo.' },
+      ]}
+    ],
+    activity: {
+      type:'quiz',
+      questions:[
+        { q:'Eu ____ às 7h da manhã. (despertarse)', trans:'"Yo me despierto a las 7 de la mañana"', opts:['desperto','despertas','desperta','despertamos'], correct:'desperto', dica:'EU → desperto. Sempre a 1ª conjugação!' },
+        { q:'Ela ____ leite todo dia.', trans:'"Ella toma/bebe leche todos los días"', opts:['bebo','bebe','bebes','bebem'], correct:'bebe', dica:'Ela/Ele → bebe (3ª pessoa)!' },
+        { q:'Eu sempre ____ Roblox à tarde.', trans:'"Yo siempre juego Roblox por la tarde"', opts:['jogas','jogo','joga','jogam'], correct:'jogo', dica:'EU → jogo!' },
+        { q:'"A veces" em português é…', trans:'"A veces" en portugués es…', opts:['sempre','nunca','às vezes','todo dia'], correct:'às vezes', dica:'"Às vezes" = a veces. Às = a las!' },
+        { q:'De manhã eu ____ cereal.', trans:'"Por la mañana como cereal"', opts:['como','come','comes','comemos'], correct:'como', dica:'Cuidado! "Como" em PT = comer (1ª pessoa)!' },
+        { q:'Você ____ às 10h. (dormir)', trans:'"Tú/Vos dormís a las 10"', opts:['durmo','dorme','dormem','dormes'], correct:'dorme', dica:'Você → dorme!' },
+      ]
+    }
+  },
+
+  // ────────────────────────────────────────────────
+  //  SEMANA 5 — Preposições e Espaço
+  // ────────────────────────────────────────────────
+  s5a: {
+    id:'s5a', semana:'Semana 5A', titulo:'Preposições de Lugar',
+    objetivo:'Usar preposições para dizer onde as coisas estão!',
+    apostila:{ vol:2, paginas:'1', descricao:'Detetive de Objetos (pág. 1) — complete as frases!' },
+    steps: ['story','theory','activity','complete'],
+    story: {
+      lines: [
+        { speaker:'Luna', avatar:'🌙', text:'Margo! Cadê o meu tablet? Eu não acho!' },
+        { speaker:'Margo',avatar:'⭐', text:'Está em cima da mesa? Ou dentro da mochila?', right:true },
+        { speaker:'Luna', avatar:'🌙', text:'Não! Está embaixo da cadeira! Achei! 😅' },
+        { speaker:'Margo',avatar:'⭐', text:'O gato estava atrás da cortina outra vez?', right:true },
+        { speaker:'Luna', avatar:'🌙', text:'Sim! Ele sempre fica escondido atrás das coisas!' },
+      ]
+    },
+    theory: [
+      { title:'Preposições de Lugar 📍', prepVisual: true, preps:[
+        { icon:'⬆️', pt:'Em cima de',  es:'Encima de',  ex:'O livro está em cima da mesa.' },
+        { icon:'⬇️', pt:'Embaixo de',  es:'Debajo de',  ex:'O gato está embaixo da cama.' },
+        { icon:'📦', pt:'Dentro de',   es:'Dentro de',  ex:'O tablet está dentro da mochila.' },
+        { icon:'🚪', pt:'Fora de',     es:'Fuera de',   ex:'O tênis está fora da caixa.' },
+        { icon:'↔️', pt:'Ao lado de',  es:'Al lado de', ex:'A Luna está ao lado da Margo.' },
+        { icon:'👁️', pt:'Na frente de',es:'Enfrente de',ex:'A mochila fica na frente da mesa.' },
+        { icon:'🔙', pt:'Atrás de',    es:'Detrás de',  ex:'O gato está atrás da cortina.' },
+        { icon:'↩️', pt:'Perto de',    es:'Cerca de',   ex:'A escola fica perto de casa.' },
+      ]}
+    ],
+    activity: {
+      type:'quiz',
+      questions:[
+        { q:'O livro está ____ da mesa. (encima)', trans:'"El libro está encima de la mesa"', opts:['embaixo','em cima','dentro','atrás'], correct:'em cima', dica:'"Em cima de" = encima de!' },
+        { q:'O gato está ____ da cortina. (detrás)', trans:'"El gato está detrás de la cortina"', opts:['na frente','dentro','atrás','ao lado'], correct:'atrás', dica:'"Atrás de" = detrás de!' },
+        { q:'O tablet está ____ da mochila.', trans:'"La tablet está dentro de la mochila"', opts:['em cima','ao lado','dentro','fora'], correct:'dentro', dica:'"Dentro de" = dentro de! Igual!' },
+        { q:'A Luna está ____ da Margo. (al lado)', trans:'"Luna está al lado de Margo"', opts:['atrás','embaixo','ao lado','em cima'], correct:'ao lado', dica:'"Ao lado de" = al lado de!' },
+        { q:'Onde está o gato? Ele está ____ da mesa.', trans:'"Está debajo de la mesa"', opts:['em cima','embaixo','dentro','ao lado'], correct:'embaixo', dica:'"Embaixo de" = debajo de!' },
+        { q:'A escola fica ____ de casa. (cerca)', trans:'"La escuela queda cerca de casa"', opts:['longe','dentro','perto','atrás'], correct:'perto', dica:'"Perto de" = cerca de!' },
+      ]
+    }
+  },
+
+  s5b: {
+    id:'s5b', semana:'Semana 5B', titulo:'Sequência e Narrativa',
+    objetivo:'Contar sua rotina em ordem usando primeiro, depois e finalmente!',
+    apostila:{ vol:2, paginas:'5', descricao:'História da Luna (pág. 5) — escreva sua sequência!' },
+    steps: ['story','theory','activity','complete'],
+    story: {
+      lines: [
+        { speaker:'Luna', avatar:'🌙', text:'Margo, me conta o que você faz no sábado!' },
+        { speaker:'Margo',avatar:'⭐', text:'Primeiro, eu desperto e como panquecas. 🥞', right:true },
+        { speaker:'Luna', avatar:'🌙', text:'Que delícia! E depois?' },
+        { speaker:'Margo',avatar:'⭐', text:'Depois, eu jogo Roblox por duas horas!', right:true },
+        { speaker:'Luna', avatar:'🌙', text:'E finalmente?' },
+        { speaker:'Margo',avatar:'⭐', text:'Finalmente, eu estudo português e fico feliz! 😄', right:true },
+      ]
+    },
+    theory: [
+      { title:'Conectores de Sequência 🔗', items:[
+        { icon:'1️⃣', pt:'Primeiro,',    es:'Primero,',      ex:'Primeiro, eu desperto.' },
+        { icon:'2️⃣', pt:'Depois,',      es:'Después,',      ex:'Depois, eu como.' },
+        { icon:'3️⃣', pt:'Finalmente,',  es:'Finalmente,',   ex:'Finalmente, eu durmo.' },
+        { icon:'➕', pt:'Também',       es:'También',       ex:'Eu também estudo.' },
+        { icon:'🔄', pt:'Então,',       es:'Entonces,',     ex:'Então, eu jogo Roblox.' },
+        { icon:'⏰', pt:'Às … horas,',  es:'A las … horas,',ex:'Às 8h, eu desperto.' },
+      ]},
+      { title:'Revisão: Verbos + Rotina 📋', items:[
+        { icon:'🌅', pt:'De manhã desperto e como.', es:'Por la mañana me despierto y como.', ex:'' },
+        { icon:'🌆', pt:'À tarde jogo e estudo.',    es:'Por la tarde juego y estudio.',      ex:'' },
+        { icon:'🌙', pt:'À noite vejo TV e durmo.',  es:'Por la noche veo TV y duermo.',      ex:'' },
+      ]}
+    ],
+    activity: {
+      type:'sentenceOrder',
+      questions:[
+        {
+          prompt: 'Coloque a rotina da Luna em ordem! ☀️',
+          sentences:[
+            { text:'Primeiro, eu desperto com o sol.',   order:1 },
+            { text:'Depois, eu estudo e aprendo coisas.', order:2 },
+            { text:'Finalmente, eu durmo feliz!',         order:3 },
+          ]
+        },
+        {
+          prompt: 'Ordene o dia de sábado da Margo! 🎮',
+          sentences:[
+            { text:'Primeiro, eu como panquecas.',     order:1 },
+            { text:'Depois, eu jogo Roblox por 2h.',   order:2 },
+            { text:'Finalmente, eu estudo português!', order:3 },
+          ]
+        },
+        {
+          prompt: 'Organize essa rotina matinal! 🌅',
+          sentences:[
+            { text:'Primeiro, eu bebo leite gelado.',  order:1 },
+            { text:'Depois, eu preparo a mochila.',    order:2 },
+            { text:'Então, eu vou para a escola.',     order:3 },
+          ]
+        }
+      ]
+    }
+  },
+
+  // ────────────────────────────────────────────────
+  //  SEMANA 6 — Escola e Materiais Escolares
+  // ────────────────────────────────────────────────
+  s6a: {
+    id:'s6a', semana:'Semana 6A', titulo:'A Escola e os Materiais',
+    objetivo:'Nomear os materiais escolares e falar o que você usa na aula!',
+    apostila:{ vol:2, paginas:'6', descricao:'Desenhe e escreva os materiais da sua mochila!' },
+    steps: ['mission','theory','activity','complete'],
+    mission: {
+      emoji:'🎒',
+      title:'Missão: Mochila Cheia!',
+      color:'var(--purple)',
+      items:[
+        { icon:'✏️', text:'Como se chama o lápis em português? E a borracha? E a régua?' },
+        { icon:'🏫', text:'Hoje você vai aprender todos os materiais da sala de aula!' },
+        { icon:'🎯', text:'Meta: acertar o quiz de materiais sem nenhum erro!' },
+      ]
+    },
+    theory: [
+      { title:'Materiais Escolares ✏️', items:[
+        { icon:'✏️', pt:'Lápis',      es:'Lápiz',             ex:'Eu uso o lápis para escrever.' },
+        { icon:'🖊️', pt:'Caneta',     es:'Birome/Bolígrafo',  ex:'A caneta é azul.' },
+        { icon:'📏', pt:'Régua',      es:'Regla',             ex:'A régua tem 30 cm.' },
+        { icon:'🧹', pt:'Borracha',   es:'Goma de borrar',    ex:'A borracha apaga o erro.' },
+        { icon:'✂️', pt:'Tesoura',    es:'Tijeras',           ex:'A tesoura corta o papel.' },
+        { icon:'📒', pt:'Caderno',    es:'Cuaderno',          ex:'Eu escrevo no caderno.' },
+        { icon:'📚', pt:'Livro',      es:'Libro',             ex:'O livro de português é verde.' },
+        { icon:'🎒', pt:'Mochila',    es:'Mochila',           ex:'A mochila é pesada hoje!' },
+        { icon:'🖍️', pt:'Estojo',     es:'Cartuchera',        ex:'O estojo guarda os lápis.' },
+        { icon:'📌', pt:'Apontador',  es:'Sacapuntas',        ex:'O apontador afila o lápis.' },
+      ]},
+      { title:'Na sala de aula 🏫', items:[
+        { icon:'🖥️', pt:'Quadro',     es:'Pizarrón',          ex:'A professora escreve no quadro.' },
+        { icon:'🪑', pt:'Cadeira',    es:'Silla',             ex:'Eu sento na cadeira.' },
+        { icon:'🪟', pt:'Janela',     es:'Ventana',           ex:'A janela está aberta.' },
+        { icon:'🚪', pt:'Porta',      es:'Puerta',            ex:'Feche a porta, por favor.' },
+        { icon:'👩‍🏫', pt:'Professora', es:'Maestra/Profesora', ex:'A professora é ótima!' },
+      ]}
+    ],
+    activity: {
+      type:'quiz',
+      questions:[
+        { q:'Eu escrevo com o ____.',         trans:'"Escribo con el lápiz"',             opts:['caderno','lápis','borracha','régua'],  correct:'lápis',    dica:'"Lápis" = lápiz. Quase igual!' },
+        { q:'A ____ apaga o erro.',           trans:'"La goma borra el error"',           opts:['tesoura','régua','borracha','caneta'], correct:'borracha', dica:'"Borracha" = goma de borrar em argentino!' },
+        { q:'Eu carrego tudo na ____.',       trans:'"Cargo todo en la mochila"',         opts:['estojo','caneta','mochila','janela'],  correct:'mochila',  dica:'"Mochila" é igual nos dois idiomas!' },
+        { q:'O lápis está ____ do estojo.',   trans:'"El lápiz está dentro de la cartuchera"', opts:['em cima','fora','dentro','atrás'], correct:'dentro', dica:'Dentro = dentro de — lembra das preposições?' },
+        { q:'"Cuaderno" em português é…',     trans:'"Cuaderno" en portugués es…',       opts:['livro','caderno','lápis','borracha'],  correct:'caderno',  dica:'"Caderno" soa parecido com "cuaderno"!' },
+        { q:'A professora escreve no ____.',  trans:'"La maestra escribe en el pizarrón"', opts:['quadro','caderno','livro','papel'],  correct:'quadro',   dica:'"Quadro" = pizarrón!' },
+        { q:'"Sacapuntas" em português é…',   trans:'"Sacapuntas" en portugués es…',     opts:['borracha','estojo','apontador','régua'], correct:'apontador', dica:'O apontador afila o lápis — sacapuntas!' },
+        { q:'Onde você guarda os lápis?',     trans:'"¿Dónde guardás los lápices?"',     opts:['no caderno','na mochila','no estojo','no quadro'], correct:'no estojo', dica:'O estojo é a cartuchera!' },
+      ]
+    }
+  },
+
+  s6b: {
+    id:'s6b', semana:'Semana 6B', titulo:'O que você faz na escola?',
+    objetivo:'Usar verbos novos para falar sobre as suas atividades na escola!',
+    apostila:{ vol:2, paginas:'7', descricao:'Complete as frases sobre o seu dia na escola!' },
+    steps: ['mission','theory','activity','complete'],
+    mission: {
+      emoji:'📖',
+      title:'Missão: Verbos em Ação!',
+      color:'var(--pink)',
+      items:[
+        { icon:'🎨', text:'Na escola você lê, escreve, desenha, canta… Como se diz cada um em português?' },
+        { icon:'📝', text:'Hoje você vai aprender os verbos das atividades escolares e como conjugar!' },
+        { icon:'🏆', text:'Meta: ligar todos os verbos PT ↔ ES sem erros!' },
+      ]
+    },
+    theory: [
+      { title:'Verbos na Escola 📖', items:[
+        { icon:'📖', pt:'Ler',        es:'Leer',       ex:'Eu leio um livro por semana.' },
+        { icon:'✍️', pt:'Escrever',   es:'Escribir',   ex:'Eu escrevo no caderno.' },
+        { icon:'🎨', pt:'Desenhar',   es:'Dibujar',    ex:'Eu desenho um monstro roxo!' },
+        { icon:'🎵', pt:'Cantar',     es:'Cantar',     ex:'Eu canto na aula de música.' },
+        { icon:'🏃', pt:'Correr',     es:'Correr',     ex:'Eu corro no recreio.' },
+        { icon:'🙋', pt:'Perguntar',  es:'Preguntar',  ex:'Eu pergunto à professora.' },
+        { icon:'✅', pt:'Responder',  es:'Responder',  ex:'Eu respondo a pergunta.' },
+        { icon:'🤫', pt:'Escutar',    es:'Escuchar',   ex:'Eu escuto a professora.' },
+      ]},
+      { title:'Conjugação — EU / VOCÊ / ELE 📝', verbTable:true, verbs:[
+        { inf:'LER',       eu:'leio',     voce:'lê',        ele:'lê' },
+        { inf:'ESCREVER',  eu:'escrevo',  voce:'escreve',   ele:'escreve' },
+        { inf:'DESENHAR',  eu:'desenho',  voce:'desenha',   ele:'desenha' },
+        { inf:'CANTAR',    eu:'canto',    voce:'canta',     ele:'canta' },
+        { inf:'CORRER',    eu:'corro',    voce:'corre',     ele:'corre' },
+        { inf:'ESCUTAR',   eu:'escuto',   voce:'escuta',    ele:'escuta' },
+      ]},
+      { title:'Na hora certa ⏰', items:[
+        { icon:'🔔', pt:'No recreio',      es:'En el recreo',     ex:'Eu corro no recreio.' },
+        { icon:'📚', pt:'Na aula de…',     es:'En la clase de…',  ex:'Na aula de português!' },
+        { icon:'🏠', pt:'Depois da aula',  es:'Después de clase', ex:'Depois da aula eu jogo Roblox.' },
+      ]}
+    ],
+    activity: {
+      type:'quiz',
+      questions:[
+        { q:'Eu ____ no caderno todo dia.',      trans:'"Escribo en el cuaderno todos los días"', opts:['leio','escrevo','corro','canto'],     correct:'escrevo',   dica:'ESCREVER → Eu escrevo. Como "escribir"!' },
+        { q:'Ela ____ muito bem! (canta)',        trans:'"Ella canta muy bien"',                   opts:['corre','escreve','canta','lê'],       correct:'canta',     dica:'CANTAR → ela canta. Igual ao espanhol!' },
+        { q:'Eu ____ à professora quando não entendo.', trans:'"Le pregunto a la maestra cuando no entiendo"', opts:['respondo','escuto','pergunto','corro'], correct:'pergunto', dica:'PERGUNTAR → eu pergunto. Preguntar!' },
+        { q:'Você ____ muito rápido no recreio!', trans:'"¡Corrés muy rápido en el recreo!"',     opts:['canta','corre','escreve','pergunta'], correct:'corre',     dica:'CORRER → você corre. Igual ao espanhol!' },
+        { q:'Eu ____ um livro por semana.',       trans:'"Leo un libro por semana"',               opts:['canto','escrevo','leio','corro'],     correct:'leio',      dica:'LER → eu leio. Cuidado, é irregular!' },
+        { q:'Ele ____ a explicação com atenção.', trans:'"Él escucha la explicación con atención"', opts:['pergunta','responde','canta','escuta'], correct:'escuta', dica:'ESCUTAR → ele escuta. = escuchar!' },
+        { q:'Eu ____ a pergunta da professora.',  trans:'"Respondo la pregunta de la maestra"',   opts:['pergunto','escuto','respondo','leio'], correct:'respondo',  dica:'RESPONDER → eu respondo. = responder!' },
+        { q:'Eu ____ monstros roxos no caderno.', trans:'"Dibujo monstruos morados en el cuaderno"', opts:['escrevo','canto','desenho','leio'], correct:'desenho',  dica:'DESENHAR → eu desenho. = dibujar!' },
+      ]
+    }
+  },
+
+  // ────────────────────────────────────────────────
+  //  SEMANA 7 — Família
+  // ────────────────────────────────────────────────
+  s7a: {
+    id:'s7a', semana:'Semana 7A', titulo:'Minha Família',
+    objetivo:'Apresentar sua família e falar sobre cada membro em português!',
+    apostila:{ vol:2, paginas:'8', descricao:'Desenhe e escreva o nome de cada pessoa da sua família!' },
+    steps: ['mission','theory','activity','complete'],
+    mission: {
+      emoji:'👨‍👩‍👧',
+      title:'Missão: Família em Português!',
+      color:'var(--cyan)',
+      items:[
+        { icon:'👩', text:'Você sabe dizer "mãe" e "pai" em português? E irmão? E avó?' },
+        { icon:'🌍', text:'Em português, as palavras de família são bem parecidas com o espanhol — mas têm detalhes importantes!' },
+        { icon:'🎯', text:'Meta: apresentar toda sua família em português sem travar!' },
+      ]
+    },
+    theory: [
+      { title:'Família Imediata 👨‍👩‍👧', items:[
+        { icon:'👩', pt:'Mãe',      es:'Mamá/Madre',   ex:'A minha mãe chama Olga.' },
+        { icon:'👨', pt:'Pai',      es:'Papá/Padre',   ex:'O meu pai é alto.' },
+        { icon:'👧', pt:'Irmã',     es:'Hermana',      ex:'Eu tenho uma irmã.' },
+        { icon:'👦', pt:'Irmão',    es:'Hermano',      ex:'Meu irmão é engraçado.' },
+        { icon:'🐕', pt:'Cachorro', es:'Perro',        ex:'Meu cachorro é marrom.' },
+        { icon:'🐈', pt:'Gato',     es:'Gato',         ex:'O gato dorme na cama.' },
+      ]},
+      { title:'Família Estendida 👴', items:[
+        { icon:'👵', pt:'Avó',    es:'Abuela', ex:'A minha avó faz bolos.' },
+        { icon:'👴', pt:'Avô',    es:'Abuelo', ex:'O meu avô é simpático.' },
+        { icon:'👩‍🦱', pt:'Tia',   es:'Tía',    ex:'A minha tia mora perto.' },
+        { icon:'👨‍🦱', pt:'Tio',   es:'Tío',    ex:'Meu tio é engraçado.' },
+        { icon:'🧒', pt:'Prima',  es:'Prima',  ex:'Minha prima tem 7 anos.' },
+        { icon:'🧒', pt:'Primo',  es:'Primo',  ex:'Meu primo ama Roblox!' },
+      ]},
+      { title:'Como apresentar 🗣️', items:[
+        { icon:'👋', pt:'Este é o meu…',          es:'Este es mi…',      ex:'Este é o meu pai, Igor.' },
+        { icon:'👋', pt:'Esta é a minha…',        es:'Esta es mi…',      ex:'Esta é a minha mãe, Olga.' },
+        { icon:'🏠', pt:'Nós moramos juntos.',    es:'Vivimos juntos.',  ex:'' },
+        { icon:'❤️', pt:'Eu adoro minha família!',es:'¡Amo a mi familia!',ex:'' },
+      ]}
+    ],
+    activity: {
+      type:'quiz',
+      questions:[
+        { q:'Esta é a minha ____. (mamá)',        trans:'"Esta es mi mamá"',             opts:['tia','mãe','avó','prima'],       correct:'mãe',       dica:'"Mãe" = mamá. Quase igual!' },
+        { q:'O meu ____ é alto. (papá)',          trans:'"Mi papá es alto"',             opts:['avô','tio','irmão','pai'],       correct:'pai',       dica:'"Pai" = papá/padre em espanhol!' },
+        { q:'Meu ____ ama Roblox! (primo)',       trans:'"Mi primo ama Roblox"',         opts:['prima','primo','irmão','avô'],   correct:'primo',     dica:'"Primo" é igual nos dois idiomas!' },
+        { q:'A minha ____ faz bolos. (abuela)',   trans:'"Mi abuela hace tortas"',       opts:['tia','avó','mãe','prima'],       correct:'avó',       dica:'"Avó" = abuela. Atenção ao acento!' },
+        { q:'Eu tenho um irmão e uma ____.',      trans:'"Tengo un hermano y una hermana"', opts:['prima','tia','avó','irmã'],  correct:'irmã',      dica:'"Irmã" = hermana. Feminino de irmão!' },
+        { q:'Este é o meu ____ favorito. (tío)',  trans:'"Este es mi tío favorito"',     opts:['avô','primo','tio','pai'],       correct:'tio',       dica:'"Tio" = tío — bem parecido!' },
+        { q:'"Abuela" em português é…',           trans:'"Abuela" en portugués es…',     opts:['avô','tia','avó','prima'],       correct:'avó',       dica:'Avó = abuela (feminino). Avô = abuelo!' },
+        { q:'Nós ____ juntos.',                   trans:'"Vivimos juntos"',              opts:['moramos','vivemos','somos','estamos'], correct:'moramos', dica:'MORAR → nós moramos = vivir!' },
+      ]
+    }
+  },
+
+  // ────────────────────────────────────────────────
+  //  SEMANA 7B — O Corpo Humano
+  // ────────────────────────────────────────────────
+  s7b: {
+    id:'s7b', semana:'Semana 7B', titulo:'O Corpo Humano',
+    objetivo:'Nomear as partes do corpo e descrever características físicas!',
+    apostila:{ vol:2, paginas:'9', descricao:'Complete a silhueta do corpo com os nomes das partes!' },
+    steps: ['mission','theory','activity','complete'],
+    mission: {
+      emoji:'🦴',
+      title:'Missão: Conhecer seu Corpo!',
+      color:'var(--cyan)',
+      items:[
+        { icon:'👀', text:'Você sabe dizer "olhos", "nariz" e "boca" em português? Vamos descobrir como se chama cada parte do corpo!' },
+        { icon:'🔍', text:'Muitas palavras do corpo são quase iguais em espanhol — só com pequenas diferenças de pronúncia e escrita.' },
+        { icon:'🎯', text:'Meta: nomear 12 partes do corpo e fazer pelo menos uma frase descrevendo você mesma!' },
+      ]
+    },
+    theory: [
+      { title:'Cabeça e Rosto 😊', items:[
+        { icon:'🗣️', pt:'Cabeça',   es:'Cabeza',   ex:'Minha cabeça dói.' },
+        { icon:'👁️', pt:'Olho',     es:'Ojo',      ex:'Eu tenho olhos azuis.' },
+        { icon:'👃', pt:'Nariz',    es:'Nariz',    ex:'O nariz é pequeno.' },
+        { icon:'👄', pt:'Boca',     es:'Boca',     ex:'A boca tem dentes.' },
+        { icon:'👂', pt:'Orelha',   es:'Oreja',    ex:'A orelha escuta sons.' },
+        { icon:'💇', pt:'Cabelo',   es:'Cabello/Pelo', ex:'Meu cabelo é preto.' },
+      ]},
+      { title:'Corpo 💪', items:[
+        { icon:'🦴', pt:'Pescoço',  es:'Cuello',   ex:'O pescoço liga a cabeça.' },
+        { icon:'💪', pt:'Braço',    es:'Brazo',    ex:'Eu tenho dois braços.' },
+        { icon:'🤚', pt:'Mão',      es:'Mano',     ex:'A mão tem cinco dedos.' },
+        { icon:'🫀', pt:'Barriga',  es:'Panza/Barriga', ex:'Minha barriga está cheia!' },
+        { icon:'🦵', pt:'Perna',    es:'Pierna',   ex:'A perna é forte.' },
+        { icon:'🦶', pt:'Pé',       es:'Pie',      ex:'O pé tem cinco dedos.' },
+      ]},
+      { title:'Descrevendo o corpo 📝', items:[
+        { icon:'📏', pt:'Eu tenho cabelo ____.',   es:'Tengo el cabello ____.',  ex:'Eu tenho cabelo preto e liso.' },
+        { icon:'👁️', pt:'Meus olhos são ____.',    es:'Mis ojos son ____.',      ex:'Meus olhos são castanhos.' },
+        { icon:'🤕', pt:'Minha ____ dói.',         es:'Me duele el/la ____.',    ex:'Minha cabeça dói.' },
+        { icon:'📐', pt:'Eu sou alta/baixa.',      es:'Soy alta/baja.',          ex:'Eu sou alta e magra.' },
+      ]}
+    ],
+    activity: {
+      type:'quiz',
+      questions:[
+        { q:'"Cabeza" em português é…',           trans:'"Cabeza" en portugués es…',       opts:['cabeça','cabelo','cara','costas'],       correct:'cabeça',   dica:'"Cabeça" = cabeza. Quase igual!' },
+        { q:'Eu tenho ____ azuis. (ojos)',         trans:'"Tengo ojos azules"',             opts:['olhos','orelhas','braços','mãos'],       correct:'olhos',    dica:'"Olhos" = ojos. O e ojo!' },
+        { q:'A ____ escuta os sons. (oreja)',      trans:'"La oreja escucha los sonidos"',  opts:['boca','nariz','orelha','cabeça'],        correct:'orelha',   dica:'"Orelha" = oreja. Muito parecido!' },
+        { q:'Minha cabeça ____. (me duele)',       trans:'"Me duele la cabeza"',            opts:['dói','corre','canta','dorme'],           correct:'dói',      dica:'Doer → dói. "Minha cabeça dói!"' },
+        { q:'"Brazo" em português é…',             trans:'"Brazo" en portugués es…',       opts:['barriga','braço','costas','pescoço'],    correct:'braço',    dica:'"Braço" = brazo. Bem parecido!' },
+        { q:'A mão tem cinco ____.',               trans:'"La mano tiene cinco dedos"',     opts:['pernas','pés','dedos','olhos'],          correct:'dedos',    dica:'Dedo = dedo — igual nos dois idiomas!' },
+        { q:'Eu tenho ____ preto e comprido.',     trans:'"Tengo el cabello negro y largo"',opts:['nariz','pescoço','cabelo','orelha'],     correct:'cabelo',   dica:'"Cabelo" = cabello/pelo. Bem parecido!' },
+        { q:'"Pierna" em português é…',            trans:'"Pierna" en portugués es…',      opts:['braço','pé','perna','barriga'],          correct:'perna',    dica:'"Perna" = pierna. Quase igual!' },
+      ]
+    }
+  },
+
+  // ────────────────────────────────────────────────
+  //  SEMANA 8A — Comidas e Bebidas
+  // ────────────────────────────────────────────────
+  s8a: {
+    id:'s8a', semana:'Semana 8A', titulo:'Comidas e Bebidas',
+    objetivo:'Nomear alimentos e bebidas e expressar o que você gosta de comer!',
+    apostila:{ vol:2, paginas:'10', descricao:'Monte o cardápio do seu dia — o que comer em cada refeição!' },
+    steps: ['mission','theory','activity','complete'],
+    mission: {
+      emoji:'🍎',
+      title:'Missão: Mochila Gostosa!',
+      color:'var(--green)',
+      items:[
+        { icon:'🍕', text:'Você sabe pedir comida em português? Como se diz "fome" e "sede"? Hoje você vai aprender!' },
+        { icon:'🇧🇷', text:'A comida brasileira é deliciosa — arroz, feijão, frutas tropicais. Muitas palavras são bem diferentes do espanhol!' },
+        { icon:'🎯', text:'Meta: nomear 10 alimentos e dizer o que você gosta e não gosta de comer em português!' },
+      ]
+    },
+    theory: [
+      { title:'Frutas 🍓', items:[
+        { icon:'🍎', pt:'Maçã',      es:'Manzana',    ex:'Eu como maçã no lanche.' },
+        { icon:'🍌', pt:'Banana',    es:'Banana/Plátano', ex:'A banana é amarela.' },
+        { icon:'🍓', pt:'Morango',   es:'Frutilla/Fresa',  ex:'Eu adoro morango!' },
+        { icon:'🍊', pt:'Laranja',   es:'Naranja',    ex:'O suco de laranja é gostoso.' },
+        { icon:'🍇', pt:'Uva',       es:'Uva',        ex:'A uva é doce.' },
+        { icon:'🥭', pt:'Manga',     es:'Mango',      ex:'A manga é tropical!' },
+        { icon:'🍍', pt:'Abacaxi',   es:'Ananá/Piña', ex:'O abacaxi é azedo.' },
+      ]},
+      { title:'Refeições e bebidas ☕', items:[
+        { icon:'☕', pt:'Café da manhã', es:'Desayuno',   ex:'Eu tomo café da manhã às 8h.' },
+        { icon:'🍽️', pt:'Almoço',      es:'Almuerzo',   ex:'O almoço é ao meio-dia.' },
+        { icon:'🍪', pt:'Lanche',       es:'Merienda',   ex:'Eu como lanche às 16h.' },
+        { icon:'🌙', pt:'Jantar',       es:'Cena',       ex:'O jantar é à noite.' },
+        { icon:'🥤', pt:'Suco',         es:'Jugo',       ex:'Eu quero suco de laranja.' },
+        { icon:'🥛', pt:'Leite',        es:'Leche',      ex:'Eu bebo leite gelado.' },
+        { icon:'💧', pt:'Água',         es:'Agua',       ex:'Beba muita água!' },
+      ]},
+      { title:'Expressões de fome 🤤', items:[
+        { icon:'😋', pt:'Estou com fome!',   es:'¡Tengo hambre!',   ex:'Estou com fome. Posso comer?' },
+        { icon:'🥤', pt:'Estou com sede!',   es:'¡Tengo sed!',      ex:'Estou com sede de água.' },
+        { icon:'😍', pt:'Está delicioso!',   es:'¡Está delicioso!', ex:'Que torta gostosa! Delicioso!' },
+        { icon:'🤢', pt:'Não gosto de…',     es:'No me gusta…',     ex:'Não gosto de cebola.' },
+        { icon:'🙏', pt:'Posso comer…?',     es:'¿Puedo comer…?',   ex:'Posso comer mais um morango?' },
+      ]}
+    ],
+    activity: {
+      type:'quiz',
+      questions:[
+        { q:'"Manzana" em português é…',           trans:'"Manzana" en portugués es…',       opts:['manga','morango','maçã','laranja'],     correct:'maçã',      dica:'"Maçã" = manzana. Bem diferente — cuidado!' },
+        { q:'"Frutilla" em português é…',          trans:'"Frutilla" en portugués es…',      opts:['uva','morango','banana','abacaxi'],     correct:'morango',   dica:'"Morango" = frutilla (AR) / fresa (ES)!' },
+        { q:'Eu estou com ____! (hambre)',         trans:'"¡Tengo hambre!"',                 opts:['sede','fome','pressa','sono'],          correct:'fome',      dica:'"Estou com fome" = tengo hambre!' },
+        { q:'O ____ é ao meio-dia. (almuerzo)',    trans:'"El almuerzo es al mediodía"',     opts:['lanche','café','jantar','almoço'],      correct:'almoço',    dica:'"Almoço" = almuerzo. Bem parecido!' },
+        { q:'Eu quero ____ de laranja. (jugo)',    trans:'"Quiero jugo de naranja"',         opts:['leite','suco','água','chá'],            correct:'suco',      dica:'"Suco" = jugo em espanhol!' },
+        { q:'A banana é ____. (amarilla)',         trans:'"La banana es amarilla"',          opts:['roxa','vermelha','amarela','verde'],    correct:'amarela',   dica:'Amarela = amarilla. Quase igual!' },
+        { q:'Está ____! (delicioso)',              trans:'"¡Está delicioso!"',               opts:['horrível','caro','delicioso','barato'], correct:'delicioso', dica:'"Delicioso" é igual nos dois idiomas!' },
+        { q:'Eu como ____ às 16h. (merienda)',     trans:'"Como merienda a las 16h"',        opts:['almoço','café','jantar','lanche'],      correct:'lanche',    dica:'"Lanche" = merienda. Bem diferente!' },
+      ]
+    }
+  }
+};
+
+// ─── CURRICULUM MAP ───────────────────────────────
+const CURRICULUM = [
+  {
+    id:'bloco1', label:'Bloco 1', sub:'Semanas 1–5', color:'#00F5D4',
+    semanas:[
+      { id:'s1', label:'Semana 1', sub:'Quem sou eu?',         aulas:['s1a','s1b'] },
+      { id:'s2', label:'Semana 2', sub:'Números',              aulas:['s2a','s2b'] },
+      { id:'s3', label:'Semana 3', sub:'Cores e Adjetivos',    aulas:['s3a','s3b'] },
+      { id:'s4', label:'Semana 4', sub:'Casa e Rotina',        aulas:['s4a','s4b'] },
+      { id:'s5', label:'Semana 5', sub:'Preposições',          aulas:['s5a','s5b'] },
+    ]
+  },
+  {
+    id:'bloco2', label:'Bloco 2', sub:'Semanas 6–9', color:'#7B2FFF',
+    semanas:[
+      { id:'s6', label:'Semana 6', sub:'Escola e Materiais', aulas:['s6a','s6b'] },
+      { id:'s7', label:'Semana 7', sub:'Família e Corpo',    aulas:['s7a','s7b'] },
+      { id:'s8', label:'Semana 8', sub:'Alimentação',        aulas:['s8a'] },
+      { id:'s9', label:'Semana 9', sub:'Revisão Bloco 2',    aulas:[] },
+    ]
+  }
+];
+
+// ─── PROGRESS (localStorage) ──────────────────────
+const SAVE_KEY = 'oibrasil_margo_v2';
+let progress = {};
+let totalXP = 0;
+
+function loadProgress() {
+  try {
+    const raw = localStorage.getItem(SAVE_KEY);
+    if (raw) { const data = JSON.parse(raw); progress = data.progress || {}; totalXP = data.xp || 0; }
+  } catch(e) {}
+  updateXPBar();
+}
+
+function saveProgress(lessonId, score, errors=0, firstTry=0, total=0) {
+  const isNew = !progress[lessonId]?.done;
+  const better = !progress[lessonId] || score >= (progress[lessonId].score || 0);
+  if (better) {
+    progress[lessonId] = { done:true, score, errors, firstTry, total, ts:Date.now() };
+    if (isNew) { totalXP += Math.floor(score * 0.5) + (firstTry === total && total > 0 ? 20 : 0); }
+    try { localStorage.setItem(SAVE_KEY, JSON.stringify({ progress, xp:totalXP })); } catch(e) {}
+    updateXPBar();
+  }
+}
+
+function updateXPBar() {
+  const el = document.getElementById('xp-display');
+  const fill = document.getElementById('xp-fill');
+  const pill = document.getElementById('lesson-progress');
+  if (el) el.textContent = totalXP + ' XP';
+  if (fill) { const pct = Math.min(100, (totalXP % 200) / 2); fill.style.width = pct + '%'; }
+  if (pill) {
+    const scores = Object.values(progress).filter(p => p.done && p.score != null).map(p => p.score);
+    if (scores.length === 0) {
+      pill.textContent = 'Média: —';
+      pill.style.color = 'var(--muted)';
+      pill.style.borderColor = 'rgba(255,255,255,0.1)';
+      pill.style.background  = 'rgba(255,255,255,0.04)';
+    } else {
+      const avg = Math.round(scores.reduce((a,b)=>a+b,0) / scores.length);
+      const color = avg >= 90 ? 'var(--green)' : avg >= 70 ? 'var(--yellow)' : 'var(--red)';
+      const bg    = avg >= 90 ? 'rgba(57,211,83,0.1)' : avg >= 70 ? 'rgba(255,214,10,0.1)' : 'rgba(255,71,87,0.1)';
+      const border= avg >= 90 ? 'rgba(57,211,83,0.3)'  : avg >= 70 ? 'rgba(255,214,10,0.3)'  : 'rgba(255,71,87,0.3)';
+      pill.textContent = '⭐ Média: ' + avg + '%';
+      pill.style.color = color;
+      pill.style.borderColor = border;
+      pill.style.background  = bg;
+    }
+  }
+}
+
+// ─── AUDIO ────────────────────────────────────────
+function beep(type) {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const o = ctx.createOscillator(); const g = ctx.createGain();
+    o.connect(g); g.connect(ctx.destination);
+    const t = ctx.currentTime;
+    if (type==='ok')    { o.frequency.setValueAtTime(440,t); o.frequency.exponentialRampToValueAtTime(660,t+0.15); g.gain.setValueAtTime(0.08,t); g.gain.linearRampToValueAtTime(0,t+0.2); }
+    if (type==='fail')  { o.frequency.setValueAtTime(300,t); o.frequency.linearRampToValueAtTime(180,t+0.2); g.gain.setValueAtTime(0.08,t); g.gain.linearRampToValueAtTime(0,t+0.25); }
+    if (type==='win')   { [523,659,784].forEach((f,i) => { o.frequency.setValueAtTime(f,t+i*0.15); }); g.gain.setValueAtTime(0.08,t); g.gain.linearRampToValueAtTime(0,t+0.6); }
+    o.start(); o.stop(t+0.7);
+  } catch(e) {}
+}
+
+// ─── EXTRAS DATA ──────────────────────────────────
+// bloco property: 1 or 2 — used to group in home screen
+const EXTRAS = {
+  // ── BLOCO 1 ──────────────────────────────────────
+  memory_s1: {
+    id:'memory_s1', type:'extra_memory', label:'Memória: Saudações',
+    icon:'🃏', sub:'Semanas 1–2', bloco:1,
+    pairs:[
+      { icon:'☀️', pt:'Bom dia',      es:'Buen día' },
+      { icon:'🌤️', pt:'Boa tarde',    es:'Buenas tardes' },
+      { icon:'🌙', pt:'Boa noite',    es:'Buenas noches' },
+      { icon:'👋', pt:'Tchau',        es:'Chau' },
+      { icon:'🤝', pt:'Muito prazer', es:'Mucho gusto' },
+      { icon:'1️⃣', pt:'Um',           es:'Uno' },
+      { icon:'5️⃣', pt:'Cinco',        es:'Cinco' },
+      { icon:'🔟', pt:'Dez',          es:'Diez' },
+    ]
+  },
+  memory_s3: {
+    id:'memory_s3', type:'extra_memory', label:'Memória: Cores',
+    icon:'🎨', sub:'Semana 3', bloco:1,
+    pairs:[
+      { icon:'🔴', pt:'Vermelho', es:'Rojo' },
+      { icon:'🔵', pt:'Azul',    es:'Azul' },
+      { icon:'🟢', pt:'Verde',   es:'Verde' },
+      { icon:'🟡', pt:'Amarelo', es:'Amarillo' },
+      { icon:'🟣', pt:'Roxo',    es:'Morado' },
+      { icon:'🩷', pt:'Rosa',    es:'Rosa' },
+      { icon:'⚫', pt:'Preto',   es:'Negro' },
+      { icon:'⚪', pt:'Branco',  es:'Blanco' },
+    ]
+  },
+  memory_s4: {
+    id:'memory_s4', type:'extra_memory', label:'Memória: Rotina',
+    icon:'🧠', sub:'Semanas 4–5', bloco:1,
+    pairs:[
+      { icon:'⏰', pt:'Despertar', es:'Despertarse' },
+      { icon:'🍎', pt:'Comer',     es:'Comer' },
+      { icon:'🥤', pt:'Beber',     es:'Beber' },
+      { icon:'📚', pt:'Estudar',   es:'Estudiar' },
+      { icon:'🎮', pt:'Jogar',     es:'Jugar' },
+      { icon:'😴', pt:'Dormir',    es:'Dormir' },
+      { icon:'⬇️', pt:'Embaixo',   es:'Debajo' },
+      { icon:'⬆️', pt:'Em cima',   es:'Encima' },
+    ]
+  },
+  // ── BLOCO 2 ──────────────────────────────────────
+  memory_s6: {
+    id:'memory_s6', type:'extra_memory', label:'Memória: Escola',
+    icon:'🎒', sub:'Semana 6 — materiais e verbos', bloco:2,
+    pairs:[
+      { icon:'✏️', pt:'Lápis',    es:'Lápiz' },
+      { icon:'🧹', pt:'Borracha', es:'Goma de borrar' },
+      { icon:'📒', pt:'Caderno',  es:'Cuaderno' },
+      { icon:'🎒', pt:'Mochila',  es:'Mochila' },
+      { icon:'📖', pt:'Ler',      es:'Leer' },
+      { icon:'🎨', pt:'Desenhar', es:'Dibujar' },
+      { icon:'🏃', pt:'Correr',   es:'Correr' },
+      { icon:'🤫', pt:'Escutar',  es:'Escuchar' },
+    ]
+  },
+  memory_s7: {
+    id:'memory_s7', type:'extra_memory', label:'Memória: Família',
+    icon:'👨‍👩‍👧', sub:'Semana 7A', bloco:2,
+    pairs:[
+      { icon:'👩', pt:'Mãe',   es:'Mamá' },
+      { icon:'👨', pt:'Pai',   es:'Papá' },
+      { icon:'👧', pt:'Irmã',  es:'Hermana' },
+      { icon:'👦', pt:'Irmão', es:'Hermano' },
+      { icon:'👵', pt:'Avó',   es:'Abuela' },
+      { icon:'👴', pt:'Avô',   es:'Abuelo' },
+      { icon:'👩‍🦱', pt:'Tia',  es:'Tía' },
+      { icon:'👨‍🦱', pt:'Tio',  es:'Tío' },
+    ]
+  },
+  memory_s7b: {
+    id:'memory_s7b', type:'extra_memory', label:'Memória: Corpo',
+    icon:'🦴', sub:'Semana 7B — partes do corpo', bloco:2,
+    pairs:[
+      { icon:'🗣️', pt:'Cabeça',  es:'Cabeza' },
+      { icon:'👁️', pt:'Olho',    es:'Ojo' },
+      { icon:'👃', pt:'Nariz',   es:'Nariz' },
+      { icon:'👄', pt:'Boca',    es:'Boca' },
+      { icon:'💪', pt:'Braço',   es:'Brazo' },
+      { icon:'🤚', pt:'Mão',     es:'Mano' },
+      { icon:'🦵', pt:'Perna',   es:'Pierna' },
+      { icon:'🦶', pt:'Pé',      es:'Pie' },
+    ]
+  },
+  memory_s8: {
+    id:'memory_s8', type:'extra_memory', label:'Memória: Alimentos',
+    icon:'🍎', sub:'Semana 8A — frutas e refeições', bloco:2,
+    pairs:[
+      { icon:'🍎', pt:'Maçã',    es:'Manzana' },
+      { icon:'🍌', pt:'Banana',  es:'Banana' },
+      { icon:'🍓', pt:'Morango', es:'Frutilla' },
+      { icon:'🍊', pt:'Laranja', es:'Naranja' },
+      { icon:'🥤', pt:'Suco',    es:'Jugo' },
+      { icon:'☕', pt:'Café da manhã', es:'Desayuno' },
+      { icon:'🍽️', pt:'Almoço',  es:'Almuerzo' },
+      { icon:'🌙', pt:'Jantar',  es:'Cena' },
+    ]
+  },
+  wordsearch: {
+    id:'wordsearch', type:'wordsearch', label:'Caça-Palavras',
+    icon:'🔍', sub:'Escola e materiais — ache as 14 palavras!', bloco:2,
+    words:['LAPIS','BORRACHA','CADERNO','MOCHILA','ESTOJO','LER','ESCREVER','CORRER','CANTAR','DESENHAR','ESCOLA','QUADRO','JANELA','PORTA'],
+    grid:[["I","J","O","G","A","S","P","L","A","P","I","S","C","B","A","Q","X","E"],["A","C","A","N","T","A","R","C","V","D","Q","G","V","C","Y","U","N","F"],["D","V","M","J","O","P","R","W","Y","M","G","U","N","I","J","A","C","Q"],["K","K","G","A","L","O","C","S","E","Y","I","L","Y","A","X","D","V","P"],["X","Y","Y","U","Q","M","Q","R","M","I","M","X","H","R","W","R","V","E"],["J","C","I","V","O","N","R","E","D","A","C","C","D","E","E","O","S","L"],["Z","W","B","G","S","T","R","T","V","S","A","B","Q","A","X","C","S","D"],["U","W","E","I","Z","F","U","K","B","R","V","Q","X","T","R","C","S","M"],["D","E","S","E","N","H","A","R","R","C","W","J","C","E","O","L","O","U"],["T","X","A","B","O","X","E","O","P","M","Z","R","V","R","C","R","E","L"],["N","A","D","B","M","Y","B","E","B","Z","U","E","R","Z","I","T","I","U"],["F","R","A","V","C","C","B","R","X","M","R","E","Q","W","C","F","E","X"],["P","G","L","R","S","Y","X","K","K","P","R","H","G","P","S","N","S","S"],["M","X","I","V","R","Z","G","M","W","D","G","A","T","R","O","P","T","Z"],["T","U","H","U","J","U","V","K","K","U","N","G","Q","Q","L","Z","O","U"],["G","I","C","L","J","A","N","E","L","A","Z","H","F","L","V","E","J","I"],["Q","O","O","J","J","P","H","W","D","P","S","V","C","I","J","F","O","A"],["J","S","M","N","N","Q","Q","T","N","W","M","Z","D","V","O","Z","R","L"]],
+    placed:[{"word":"BORRACHA","cells":[[10,6],[9,7],[8,8],[7,9],[6,10],[5,11],[4,12],[3,13]]},{"word":"ESCREVER","cells":[[4,17],[5,16],[6,15],[7,14],[8,13],[9,12],[10,11],[11,10]]},{"word":"DESENHAR","cells":[[8,0],[8,1],[8,2],[8,3],[8,4],[8,5],[8,6],[8,7]]},{"word":"CADERNO","cells":[[5,10],[5,9],[5,8],[5,7],[5,6],[5,5],[5,4]]},{"word":"MOCHILA","cells":[[17,2],[16,2],[15,2],[14,2],[13,2],[12,2],[11,2]]},{"word":"ESTOJO","cells":[[11,16],[12,16],[13,16],[14,16],[15,16],[16,16]]},{"word":"CORRER","cells":[[7,15],[8,14],[9,13],[10,12],[11,11],[12,10]]},{"word":"CANTAR","cells":[[1,1],[1,2],[1,3],[1,4],[1,5],[1,6]]},{"word":"ESCOLA","cells":[[3,8],[3,7],[3,6],[3,5],[3,4],[3,3]]},{"word":"QUADRO","cells":[[0,15],[1,15],[2,15],[3,15],[4,15],[5,15]]},{"word":"JANELA","cells":[[15,4],[15,5],[15,6],[15,7],[15,8],[15,9]]},{"word":"LAPIS","cells":[[0,7],[0,8],[0,9],[0,10],[0,11]]},{"word":"PORTA","cells":[[13,15],[13,14],[13,13],[13,12],[13,11]]},{"word":"LER","cells":[[9,17],[9,16],[9,15]]}]
+  },
+  hangman: {
+    id:'hangman', type:'hangman', label:'Jogo da Forca',
+    icon:'😵', sub:'Vocabulário PT — Semanas 1–8', bloco:2,
+    words:[
+      { word:'ROBLOX',    hint:'Plataforma de games favorita 🎮' },
+      { word:'PORTUGUES', hint:'Idioma que estou aprendendo 📖' },
+      { word:'AMARELO',   hint:'A cor do sol ☀️' },
+      { word:'BORRACHA',  hint:'Apaga os erros no caderno 🧹' },
+      { word:'CADERNO',   hint:'Eu escrevo nele toda aula 📒' },
+      { word:'ESCREVER',  hint:'O que você faz com a caneta ✍️' },
+      { word:'DESENHAR',  hint:'Criar imagens no papel 🎨' },
+      { word:'ESCUTAR',   hint:'O que você faz quando a professora fala 🤫' },
+      { word:'MOCHILA',   hint:'Onde você guarda os materiais 🎒' },
+      { word:'FAMILIA',   hint:'Mãe, pai, irmão, avó… 👨‍👩‍👧' },
+      { word:'ESCOLA',    hint:'Lugar onde você estuda 🏫' },
+      { word:'CABECA',    hint:'Parte do corpo onde fica o rosto 🗣️' },
+      { word:'MORANGO',   hint:'Fruta vermelha pequena 🍓' },
+      { word:'LARANJA',   hint:'Fruta cítrica cor de laranja 🍊' },
+    ]
+  },
+  speed: {
+    id:'speed', type:'speed', label:'Contra o Relógio',
+    icon:'⚡', sub:'Todo vocabulário — S1 a S8!', bloco:2,
+    rounds:[
+      { pt:'Bom dia',      opts:['Buen día','Buenas noches','Hasta mañana','Buenas tardes'], correct:'Buen día' },
+      { pt:'Vermelho',     opts:['Azul','Rojo','Verde','Morado'],  correct:'Rojo' },
+      { pt:'Borracha',     opts:['Tijeras','Regla','Goma de borrar','Cuaderno'], correct:'Goma de borrar' },
+      { pt:'Caderno',      opts:['Libro','Cuaderno','Lápiz','Mochila'], correct:'Cuaderno' },
+      { pt:'Ler',          opts:['Escribir','Dibujar','Correr','Leer'], correct:'Leer' },
+      { pt:'Mãe',          opts:['Abuela','Hermana','Mamá','Tía'], correct:'Mamá' },
+      { pt:'Avô',          opts:['Abuelo','Tío','Primo','Hermano'], correct:'Abuelo' },
+      { pt:'Cabeça',       opts:['Brazo','Cabeza','Pierna','Mano'], correct:'Cabeza' },
+      { pt:'Olho',         opts:['Oreja','Nariz','Ojo','Boca'], correct:'Ojo' },
+      { pt:'Morango',      opts:['Manzana','Naranja','Frutilla','Banana'], correct:'Frutilla' },
+      { pt:'Suco',         opts:['Leche','Agua','Jugo','Té'], correct:'Jugo' },
+      { pt:'Almoço',       opts:['Desayuno','Merienda','Cena','Almuerzo'], correct:'Almuerzo' },
+      { pt:'Embaixo de',   opts:['Encima de','Detrás de','Debajo de','Al lado de'], correct:'Debajo de' },
+      { pt:'Às vezes',     opts:['Siempre','Nunca','A veces','Todos los días'], correct:'A veces' },
+    ]
+  },
+  prova: {
+    id:'prova', type:'prova', label:'Prova Final — Semanas 1 a 7',
+    icon:'🏆', sub:'Teste completo de todo o conteúdo!', bloco:0,
+    rounds:[
+      // ── BLOCO 1: Saudações e apresentação ──
+      { type:'quiz', tema:'Saudações 👋',
+        q:'Como você responde "Tudo bem?"', trans:'¿Cómo respondés "¿Todo bien?"?',
+        opts:['Bom dia!','Tudo bem!','Muito prazer!','Até logo!'], correct:'Tudo bem!',
+        dica:'"Tudo bem" pode ser pergunta e resposta!' },
+      { type:'quiz', tema:'Apresentação 🪪',
+        q:'Meu ____ é Margo.', trans:'"Mi nombre es Margo"',
+        opts:['prazer','nome','dia','tarde'], correct:'nome',
+        dica:'Nome = nombre em espanhol!' },
+
+      // ── BLOCO 2: Números ──
+      { type:'quiz', tema:'Números 🔢',
+        q:'Como se escreve o número 15?', trans:'¿Cómo se escribe el 15?',
+        opts:['Quince','Quinze','Quatorze','Dezesseis'], correct:'Quinze',
+        dica:'"Quinze" parece com "quince"!' },
+      { type:'quiz', tema:'Preços 💰',
+        q:'"¿Cuánto cuesta?" em português é…', trans:'"¿Cuánto cuesta?" en portugués',
+        opts:['Quanto custa?','Como está?','Onde fica?','Quanto tempo?'], correct:'Quanto custa?',
+        dica:'"Quanto" = cuánto, "custa" = cuesta!' },
+
+      // ── BLOCO 3: Cores e adjetivos ──
+      { type:'quiz', tema:'Cores 🎨',
+        q:'A skin favorita da Margo é ____. (morada)',  trans:'"La skin favorita de Margo es morada"',
+        opts:['azul','verde','roxa','amarela'], correct:'roxa',
+        dica:'"Roxo/Roxa" = morado/morada!' },
+      { type:'quiz', tema:'Adjetivos ⭐',
+        q:'Ela é muito ____. (valiente)', trans:'"Ella es muy valiente"',
+        opts:['engraçada','corajosa','tímida','simpática'], correct:'corajosa',
+        dica:'"Corajosa" = valiente em espanhol!' },
+
+      // ── BLOCO 4: Casa ──
+      { type:'quiz', tema:'Casa 🏠',
+        q:'O sofá fica na ____.',  trans:'"El sofá está en la sala"',
+        opts:['cozinha','banheiro','sala','quarto'], correct:'sala',
+        dica:'Sofá → sala. Cama → quarto. Geladeira → cozinha!' },
+      { type:'quiz', tema:'Preposições 📍',
+        q:'O gato está ____ da cama. (debajo)', trans:'"El gato está debajo de la cama"',
+        opts:['em cima','ao lado','embaixo','dentro'], correct:'embaixo',
+        dica:'"Embaixo de" = debajo de!' },
+
+      // ── BLOCO 5: Rotina ──
+      { type:'quiz', tema:'Rotina ⏰',
+        q:'Eu ____ às 7h da manhã. (despertarse)', trans:'"Me despierto a las 7 de la mañana"',
+        opts:['desperto','desperta','dormir','durmo'], correct:'desperto',
+        dica:'EU → desperto. Sempre terminação -o!' },
+      { type:'quiz', tema:'Frequência 📅',
+        q:'"A veces" em português é…', trans:'"A veces" en portugués es…',
+        opts:['sempre','nunca','às vezes','todo dia'], correct:'às vezes',
+        dica:'"Às vezes" = a veces!' },
+
+      // ── BLOCO 6: Escola ──
+      { type:'quiz', tema:'Materiais 🎒',
+        q:'A ____ apaga o erro.', trans:'"La goma borra el error"',
+        opts:['tesoura','régua','borracha','caneta'], correct:'borracha',
+        dica:'"Borracha" = goma de borrar!' },
+      { type:'quiz', tema:'Verbos escola ✏️',
+        q:'Eu ____ no caderno todo dia. (escribir)', trans:'"Escribo en el cuaderno todos los días"',
+        opts:['leio','escrevo','corro','canto'], correct:'escrevo',
+        dica:'ESCREVER → eu escrevo!' },
+      { type:'quiz', tema:'Verbos escola ✏️',
+        q:'Ela ____ a explicação com atenção. (escuchar)', trans:'"Escucha la explicación"',
+        opts:['pergunta','responde','canta','escuta'], correct:'escuta',
+        dica:'ESCUTAR → ela escuta!' },
+
+      // ── BLOCO 7: Família ──
+      { type:'quiz', tema:'Família 👨‍👩‍👧',
+        q:'Esta é a minha ____. (mamá)', trans:'"Esta es mi mamá"',
+        opts:['tia','mãe','avó','prima'], correct:'mãe',
+        dica:'"Mãe" = mamá!' },
+      { type:'quiz', tema:'Família 👨‍👩‍👧',
+        q:'"Abuela" em português é…', trans:'"Abuela" en portugués es…',
+        opts:['avô','tia','avó','prima'], correct:'avó',
+        dica:'Avó = abuela (feminino)!' },
+      { type:'quiz', tema:'Família 👨‍👩‍👧',
+        q:'Meu ____ ama Roblox! (primo)', trans:'"Mi primo ama Roblox"',
+        opts:['prima','primo','irmão','avô'], correct:'primo',
+        dica:'"Primo" é igual nos dois idiomas!' },
+
+      // ── MATCHING: Verbos da escola ──
+      { type:'matching', tema:'Verbos: PT ↔ ES 🔗',
+        pairs:[
+          { a:'Ler',       b:'Leer' },
+          { a:'Escrever',  b:'Escribir' },
+          { a:'Desenhar',  b:'Dibujar' },
+          { a:'Escutar',   b:'Escuchar' },
+          { a:'Correr',    b:'Correr' },
+          { a:'Perguntar', b:'Preguntar' },
+        ]
+      },
+
+      // ── MATCHING: Família ──
+      { type:'matching', tema:'Família: PT ↔ ES 👨‍👩‍👧',
+        pairs:[
+          { a:'Mãe',   b:'Mamá' },
+          { a:'Pai',   b:'Papá' },
+          { a:'Irmã',  b:'Hermana' },
+          { a:'Avó',   b:'Abuela' },
+          { a:'Tio',   b:'Tío' },
+          { a:'Primo', b:'Primo' },
+        ]
+      },
+    ]
+  }
+
+};
+
+// ─── ROUTING ──────────────────────────────────────
+let currentLesson = null;
+let currentStep = 0;
+let activityState = {};
+
+let currentExtra = null;
+let extraState   = {};
+
+function setBackBtn(visible) {
+  const b = document.getElementById('btn-back');
+  if (b) b.classList.toggle('visible', visible);
+}
+
+function confirmGoHome() {
+  if (!currentLesson && !currentExtra) { goHome(); return; }
+  const modal = document.createElement('div');
+  modal.className = 'modal-overlay';
+  modal.id = 'exit-modal';
+  modal.innerHTML = `
+    <div class="modal-box">
+      <div class="modal-title">Sair da aula? 🤔</div>
+      <div class="modal-body">Seu progresso nesta atividade não será salvo.<br>Tem certeza?</div>
+      <div class="modal-btns">
+        <button class="btn btn-ghost" onclick="document.getElementById('exit-modal').remove()">Ficar aqui</button>
+        <button class="btn btn-pink"  onclick="document.getElementById('exit-modal').remove();goHome()">Sair mesmo</button>
+      </div>
+    </div>`;
+  document.body.appendChild(modal);
+}
+
+function goHome() {
+  currentLesson = null; currentExtra = null;
+  currentStep = 0; activityState = {}; extraState = {};
+  setBackBtn(false);
+  renderHome();
+}
+
+function openLesson(id) {
+  currentLesson = LESSONS[id];
+  if (!currentLesson) return;
+  currentStep = 0; activityState = {};
+  setBackBtn(true);
+  renderLesson();
+}
+
+function openExtra(id) {
+  currentExtra = EXTRAS[id];
+  if (!currentExtra) return;
+  extraState = {};
+  setBackBtn(true);
+  renderExtra(currentExtra);
+}
+
+// ─── RENDER HOME ──────────────────────────────────
+function renderHome() {
+  const el = document.getElementById('main-content');
+  const allLessons = Object.keys(LESSONS);
+
+  // check if a lesson is accessible (prev done or first)
+  const ALWAYS_UNLOCKED = ['s1a','s1b','s2a','s2b','s3a','s3b','s4a','s4b','s5a','s5b','s6a','s6b','s7a','s7b','s8a'];
+
+  function isUnlocked(id) {
+    if (ALWAYS_UNLOCKED.includes(id)) return true;
+    const idx = allLessons.indexOf(id);
+    if (idx === 0) return true;
+    const prev = allLessons[idx - 1];
+    return !!progress[prev]?.done;
+  }
+
+  let html = `
+    <div class="screen">
+      <div class="home-header">
+        <div class="home-title">Oi, Brasil! 🇧🇷</div>
+        <div class="home-sub">Aprenda jogando — versão Margo</div>
+      </div>
+      <div class="blocks-wrap">`;
+
+  CURRICULUM.forEach(bloco => {
+    const dot = `<span class="block-dot" style="background:${bloco.color}"></span>`;
+    html += `<div class="block-section">
+      <div class="block-header">${dot}<span class="block-title">${bloco.label}</span><span class="block-sub">${bloco.sub}</span></div>
+      <div class="weeks-grid">`;
+
+    bloco.semanas.forEach(sem => {
+      sem.aulas.forEach(lid => {
+        const lesson = LESSONS[lid];
+        if (!lesson) {
+          // placeholder
+          html += `<div class="week-card locked">
+            <span class="wk-emoji">🔒</span>
+            <div class="wk-label">${sem.label}</div>
+            <div class="wk-title">Em breve...</div>
+          </div>`;
+          return;
+        }
+        const done = !!progress[lid]?.done;
+        const unlocked = bloco.locked ? false : isUnlocked(lid);
+        const cls = done ? 'done' : (unlocked ? '' : 'locked');
+        const emoji = done ? '✅' : (unlocked ? getEmoji(lid) : '🔒');
+
+        html += `<div class="week-card ${cls}" onclick="${unlocked ? `openLesson('${lid}')` : ''}">
+          <span class="wk-emoji">${emoji}</span>
+          <div class="wk-label">${lesson.semana}</div>
+          <div class="wk-title">${lesson.titulo}</div>
+          ${progress[lid]?.score ? `<div style="font-size:0.65rem;color:var(--yellow);font-weight:900;margin-top:4px;">${progress[lid].score} pts</div>` : ''}
+        </div>`;
+      });
+    });
+
+    html += `</div></div>`;
+  });
+
+  html += `
+    </div>
+
+    <div class="block-section" style="border-color:rgba(255,214,10,0.3);background:rgba(255,214,10,0.04)">
+      <div class="block-header" style="border-color:rgba(255,214,10,0.2)">
+        <span class="block-dot" style="background:var(--yellow)"></span>
+        <span class="block-title" style="color:var(--yellow)">🏆 Prova Final</span>
+        <span class="block-sub">Semanas 1 a 7</span>
+      </div>
+      <div style="padding:16px">
+        <div onclick="openExtra('prova')" style="background:var(--surface2);border:2px solid var(--yellow);border-radius:16px;padding:20px 22px;cursor:pointer;display:flex;align-items:center;gap:18px;transition:transform 0.15s,box-shadow 0.15s"
+          onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 24px rgba(255,214,10,0.2)'"
+          onmouseout="this.style.transform='';this.style.boxShadow=''">
+          <span style="font-size:2.5rem">🏆</span>
+          <div>
+            <div style="font-family:var(--font-head);font-size:1.1rem;color:var(--yellow);margin-bottom:4px">Prova Final — Semanas 1 a 7</div>
+            <div style="font-size:0.78rem;font-weight:700;color:var(--muted)">Quiz + Combinação • 18 questões • Todo o conteúdo</div>
+          </div>
+          <span style="margin-left:auto;font-size:1.4rem;color:var(--yellow)">→</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="block-section">
+      <div class="block-header">
+        <span class="block-dot" style="background:#00F5D4"></span>
+        <span class="block-title">⚡ Extras — Bloco 1</span>
+        <span class="block-sub">Semanas 1 a 5</span>
+      </div>
+      <div class="extras-grid">
+        ${Object.values(EXTRAS).filter(e => e.bloco === 1).map(e => `
+          <div class="extra-card" onclick="openExtra('${e.id}')">
+            <span class="extra-icon">${e.icon}</span>
+            <div class="extra-title">${e.label}</div>
+            <div class="extra-sub">${e.sub}</div>
+          </div>`).join('')}
+      </div>
+    </div>
+
+    <div class="block-section">
+      <div class="block-header">
+        <span class="block-dot" style="background:#7B2FFF"></span>
+        <span class="block-title">⚡ Extras — Bloco 2</span>
+        <span class="block-sub">Semanas 6 a 8</span>
+      </div>
+      <div class="extras-grid">
+        ${Object.values(EXTRAS).filter(e => e.bloco === 2).map(e => `
+          <div class="extra-card" onclick="openExtra('${e.id}')">
+            <span class="extra-icon">${e.icon}</span>
+            <div class="extra-title">${e.label}</div>
+            <div class="extra-sub">${e.sub}</div>
+          </div>`).join('')}
+      </div>
+    </div>
+
+  </div></div>`;
+  el.innerHTML = html;
+}
+
+function getEmoji(id) {
+  const map = { s1a:'👋', s1b:'❤️', s2a:'🎮', s2b:'💰', s3a:'🎨', s3b:'⭐', s4a:'🏠', s4b:'⏰', s5a:'📍', s5b:'📖', s6a:'🎒', s6b:'✏️', s7a:'👨‍👩‍👧', s7b:'🦴', s8a:'🍎' };
+  return map[id] || '📚';
+}
+
+// ─── RENDER LESSON ────────────────────────────────
+function renderLesson() {
+  const L = currentLesson;
+  const steps = L.steps;
+  const step  = steps[currentStep];
+
+  const el = document.getElementById('main-content');
+
+  // dots
+  const dots = steps.map((s,i) => {
+    const cls = i < currentStep ? 'done' : (i === currentStep ? 'active' : '');
+    return `<div class="step-dot ${cls}"></div>`;
+  }).join('');
+
+  let body = '';
+  if (step === 'story')    body = renderStory(L);
+  if (step === 'mission')  body = renderMission(L);
+  if (step === 'theory')   body = renderTheory(L);
+  if (step === 'activity') body = renderActivity(L);
+  if (step === 'complete') body = renderComplete(L);
+
+  el.innerHTML = `
+    <div class="screen lesson-wrap">
+      <div class="lesson-header">
+        <div class="lesson-tag">${L.semana}</div>
+        <div class="lesson-title">${L.titulo}</div>
+        <div class="lesson-obj">🎯 ${L.objetivo}</div>
+      </div>
+      <div class="step-dots">${dots}</div>
+      ${body}
+    </div>`;
+
+  // bind events after render
+  if (step === 'activity') bindActivity(L);
+}
+
+// ─── MISSION CARD ────────────────────────────────
+function renderMission(L) {
+  const m = L.mission;
+  const cards = m.items.map(item => `
+    <div style="display:flex;align-items:flex-start;gap:14px;background:var(--surface2);border-radius:14px;padding:14px 16px;border:1px solid var(--border);">
+      <span style="font-size:1.6rem;flex-shrink:0">${item.icon}</span>
+      <span style="font-size:0.9rem;font-weight:700;color:var(--text);line-height:1.55">${item.text}</span>
+    </div>`).join('');
+
+  return `
+    <div style="text-align:center;margin-bottom:24px;">
+      <div style="font-size:3.5rem;margin-bottom:12px">${m.emoji}</div>
+      <div style="font-family:var(--font-head);font-size:1.6rem;color:${m.color};margin-bottom:4px">${m.title}</div>
+      <div style="font-size:0.75rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:2px">${L.semana}</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:24px">${cards}</div>
+    <div class="action-row">
+      <button class="btn btn-primary" onclick="nextStep()">Vamos lá! →</button>
+    </div>`;
+}
+
+// ─── STORY ────────────────────────────────────────
+function renderStory(L) {
+  const lines = L.story.lines.map(line => {
+    const dir = line.right ? 'right' : '';
+    const bClass = line.right ? 'margo' : '';
+    const spColor = line.right ? 'var(--cyan)' : 'var(--pink)';
+    return `
+      <div class="dialogue-line ${dir}">
+        <div class="d-avatar">${line.avatar}</div>
+        <div class="d-bubble ${bClass}">
+          <div class="d-speaker" style="color:${spColor}">${line.speaker}</div>
+          ${line.text}
+        </div>
+      </div>`;
+  }).join('');
+
+  return `
+    <div class="story-card">${lines}</div>
+    <div class="action-row">
+      <button class="btn btn-primary" onclick="nextStep()">Entendi! Vamos estudar →</button>
+    </div>`;
+}
+
+// ─── THEORY ───────────────────────────────────────
+function renderTheory(L) {
+  let html = '';
+  L.theory.forEach(section => {
+    html += `<div class="theory-section"><div class="theory-title">${section.title}</div>`;
+
+    if (section.verbTable) {
+      html += `<table class="verb-table">
+        <tr><th>VERBO</th><th style="color:var(--cyan)">EU</th><th style="color:var(--pink)">VOCÊ</th><th style="color:var(--purple)">ELE/ELA</th></tr>`;
+      section.verbs.forEach(v => {
+        html += `<tr>
+          <td class="vt-verb">${v.inf}</td>
+          <td class="vt-eu">${v.eu}</td>
+          <td class="vt-vc">${v.voce}</td>
+          <td class="vt-ele">${v.ele}</td>
+        </tr>`;
+      });
+      html += `</table>`;
+    } else if (section.freqMeter) {
+      html += `<div class="freq-meter">`;
+      section.freqs.forEach(f => {
+        html += `<div class="freq-row">
+          <span class="freq-word">${f.word}</span>
+          <div class="freq-bar-track"><div class="freq-bar" style="width:${f.pct}%;background:${f.color}"></div></div>
+          <span class="freq-pct" style="color:${f.color}">${f.pct}%</span>
+        </div>
+        <div style="font-size:0.7rem;color:var(--muted);margin:-6px 0 10px 0;font-style:italic;padding-left:2px">${f.es}</div>`;
+      });
+      html += `</div>`;
+    } else if (section.prepVisual) {
+      html += `<div class="prep-visual">
+        <div style="text-align:center;font-size:0.8rem;color:var(--muted);margin-bottom:14px;font-weight:700;">💡 Onde está a coisa?</div>
+        <div class="prep-list">`;
+      section.preps.forEach(p => {
+        html += `<div class="prep-item">
+          <span class="prep-icon">${p.icon}</span>
+          <div>
+            <div class="prep-pt">${p.pt}</div>
+            <div class="prep-es">${p.es}</div>
+            <div style="font-size:0.68rem;color:var(--muted);margin-top:2px;font-style:italic">${p.ex}</div>
+          </div>
+        </div>`;
+      });
+      html += `</div></div>`;
+    } else {
+      html += `<div class="vocab-grid">`;
+      section.items.forEach(item => {
+        html += `<div class="vocab-card">
+          <span class="vocab-icon">${item.icon}</span>
+          <div class="vocab-pt">${item.pt}</div>
+          <div class="vocab-es">${item.es}</div>
+          ${item.ex ? `<div class="vocab-example">${item.ex}</div>` : ''}
+        </div>`;
+      });
+      html += `</div>`;
+    }
+    html += `</div>`;
+  });
+
+  return html + `<div class="action-row"><button class="btn btn-primary" onclick="nextStep()">Já aprendi! Vamos praticar →</button></div>`;
+}
+
+// ─── ACTIVITY DISPATCH ────────────────────────────
+function renderActivity(L) {
+  const type = L.activity.type;
+  if (type === 'quiz')          return renderQuiz(L);
+  if (type === 'memory')        return renderMemory(L);
+  if (type === 'matching')      return renderMatching(L);
+  if (type === 'sentenceOrder') return renderSentenceOrder(L);
+  return '<p>Atividade em construção!</p>';
+}
+
+function bindActivity(L) {
+  const type = L.activity.type;
+  if (type === 'memory')   initMemory(L);
+  if (type === 'matching') initMatching(L);
+}
+
+// ─── QUIZ ─────────────────────────────────────────
+function renderQuiz(L) {
+  activityState.quiz = { idx:0, score:0, errors:0, firstTry:0, answered:false };
+  return buildQuizHTML(L);
+}
+
+function buildQuizHTML(L) {
+  const {idx} = activityState.quiz;
+  const qs = L.activity.questions;
+  const q = qs[idx];
+  const total = qs.length;
+
+  const opts = q.opts.map(o =>
+    `<button class="opt-btn" onclick="answerQuiz('${escQ(o)}', '${L.id}')">${o}</button>`
+  ).join('');
+
+  return `
+    <div class="quiz-progress">${idx+1} / ${total}</div>
+    <div class="quiz-question">
+      <div class="quiz-q-text">${q.q}</div>
+      <div class="quiz-trans">${q.trans}</div>
+      <div class="options-grid" id="opts-grid">${opts}</div>
+      <div id="quiz-feedback" style="display:none"></div>
+    </div>
+    <div class="action-row" id="quiz-next-row" style="display:none">
+      <button class="btn btn-primary" onclick="nextQuizQ('${L.id}')">Próxima →</button>
+    </div>`;
+}
+
+function escQ(s) { return s.replace(/'/g,"&#39;"); }
+
+function answerQuiz(choice, lid) {
+  if (activityState.quiz.answered) return;
+  activityState.quiz.answered = true;
+  const L = LESSONS[lid];
+  const q = L.activity.questions[activityState.quiz.idx];
+  const correct = choice === q.correct;
+  if (correct) {
+    activityState.quiz.score += 10;
+    activityState.quiz.firstTry++;
+    beep('ok');
+  } else {
+    activityState.quiz.errors++;
+    beep('fail');
+  }
+
+  // color buttons
+  document.querySelectorAll('.opt-btn').forEach(btn => {
+    btn.disabled = true;
+    if (btn.textContent === q.correct) btn.classList.add('correct');
+    else if (btn.textContent === choice && !correct) btn.classList.add('wrong');
+  });
+
+  // feedback
+  const fb = document.getElementById('quiz-feedback');
+  if (fb) {
+    fb.style.display = 'block';
+    if (correct) {
+      fb.className = 'quiz-feedback ok';
+      fb.innerHTML = `✅ Isso! <span class="tip">"${q.correct}" — ${q.dica}</span>`;
+    } else {
+      fb.className = 'quiz-feedback fail';
+      fb.innerHTML = `❌ Era "<strong style="color:var(--cyan)">${q.correct}</strong>" — <span class="tip">${q.dica}</span>`;
+    }
+  }
+  const nr = document.getElementById('quiz-next-row');
+  if (nr) nr.style.display = 'flex';
+}
+
+function nextQuizQ(lid) {
+  const L = LESSONS[lid];
+  const qs = L.activity.questions;
+  activityState.quiz.idx++;
+  activityState.quiz.answered = false;
+  if (activityState.quiz.idx >= qs.length) {
+    const {score, errors, firstTry} = activityState.quiz;
+    const sc = Math.round((score / (qs.length*10))*100);
+    saveProgress(lid, sc, errors, firstTry, qs.length);
+    nextStep();
+  } else {
+    document.getElementById('main-content').querySelector('.lesson-wrap').innerHTML = (() => {
+      // rebuild just the activity part
+      const dots = currentLesson.steps.map((s,i) => {
+        const cls = i < currentStep ? 'done' : (i === currentStep ? 'active' : '');
+        return `<div class="step-dot ${cls}"></div>`;
+      }).join('');
+      return `
+        <div class="lesson-header">
+          <div class="lesson-tag">${L.semana}</div>
+          <div class="lesson-title">${L.titulo}</div>
+          <div class="lesson-obj">🎯 ${L.objetivo}</div>
+        </div>
+        <div class="step-dots">${dots}</div>
+        ${buildQuizHTML(L)}`;
+    })();
+  }
+}
+
+// ─── MEMORY GAME ──────────────────────────────────
+function buildMemDeck(pairs) {
+  const deck = [];
+  pairs.forEach((p,i) => {
+    // PT card: show icon (if color mem: icon = colored circle) + PT word only
+    deck.push({ id:`pt${i}`, pairId:i, face:'pt', display: p.icon ? p.icon : '', label: p.pt });
+    // ES card: show ES word only (no icon on ES side — forces genuine recall)
+    deck.push({ id:`es${i}`, pairId:i, face:'es', display: '', label: p.es });
+  });
+  return deck;
+}
+
+function renderMemory(L) {
+  const pairs = L.activity.pairs;
+  const deck = buildMemDeck(pairs);
+  for(let i=deck.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[deck[i],deck[j]]=[deck[j],deck[i]];}
+  activityState.memory = { deck, flipped:[], matched:[], tries:0 };
+
+  const cards = deck.map(c => `
+    <div class="mem-card" id="mc-${c.id}" data-id="${c.id}" onclick="flipCard('${c.id}','${L.id}')">
+      <div class="mem-inner">
+        <div class="mem-front">🃏</div>
+        <div class="mem-back ${c.face==='pt'?'mem-back-ptside':'mem-back-esside'}">
+          ${c.display ? `<span style="font-size:1.6rem;line-height:1">${c.display}</span>` : ''}
+          <div class="mem-back-pt" style="margin-top:${c.display?'4px':'0'}">${c.label}</div>
+        </div>
+      </div>
+    </div>`).join('');
+
+  return `
+    <div style="text-align:center;margin-bottom:12px;">
+      <span style="font-size:0.78rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:1px;">
+        Encontre os pares — Português ↔ Espanhol!
+      </span>
+    </div>
+    <div class="memory-grid" id="mem-grid">${cards}</div>
+    <div class="action-row" id="mem-done" style="display:none">
+      <button class="btn btn-primary" onclick="nextStep()">Muito bem! →</button>
+    </div>`;
+}
+
+function initMemory() {}
+
+function flipCard(cardId, lid) {
+  const st = activityState.memory;
+  if (st.matched.includes(cardId)) return;
+  if (st.flipped.includes(cardId)) return;
+  if (st.flipped.length >= 2) return;
+
+  const cardEl = document.getElementById('mc-'+cardId);
+  cardEl.classList.add('flipped');
+  st.flipped.push(cardId);
+
+  if (st.flipped.length === 2) {
+    st.tries++;
+    const [a,b] = st.flipped.map(id => st.deck.find(c=>c.id===id));
+    if (a.pairId === b.pairId && a.face !== b.face) {
+      // match
+      beep('ok');
+      st.matched.push(a.id, b.id);
+      st.flipped = [];
+      document.getElementById('mc-'+a.id).classList.add('matched');
+      document.getElementById('mc-'+b.id).classList.add('matched');
+      if (st.matched.length === st.deck.length) {
+        beep('win');
+        const sc = Math.max(60, 100 - st.tries*2);
+        saveProgress(lid, sc);
+        setTimeout(() => {
+          const d = document.getElementById('mem-done');
+          if (d) d.style.display = 'flex';
+        }, 400);
+      }
+    } else {
+      // no match
+      beep('fail');
+      setTimeout(() => {
+        st.flipped.forEach(id => {
+          const el = document.getElementById('mc-'+id);
+          if (el && !st.matched.includes(id)) el.classList.remove('flipped');
+        });
+        st.flipped = [];
+      }, 900);
+    }
+  }
+}
+
+// ─── MATCHING GAME ────────────────────────────────
+function renderMatching(L) {
+  const pairs = L.activity.pairs;
+  // shuffle right column
+  const rights = [...pairs.map(p=>p.b)].sort(()=>Math.random()-0.5);
+  activityState.matching = { selected:null, matched:[], pairs };
+
+  const leftCols = pairs.map((p,i) =>
+    `<div class="match-item" id="ml-${i}" onclick="selectMatch('left','${i}')">${p.a}</div>`
+  ).join('');
+  const rightCols = rights.map((r,i) =>
+    `<div class="match-item" id="mr-${i}" onclick="selectMatch('right','${i}')" data-val="${escQ(r)}">${r}</div>`
+  ).join('');
+
+  return `
+    <div style="text-align:center;margin-bottom:12px;">
+      <span style="font-size:0.78rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:1px;">
+        Ligue o português ao espanhol!
+      </span>
+    </div>
+    <div class="match-wrap">
+      <div class="match-col" id="left-col">${leftCols}</div>
+      <div class="match-col" id="right-col">${rightCols}</div>
+    </div>
+    <div class="action-row" id="match-done" style="display:none">
+      <button class="btn btn-primary" onclick="nextStep()">Ótimo! Próximo →</button>
+    </div>`;
+}
+
+function initMatching() {}
+
+function selectMatch(side, idx) {
+  const st = activityState.matching;
+  const id = side+'-'+idx;
+  if (st.matched.includes(id)) return;
+
+  if (!st.selected) {
+    // first pick
+    st.selected = { side, idx, id };
+    document.getElementById('m'+side[0]+'-'+idx).classList.add('selected');
+    return;
+  }
+
+  if (st.selected.side === side) {
+    // same side — swap
+    document.getElementById('m'+st.selected.side[0]+'-'+st.selected.idx).classList.remove('selected');
+    st.selected = { side, idx, id };
+    document.getElementById('m'+side[0]+'-'+idx).classList.add('selected');
+    return;
+  }
+
+  // different side — check match
+  const leftIdx  = side === 'left'  ? idx : st.selected.idx;
+  const rightIdx = side === 'right' ? idx : st.selected.idx;
+  const leftEl   = document.getElementById('ml-'+leftIdx);
+  const rightEl  = document.getElementById('mr-'+rightIdx);
+
+  const leftVal  = st.pairs[leftIdx].b;
+  const rightVal = rightEl.dataset.val;
+  const isMatch  = leftVal === rightVal;
+
+  if (isMatch) {
+    beep('ok');
+    leftEl.classList.remove('selected'); leftEl.classList.add('matched');
+    rightEl.classList.remove('selected'); rightEl.classList.add('matched');
+    st.matched.push('left-'+leftIdx, 'right-'+rightIdx);
+    st.selected = null;
+    if (st.matched.length === st.pairs.length * 2) {
+      beep('win');
+      const sc = 100;
+      saveProgress(currentLesson.id, sc);
+      setTimeout(() => {
+        const d = document.getElementById('match-done');
+        if(d) d.style.display='flex';
+      }, 300);
+    }
+  } else {
+    beep('fail');
+    leftEl.classList.add('wrong-flash'); rightEl.classList.add('wrong-flash');
+    setTimeout(() => {
+      leftEl.classList.remove('selected','wrong-flash');
+      rightEl.classList.remove('selected','wrong-flash');
+    }, 500);
+    st.selected = null;
+  }
+}
+
+// ─── SENTENCE ORDER ───────────────────────────────
+function renderSentenceOrder(L) {
+  activityState.sentOrder = { qIdx:0, slots:[], score:0 };
+  return buildSentOrderHTML(L);
+}
+
+function buildSentOrderHTML(L) {
+  const qs = L.activity.questions;
+  const {qIdx} = activityState.sentOrder;
+  if (qIdx >= qs.length) {
+    const sc = Math.round((activityState.sentOrder.score / qs.length) * 100);
+    saveProgress(L.id, sc);
+    nextStep();
+    return '';
+  }
+  const q = qs[qIdx];
+  activityState.sentOrder.slots = [];
+  activityState.sentOrder.pool = [...q.sentences].sort(()=>Math.random()-0.5);
+
+  const chips = activityState.sentOrder.pool.map((s,i) =>
+    `<div class="word-chip" id="chip-${i}" onclick="pickSentence(${i},'${L.id}')">${s.text}</div>`
+  ).join('');
+
+  return `
+    <div style="text-align:center;margin-bottom:16px;">
+      <div style="font-weight:800;font-size:1rem;color:var(--yellow)">${q.prompt}</div>
+    </div>
+    <div style="font-size:0.75rem;color:var(--muted);font-weight:700;margin-bottom:6px;text-transform:uppercase;letter-spacing:1px">Toque na ordem certa:</div>
+    <div class="sentence-pool" id="sent-pool">${chips}</div>
+    <div style="font-size:0.75rem;color:var(--muted);font-weight:700;margin-bottom:6px;text-transform:uppercase;letter-spacing:1px">Sua resposta:</div>
+    <div class="sentence-slots" id="sent-slots"><span style="color:var(--muted);font-size:0.8rem">Toque nas frases acima...</span></div>
+    <div id="sent-feedback"></div>`;
+}
+
+function pickSentence(chipIdx, lid) {
+  const st = activityState.sentOrder;
+  const chip = document.getElementById('chip-'+chipIdx);
+  if (!chip || chip.classList.contains('in-slot')) return;
+  chip.classList.add('in-slot');
+
+  st.slots.push(chipIdx);
+  const qs = LESSONS[lid].activity.questions;
+  const q  = qs[st.qIdx];
+  const sentence = st.pool[chipIdx];
+
+  // update slots display
+  const slotsEl = document.getElementById('sent-slots');
+  slotsEl.innerHTML = st.slots.map(idx => {
+    const s = st.pool[idx];
+    return `<div class="word-chip in-slot" style="cursor:default">${s.text}</div>`;
+  }).join('');
+
+  // check if complete
+  if (st.slots.length === q.sentences.length) {
+    // verify order
+    const correct = st.slots.every((chipIdx,i) => st.pool[chipIdx].order === i+1);
+    const fb = document.getElementById('sent-feedback');
+    if (correct) {
+      beep('ok');
+      st.score += 1;
+      fb.innerHTML = `<div class="quiz-feedback ok" style="margin-top:12px">✅ Perfeito! A ordem está correta!</div>`;
+      slotsEl.querySelectorAll('.word-chip').forEach(c=>c.classList.add('correct-chip'));
+    } else {
+      beep('fail');
+      fb.innerHTML = `<div class="quiz-feedback fail" style="margin-top:12px">❌ Quase! A ordem certa é:<br>${q.sentences.sort((a,b)=>a.order-b.order).map(s=>`<span style="color:var(--cyan)">${s.text}</span>`).join(' → ')}</div>`;
+    }
+    setTimeout(() => {
+      st.qIdx++;
+      const main = document.getElementById('main-content').querySelector('.lesson-wrap');
+      if(main) {
+        const dots = currentLesson.steps.map((s,i) => {
+          const cls = i < currentStep ? 'done' : (i === currentStep ? 'active' : '');
+          return `<div class="step-dot ${cls}"></div>`;
+        }).join('');
+        main.innerHTML = `
+          <div class="lesson-header">
+            <div class="lesson-tag">${currentLesson.semana}</div>
+            <div class="lesson-title">${currentLesson.titulo}</div>
+            <div class="lesson-obj">🎯 ${currentLesson.objetivo}</div>
+          </div>
+          <div class="step-dots">${dots}</div>
+          ${buildSentOrderHTML(currentLesson)}`;
+      }
+    }, correct ? 1200 : 2200);
+  }
+}
+
+// ─── COMPLETE ─────────────────────────────────────
+function renderComplete(L) {
+  const p   = progress[L.id] || {};
+  const sc  = p.score  || 100;
+  const err = p.errors ?? 0;
+  const ft  = p.firstTry ?? 0;
+  const tot = p.total   || 0;
+  const stars = sc >= 90 ? '⭐⭐⭐' : sc >= 70 ? '⭐⭐' : '⭐';
+  const badge = sc === 100 ? '🏆 Perfeito!' : sc >= 90 ? '🎖️ Excelente!' : sc >= 70 ? '👍 Muito bem!' : '💪 Continue praticando!';
+
+  // performance grid only if we have detailed stats
+  const perfHTML = tot > 0 ? `
+    <div class="perf-summary">
+      <div>
+        <div class="perf-stat-val" style="color:var(--cyan)">${sc}</div>
+        <div class="perf-stat-lbl">Pontuação</div>
+      </div>
+      <div>
+        <div class="perf-stat-val" style="color:${err===0?'var(--green)':'var(--red)'}">${err}</div>
+        <div class="perf-stat-lbl">Erros</div>
+      </div>
+      <div>
+        <div class="perf-stat-val" style="color:var(--yellow)">${ft}/${tot}</div>
+        <div class="perf-stat-lbl">De primeira</div>
+      </div>
+    </div>` : '';
+
+  beep('win');
+  return `
+    <div class="complete-screen">
+      <span class="complete-stars animate-pop">${stars}</span>
+      <div class="complete-title">Parabéns, Margo! 🎉</div>
+      <div class="complete-sub">${badge}<br>Você concluiu <strong>${L.titulo}</strong>!</div>
+      ${perfHTML}
+      <div class="apostila-box">
+        <div class="apostila-label">📓 Atividade de Casa</div>
+        <div class="apostila-text">
+          <strong>Apostila Vol. ${L.apostila.vol}</strong> — páginas ${L.apostila.paginas}<br>
+          <span style="color:var(--muted)">${L.apostila.descricao}</span>
+        </div>
+      </div>
+      <div class="action-row">
+        <button class="btn btn-ghost" onclick="goHome()">← Mapa de Aulas</button>
+        <button class="btn btn-primary" onclick="goNextLesson('${L.id}')">Próxima Aula →</button>
+      </div>
+    </div>`;
+}
+
+function goNextLesson(currentId) {
+  const ids = Object.keys(LESSONS);
+  const next = ids[ids.indexOf(currentId)+1];
+  if (next) openLesson(next);
+  else goHome();
+}
+
+// ─── EXTRAS ENGINE ────────────────────────────────
+
+function renderExtra(ex) {
+  const el = document.getElementById('main-content');
+  let html = '';
+  if (ex.type === 'extra_memory')  html = renderExtraMemory(ex);
+  if (ex.type === 'wordsearch')    html = renderWordSearch(ex);
+  if (ex.type === 'hangman')       html = renderHangman(ex);
+  if (ex.type === 'speed')         html = renderSpeed(ex);
+  if (ex.type === 'prova')         { renderProva(ex); return; }
+  el.innerHTML = `<div class="screen lesson-wrap">
+    <div class="lesson-header">
+      <div class="lesson-tag">Atividade Extra</div>
+      <div class="lesson-title">${ex.icon} ${ex.label}</div>
+      <div class="lesson-obj">🎮 ${ex.sub}</div>
+    </div>${html}</div>`;
+  if (ex.type === 'speed') startSpeedTimer(ex);
+}
+
+// ── Extra Memory (reuses deck logic) ──────────────
+function renderExtraMemory(ex) {
+  const deck = buildMemDeck(ex.pairs);
+  for(let i=deck.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[deck[i],deck[j]]=[deck[j],deck[i]];}
+  extraState.memory = { deck, flipped:[], matched:[], tries:0 };
+
+  const cards = deck.map(c => `
+    <div class="mem-card" id="emc-${c.id}" onclick="flipExtraCard('${c.id}','${ex.id}')">
+      <div class="mem-inner">
+        <div class="mem-front">🃏</div>
+        <div class="mem-back ${c.face==='pt'?'mem-back-ptside':'mem-back-esside'}">
+          ${c.display ? `<span style="font-size:1.6rem;line-height:1">${c.display}</span>` : ''}
+          <div class="mem-back-pt" style="margin-top:${c.display?'4px':'0'}">${c.label}</div>
+        </div>
+      </div>
+    </div>`).join('');
+
+  return `
+    <div style="text-align:center;margin-bottom:12px;">
+      <span style="font-size:0.78rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:1px;">Encontre os pares — Português ↔ Espanhol!</span>
+    </div>
+    <div class="memory-grid" id="emem-grid">${cards}</div>
+    <div class="action-row" id="emem-done" style="display:none">
+      <button class="btn btn-ghost" onclick="goHome()">← Mapa</button>
+      <button class="btn btn-primary" onclick="openExtra('${ex.id}')">Jogar de novo 🔄</button>
+    </div>`;
+}
+
+function flipExtraCard(cardId, exId) {
+  const st = extraState.memory;
+  if (!st || st.matched.includes(cardId) || st.flipped.includes(cardId) || st.flipped.length >= 2) return;
+  const cardEl = document.getElementById('emc-'+cardId);
+  cardEl.classList.add('flipped');
+  st.flipped.push(cardId);
+  if (st.flipped.length === 2) {
+    st.tries++;
+    const [a,b] = st.flipped.map(id => st.deck.find(c=>c.id===id));
+    if (a.pairId === b.pairId && a.face !== b.face) {
+      beep('ok');
+      st.matched.push(a.id, b.id);
+      st.flipped = [];
+      document.getElementById('emc-'+a.id).classList.add('matched');
+      document.getElementById('emc-'+b.id).classList.add('matched');
+      if (st.matched.length === st.deck.length) {
+        beep('win');
+        setTimeout(() => { const d=document.getElementById('emem-done'); if(d) d.style.display='flex'; }, 400);
+      }
+    } else {
+      beep('fail');
+      setTimeout(() => {
+        st.flipped.forEach(id => {
+          const el = document.getElementById('emc-'+id);
+          if (el && !st.matched.includes(id)) el.classList.remove('flipped');
+        });
+        st.flipped = [];
+      }, 900);
+    }
+  }
+}
+
+// ── Word Search ────────────────────────────────────
+function generateWordSearchGrid(words, size) {
+  const FILL = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  const grid = Array.from({length:size}, () => Array(size).fill(''));
+  const placed = []; // [{word, cells:[{r,c}]}]
+  const dirs = [[0,1],[1,0],[0,-1],[-1,0],[1,1],[1,-1],[-1,1],[-1,-1]];
+
+  function canPlace(word, r, c, dr, dc) {
+    for (let i=0; i<word.length; i++) {
+      const nr=r+dr*i, nc=c+dc*i;
+      if (nr<0||nr>=size||nc<0||nc>=size) return false;
+      if (grid[nr][nc] !== '' && grid[nr][nc] !== word[i]) return false;
+    }
+    return true;
+  }
+  function placeWord(word, r, c, dr, dc) {
+    const cells = [];
+    for (let i=0; i<word.length; i++) {
+      grid[r+dr*i][c+dc*i] = word[i];
+      cells.push({r:r+dr*i, c:c+dc*i});
+    }
+    placed.push({word, cells});
+  }
+
+  // Sort by length descending for better placement
+  const sorted = [...words].sort((a,b) => b.length-a.length);
+  sorted.forEach(word => {
+    let ok = false;
+    for (let attempt=0; attempt<500 && !ok; attempt++) {
+      const [dr,dc] = dirs[Math.floor(Math.random()*dirs.length)];
+      const r = Math.floor(Math.random()*size);
+      const c = Math.floor(Math.random()*size);
+      if (canPlace(word,r,c,dr,dc)) { placeWord(word,r,c,dr,dc); ok=true; }
+    }
+    if (!ok) console.warn('Could not place:', word);
+  });
+
+  // Fill remaining cells
+  for (let r=0; r<size; r++)
+    for (let c=0; c<size; c++)
+      if (!grid[r][c]) grid[r][c] = FILL[Math.floor(Math.random()*FILL.length)];
+
+  return { grid, placed };
+}
+
+function renderWordSearch(ex) {
+  const grid = ex.grid;
+  const size = grid.length;
+
+  extraState.ws = {
+    grid, words: ex.words, placed: ex.placed,
+    firstClick:   null,
+    previewCells: [],
+    found:        [],
+    foundCells:   [],
+  };
+
+  let tableHTML = '<table class="ws-table"><tbody>';
+  for (let ri = 0; ri < size; ri++) {
+    tableHTML += '<tr>';
+    for (let ci = 0; ci < size; ci++) {
+      tableHTML += `<td class="ws-cell" id="wsc-${ri}-${ci}" onclick="wsClick(${ri},${ci},'${ex.id}')">${grid[ri][ci]}</td>`;
+    }
+    tableHTML += '</tr>';
+  }
+  tableHTML += '</tbody></table>';
+
+  const wordTags = ex.words.map(w =>
+    `<div class="ws-word-tag" id="wstag-${w}">${w}</div>`
+  ).join('');
+
+  return `
+    <div style="font-size:0.72rem;font-weight:700;color:var(--muted);margin-bottom:8px;text-align:center;">
+      Clique na 1ª letra → clique na última letra da palavra!
+    </div>
+    <div class="ws-words-list">${wordTags}</div>
+    <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;margin-bottom:16px;">
+      ${tableHTML}
+    </div>
+    <div id="ws-done" style="display:none;margin-top:16px">
+      <div class="action-row">
+        <button class="btn btn-ghost" onclick="goHome()">← Mapa</button>
+        <button class="btn btn-primary" onclick="openExtra('${ex.id}')">Jogar de novo &#x1F504;</button>
+      </div>
+    </div>`;
+}
+
+function wsClick(r, c, exId) {
+  const st = extraState.ws;
+  if (!st) return;
+
+  // If cell is already permanently found, ignore
+  if (st.foundCells.some(fc => fc.r===r && fc.c===c) && !st.firstClick) return;
+
+  if (!st.firstClick) {
+    // FIRST CLICK — select start cell
+    st.firstClick = {r, c};
+    wsClearPreview();
+    wsSetCellState(`wsc-${r}-${c}`, 'selecting');
+    st.previewCells = [{r, c}];
+    return;
+  }
+
+  // SECOND CLICK — try to form a word
+  const r1 = st.firstClick.r, c1 = st.firstClick.c;
+
+  // same cell clicked again = cancel
+  if (r1 === r && c1 === c) {
+    st.firstClick = null;
+    wsClearPreview();
+    st.previewCells = [];
+    return;
+  }
+
+  // get line between first and second click
+  const lineCells = wsGetLineCells(r1, c1, r, c);
+
+  if (lineCells.length === 0) {
+    // not a valid line — reset, treat this as new first click
+    st.firstClick = {r, c};
+    wsClearPreview();
+    wsSetCellState(`wsc-${r}-${c}`, 'selecting');
+    st.previewCells = [{r, c}];
+    return;
+  }
+
+  // build the word from the line
+  const letters  = lineCells.map(([rr,cc]) => st.grid[rr][cc]).join('');
+  const lettersR = letters.split('').reverse().join('');
+  const word = st.words.find(w => w === letters || w === lettersR);
+
+  if (word && !st.found.includes(word)) {
+    // CORRECT!
+    beep('ok');
+    st.found.push(word);
+    wsClearPreview();
+    // Permanently mark cells as found
+    lineCells.forEach(([rr,cc]) => {
+      st.foundCells.push({r:rr, c:cc});
+      wsSetCellState(`wsc-${rr}-${cc}`, 'found');
+    });
+    // Cross out word tag
+    const tag = document.getElementById('wstag-' + word);
+    if (tag) tag.classList.add('found');
+    // Done?
+    if (st.found.length === st.words.length) {
+      beep('win');
+      setTimeout(() => { const d = document.getElementById('ws-done'); if (d) d.style.display = 'block'; }, 400);
+    }
+  } else {
+    // WRONG — flash red briefly then clear
+    beep('fail');
+    wsClearPreview();
+    lineCells.forEach(([rr,cc]) => {
+      const el = document.getElementById(`wsc-${rr}-${cc}`);
+      if (el) { el.classList.add('wrong-flash'); setTimeout(() => el.classList.remove('wrong-flash'), 500); }
+    });
+  }
+
+  st.firstClick = null;
+  st.previewCells = [];
+}
+
+function wsSetCellState(id, state) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.classList.remove('selecting','found','wrong-flash');
+  if (state) el.classList.add(state);
+}
+
+function wsClearPreview() {
+  const st = extraState.ws;
+  if (!st) return;
+  (st.previewCells || []).forEach(({r,c}) => {
+    const el = document.getElementById(`wsc-${r}-${c}`);
+    if (el && !st.foundCells.some(fc=>fc.r===r&&fc.c===c)) {
+      el.classList.remove('selecting');
+    }
+  });
+}
+
+function wsGetLineCells(r1, c1, r2, c2) {
+  const dr = r2 - r1, dc = c2 - c1;
+  // Must be straight line: horizontal, vertical or 45° diagonal
+  if (dr !== 0 && dc !== 0 && Math.abs(dr) !== Math.abs(dc)) return [];
+  const steps = Math.max(Math.abs(dr), Math.abs(dc));
+  if (steps === 0) return [];
+  const sr = Math.sign(dr), sc = Math.sign(dc);
+  const cells = [];
+  for (let i = 0; i <= steps; i++) cells.push([r1 + sr*i, c1 + sc*i]);
+  return cells;
+}
+
+// ── Hangman ───────────────────────────────────────
+function renderHangman(ex) {
+  const words = [...ex.words].sort(()=>Math.random()-0.5);
+  extraState.hm = { words, idx:0, guessed:[], errors:0, maxErrors:8 };
+  return buildHangmanHTML(ex);
+}
+
+function buildHangmanHTML(ex) {
+  const st = extraState.hm;
+  if (st.idx >= st.words.length) {
+    beep('win');
+    return `<div class="complete-screen">
+      <span class="complete-stars animate-pop">⭐⭐⭐</span>
+      <div class="complete-title">Você venceu! 🎉</div>
+      <div class="complete-sub">Acertou todas as ${st.words.length} palavras!</div>
+      <div class="action-row">
+        <button class="btn btn-ghost" onclick="goHome()">← Mapa</button>
+        <button class="btn btn-primary" onclick="openExtra('${ex.id}')">Jogar de novo 🔄</button>
+      </div></div>`;
+  }
+  const {word, hint} = st.words[st.idx];
+  const figures = ['🙂','😟','😰','😨','😱','💀','☠️','👻','🤖'];
+  const figure = figures[Math.min(st.errors, figures.length-1)];
+  // Always show full word after won/lost, blanks otherwise
+  const isOver = st.won || st.lost;
+  const letters = word.split('').map(l =>
+    `<div class="hw-letter ${isOver && !st.guessed.includes(l) ? 'reveal' : ''}">${(st.guessed.includes(l) || isOver) ? l : '_'}</div>`
+  ).join('');
+  const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+  const keys = alphabet.map(l => {
+    const hit  = st.guessed.includes(l) && word.includes(l);
+    const miss = st.guessed.includes(l) && !word.includes(l);
+    return `<button class="key-btn ${hit?'hit':''} ${miss?'miss':''}" onclick="hmGuess('${l}','${ex.id}')" ${st.guessed.includes(l)?'disabled':''}>${l}</button>`;
+  }).join('');
+
+  return `
+    <div style="text-align:center;margin-bottom:4px">
+      <div class="hm-figure">${figure}</div>
+    </div>
+    <div class="hangman-error-bar">
+      <span style="font-size:0.72rem;font-weight:900;color:var(--muted);text-transform:uppercase">Erros:</span>
+      <div class="err-track"><div class="err-fill" style="width:${(st.errors/st.maxErrors)*100}%"></div></div>
+      <span style="font-size:0.78rem;font-weight:900;color:${st.errors>5?'var(--red)':'var(--text)'}">${st.errors}/${st.maxErrors}</span>
+    </div>
+    <div style="background:var(--surface);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:12px;font-size:0.8rem;font-weight:700;">
+      <span style="color:var(--pink);font-size:0.65rem;text-transform:uppercase;letter-spacing:1px;font-weight:900;">Dica:</span><br>
+      ${hint}
+    </div>
+    <div class="hangman-word">${letters}</div>
+    <div class="keyboard" id="hm-keys">${keys}</div>
+    <div style="text-align:center;font-size:0.72rem;color:var(--muted);font-weight:700">${st.idx+1} / ${st.words.length} palavras</div>
+    <div id="hm-result"></div>`;
+}
+
+function hmGuess(letter, exId) {
+  const st = extraState.hm;
+  const ex = EXTRAS[exId];
+  if (st.guessed.includes(letter)) return;
+  st.guessed.push(letter);
+  const {word} = st.words[st.idx];
+  if (!word.includes(letter)) { st.errors++; beep('fail'); }
+  else beep('ok');
+  const won  = word.split('').every(l => st.guessed.includes(l));
+  const lost = st.errors >= st.maxErrors;
+
+  if (won || lost) {
+    if (won) { beep('win'); st.won = true; } else { st.lost = true; }
+    // Re-render to show full word
+    const el = document.getElementById('main-content');
+    if (el) el.querySelector('.lesson-wrap').innerHTML =
+      `<div class="lesson-header"><div class="lesson-tag">Atividade Extra</div><div class="lesson-title">${ex.icon} ${ex.label}</div><div class="lesson-obj">🎮 ${ex.sub}</div></div>${buildHangmanHTML(ex)}`;
+    const res = document.getElementById('hm-result');
+    if (res) {
+      res.innerHTML = `<div style="text-align:center;margin-top:16px">
+        <div style="font-size:2rem;margin-bottom:8px">${won?'🎉':'💀'}</div>
+        <div style="font-family:var(--font-head);font-size:1.3rem;color:${won?'var(--green)':'var(--red)'};margin-bottom:6px">${won?'Acertou!':'Palavra: '+word}</div>
+        <div class="action-row"><button class="btn btn-primary" onclick="hmNext('${exId}')">${st.idx+1<st.words.length?'Próxima →':'Ver resultado'}</button></div>
+      </div>`;
+    }
+    document.querySelectorAll('#hm-keys .key-btn').forEach(b=>b.disabled=true);
+    return;
+  }
+
+  // Re-render normally
+  const el = document.getElementById('main-content');
+  if (el) el.querySelector('.lesson-wrap').innerHTML =
+    `<div class="lesson-header"><div class="lesson-tag">Atividade Extra</div><div class="lesson-title">${ex.icon} ${ex.label}</div><div class="lesson-obj">🎮 ${ex.sub}</div></div>${buildHangmanHTML(ex)}`;
+}
+
+function hmNext(exId) {
+  extraState.hm.idx++;
+  extraState.hm.guessed = [];
+  extraState.hm.errors  = 0;
+  extraState.hm.won     = false;
+  extraState.hm.lost    = false;
+  const ex = EXTRAS[exId];
+  const el = document.getElementById('main-content');
+  if (el) el.querySelector('.lesson-wrap').innerHTML =
+    `<div class="lesson-header"><div class="lesson-tag">Atividade Extra</div><div class="lesson-title">${ex.icon} ${ex.label}</div><div class="lesson-obj">🎮 ${ex.sub}</div></div>${buildHangmanHTML(ex)}`;
+}
+
+// ── Speed Challenge ────────────────────────────────
+const SPEED_TIME = 8; // seconds per question
+let speedTimer = null;
+
+function renderSpeed(ex) {
+  const rounds = [...ex.rounds].sort(()=>Math.random()-0.5);
+  extraState.speed = { rounds, idx:0, score:0, answered:false, timeLeft:SPEED_TIME };
+  return buildSpeedHTML(ex);
+}
+
+function buildSpeedHTML(ex) {
+  const st = extraState.speed;
+  if (st.idx >= st.rounds.length) {
+    clearInterval(speedTimer);
+    const pct = Math.round((st.score/st.rounds.length)*100);
+    const stars = pct===100?'⭐⭐⭐':pct>=60?'⭐⭐':'⭐';
+    return `<div class="complete-screen">
+      <span class="complete-stars animate-pop">${stars}</span>
+      <div class="complete-title">${pct===100?'Incrível! 🚀':pct>=60?'Muito bem! 🎉':'Pratique mais! 💪'}</div>
+      <div class="perf-summary">
+        <div><div class="perf-stat-val" style="color:var(--cyan)">${pct}</div><div class="perf-stat-lbl">%</div></div>
+        <div><div class="perf-stat-val" style="color:var(--green)">${st.score}</div><div class="perf-stat-lbl">Certas</div></div>
+        <div><div class="perf-stat-val" style="color:var(--red)">${st.rounds.length-st.score}</div><div class="perf-stat-lbl">Erradas</div></div>
+      </div>
+      <div class="action-row">
+        <button class="btn btn-ghost" onclick="goHome()">← Mapa</button>
+        <button class="btn btn-primary" onclick="openExtra('${ex.id}')">Jogar de novo 🔄</button>
+      </div></div>`;
+  }
+  const r = st.rounds[st.idx];
+  const pct = (st.timeLeft / SPEED_TIME) * 100;
+  const timerColor = st.timeLeft <= 3 ? 'var(--red)' : st.timeLeft <= 5 ? 'var(--yellow)' : 'var(--cyan)';
+  const opts = r.opts.map(o =>
+    `<button class="opt-btn" id="sopt-${escQ(o)}" onclick="speedAnswer('${escQ(o)}','${ex.id}')">${o}</button>`
+  ).join('');
+  return `
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <span style="font-size:0.75rem;font-weight:900;color:var(--muted);text-transform:uppercase">${st.idx+1} / ${st.rounds.length}</span>
+      <span style="font-family:var(--font-head);font-size:1.2rem;color:${timerColor}" id="speed-clock">⏱ ${st.timeLeft}s</span>
+      <span style="font-size:0.75rem;font-weight:900;color:var(--yellow)">✅ ${st.score}</span>
+    </div>
+    <div class="speed-timer-bar"><div class="speed-timer-fill" id="stimer-fill" style="width:${pct}%;background:${timerColor}"></div></div>
+    <div class="speed-target">
+      <div class="speed-word" id="speed-word">${r.pt}</div>
+      <div class="speed-hint">Escolha a tradução em espanhol</div>
+    </div>
+    <div class="speed-options">${opts}</div>
+    <div id="speed-fb"></div>`;
+}
+
+function startSpeedTimer(ex) {
+  clearInterval(speedTimer);
+  speedTimer = setInterval(() => {
+    const st = extraState.speed;
+    if (!st || st.answered) return;
+    st.timeLeft--;
+    const clock = document.getElementById('speed-clock');
+    const fill  = document.getElementById('stimer-fill');
+    if (clock) clock.textContent = `⏱ ${st.timeLeft}s`;
+    const pct = (st.timeLeft/SPEED_TIME)*100;
+    const col = st.timeLeft<=3?'var(--red)':st.timeLeft<=5?'var(--yellow)':'var(--cyan)';
+    if (fill)  { fill.style.width=pct+'%'; fill.style.background=col; }
+    if (clock) clock.style.color=col;
+    if (st.timeLeft <= 0) {
+      st.answered = true;
+      beep('fail');
+      const r = st.rounds[st.idx];
+      document.querySelectorAll('.opt-btn').forEach(b => {
+        b.disabled = true;
+        if (b.textContent === r.correct) b.classList.add('correct');
+      });
+      const fb = document.getElementById('speed-fb');
+      if (fb) fb.innerHTML = `<div class="quiz-feedback fail" style="margin-top:12px">⏰ Tempo! Era <strong style="color:var(--cyan)">${r.correct}</strong></div>`;
+      setTimeout(() => { speedNext(ex); }, 1500);
+    }
+  }, 1000);
+}
+
+function speedAnswer(choice, exId) {
+  const st = extraState.speed;
+  const ex = EXTRAS[exId];
+  if (!st || st.answered) return;
+  st.answered = true;
+  clearInterval(speedTimer);
+  const r = st.rounds[st.idx];
+  const ok = choice === r.correct;
+  if (ok) { st.score++; beep('ok'); } else beep('fail');
+  document.querySelectorAll('.opt-btn').forEach(b => {
+    b.disabled = true;
+    if (b.textContent === r.correct) b.classList.add('correct');
+    else if (b.textContent === choice && !ok) b.classList.add('wrong');
+  });
+  const fb = document.getElementById('speed-fb');
+  if (fb) fb.innerHTML = ok
+    ? `<div class="quiz-feedback ok" style="margin-top:12px">✅ Perfeito! +1</div>`
+    : `<div class="quiz-feedback fail" style="margin-top:12px">❌ Era <strong style="color:var(--cyan)">${r.correct}</strong></div>`;
+  setTimeout(() => { speedNext(ex); }, ok ? 900 : 1400);
+}
+
+function speedNext(ex) {
+  extraState.speed.idx++;
+  extraState.speed.answered = false;
+  extraState.speed.timeLeft = SPEED_TIME;
+  const el = document.getElementById('main-content');
+  if (el) {
+    const lw = el.querySelector('.lesson-wrap');
+    if (lw) lw.innerHTML = `<div class="lesson-header"><div class="lesson-tag">Atividade Extra</div><div class="lesson-title">${ex.icon} ${ex.label}</div><div class="lesson-obj">🎮 ${ex.sub}</div></div>${buildSpeedHTML(ex)}`;
+    if (extraState.speed.idx < ex.rounds.length) startSpeedTimer(ex);
+  }
+}
+
+
+// ─── PROVA FINAL ENGINE ───────────────────────────
+
+function renderProva(ex) {
+  extraState.prova = {
+    rounds: ex.rounds, idx: -1,
+    totalQuiz:0, correctQuiz:0, totalMatch:0, correctMatch:0,
+    matchState:null, answered:false,
+  };
+  provaShowIntro(ex);
+}
+
+function provaShowIntro(ex) {
+  const el = document.getElementById('main-content');
+  const quizCount  = ex.rounds.filter(r=>r.type==='quiz').length;
+  const matchCount = ex.rounds.filter(r=>r.type==='matching').length;
+  el.innerHTML = `<div class="screen lesson-wrap">
+    <div style="text-align:center;padding:20px 0 28px">
+      <div style="font-size:4rem;margin-bottom:12px">🏆</div>
+      <div style="font-family:var(--font-head);font-size:2rem;color:var(--yellow);margin-bottom:6px">Prova Final</div>
+      <div style="font-size:0.78rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:2px;margin-bottom:20px">Semanas 1 a 7</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:24px">
+        <div style="background:var(--surface);border-radius:12px;padding:14px 8px;border:1px solid var(--border)">
+          <div style="font-family:var(--font-head);font-size:1.6rem;color:var(--cyan)">${quizCount}</div>
+          <div style="font-size:0.7rem;font-weight:800;color:var(--muted);text-transform:uppercase">Questões</div>
+        </div>
+        <div style="background:var(--surface);border-radius:12px;padding:14px 8px;border:1px solid var(--border)">
+          <div style="font-family:var(--font-head);font-size:1.6rem;color:var(--pink)">${matchCount}</div>
+          <div style="font-size:0.7rem;font-weight:800;color:var(--muted);text-transform:uppercase">Combinações</div>
+        </div>
+        <div style="background:var(--surface);border-radius:12px;padding:14px 8px;border:1px solid var(--border)">
+          <div style="font-family:var(--font-head);font-size:1.6rem;color:var(--yellow)">${ex.rounds.length}</div>
+          <div style="font-size:0.7rem;font-weight:800;color:var(--muted);text-transform:uppercase">Total</div>
+        </div>
+      </div>
+      <div style="background:var(--surface);border-radius:14px;padding:14px 18px;margin-bottom:24px;text-align:left;border:1px solid var(--border)">
+        <div style="font-size:0.75rem;font-weight:900;color:var(--yellow);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">📋 O que vai cair:</div>
+        <div style="font-size:0.85rem;font-weight:700;color:var(--muted);line-height:1.9">
+          👋 Saudações &amp; Apresentação &nbsp;•&nbsp; 🔢 Números &amp; Preços<br>
+          🎨 Cores &amp; Adjetivos &nbsp;•&nbsp; 🏠 Casa &amp; Preposições<br>
+          ⏰ Rotina &amp; Frequência &nbsp;•&nbsp; 🎒 Escola &amp; Verbos<br>
+          👨‍👩‍👧 Família
+        </div>
+      </div>
+      <button class="btn btn-primary" style="padding:16px 40px;font-size:1rem" onclick="provaNextRound('${ex.id}')">Começar a Prova →</button>
+    </div>
+  </div>`;
+}
+
+function provaNextRound(exId) {
+  const ex = EXTRAS[exId];
+  const st = extraState.prova;
+  st.idx++;
+  if (st.idx >= ex.rounds.length) { provaShowResult(ex); return; }
+  const round = ex.rounds[st.idx];
+  if (round.type==='quiz')     provaShowQuiz(ex, round);
+  if (round.type==='matching') provaShowMatching(ex, round);
+}
+
+function provaShowQuiz(ex, round) {
+  const st = extraState.prova;
+  st.answered = false;
+  st.totalQuiz++;
+  const done = st.idx;
+  const total = ex.rounds.length;
+  const progPct = Math.round((done/total)*100);
+  const opts = round.opts.map(o =>
+    `<button class="opt-btn" onclick="provaAnswerQuiz('${escQ(o)}','${ex.id}')">${o}</button>`
+  ).join('');
+  const el = document.getElementById('main-content');
+  el.innerHTML = `<div class="screen lesson-wrap">
+    <div style="margin-bottom:16px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+        <span style="font-size:0.68rem;font-weight:900;color:var(--yellow);text-transform:uppercase;letter-spacing:1px">${round.tema}</span>
+        <span style="font-size:0.68rem;font-weight:900;color:var(--muted)">${done+1} / ${total}</span>
+      </div>
+      <div style="height:6px;background:var(--surface2);border-radius:99px;overflow:hidden">
+        <div style="height:100%;width:${progPct}%;background:linear-gradient(90deg,var(--cyan),var(--purple));border-radius:99px;transition:width 0.4s"></div>
+      </div>
+    </div>
+    <div class="quiz-question">
+      <div class="quiz-q-text">${round.q}</div>
+      <div class="quiz-trans">${round.trans}</div>
+      <div class="options-grid" id="popts-grid">${opts}</div>
+      <div id="prova-feedback" style="display:none"></div>
+    </div>
+    <div class="action-row" id="prova-next" style="display:none">
+      <button class="btn btn-primary" onclick="provaNextRound('${ex.id}')">Próxima →</button>
+    </div>
+  </div>`;
+}
+
+function provaAnswerQuiz(choice, exId) {
+  const ex = EXTRAS[exId];
+  const st = extraState.prova;
+  if (st.answered) return;
+  st.answered = true;
+  const round = ex.rounds[st.idx];
+  const ok = choice === round.correct;
+  if (ok) { st.correctQuiz++; beep('ok'); } else beep('fail');
+  document.querySelectorAll('.opt-btn').forEach(btn => {
+    btn.disabled = true;
+    if (btn.textContent===round.correct) btn.classList.add('correct');
+    else if (btn.textContent===choice && !ok) btn.classList.add('wrong');
+  });
+  const fb = document.getElementById('prova-feedback');
+  if (fb) {
+    fb.style.display='block';
+    fb.className = ok ? 'quiz-feedback ok' : 'quiz-feedback fail';
+    fb.innerHTML = ok
+      ? `✅ Correto! <span class="tip">${round.dica}</span>`
+      : `❌ Era "<strong style="color:var(--cyan)">${round.correct}</strong>" — <span class="tip">${round.dica}</span>`;
+  }
+  document.getElementById('prova-next').style.display='flex';
+}
+
+function provaShowMatching(ex, round) {
+  const st = extraState.prova;
+  const done  = st.idx;
+  const total = ex.rounds.length;
+  const progPct = Math.round((done/total)*100);
+  const pairs = round.pairs;
+  const rights = [...pairs.map(p=>p.b)].sort(()=>Math.random()-0.5);
+  st.matchState = { pairs, selected:null, matched:[], rights };
+  st.totalMatch += pairs.length;
+  const leftHTML  = pairs.map((p,i)  => `<div class="match-item" id="pml-${i}" onclick="provaSelectMatch('left',${i},'${ex.id}')">${p.a}</div>`).join('');
+  const rightHTML = rights.map((r,i) => `<div class="match-item" id="pmr-${i}" onclick="provaSelectMatch('right',${i},'${ex.id}')" data-val="${escQ(r)}">${r}</div>`).join('');
+  const el = document.getElementById('main-content');
+  el.innerHTML = `<div class="screen lesson-wrap">
+    <div style="margin-bottom:16px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+        <span style="font-size:0.68rem;font-weight:900;color:var(--pink);text-transform:uppercase;letter-spacing:1px">${round.tema}</span>
+        <span style="font-size:0.68rem;font-weight:900;color:var(--muted)">${done+1} / ${total}</span>
+      </div>
+      <div style="height:6px;background:var(--surface2);border-radius:99px;overflow:hidden">
+        <div style="height:100%;width:${progPct}%;background:linear-gradient(90deg,var(--cyan),var(--purple));border-radius:99px"></div>
+      </div>
+    </div>
+    <div style="font-size:0.78rem;font-weight:800;color:var(--muted);text-align:center;margin-bottom:12px;text-transform:uppercase;letter-spacing:1px">Ligue o português ao espanhol!</div>
+    <div class="match-wrap">
+      <div class="match-col">${leftHTML}</div>
+      <div class="match-col">${rightHTML}</div>
+    </div>
+    <div id="prova-match-next" style="display:none">
+      <div class="action-row"><button class="btn btn-primary" onclick="provaNextRound('${ex.id}')">Próxima →</button></div>
+    </div>
+  </div>`;
+}
+
+function provaSelectMatch(side, idx, exId) {
+  const ex = EXTRAS[exId];
+  const ms = extraState.prova.matchState;
+  if (!ms) return;
+  const elId = side==='left' ? `pml-${idx}` : `pmr-${idx}`;
+  if (ms.matched.includes(elId)) return;
+  if (!ms.selected) {
+    ms.selected = {side, idx};
+    document.getElementById(elId).classList.add('selected');
+    return;
+  }
+  if (ms.selected.side===side) {
+    document.getElementById(ms.selected.side==='left'?`pml-${ms.selected.idx}`:`pmr-${ms.selected.idx}`).classList.remove('selected');
+    ms.selected = {side, idx};
+    document.getElementById(elId).classList.add('selected');
+    return;
+  }
+  const leftIdx  = side==='left'  ? idx : ms.selected.idx;
+  const rightIdx = side==='right' ? idx : ms.selected.idx;
+  const leftEl   = document.getElementById(`pml-${leftIdx}`);
+  const rightEl  = document.getElementById(`pmr-${rightIdx}`);
+  const isMatch  = ms.pairs[leftIdx].b === rightEl.dataset.val;
+  if (isMatch) {
+    beep('ok');
+    extraState.prova.correctMatch++;
+    leftEl.classList.remove('selected');  leftEl.classList.add('matched');
+    rightEl.classList.remove('selected'); rightEl.classList.add('matched');
+    ms.matched.push(`pml-${leftIdx}`,`pmr-${rightIdx}`);
+    ms.selected = null;
+    if (ms.matched.length===ms.pairs.length*2) {
+      beep('win');
+      setTimeout(()=>{const d=document.getElementById('prova-match-next');if(d)d.style.display='block';},400);
+    }
+  } else {
+    beep('fail');
+    leftEl.classList.add('wrong-flash');  rightEl.classList.add('wrong-flash');
+    setTimeout(()=>{
+      leftEl.classList.remove('selected','wrong-flash');
+      rightEl.classList.remove('selected','wrong-flash');
+    },500);
+    ms.selected = null;
+  }
+}
+
+function provaShowResult(ex) {
+  const st = extraState.prova;
+  const quizPct  = st.totalQuiz  > 0 ? Math.round((st.correctQuiz  / st.totalQuiz)  * 100) : 100;
+  const matchPct = st.totalMatch > 0 ? Math.round((st.correctMatch / st.totalMatch) * 100) : 100;
+  const overall  = Math.round((quizPct + matchPct) / 2);
+  let grade, gradeColor, gradeMsg;
+  if (overall>=90) { grade='A'; gradeColor='var(--green)';  gradeMsg='Excelente! Você dominou o conteúdo! 🌟'; }
+  else if (overall>=75) { grade='B'; gradeColor='var(--cyan)';   gradeMsg='Muito bem! Pequenos detalhes a revisar. 👍'; }
+  else if (overall>=60) { grade='C'; gradeColor='var(--yellow)'; gradeMsg='Bom! Vale revisar algumas semanas. 📖'; }
+  else                  { grade='D'; gradeColor='var(--red)';    gradeMsg='Continue praticando! Você chega lá! 💪'; }
+  beep('win');
+  const el = document.getElementById('main-content');
+  el.innerHTML = `<div class="screen lesson-wrap">
+    <div style="text-align:center;padding:20px 0 28px">
+      <div style="font-size:1rem;font-weight:900;color:var(--muted);text-transform:uppercase;letter-spacing:2px;margin-bottom:12px">Resultado da Prova</div>
+      <div style="font-family:var(--font-head);font-size:5rem;color:${gradeColor};line-height:1;margin-bottom:8px;text-shadow:0 0 30px ${gradeColor}44">${grade}</div>
+      <div style="font-size:0.95rem;font-weight:700;color:var(--muted);margin-bottom:24px">${gradeMsg}</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:24px">
+        <div style="background:var(--surface);border-radius:12px;padding:14px 8px;border:2px solid ${gradeColor}44">
+          <div style="font-family:var(--font-head);font-size:1.8rem;color:${gradeColor}">${overall}%</div>
+          <div style="font-size:0.65rem;font-weight:900;color:var(--muted);text-transform:uppercase">Nota Geral</div>
+        </div>
+        <div style="background:var(--surface);border-radius:12px;padding:14px 8px;border:1px solid var(--border)">
+          <div style="font-family:var(--font-head);font-size:1.8rem;color:var(--cyan)">${quizPct}%</div>
+          <div style="font-size:0.65rem;font-weight:900;color:var(--muted);text-transform:uppercase">Questões</div>
+        </div>
+        <div style="background:var(--surface);border-radius:12px;padding:14px 8px;border:1px solid var(--border)">
+          <div style="font-family:var(--font-head);font-size:1.8rem;color:var(--pink)">${matchPct}%</div>
+          <div style="font-size:0.65rem;font-weight:900;color:var(--muted);text-transform:uppercase">Combinações</div>
+        </div>
+      </div>
+      <div style="background:var(--surface);border-radius:14px;padding:16px 18px;margin-bottom:24px;text-align:left;border:1px solid var(--border)">
+        <div style="font-size:0.72rem;font-weight:900;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">📊 Detalhes</div>
+        <div style="font-size:0.88rem;font-weight:700;color:var(--text);line-height:2">
+          ✅ Quiz: <span style="color:var(--cyan)">${st.correctQuiz} / ${st.totalQuiz}</span> corretas<br>
+          🔗 Combinações: <span style="color:var(--pink)">${st.correctMatch} / ${st.totalMatch}</span> corretas
+        </div>
+      </div>
+      <div class="action-row">
+        <button class="btn btn-ghost" onclick="goHome()">← Mapa</button>
+        <button class="btn btn-primary" onclick="openExtra('prova')">Refazer 🔄</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function nextStep() {
+  const L = currentLesson;
+  if (!L) return;
+  currentStep++;
+  if (currentStep >= L.steps.length) { goHome(); return; }
+  renderLesson();
+}
+
+// ─── INIT ─────────────────────────────────────────
+loadProgress();
+renderHome();
+</script>
+</body>
+</html>
