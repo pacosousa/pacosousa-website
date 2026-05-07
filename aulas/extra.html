@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Português Gamer — Aula 01</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0D0B1E;
+            --surface: #1B1836;
+            --primary: #00F5D4;
+            --secondary: #7B2FFF;
+            --accent: #FF3CAC;
+            --yellow: #FFD60A;
+            --text: #F0EEF8;
+            --correct: #39D353;
+            --wrong: #FF4757;
+            --shadow: 0 8px 0 rgba(0,0,0,0.3);
+            --glow: 0 0 15px rgba(0, 245, 212, 0.4);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Nunito', sans-serif;
+            overflow-x: hidden;
+            background-image: radial-gradient(circle at 20% 20%, rgba(123, 47, 255, 0.15) 0%, transparent 40%),
+                              radial-gradient(circle at 80% 80%, rgba(0, 245, 212, 0.1) 0%, transparent 40%);
+            min-height: 100vh;
+        }
+
+        h1, h2, h3 { font-family: 'Fredoka One', cursive; letter-spacing: 1px; }
+
+        .app-container {
+            max-width: 500px;
+            margin: 0 auto;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* BARRA DE PROGRESSO */
+        .header {
+            padding: 20px;
+            position: sticky;
+            top: 0;
+            background: var(--bg);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .progress-container {
+            flex: 1;
+            height: 16px;
+            background: #2D2A4A;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 2px solid rgba(255,255,255,0.1);
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transition: width 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 0 10px var(--primary);
+        }
+
+        .stats { font-weight: 900; color: var(--yellow); font-size: 1.2rem; display: flex; align-items: center; gap: 5px; }
+
+        /* TELAS */
+        .screen {
+            flex: 1;
+            padding: 20px;
+            display: none;
+            animation: fadeIn 0.4s ease-out;
+            flex-direction: column;
+        }
+
+        .screen.active { display: flex; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* TELA INICIAL */
+        .hero-img { font-size: 6rem; text-align: center; margin: 40px 0; animation: float 3s infinite ease-in-out; }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+
+        .title-main { font-size: 2.5rem; text-align: center; color: var(--primary); text-shadow: var(--glow); margin-bottom: 10px; }
+        .sub-main { text-align: center; color: rgba(240,238,248,0.7); font-weight: 700; margin-bottom: 40px; }
+
+        /* BOTÕES */
+        .btn {
+            background: var(--primary);
+            color: #000;
+            border: none;
+            padding: 18px 30px;
+            border-radius: 20px;
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: all 0.2s;
+            text-align: center;
+            width: 100%;
+            text-transform: uppercase;
+        }
+
+        .btn:hover { transform: scale(1.02); filter: brightness(1.1); }
+        .btn:active { transform: translateY(4px); box-shadow: 0 4px 0 rgba(0,0,0,0.3); }
+
+        .btn-secondary { background: var(--secondary); color: white; box-shadow: 0 8px 0 #521BB3; }
+        .btn-check { margin-top: auto; padding: 25px; }
+
+        /* STORY MODE */
+        .dialogue-container { display: flex; flex-direction: column; gap: 20px; margin-top: 20px; }
+        .bubble {
+            background: var(--surface);
+            padding: 20px;
+            border-radius: 25px;
+            position: relative;
+            max-width: 85%;
+            border: 2px solid rgba(255,255,255,0.05);
+            font-weight: 700;
+            line-height: 1.5;
+            box-shadow: 10px 10px 20px rgba(0,0,0,0.2);
+        }
+        .bubble.luna { align-self: flex-start; border-left: 6px solid var(--accent); }
+        .bubble.margo { align-self: flex-end; border-right: 6px solid var(--primary); background: #231F42; }
+        .char-name { font-family: 'Fredoka One'; font-size: 0.8rem; margin-bottom: 5px; text-transform: uppercase; }
+        .luna .char-name { color: var(--accent); }
+        .margo .char-name { color: var(--primary); }
+
+        /* VOCABULÁRIO */
+        .vocab-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .vocab-card {
+            background: var(--surface);
+            padding: 20px;
+            border-radius: 24px;
+            text-align: center;
+            border: 2px solid transparent;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        .vocab-card:hover { border-color: var(--secondary); background: #231F42; }
+        .vocab-emoji { font-size: 2.5rem; margin-bottom: 10px; display: block; }
+        .vocab-pt { font-weight: 900; color: var(--primary); font-size: 1.1rem; display: block; }
+        .vocab-es { font-size: 0.8rem; color: rgba(255,255,255,0.4); font-weight: 700; }
+
+        /* FRASES COMPLEXAS */
+        .phrase-box {
+            background: var(--surface);
+            padding: 25px;
+            border-radius: 25px;
+            margin-bottom: 20px;
+            border-left: 8px solid var(--yellow);
+        }
+        .phrase-pt { font-size: 1.3rem; font-weight: 800; color: var(--text); display: block; margin-bottom: 10px; }
+        .conector { color: var(--accent); text-decoration: underline; }
+        .phrase-es { color: rgba(255,255,255,0.4); font-style: italic; }
+
+        /* GAMEBOARD */
+        .game-question { font-size: 1.2rem; font-weight: 800; text-align: center; margin-bottom: 30px; }
+        .answer-area {
+            min-height: 120px;
+            background: rgba(255,255,255,0.03);
+            border: 2px dashed rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-content: flex-start;
+            margin-bottom: 30px;
+        }
+        .word-pool {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+        .word-tile {
+            background: var(--surface);
+            padding: 12px 18px;
+            border-radius: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 0 rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: 0.2s;
+            user-select: none;
+        }
+        .word-tile:active { transform: translateY(2px); box-shadow: 0 2px 0 rgba(0,0,0,0.3); }
+        .word-tile.selected { opacity: 0.2; pointer-events: none; }
+
+        /* FEEDBACK BAR */
+        .feedback-overlay {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 30px;
+            transform: translateY(100%);
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            border-radius: 30px 30px 0 0;
+        }
+        .feedback-overlay.show { transform: translateY(0); }
+        .feedback-overlay.correct { background: #1e3a24; color: #39D353; border-top: 5px solid #39D353; }
+        .feedback-overlay.wrong { background: #3d1a1a; color: #FF4757; border-top: 5px solid #FF4757; }
+        .feedback-title { font-family: 'Fredoka One'; font-size: 1.5rem; }
+
+        /* FINAL */
+        .confetti { position: fixed; width: 10px; height: 10px; background: var(--primary); z-index: 999; }
+
+        /* CUSTOM MODAL */
+        #custom-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--surface);
+            padding: 30px;
+            border-radius: 30px;
+            z-index: 2000;
+            text-align: center;
+            border: 4px solid var(--secondary);
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    
+    <!-- HEADER -->
+    <div class="header">
+        <div class="progress-container">
+            <div class="progress-bar" id="main-progress"></div>
+        </div>
+        <div class="stats">⭐ <span id="xp-count">0</span></div>
+    </div>
+
+    <!-- TELA 1: HOME -->
+    <div class="screen active" id="screen-home">
+        <div class="hero-img">🎮</div>
+        <h1 class="title-main">Corpo Humano e Frases Grandes</h1>
+        <p class="sub-main">Aprenda português jogando! 🇧🇷</p>
+        <button class="btn" onclick="goToStep(1)">Bora Começar!</button>
+    </div>
+
+    <!-- TELA 2: STORY MODE -->
+    <div class="screen" id="screen-story">
+        <h2 style="color: var(--accent); margin-bottom: 20px;">Story Mode</h2>
+        <div class="dialogue-container">
+            <div class="bubble luna">
+                <div class="char-name">Luna 🌙</div>
+                Margo, por que seus olhos estão tão vermelhos e cansados?
+            </div>
+            <div class="bubble margo">
+                <div class="char-name">Margo ⭐</div>
+                Porque eu joguei Roblox por três horas ontem à noite! 😵
+            </div>
+            <div class="bubble luna">
+                <div class="char-name">Luna 🌙</div>
+                Nossa! Minha cabeça também dói quando eu jogo demais.
+            </div>
+            <div class="bubble margo">
+                <div class="char-name">Margo ⭐</div>
+                Sim, mas eu fico muito animada quando ganho uma partida! 🚀
+            </div>
+        </div>
+        <button class="btn btn-secondary btn-check" onclick="goToStep(2)">Continuar</button>
+    </div>
+
+    <!-- TELA 3: VOCABULÁRIO -->
+    <div class="screen" id="screen-vocab">
+        <h2 style="color: var(--primary); margin-bottom: 20px;">Dicionário Gamer</h2>
+        <div class="vocab-grid">
+            <div class="vocab-card" onclick="playPop()"><span class="vocab-emoji">🧠</span><span class="vocab-pt">Cabeça</span><span class="vocab-es">Cabeza</span></div>
+            <div class="vocab-card" onclick="playPop()"><span class="vocab-emoji">👀</span><span class="vocab-pt">Olhos</span><span class="vocab-es">Ojos</span></div>
+            <div class="vocab-card" onclick="playPop()"><span class="vocab-emoji">👄</span><span class="vocab-pt">Boca</span><span class="vocab-es">Boca</span></div>
+            <div class="vocab-card" onclick="playPop()"><span class="vocab-emoji">💪</span><span class="vocab-pt">Braço</span><span class="vocab-es">Brazo</span></div>
+            <div class="vocab-card" onclick="playPop()"><span class="vocab-emoji">🖐️</span><span class="vocab-pt">Mão</span><span class="vocab-es">Mano</span></div>
+            <div class="vocab-card" onclick="playPop()"><span class="vocab-emoji">🦵</span><span class="vocab-pt">Perna</span><span class="vocab-es">Pierna</span></div>
+            <div class="vocab-card" onclick="playPop()"><span class="vocab-emoji">🦶</span><span class="vocab-pt">Pé</span><span class="vocab-es">Pie</span></div>
+            <div class="vocab-card" onclick="playPop()"><span class="vocab-emoji">❤️</span><span class="vocab-pt">Coração</span><span class="vocab-es">Corazón</span></div>
+            <div class="vocab-card" onclick="playPop()"><span class="vocab-emoji">😴</span><span class="vocab-pt">Cansado</span><span class="vocab-es">Cansado</span></div>
+            <div class="vocab-card" onclick="playPop()"><span class="vocab-emoji">😊</span><span class="vocab-pt">Feliz</span><span class="vocab-es">Feliz</span></div>
+        </div>
+        <button class="btn btn-secondary btn-check" onclick="goToStep(3)">Estou pronto!</button>
+    </div>
+
+    <!-- TELA 4: FRASES -->
+    <div class="screen" id="screen-phrases">
+        <h2 style="color: var(--yellow); margin-bottom: 20px;">Frases de Mestre</h2>
+        <div class="phrase-box">
+            <span class="phrase-pt">Depois da escola eu <span class="conector">sempre</span> jogo Roblox com meus amigos.</span>
+            <span class="phrase-es">Después de la escuela siempre juego Roblox con mis amigos.</span>
+        </div>
+        <div class="phrase-box" style="border-color: var(--primary);">
+            <span class="phrase-pt">Minha cabeça dói <span class="conector">porque</span> eu estudei português por muito tempo.</span>
+            <span class="phrase-es">Mi cabeza duele porque estudié portugués por mucho tiempo.</span>
+        </div>
+        <div class="phrase-box" style="border-color: var(--accent);">
+            <span class="phrase-pt">Eu fico muito feliz <span class="conector">quando</span> jogo Roblox com a Luna à noite.</span>
+            <span class="phrase-es">Me pongo muy feliz cuando juego Roblox con Luna por la noche.</span>
+        </div>
+        <button class="btn btn-secondary btn-check" onclick="goToStep(4)">Vamos Jogar!</button>
+    </div>
+
+    <!-- TELA 5: MINIGAME -->
+    <div class="screen" id="screen-game">
+        <div class="game-question" id="game-q">Traduza: "Me pongo muy feliz cuando juego con Luna"</div>
+        <div class="answer-area" id="answer-area"></div>
+        <div class="word-pool" id="word-pool"></div>
+        <button class="btn btn-check" id="btn-verify" onclick="checkGame()">Verificar</button>
+    </div>
+
+    <!-- TELA 6: DESAFIO FINAL -->
+    <div class="screen" id="screen-challenge">
+        <h2 style="color: var(--secondary); text-align: center; margin-bottom: 20px;">Crie sua Própria Frase! ✍️</h2>
+        <div class="phrase-box" style="min-height: 150px; display: flex; align-items: center; justify-content: center; text-align: center;">
+            <p id="custom-phrase" style="font-size: 1.4rem; font-weight: 800;">Clique nas palavras abaixo para criar...</p>
+        </div>
+        <div class="word-pool" id="challenge-pool"></div>
+        <button class="btn btn-check" onclick="finishAll()">Finalizar Aula</button>
+    </div>
+
+    <!-- TELA 7: CONCLUSÃO -->
+    <div class="screen" id="screen-final" style="text-align: center;">
+        <div class="hero-img">🎉</div>
+        <h1 class="title-main">Parabéns, Margo!</h1>
+        <p style="font-size: 1.5rem; margin-bottom: 20px;">Você ganhou 500 XP!</p>
+        <div style="font-size: 3rem; margin-bottom: 40px;">⭐⭐⭐⭐⭐</div>
+        <button class="btn" onclick="location.reload()">Jogar Novamente</button>
+    </div>
+
+    <!-- FEEDBACK BAR -->
+    <div class="feedback-overlay" id="feedback-bar">
+        <div class="feedback-title" id="fb-title">Correto!</div>
+        <div id="fb-msg">Você é um gênio!</div>
+        <button class="btn" id="fb-btn" onclick="closeFeedback()">Próximo</button>
+    </div>
+
+</div>
+
+<!-- MODAL MENSAGEM -->
+<div id="custom-message">
+    <h2 id="modal-text">Mensagem!</h2>
+    <button class="btn" style="margin-top: 20px;" onclick="document.getElementById('custom-message').style.display='none'">OK!</button>
+</div>
+
+<script>
+    let currentStep = 0;
+    let xp = 0;
+    let gameLevel = 0;
+    let selectedWords = [];
+
+    const gameChallenges = [
+        {
+            q: "Traduz: \"Después de la escuela siempre juego Roblox com mis amigos.\"",
+            target: "Depois da escola eu sempre jogo Roblox com meus amigos",
+            pool: ["Depois", "da", "escola", "eu", "sempre", "jogo", "Roblox", "com", "meus", "amigos", "antes", "amanhã"]
+        },
+        {
+            q: "Traduz: \"Mi cabeza duele porque estudié portugués por mucho tiempo.\"",
+            target: "Minha cabeça dói porque eu estudei português por muito tempo",
+            pool: ["Minha", "cabeça", "dói", "porque", "eu", "estudei", "português", "por", "muito", "tempo", "braço", "feliz"]
+        },
+        {
+            q: "Traduz: \"Me pongo muy feliz cuando juego Roblox com Luna.\"",
+            target: "Eu fico muito feliz quando jogo Roblox com a Luna",
+            pool: ["Eu", "fico", "muito", "feliz", "quando", "jogo", "Roblox", "com", "a", "Luna", "caminhar", "triste"]
+        },
+        {
+            q: "Traduz: \"Normalmente mi pierna duele después de correr mucho.\"",
+            target: "Normalmente minha perna dói depois de eu correr muito",
+            pool: ["Normalmente", "minha", "perna", "dói", "depois", "de", "eu", "correr", "muito", "mão", "olhos", "comer"]
+        },
+        {
+            q: "Traduz: \"Antes de dormir yo siempre lavo mis manos y pies.\"",
+            target: "Antes de dormir eu sempre lavo minhas mãos e pés",
+            pool: ["Antes", "de", "dormir", "eu", "sempre", "lavo", "minhas", "mãos", "e", "pés", "cabeça", "boca"]
+        }
+    ];
+
+    const challengeWords = ["Eu", "estou", "muito", "animado", "porque", "hoje", "vou", "jogar", "com", "meus", "amigos", "na", "escola", "depois", "de", "estudar", "português"];
+
+    function goToStep(n) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        const screens = ['screen-home', 'screen-story', 'screen-vocab', 'screen-phrases', 'screen-game', 'screen-challenge', 'screen-final'];
+        document.getElementById(screens[n]).classList.add('active');
+        currentStep = n;
+        updateProgress();
+        
+        if(n === 4) initGame();
+        if(n === 5) initChallenge();
+    }
+
+    function updateProgress() {
+        const pct = (currentStep / 6) * 100;
+        document.getElementById('main-progress').style.width = pct + '%';
+    }
+
+    function addXP(amount) {
+        xp += amount;
+        document.getElementById('xp-count').innerText = xp;
+    }
+
+    /* SISTEMA DE GAME */
+    function initGame() {
+        const challenge = gameChallenges[gameLevel];
+        document.getElementById('game-q').innerText = challenge.q;
+        const poolEl = document.getElementById('word-pool');
+        const answerEl = document.getElementById('answer-area');
+        
+        poolEl.innerHTML = '';
+        answerEl.innerHTML = '';
+        selectedWords = [];
+
+        // Embaralhar pool
+        const shuffled = [...challenge.pool].sort(() => Math.random() - 0.5);
+
+        shuffled.forEach((word, idx) => {
+            const tile = document.createElement('div');
+            tile.className = 'word-tile';
+            tile.innerText = word;
+            tile.id = `tile-pool-${idx}`;
+            tile.onclick = () => selectWord(word, `tile-pool-${idx}`);
+            poolEl.appendChild(tile);
+        });
+    }
+
+    function selectWord(word, id) {
+        const originalTile = document.getElementById(id);
+        originalTile.classList.add('selected');
+
+        const answerEl = document.getElementById('answer-area');
+        const tile = document.createElement('div');
+        tile.className = 'word-tile';
+        tile.innerText = word;
+        tile.onclick = () => deselectWord(tile, id);
+        
+        selectedWords.push({word, id});
+        answerEl.appendChild(tile);
+        playPop();
+    }
+
+    function deselectWord(tileEl, originalId) {
+        const originalTile = document.getElementById(originalId);
+        originalTile.classList.remove('selected');
+        
+        const word = tileEl.innerText;
+        selectedWords = selectedWords.filter(item => item.id !== originalId);
+        tileEl.remove();
+        playPop();
+    }
+
+    function checkGame() {
+        const challenge = gameChallenges[gameLevel];
+        const playerAnswer = selectedWords.map(i => i.word).join(' ');
+        
+        if (playerAnswer.toLowerCase().trim() === challenge.target.toLowerCase().trim()) {
+            showFeedback(true);
+        } else {
+            showFeedback(false);
+        }
+    }
+
+    function showFeedback(isCorrect) {
+        const bar = document.getElementById('feedback-bar');
+        const title = document.getElementById('fb-title');
+        const msg = document.getElementById('fb-msg');
+        const btn = document.getElementById('fb-btn');
+
+        bar.classList.remove('correct', 'wrong');
+        bar.classList.add('show', isCorrect ? 'correct' : 'wrong');
+
+        if (isCorrect) {
+            title.innerText = "INCRÍVEL! ✨";
+            msg.innerText = "Você montou a frase perfeitamente!";
+            addXP(20);
+            btn.innerText = "Continuar";
+            btn.onclick = () => {
+                gameLevel++;
+                closeFeedback();
+                if (gameLevel < gameChallenges.length) {
+                    initGame();
+                } else {
+                    goToStep(5);
+                }
+            };
+        } else {
+            title.innerText = "QUASE LÁ! 😅";
+            msg.innerText = "Tente organizar as palavras de outro jeito.";
+            btn.innerText = "Tentar de Novo";
+            btn.onclick = closeFeedback;
+        }
+    }
+
+    function closeFeedback() {
+        document.getElementById('feedback-bar').classList.remove('show');
+    }
+
+    /* DESAFIO FINAL */
+    let myPhrase = [];
+    function initChallenge() {
+        const pool = document.getElementById('challenge-pool');
+        pool.innerHTML = '';
+        challengeWords.forEach(w => {
+            const tile = document.createElement('div');
+            tile.className = 'word-tile';
+            tile.innerText = w;
+            tile.onclick = () => {
+                myPhrase.push(w);
+                document.getElementById('custom-phrase').innerText = myPhrase.join(' ');
+                playPop();
+            };
+            pool.appendChild(tile);
+        });
+    }
+
+    function finishAll() {
+        if(myPhrase.length < 5) {
+            showModal("Crie uma frase maior! Use sua imaginação.");
+            return;
+        }
+        createConfetti();
+        goToStep(6);
+    }
+
+    /* UTILITÁRIOS */
+    function playPop() {
+        // Feedback visual de clique (simulando som)
+        const ripple = document.createElement('div');
+        ripple.style.position = 'fixed';
+        ripple.style.width = '20px'; ripple.style.height = '20px';
+        ripple.style.background = 'white'; ripple.style.borderRadius = '50%';
+        ripple.style.opacity = '0.5'; ripple.style.pointerEvents = 'none';
+        // logic to position ripple... 
+    }
+
+    function showModal(txt) {
+        const m = document.getElementById('custom-message');
+        document.getElementById('modal-text').innerText = txt;
+        m.style.display = 'block';
+    }
+
+    function createConfetti() {
+        for(let i=0; i<50; i++) {
+            const c = document.createElement('div');
+            c.className = 'confetti';
+            c.style.left = Math.random() * 100 + 'vw';
+            c.style.top = '-10px';
+            c.style.backgroundColor = ['#00F5D4', '#7B2FFF', '#FF3CAC', '#FFD60A'][Math.floor(Math.random()*4)];
+            c.style.transform = `rotate(${Math.random()*360}deg)`;
+            document.body.appendChild(c);
+            
+            const animation = c.animate([
+                { transform: `translateY(0) rotate(0)`, opacity: 1 },
+                { transform: `translateY(100vh) rotate(720deg)`, opacity: 0 }
+            ], { duration: 2000 + Math.random()*3000, easing: 'cubic-bezier(0,0,0.2,1)' });
+            
+            animation.onfinish = () => c.remove();
+        }
+    }
+</script>
+
+</body>
+</html>
