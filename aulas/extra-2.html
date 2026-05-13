@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Português Gamer — Aula 02: Missão Margo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0A0914;
+            --surface: #16142E;
+            --primary: #FFD60A;
+            --secondary: #00F5D4;
+            --accent: #FF3CAC;
+            --purple: #7B2FFF;
+            --spy-red: #E63946;
+            --text: #F0EEF8;
+            --correct: #39D353;
+            --wrong: #FF4757;
+            --shadow: 0 8px 0 rgba(0,0,0,0.4);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Nunito', sans-serif;
+            overflow-x: hidden;
+            background-image: linear-gradient(to bottom, #0A0914, #121026);
+            min-height: 100vh;
+        }
+
+        h1, h2, h3 { font-family: 'Fredoka One', cursive; }
+
+        .app {
+            max-width: 500px;
+            margin: 0 auto;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* PROGRESS HEADER */
+        .header {
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: rgba(10, 9, 20, 0.95);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .progress-rail {
+            flex: 1;
+            height: 12px;
+            background: #252245;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 5%;
+            background: linear-gradient(90deg, var(--secondary), var(--purple));
+            transition: width 0.4s ease;
+        }
+
+        .xp-badge {
+            background: var(--surface);
+            padding: 4px 10px;
+            border-radius: 10px;
+            font-weight: 900;
+            color: var(--primary);
+            font-size: 0.8rem;
+            border: 1px solid var(--primary);
+        }
+
+        /* SCREENS */
+        .screen {
+            flex: 1;
+            padding: 25px;
+            display: none;
+            flex-direction: column;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .screen.active { display: flex; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* CARDS & UI ELEMENTS */
+        .chat-bubble {
+            background: var(--surface);
+            padding: 15px;
+            border-radius: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--purple);
+            font-weight: 700;
+            position: relative;
+        }
+
+        .chat-bubble.margo { border-left: none; border-right: 4px solid var(--accent); background: #1e1b3d; }
+
+        .vocab-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 15px 0; }
+        .vocab-card {
+            background: var(--surface);
+            padding: 12px;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .vocab-emoji { font-size: 1.8rem; display: block; margin-bottom: 5px; }
+
+        /* GAME ELEMENTS */
+        .drop-zone {
+            min-height: 80px;
+            background: rgba(0,0,0,0.3);
+            border: 2px dashed rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 12px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 15px 0;
+        }
+
+        .word-bank { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 10px; }
+        .word {
+            background: var(--surface);
+            padding: 8px 12px;
+            border-radius: 10px;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 4px 0 rgba(0,0,0,0.3);
+            font-size: 0.85rem;
+            user-select: none;
+        }
+        .word.used { opacity: 0.2; pointer-events: none; }
+
+        /* BUTTONS */
+        .btn {
+            background: var(--secondary);
+            color: #000;
+            border: none;
+            padding: 16px;
+            border-radius: 20px;
+            font-family: 'Fredoka One', cursive;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: 0.2s;
+            width: 100%;
+            margin-top: auto;
+        }
+        .btn:active { transform: translateY(4px); box-shadow: 0 4px 0 rgba(0,0,0,0.4); }
+        .btn-purple { background: var(--purple); color: white; box-shadow: 0 8px 0 #4A19A0; }
+        .btn-red { background: var(--spy-red); color: white; box-shadow: 0 8px 0 #9b1a25; }
+
+        /* FEEDBACK BAR */
+        .feedback {
+            position: fixed; bottom: 0; left: 0; width: 100%; padding: 25px;
+            transform: translateY(100%); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 200; border-radius: 25px 25px 0 0;
+        }
+        .feedback.active { transform: translateY(0); }
+        .feedback.success { background: var(--correct); color: #052c0e; }
+        .feedback.fail { background: var(--wrong); color: white; }
+
+        textarea {
+            width: 100%; height: 120px; background: var(--surface); border: 2px solid var(--purple);
+            border-radius: 15px; color: white; padding: 15px; font-family: inherit; font-size: 1rem;
+            margin-top: 15px; resize: none;
+        }
+
+        .stage-tag { font-size: 0.7rem; font-weight: 900; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+    </style>
+</head>
+<body>
+
+<div class="app">
+    <div class="header">
+        <div class="progress-rail"><div class="progress-fill" id="p-bar"></div></div>
+        <div class="xp-badge">⭐ <span id="xp">0</span></div>
+    </div>
+
+    <!-- TELA 0: INTRO -->
+    <div class="screen active" id="s0">
+        <div style="font-size: 4rem; text-align: center; margin: 20px 0;">🎮🕵️‍♀️</div>
+        <h1 style="text-align: center; color: var(--secondary);">Aula 02: Missão Margo</h1>
+        <p style="text-align: center; opacity: 0.7; font-weight: 700;">60 Minutos de Português Gamer</p>
+        
+        <div style="background: var(--surface); padding: 15px; border-radius: 15px; margin-top: 20px; border: 1px solid rgba(255,255,255,0.05);">
+            <p style="color: var(--primary); font-weight: 900; font-size: 0.8rem; margin-bottom: 10px;">OBJETIVOS DA SESSÃO:</p>
+            <ul style="font-size: 0.85rem; list-style: none; line-height: 1.8;">
+                <li>✅ Comandos de Roblox (Direções)</li>
+                <li>✅ Diálogo com Luna (Chat)</li>
+                <li>✅ Spy x Family (Segredos)</li>
+                <li>✅ Conectores (Porque, Mas, Quando...)</li>
+            </ul>
+        </div>
+        <button class="btn" onclick="next()">Começar Missão</button>
+    </div>
+
+    <!-- TELAS DE STORY / CHAT (1-4) -->
+    <div class="screen" id="s1">
+        <div class="stage-tag">Etapa 1: O Convite</div>
+        <h2>O Chat da Luna 🌙</h2>
+        <div class="chat-bubble">"Oi Margo! Você quer jogar Roblox comigo <strong>depois</strong> que terminar sua aula?"</div>
+        <div class="chat-bubble margo">"Eu quero! <strong>Mas</strong> primeiro eu preciso aprender as direções novas."</div>
+        <button class="btn btn-purple" onclick="next()">Continuar Chat</button>
+    </div>
+
+    <div class="screen" id="s2">
+        <div class="stage-tag">Etapa 1: O Convite</div>
+        <div class="chat-bubble">"Tudo bem! Eu te ajudo. <strong>Quando</strong> você entrar no servidor, me avisa."</div>
+        <div class="chat-bubble margo">"Vou avisar! <strong>Porque</strong> eu quero muito ver a sua casa nova."</div>
+        <button class="btn btn-purple" onclick="next()">Ver Vocabulário</button>
+    </div>
+
+    <!-- TELA 3: VOCABULÁRIO DIREÇÕES -->
+    <div class="screen" id="s3">
+        <div class="stage-tag">Etapa 2: Comandos Roblox</div>
+        <h2>Manual de Direção 🗺️</h2>
+        <div class="vocab-grid">
+            <div class="vocab-card"><span class="vocab-emoji">⬅️</span><strong>Esquerda</strong></div>
+            <div class="vocab-card"><span class="vocab-emoji">➡️</span><strong>Direita</strong></div>
+            <div class="vocab-card"><span class="vocab-emoji">🏠</span><strong>Atrás de</strong></div>
+            <div class="vocab-card"><span class="vocab-emoji">⬆️</span><strong>Em cima</strong></div>
+            <div class="vocab-card"><span class="vocab-emoji">⬇️</span><strong>Embaixo</strong></div>
+            <div class="vocab-card"><span class="vocab-emoji">🏃</span><strong>Correr</strong></div>
+        </div>
+        <button class="btn" onclick="next()">Testar Comandos</button>
+    </div>
+
+    <!-- TELAS DE GAME 1 (4-7) -->
+    <div class="screen" id="s4">
+        <div class="stage-tag">Mini-Game: Tradução</div>
+        <p id="q-text-1" style="text-align: center; font-weight: 800; margin-bottom: 10px;">"Corre a la derecha."</p>
+        <div class="drop-zone" id="dz-1"></div>
+        <div class="word-bank" id="bk-1"></div>
+        <button class="btn btn-purple" onclick="check(1)">Verificar</button>
+    </div>
+
+    <div class="screen" id="s5">
+        <div class="stage-tag">Mini-Game: Tradução</div>
+        <p id="q-text-2" style="text-align: center; font-weight: 800; margin-bottom: 10px;">"Salta por encima de la mesa."</p>
+        <div class="drop-zone" id="dz-2"></div>
+        <div class="word-bank" id="bk-2"></div>
+        <button class="btn btn-purple" onclick="check(2)">Verificar</button>
+    </div>
+
+    <div class="screen" id="s6">
+        <div class="stage-tag">Mini-Game: Tradução</div>
+        <p id="q-text-3" style="text-align: center; font-weight: 800; margin-bottom: 10px;">"Se esconde detrás de la casa."</p>
+        <div class="drop-zone" id="dz-3"></div>
+        <div class="word-bank" id="bk-3"></div>
+        <button class="btn btn-purple" onclick="check(3)">Verificar</button>
+    </div>
+
+    <!-- TELA 7: INTRO SPY X FAMILY -->
+    <div class="screen" id="s7">
+        <div class="stage-tag">Etapa 3: Spy x Family</div>
+        <h2 style="color: var(--spy-red);">Missão Secreta 🤫</h2>
+        <div style="display: flex; gap: 10px; align-items: center; margin-top: 15px;">
+            <div style="font-size: 3rem;">🥜</div>
+            <p style="font-size: 0.9rem;">A Anya Forger tem um segredo: ela consegue ler mentes!</p>
+        </div>
+        <div class="chat-bubble" style="margin-top: 20px; border-left-color: var(--spy-red);">
+            "Eu gosto muito de amendoim, <strong>mas</strong> eu não gosto de estudar matemática."
+        </div>
+        <button class="btn btn-red" onclick="next()">Aprender Conectores</button>
+    </div>
+
+    <!-- TELA 8: EXPLICAÇÃO CONECTORES -->
+    <div class="screen" id="s8">
+        <div class="stage-tag">Conectores</div>
+        <h2>Como conectar frases?</h2>
+        <div style="margin: 15px 0;">
+            <p><strong>PORQUE:</strong> Motivo</p>
+            <p><strong>MAS:</strong> Oposição</p>
+            <p><strong>QUANDO:</strong> Tempo</p>
+            <p><strong>DEPOIS:</strong> Sequência</p>
+        </div>
+        <div class="chat-bubble">"Loid é um espião <strong>porque</strong> ele quer a paz mundial."</div>
+        <button class="btn btn-red" onclick="next()">Testar Segredos</button>
+    </div>
+
+    <!-- TELAS DE GAME 2 (9-13) -->
+    <div class="screen" id="s9">
+        <div class="stage-tag">Spy Game</div>
+        <p id="q-text-4" style="text-align: center; font-weight: 800; margin-bottom: 10px;">"Anya está feliz porque hoy no hay escuela."</p>
+        <div class="drop-zone" id="dz-4"></div>
+        <div class="word-bank" id="bk-4"></div>
+        <button class="btn btn-red" onclick="check(4)">Verificar</button>
+    </div>
+
+    <div class="screen" id="s10">
+        <div class="stage-tag">Spy Game</div>
+        <p id="q-text-5" style="text-align: center; font-weight: 800; margin-bottom: 10px;">"Yor es fuerte pero ella es muy tímida."</p>
+        <div class="drop-zone" id="dz-5"></div>
+        <div class="word-bank" id="bk-5"></div>
+        <button class="btn btn-red" onclick="check(5)">Verificar</button>
+    </div>
+
+    <div class="screen" id="s11">
+        <div class="stage-tag">Spy Game</div>
+        <p id="q-text-6" style="text-align: center; font-weight: 800; margin-bottom: 10px;">"Yo juego Roblox después de ver el anime."</p>
+        <div class="drop-zone" id="dz-6"></div>
+        <div class="word-bank" id="bk-6"></div>
+        <button class="btn btn-red" onclick="check(6)">Verificar</button>
+    </div>
+
+    <!-- TELA 12-14: DESAFIO DE ESCUTA / REPETIÇÃO (Simulado) -->
+    <div class="screen" id="s12">
+        <div class="stage-tag">Etapa 4: Escuta Ativa</div>
+        <h2>Desafio Oral 🎤</h2>
+        <p>Paco vai falar uma frase agora. Tente identificar qual conector ele usou!</p>
+        <div style="background: var(--surface); padding: 30px; border-radius: 20px; text-align: center; margin-top: 20px;">
+            <span style="font-size: 3rem;">👂</span>
+        </div>
+        <button class="btn btn-purple" onclick="next()">Eu ouvi!</button>
+    </div>
+
+    <div class="screen" id="s13">
+        <div class="stage-tag">Repetição Gamer</div>
+        <h2>Fale em voz alta:</h2>
+        <div class="chat-bubble" style="font-size: 1.2rem; text-align: center;">
+            "Olhe para a <strong>esquerda</strong> e pule <strong>em cima</strong> da parede!"
+        </div>
+        <button class="btn btn-purple" onclick="next()">Eu falei!</button>
+    </div>
+
+    <!-- TELA 14-17: ESCRITA CRIATIVA -->
+    <div class="screen" id="s14">
+        <div class="stage-tag">Etapa 5: Produção</div>
+        <h2>Relatório de Missão ✍️</h2>
+        <p>Combine o Roblox com Spy x Family em uma frase usando <strong>PORQUE</strong> ou <strong>MAS</strong>.</p>
+        <textarea id="user-text-1" placeholder="Ex: A Anya joga Roblox porque ela gosta de amendoim digital..."></textarea>
+        <button class="btn" onclick="next()">Próximo Desafio</button>
+    </div>
+
+    <div class="screen" id="s15">
+        <div class="stage-tag">Etapa 5: Produção</div>
+        <h2>Instrução Gamer 🎮</h2>
+        <p>Escreva um comando para seu amigo no Roblox usando <strong>DEPOIS</strong> e uma <strong>DIREÇÃO</strong>.</p>
+        <textarea id="user-text-2" placeholder="Ex: Vá para a direita, depois pule em cima da casa..."></textarea>
+        <button class="btn" onclick="next()">Finalizar Missão</button>
+    </div>
+
+    <!-- TELA FINAL E XP (16-20) -->
+    <div class="screen" id="s16" style="text-align: center;">
+        <div style="font-size: 5rem; margin: 20px 0;">🏆</div>
+        <h1 style="color: var(--primary);">MISSIÃO CUMPRIDA!</h1>
+        <p>Margo, você é uma espiã de elite!</p>
+        <div style="margin: 30px 0; background: var(--surface); padding: 20px; border-radius: 20px; border: 2px solid var(--secondary);">
+            <p style="font-weight: 900; opacity: 0.6;">XP TOTAL</p>
+            <h2 style="font-size: 3rem; color: var(--secondary);" id="final-xp">0</h2>
+        </div>
+        <button class="btn" onclick="location.reload()">Reiniciar Treino</button>
+    </div>
+
+    <!-- FEEDBACK BAR -->
+    <div class="feedback" id="fb">
+        <div id="fb-t" style="font-family: 'Fredoka One'; font-size: 1.5rem;">BOA!</div>
+        <p id="fb-m">Você acertou a combinação.</p>
+        <button class="btn" style="background: #000; color: #fff; margin-top: 15px; box-shadow: none;" id="fb-btn">Próxima Tela</button>
+    </div>
+</div>
+
+<script>
+    let step = 0;
+    let xp = 0;
+    let totalSteps = 16;
+    let currentAns = [];
+
+    const gameData = {
+        1: { q: "Corre a la derecha.", ans: "Corre para a direita", words: ["Corre", "para", "a", "direita", "esquerda", "pula"] },
+        2: { q: "Salta por encima de la mesa.", ans: "Pula em cima da mesa", words: ["Pula", "em", "cima", "da", "mesa", "embaixo", "corre"] },
+        3: { q: "Se esconde detrás de la casa.", ans: "Se esconde atrás da casa", words: ["Se", "esconde", "atrás", "da", "casa", "na", "frente"] },
+        4: { q: "Anya está feliz porque hoy no hay escuela.", ans: "Anya está feliz porque hoje não tem escola", words: ["Anya", "está", "feliz", "porque", "hoje", "não", "tem", "escola", "mas"] },
+        5: { q: "Yor es fuerte pero ella es muy tímida.", ans: "Yor é forte mas ela é muito tímida", words: ["Yor", "é", "forte", "mas", "ela", "é", "muito", "tímida", "quando"] },
+        6: { q: "Yo juego Roblox después de ver el anime.", ans: "Eu jogo Roblox depois de ver o anime", words: ["Eu", "jogo", "Roblox", "depois", "de", "ver", "o", "anime", "porque"] }
+    };
+
+    function next() {
+        if(step < totalSteps) {
+            document.getElementById('s' + step).classList.remove('active');
+            step++;
+            document.getElementById('s' + step).classList.add('active');
+            updateProgress();
+            
+            // Iniciar games se for tela de game
+            if(step >= 4 && step <= 6) initGame(step - 3);
+            if(step >= 9 && step <= 11) initGame(step - 5);
+        }
+    }
+
+    function updateProgress() {
+        document.getElementById('p-bar').style.width = (step / totalSteps * 100) + '%';
+        document.getElementById('xp').innerText = xp;
+    }
+
+    function initGame(id) {
+        const data = gameData[id];
+        const dz = document.getElementById('dz-' + id);
+        const bk = document.getElementById('bk-' + id);
+        dz.innerHTML = '';
+        bk.innerHTML = '';
+        currentAns = [];
+
+        const shuffled = [...data.words].sort(() => Math.random() - 0.5);
+        shuffled.forEach((w, i) => {
+            const el = document.createElement('div');
+            el.className = 'word';
+            el.innerText = w;
+            el.id = `w-${id}-${i}`;
+            el.onclick = () => {
+                el.classList.add('used');
+                const tag = document.createElement('div');
+                tag.className = 'word';
+                tag.innerText = w;
+                tag.onclick = () => {
+                    tag.remove();
+                    el.classList.remove('used');
+                    currentAns = currentAns.filter(x => x.tag !== tag);
+                };
+                dz.appendChild(tag);
+                currentAns.push({w, tag});
+            };
+            bk.appendChild(el);
+        });
+    }
+
+    function check(id) {
+        const user = currentAns.map(x => x.w).join(' ');
+        const correct = gameData[id].ans;
+        const fb = document.getElementById('fb');
+
+        if(user.toLowerCase().trim() === correct.toLowerCase().trim()) {
+            fb.className = 'feedback active success';
+            document.getElementById('fb-t').innerText = "WAKU WAKU! ✨";
+            document.getElementById('fb-m').innerText = "Combinação perfeita!";
+            xp += 150;
+            document.getElementById('fb-btn').onclick = () => {
+                fb.classList.remove('active');
+                next();
+            };
+        } else {
+            fb.className = 'feedback active fail';
+            document.getElementById('fb-t').innerText = "OPS... 🧐";
+            document.getElementById('fb-m').innerText = "Tente outra ordem de palavras.";
+            document.getElementById('fb-btn').onclick = () => fb.classList.remove('active');
+        }
+    }
+
+    function finishSession() {
+        xp += 500;
+        document.getElementById('final-xp').innerText = xp;
+        next();
+    }
+</script>
+
+</body>
+</html>
