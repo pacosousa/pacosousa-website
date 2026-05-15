@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Português Gamer — Aula 03: Meios de Transporte</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0F172A;
+            --surface: #1E293B;
+            --primary: #38BDF8;
+            --secondary: #FBBF24;
+            --accent: #F472B6;
+            --success: #4ADE80;
+            --danger: #FB7185;
+            --text: #F8FAFC;
+            --shadow: 0 6px 0 rgba(0,0,0,0.3);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Nunito', sans-serif;
+            min-height: 100vh;
+        }
+
+        h1, h2 { font-family: 'Fredoka One', cursive; }
+
+        .app {
+            max-width: 500px;
+            margin: 0 auto;
+            padding-bottom: 80px;
+        }
+
+        /* MENU NAVIGATION */
+        .nav-bar {
+            background: var(--surface);
+            padding: 15px;
+            display: flex;
+            justify-content: space-around;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 2px solid rgba(255,255,255,0.1);
+        }
+
+        .nav-item {
+            font-size: 1.5rem;
+            cursor: pointer;
+            opacity: 0.5;
+            transition: 0.3s;
+        }
+
+        .nav-item.active {
+            opacity: 1;
+            transform: scale(1.2);
+        }
+
+        /* SCREENS */
+        .screen { display: none; padding: 20px; animation: slideUp 0.4s ease; }
+        .screen.active { display: flex; flex-direction: column; }
+
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* BUTTONS */
+        .btn {
+            background: var(--primary);
+            color: #0F172A;
+            border: none;
+            padding: 15px;
+            border-radius: 15px;
+            font-family: 'Fredoka One', cursive;
+            font-size: 1rem;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .btn:active { transform: translateY(3px); box-shadow: 0 3px 0 rgba(0,0,0,0.3); }
+
+        /* VOCAB CARDS */
+        .vocab-list { display: grid; grid-template-columns: 1fr; gap: 10px; }
+        .v-card {
+            background: var(--surface);
+            padding: 15px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border: 2px solid transparent;
+        }
+        .v-card span { font-size: 2rem; }
+        .v-card .lang-tag { font-size: 0.6rem; text-transform: uppercase; opacity: 0.5; display: block; }
+
+        /* MEMORY GAME */
+        .memory-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-top: 20px;
+        }
+        .m-card {
+            aspect-ratio: 1/1;
+            background: var(--surface);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: transform 0.4s;
+            transform-style: preserve-3d;
+            position: relative;
+            text-align: center;
+            padding: 5px;
+        }
+        .m-card.flipped { transform: rotateY(180deg); }
+        .m-card-front, .m-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .m-card-back { background: var(--accent); color: white; transform: rotateY(180deg); padding: 5px; }
+        .m-card-front { background: var(--surface); color: var(--primary); border: 2px solid var(--primary); font-size: 1.5rem; }
+        .m-card.matched { opacity: 0.5; cursor: default; }
+
+        /* WORD SEARCH */
+        .ws-grid {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 2px;
+            background: rgba(255,255,255,0.1);
+            padding: 5px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        .ws-cell {
+            aspect-ratio: 1/1;
+            background: var(--surface);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 0.8rem;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .ws-cell.selected { background: var(--secondary); color: #000; }
+        .ws-cell.found { background: var(--success); color: #000; }
+
+        .ws-list { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; justify-content: center; }
+        .ws-word { padding: 5px 10px; background: rgba(255,255,255,0.05); border-radius: 8px; opacity: 0.5; font-size: 0.8rem; }
+        .ws-word.found { opacity: 1; color: var(--success); text-decoration: line-through; font-weight: 900; }
+
+        /* FOOTER XP */
+        .footer-xp {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background: var(--surface); padding: 10px 20px;
+            display: flex; align-items: center; gap: 15px;
+            border-top: 2px solid rgba(255,255,255,0.05);
+        }
+        .xp-bar { flex: 1; height: 10px; background: #000; border-radius: 10px; overflow: hidden; }
+        .xp-fill { height: 100%; width: 0%; background: var(--success); transition: 0.5s; }
+    </style>
+</head>
+<body>
+
+<div class="app">
+    <div class="nav-bar">
+        <div class="nav-item active" onclick="showScreen('s-intro', 0)">🏠</div>
+        <div class="nav-item" onclick="showScreen('s-vocab', 1)">📖</div>
+        <div class="nav-item" onclick="showScreen('s-memory', 2)">🧠</div>
+        <div class="nav-item" onclick="showScreen('s-search', 3)">🔍</div>
+        <div class="nav-item" onclick="showScreen('s-write', 4)">📝</div>
+    </div>
+
+    <!-- TELA 0: INTRO -->
+    <div class="screen active" id="s-intro">
+        <div style="text-align: center; padding: 40px 0;">
+            <div style="font-size: 5rem;">🚀</div>
+            <h1 style="color: var(--primary); font-size: 2rem;">Missão: Viajante</h1>
+            <p style="font-weight: 700; opacity: 0.7;">Aula 03 — 60 Minutos</p>
+        </div>
+        <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 20px;">
+            <h3 style="margin-bottom: 10px;">O que vamos fazer hoje?</h3>
+            <ul style="list-style: none; line-height: 2;">
+                <li>✅ Aprender Meios de Transporte</li>
+                <li>✅ Jogo da Memória (Espanhol vs Português)</li>
+                <li>✅ Caça-palavras de espião</li>
+                <li>✅ Criar frases de viagem</li>
+            </ul>
+        </div>
+        <button class="btn" onclick="showScreen('s-vocab', 1)">Bora começar!</button>
+    </div>
+
+    <!-- TELA 1: VOCABULÁRIO -->
+    <div class="screen" id="s-vocab">
+        <h2 style="margin-bottom: 20px;">Estudo de Tradução 🌍</h2>
+        <div class="vocab-list">
+            <div class="v-card"><span>🚗</span><div><span class="lang-tag">ES: COCHE</span><strong>PT: CARRO</strong></div></div>
+            <div class="v-card"><span>✈️</span><div><span class="lang-tag">ES: AVIÓN</span><strong>PT: AVIÃO</strong></div></div>
+            <div class="v-card"><span>🚆</span><div><span class="lang-tag">ES: TREN</span><strong>PT: TREM</strong></div></div>
+            <div class="v-card"><span>🚢</span><div><span class="lang-tag">ES: BARCO</span><strong>PT: NAVIO</strong></div></div>
+            <div class="v-card"><span>🚲</span><div><span class="lang-tag">ES: BICI</span><strong>PT: BICICLETA</strong></div></div>
+            <div class="v-card"><span>🚌</span><div><span class="lang-tag">ES: AUTOBÚS</span><strong>PT: ÔNIBUS</strong></div></div>
+        </div>
+        <button class="btn" onclick="showScreen('s-memory', 2)">Testar Memória Bilíngue</button>
+    </div>
+
+    <!-- TELA 2: JOGO DA MEMÓRIA BILÍNGUE -->
+    <div class="screen" id="s-memory">
+        <h2>Memória Bilíngue 🧠</h2>
+        <p style="font-size: 0.8rem; opacity: 0.7;">Combine a palavra em 🇪🇸 com 🇧🇷!</p>
+        <div class="memory-grid" id="memory-board"></div>
+        <button class="btn" style="background: var(--accent)" onclick="resetMemory()">Reiniciar Jogo</button>
+    </div>
+
+    <!-- TELA 3: CAÇA-PALAVRAS -->
+    <div class="screen" id="s-search">
+        <h2>Caça-Palavras 🔍</h2>
+        <p style="font-size: 0.9rem; opacity: 0.7;">Ache: AVIÃO, CARRO, TREM, NAVIO, ÔNIBUS</p>
+        <div class="ws-grid" id="ws-grid"></div>
+        <div class="ws-list" id="ws-list"></div>
+        <button class="btn" onclick="showScreen('s-write', 4)">Próxima Missão</button>
+    </div>
+
+    <!-- TELA 4: ESCRITA -->
+    <div class="screen" id="s-write">
+        <h2>Desafio de Viajante ✍️</h2>
+        <textarea id="output-text" placeholder="Ex: Eu gosto de viajar de TREM porque é calmo..."></textarea>
+        <button class="btn" onclick="finishSession()" style="background: var(--success)">Finalizar Aula</button>
+    </div>
+
+    <!-- TELA FINAL -->
+    <div class="screen" id="s-finish" style="text-align: center;">
+        <div style="font-size: 6rem; margin: 20px 0;">🎮</div>
+        <h2>AULA CONCLUÍDA!</h2>
+        <p>Margo, você agora é uma poliglota dos transportes!</p>
+        <div style="margin: 30px 0; background: var(--surface); padding: 25px; border-radius: 20px;">
+            <h1 style="font-size: 3rem; color: var(--secondary);">+3000 XP</h1>
+        </div>
+        <button class="btn" onclick="location.reload()">Menu Inicial</button>
+    </div>
+
+    <div class="footer-xp">
+        <div style="font-weight: 900; font-size: 0.8rem;">XP</div>
+        <div class="xp-bar"><div class="xp-fill" id="xp-fill"></div></div>
+    </div>
+</div>
+
+<script>
+    let currentXp = 0;
+    
+    // Pares: [Palavra PT, Palavra ES]
+    const transportPairs = [
+        { pt: 'CARRO', es: 'COCHE' },
+        { pt: 'AVIÃO', es: 'AVIÓN' },
+        { pt: 'TREM', es: 'TREN' },
+        { pt: 'NAVIO', es: 'BARCO' },
+        { pt: 'ÔNIBUS', es: 'AUTOBÚS' },
+        { pt: 'BICI', es: 'BICICLETA' }
+    ];
+    
+    function showScreen(id, idx) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        document.querySelectorAll('.nav-item')[idx].classList.add('active');
+        
+        currentXp = (idx / 5) * 100;
+        document.getElementById('xp-fill').style.width = currentXp + '%';
+
+        if(id === 's-memory') initMemory();
+        if(id === 's-search') initWordSearch();
+    }
+
+    // --- JOGO DA MEMÓRIA BILÍNGUE ---
+    let flippedCards = [];
+    let matchedCount = 0;
+
+    function initMemory() {
+        const board = document.getElementById('memory-board');
+        board.innerHTML = '';
+        
+        // Criar lista plana de objetos com id de par para conferência
+        let cardList = [];
+        transportPairs.forEach((pair, index) => {
+            cardList.push({ text: pair.pt, pairId: index, lang: 'pt' });
+            cardList.push({ text: pair.es, pairId: index, lang: 'es' });
+        });
+
+        // Embaralhar
+        cardList.sort(() => Math.random() - 0.5);
+        
+        cardList.forEach((item, index) => {
+            const card = document.createElement('div');
+            card.className = 'm-card';
+            card.dataset.pairId = item.pairId;
+            card.innerHTML = `
+                <div class="m-card-front">?</div>
+                <div class="m-card-back">${item.text}</div>
+            `;
+            card.onclick = () => flipCard(card);
+            board.appendChild(card);
+        });
+    }
+
+    function flipCard(card) {
+        if (flippedCards.length < 2 && !card.classList.contains('flipped') && !card.classList.contains('matched')) {
+            card.classList.add('flipped');
+            flippedCards.push(card);
+
+            if (flippedCards.length === 2) {
+                setTimeout(checkMatch, 800);
+            }
+        }
+    }
+
+    function checkMatch() {
+        const [c1, c2] = flippedCards;
+        if (c1.dataset.pairId === c2.dataset.pairId) {
+            c1.classList.add('matched');
+            c2.classList.add('matched');
+            matchedCount++;
+            if(matchedCount === transportPairs.length) {
+                setTimeout(() => alert("Waku Waku! Você dominou as traduções!"), 300);
+            }
+        } else {
+            c1.classList.remove('flipped');
+            c2.classList.remove('flipped');
+        }
+        flippedCards = [];
+    }
+
+    function resetMemory() {
+        matchedCount = 0;
+        flippedCards = [];
+        initMemory();
+    }
+
+    // --- CAÇA-PALAVRAS ---
+    const wordsToFind = ["AVIAO", "CARRO", "TREM", "NAVIO", "ONIBUS"];
+    let foundWords = [];
+
+    function initWordSearch() {
+        const grid = document.getElementById('ws-grid');
+        const list = document.getElementById('ws-list');
+        grid.innerHTML = '';
+        list.innerHTML = '';
+        foundWords = [];
+        
+        const alphabet = "ABCDEFGHIJKLMNOPQRSTUVXZ";
+        const matrix = Array(100).fill(null).map(() => alphabet[Math.floor(Math.random() * alphabet.length)]);
+
+        const placements = {
+            "AVIAO": [10, 11, 12, 13, 14],
+            "CARRO": [30, 40, 50, 60, 70],
+            "TREM": [85, 86, 87, 88],
+            "NAVIO": [5, 15, 25, 35, 45],
+            "ONIBUS": [91, 92, 93, 94, 95, 96]
+        };
+
+        for (let word in placements) {
+            placements[word].forEach((pos, i) => matrix[pos] = word[i]);
+            const item = document.createElement('div');
+            item.className = 'ws-word';
+            item.id = 'word-' + word;
+            item.innerText = word;
+            list.appendChild(item);
+        }
+
+        matrix.forEach((letter, i) => {
+            const cell = document.createElement('div');
+            cell.className = 'ws-cell';
+            cell.innerText = letter;
+            cell.onclick = () => {
+                cell.classList.toggle('selected');
+                checkWordSearch(placements);
+            };
+            grid.appendChild(cell);
+        });
+    }
+
+    function checkWordSearch(placements) {
+        const selectedCells = Array.from(document.querySelectorAll('.ws-cell.selected'))
+                                   .map(c => Array.from(c.parentNode.children).indexOf(c));
+        
+        for (let word in placements) {
+            if (!foundWords.includes(word)) {
+                const match = placements[word].every(pos => selectedCells.includes(pos));
+                if (match) {
+                    foundWords.push(word);
+                    document.getElementById('word-' + word).classList.add('found');
+                    placements[word].forEach(pos => {
+                        const cell = document.getElementById('ws-grid').children[pos];
+                        cell.classList.remove('selected');
+                        cell.classList.add('found');
+                    });
+                }
+            }
+        }
+    }
+
+    function finishSession() {
+        showScreen('s-finish', 4);
+    }
+</script>
+
+</body>
+</html>
