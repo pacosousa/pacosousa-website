@@ -1752,7 +1752,7 @@ const LESSONS = {
         },
       ]
     }
-  }
+  },
 
   // ────────────────────────────────────────────────
   //  SEMANA 8B — Direções
@@ -1864,13 +1864,106 @@ const LESSONS = {
         },
       ]
     }
-  }
+  },
 
   // ────────────────────────────────────────────────
-  //  SEMANA 9A — Revisão Geral Bloco 2
+  //  REVISÃO + PROVA — Bloco 1
   // ────────────────────────────────────────────────
-  s9a: {
-    id:'s9a', semana:'Semana 9A', titulo:'Revisão — Bloco 2',
+  revisao_b1: {
+    id:'revisao_b1', semana:'Revisão B1', titulo:'Revisão — Bloco 1',
+    objetivo:'Revisar saudações, números, cores, casa e preposições antes da prova!',
+    apostila:{ vol:1, paginas:'20', descricao:'Monte um mapa mental com os 5 temas do Bloco 1!' },
+    steps: ['mission','theory','activity','complete'],
+    mission: {
+      emoji:'🔄',
+      title:'Revisão do Bloco 1!',
+      color:'var(--cyan)',
+      items:[
+        { icon:'📚', text:'Saudações, números, cores, adjetivos, casa, rotina e preposições — tudo do Bloco 1!' },
+        { icon:'🎯', text:'Hoje vamos relembrar os 5 temas de forma rápida antes da prova.' },
+        { icon:'💪', text:'Meta: acertar pelo menos 8 das 10 questões do quiz de revisão!' },
+      ]
+    },
+    theory: [
+      { title:'Revisão: Saudações e Apresentação 👋', items:[
+        { icon:'☀️', pt:'Bom dia / Boa tarde / Boa noite', es:'Buen día / Buenas tardes / Buenas noches', ex:'Bom dia, Luna!' },
+        { icon:'🪪', pt:'Meu nome é… / Eu tenho… anos',   es:'Mi nombre es… / Tengo… años',              ex:'Meu nome é Margo, tenho 8 anos.' },
+        { icon:'🌎', pt:'Eu sou da Rússia. Eu moro no Brasil.', es:'Soy de Rusia. Vivo en Brasil.',       ex:'Eu falo russo e espanhol.' },
+      ]},
+      { title:'Revisão: Números e Cores 🎨', items:[
+        { icon:'🔢', pt:'1–20 / Dezenas 20–100',          es:'1–20 / Decenas 20–100',                    ex:'Quinze Robux. Custa oitenta reais.' },
+        { icon:'🎨', pt:'Vermelho / Azul / Verde / Roxo', es:'Rojo / Azul / Verde / Morado',             ex:'A skin é roxa e azul.' },
+        { icon:'💰', pt:'Quanto custa? / Caro / Barato',  es:'¿Cuánto cuesta? / Caro / Barato',          ex:'Quanto custa? É barato!' },
+      ]},
+      { title:'Revisão: Casa, Rotina e Preposições 🏠', items:[
+        { icon:'🏠', pt:'Sala / Cozinha / Quarto / Banheiro', es:'Sala / Cocina / Habitación / Baño',    ex:'O sofá fica na sala.' },
+        { icon:'⏰', pt:'Despertar / Comer / Estudar / Dormir', es:'Despertarse / Comer / Estudiar / Dormir', ex:'Eu desperto às 7h.' },
+        { icon:'📍', pt:'Em cima / Embaixo / Dentro / Atrás',  es:'Encima / Debajo / Dentro / Detrás',  ex:'O gato está embaixo da cama.' },
+      ]}
+    ],
+    activity: {
+      type:'quiz',
+      questions:[
+        { q:'Como se diz "Buenas noches" em português?', trans:'"Buenas noches" en portugués', opts:['Bom dia','Boa tarde','Boa noite','Olá'], correct:'Boa noite', dica:'"Boa noite" = buenas noches!' },
+        { q:'Eu ____ 8 anos. (tengo)', trans:'"Tengo 8 años"', opts:['tem','tenho','ter','temos'], correct:'tenho', dica:'EU → tenho. Você → tem!' },
+        { q:'Como se escreve 15?', trans:'¿Cómo se escribe 15?', opts:['Quince','Quinze','Quatorze','Dezesseis'], correct:'Quinze', dica:'"Quinze" = quince!' },
+        { q:'A skin favorita da Margo é ____. (morada)', trans:'"La skin favorita es morada"', opts:['azul','verde','roxa','amarela'], correct:'roxa', dica:'"Roxa" = morada!' },
+        { q:'O sofá fica na ____. (sala)', trans:'"El sofá está en la sala"', opts:['cozinha','banheiro','sala','quarto'], correct:'sala', dica:'Sofá → sala. Cama → quarto!' },
+        { q:'Eu desperto às 7h. "Desperto" vem de:', trans:'De qué verbo viene "desperto"?', opts:['dormir','comer','despertar','estudar'], correct:'despertar', dica:'EU desperto / VOCÊ desperta!' },
+        { q:'O gato está ____ da cama. (debajo)', trans:'"El gato está debajo de la cama"', opts:['em cima','ao lado','embaixo','dentro'], correct:'embaixo', dica:'"Embaixo de" = debajo de!' },
+        { q:'"Às vezes" significa…', trans:'"Às vezes" significa…', opts:['siempre','nunca','a veces','todos los días'], correct:'a veces', dica:'"Às vezes" = a veces!' },
+        { q:'Quanto ____? (cuesta)', trans:'"¿Cuánto cuesta?"', opts:['tem','vai','custa','fica'], correct:'custa', dica:'"Quanto custa?" = ¿cuánto cuesta?' },
+        { q:'Primeiro, ____; depois, estudo.', trans:'"Primero desayuno; después estudio"', opts:['durmo','como','jogo','bebo'], correct:'como', dica:'"Café da manhã" = desayuno = comer de manhã!' },
+      ]
+    }
+  },
+
+  prova_b1: {
+    id:'prova_b1', semana:'Prova B1', titulo:'Prova — Bloco 1',
+    objetivo:'Testar todo o conteúdo das Semanas 1 a 5 com quiz e frases!',
+    apostila:{ vol:1, paginas:'20', descricao:'Entregue as atividades de casa das semanas 1 a 5!' },
+    steps: ['mission','theory','activity','complete'],
+    mission: {
+      emoji:'📝',
+      title:'Hora da Prova — Bloco 1!',
+      color:'var(--cyan)',
+      items:[
+        { icon:'💪', text:'Você estudou saudações, números, cores, casa, rotina e preposições. Hora de mostrar!' },
+        { icon:'🎯', text:'Esta prova tem frases para montar estilo Duolingo — 10 desafios completos.' },
+        { icon:'⭐', text:'Respira fundo e vai! Você já sabe tudo isso.' },
+      ]
+    },
+    theory: [
+      { title:'Lembre-se dos 5 temas 📋', items:[
+        { icon:'👋', pt:'Saudações + Apresentação',   es:'Bom dia, meu nome é, eu tenho…',     ex:'' },
+        { icon:'🔢', pt:'Números + Preços',           es:'Quinze, oitenta, quanto custa?',     ex:'' },
+        { icon:'🎨', pt:'Cores + Adjetivos',          es:'Roxa, amarela, alto, corajosa…',     ex:'' },
+        { icon:'🏠', pt:'Casa + Dias da semana',      es:'Sala, cozinha, segunda, sexta…',     ex:'' },
+        { icon:'📍', pt:'Rotina + Preposições',       es:'Desperto, estudo, embaixo, dentro…', ex:'' },
+      ]}
+    ],
+    activity: {
+      type:'wordBuilder',
+      questions:[
+        { prompt:'👋 Apresente-se!', hint:'"Me llamo Margo, tengo 8 años."', answer:['Meu','nome','é','Margo',',','eu','tenho','8','anos','.'], pool:['Meu','nome','é','Margo','Luna',',','eu','tenho','8','10','anos','.'] },
+        { prompt:'🔢 Diga o preço!', hint:'"Cuesta ochenta Robux. ¡Es barato!"', answer:['Custa','oitenta','Robux','.','É','barato','!'], pool:['Custa','oitenta','cem','Robux','.','É','barato','caro','!'] },
+        { prompt:'🎨 Descreva a skin!', hint:'"La skin es morada y azul."', answer:['A','skin','é','roxa','e','azul','.'], pool:['A','skin','é','roxa','verde','e','azul','amarela','.'] },
+        { prompt:'🏠 Onde fica o sofá?', hint:'"El sofá está en la sala."', answer:['O','sofá','fica','na','sala','.'], pool:['O','sofá','fica','na','sala','cozinha','quarto','.'] },
+        { prompt:'⏰ Sua rotina matinal!', hint:'"Por la mañana me despierto y como."', answer:['De','manhã','eu','desperto','e','como','.'], pool:['De','manhã','eu','desperto','durmo','e','como','estudo','.'] },
+        { prompt:'🐈 Onde está o gato?', hint:'"El gato está debajo de la cama."', answer:['O','gato','está','embaixo','da','cama','.'], pool:['O','gato','está','embaixo','em cima','da','cama','mesa','.'] },
+        { prompt:'🎨 Compare os animais!', hint:'"El elefante es más grande que el ratón."', answer:['O','elefante','é','maior','que','o','rato','.'], pool:['O','elefante','é','maior','menor','que','o','rato','gato','.'] },
+        { prompt:'📅 Que dia é hoje?', hint:'"Hoy es viernes, ¡casi fin de semana!"', answer:['Hoje','é','sexta-feira',',','quase','fim','de','semana','!'], pool:['Hoje','é','sexta-feira','segunda',',','quase','fim','de','semana','!'] },
+        { prompt:'🌅 Primeira → depois!', hint:'"Primero me despierto; después estudio."', answer:['Primeiro',',','eu','desperto',';','depois',',','eu','estudo','.'], pool:['Primeiro',',','eu','desperto','durmo',';','depois',',','eu','estudo','jogo','.'] },
+        { prompt:'💬 Despedida completa!', hint:'"¡Hasta mañana, Luna! ¡Fue un placer!"', answer:['Até','amanhã',',','Luna','!','Muito','prazer','!'], pool:['Até','amanhã','logo',',','Luna','!','Muito','pouco','prazer','!'] },
+      ]
+    }
+  },
+
+  // ────────────────────────────────────────────────
+  //  REVISÃO — Bloco 2
+  // ────────────────────────────────────────────────
+  revisao_b2: {
+    id:'revisao_b2', semana:'Revisão B2', titulo:'Revisão — Bloco 2',
     objetivo:'Revisar todo o vocabulário e estruturas das Semanas 6 a 8!',
     apostila:{ vol:2, paginas:'12', descricao:'Monte um mapa mental conectando os 5 temas do Bloco 2!' },
     steps: ['mission','theory','activity','complete'],
@@ -1919,10 +2012,10 @@ const LESSONS = {
   },
 
   // ────────────────────────────────────────────────
-  //  SEMANA 9B — Prova do Bloco 2
+  //  PROVA — Bloco 2
   // ────────────────────────────────────────────────
-  s9b: {
-    id:'s9b', semana:'Semana 9B', titulo:'Prova — Bloco 2',
+  prova_b2: {
+    id:'prova_b2', semana:'Prova B2', titulo:'Prova — Bloco 2',
     objetivo:'Testar todo o conteúdo das Semanas 6 a 8 com quiz, combinação e frases!',
     apostila:{ vol:2, paginas:'12', descricao:'Entregue as atividades de casa das semanas 6 a 8 para avaliação!' },
     steps: ['mission','theory','activity','complete'],
@@ -2011,6 +2104,380 @@ const LESSONS = {
       ]
     }
   }
+,
+
+  // ────────────────────────────────────────────────
+  //  SEMANA 9 — Lugares da Cidade
+  // ────────────────────────────────────────────────
+  s9a: {
+    id:'s9a', semana:'Semana 9A', titulo:'Lugares e Como Chegar',
+    objetivo:'Nomear lugares da cidade e combinar com as direções aprendidas!',
+    apostila:{ vol:2, paginas:'13', descricao:'Complete o mapa da cidade com os nomes dos lugares!' },
+    steps: ['mission','theory','activity','complete'],
+    mission: {
+      emoji:'🏙️',
+      title:'Missão: Explorar a Cidade!',
+      color:'var(--cyan)',
+      items:[
+        { icon:'🗺️', text:'Você já sabe dar direções — agora vamos aprender os LUGARES para onde ir!' },
+        { icon:'🇧🇷', text:'Hospital, banco, padaria, shopping… muitas palavras são parecidas com o espanhol!' },
+        { icon:'🎯', text:'Meta: nomear 10 lugares e explicar como chegar a cada um usando direções!' },
+      ]
+    },
+    theory: [
+      { title:'Lugares da cidade 🏙️', items:[
+        { icon:'🏥', pt:'Hospital',      es:'Hospital',      ex:'O hospital fica em frente.' },
+        { icon:'🏦', pt:'Banco',         es:'Banco',         ex:'O banco fica ao lado.' },
+        { icon:'🛒', pt:'Supermercado',  es:'Supermercado',  ex:'O supermercado é grande.' },
+        { icon:'💊', pt:'Farmácia',      es:'Farmacia',      ex:'A farmácia fica perto.' },
+        { icon:'🌳', pt:'Parque',        es:'Parque',        ex:'O parque é bonito.' },
+        { icon:'🍞', pt:'Padaria',       es:'Panadería',     ex:'A padaria fica na esquina.' },
+        { icon:'🛍️', pt:'Shopping',      es:'Shopping/Mall', ex:'O shopping é longe daqui.' },
+        { icon:'🎬', pt:'Cinema',        es:'Cine',          ex:'O cinema fica no shopping.' },
+        { icon:'📚', pt:'Biblioteca',    es:'Biblioteca',    ex:'A biblioteca fica perto da escola.' },
+        { icon:'⛽', pt:'Posto de gasolina', es:'Estación de servicio', ex:'O posto fica na avenida.' },
+      ]},
+      { title:'Como perguntar e responder 📍', items:[
+        { icon:'❓', pt:'Onde fica o/a ___?',     es:'¿Dónde queda el/la ___?',   ex:'Onde fica o banco?' },
+        { icon:'🚶', pt:'Como chego em ___?',     es:'¿Cómo llego a ___?',        ex:'Como chego ao hospital?' },
+        { icon:'📏', pt:'É perto / É longe.',      es:'Está cerca / Está lejos.',  ex:'O parque é perto daqui.' },
+        { icon:'⏱️', pt:'Leva ___ minutos.',       es:'Tarda ___ minutos.',        ex:'Leva 5 minutos a pé.' },
+        { icon:'🏠', pt:'Verbo FICAR: fica aqui.', es:'Queda aquí.',               ex:'O banco fica aqui.' },
+      ]}
+    ],
+    activity: {
+      type:'wordBuilder',
+      questions:[
+        {
+          prompt:'🏥 Onde fica o hospital?',
+          hint:'"El hospital queda enfrente."',
+          answer:['O','hospital','fica','em','frente','.'],
+          pool:['O','hospital','fica','em','frente','atrás','banco','.'],
+        },
+        {
+          prompt:'❓ Faça a pergunta!',
+          hint:'"¿Dónde queda el banco?"',
+          answer:['Onde','fica','o','banco','?'],
+          pool:['Onde','fica','o','banco','hospital','parque','?'],
+        },
+        {
+          prompt:'📏 Diga a distância!',
+          hint:'"El parque está cerca de aquí."',
+          answer:['O','parque','é','perto','daqui','.'],
+          pool:['O','parque','é','perto','longe','daqui','banco','.'],
+        },
+        {
+          prompt:'⏱️ Quanto tempo leva?',
+          hint:'"Tarda 5 minutos caminando."',
+          answer:['Leva','5','minutos','a','pé','.'],
+          pool:['Leva','5','minutos','a','pé','carro','longe','.'],
+        },
+        {
+          prompt:'🍞 Onde fica a padaria?',
+          hint:'"La panadería queda en la esquina."',
+          answer:['A','padaria','fica','na','esquina','.'],
+          pool:['A','padaria','fica','na','esquina','rua','farmácia','.'],
+        },
+        {
+          prompt:'🚶 Como chegar?',
+          hint:'"Doble a la derecha en el semáforo."',
+          answer:['Vire','à','direita','no','semáforo','.'],
+          pool:['Vire','à','direita','esquerda','no','semáforo','banco','.'],
+        },
+        {
+          prompt:'🛒 É longe?',
+          hint:'"El supermercado está lejos de aquí."',
+          answer:['O','supermercado','é','longe','daqui','.'],
+          pool:['O','supermercado','é','longe','perto','daqui','hospital','.'],
+        },
+        {
+          prompt:'📚 Onde fica a biblioteca?',
+          hint:'"La biblioteca queda cerca de la escuela."',
+          answer:['A','biblioteca','fica','perto','da','escola','.'],
+          pool:['A','biblioteca','fica','perto','longe','da','escola','farmácia','.'],
+        },
+        {
+          prompt:'🎬 Como chegar ao cinema?',
+          hint:'"Siga recto y doble a la izquierda."',
+          answer:['Vá','em','frente','e','vire','à','esquerda','.'],
+          pool:['Vá','em','frente','e','vire','à','esquerda','direita','.'],
+        },
+        {
+          prompt:'🗺️ Última — você sabe!',
+          hint:'"¿Cómo llego al hospital? Está al lado del banco."',
+          answer:['Como','chego','ao','hospital','?','Fica','ao','lado','do','banco','.'],
+          pool:['Como','chego','ao','hospital','farmácia','?','Fica','ao','lado','do','banco','shopping','.'],
+        },
+      ]
+    }
+  },
+
+  s9b: {
+    id:'s9b', semana:'Semana 9B', titulo:'Na Cidade — Situações Reais',
+    objetivo:'Praticar situações do dia a dia: pedir ajuda, comprar e interagir!',
+    apostila:{ vol:2, paginas:'14', descricao:'Complete os diálogos em branco: loja, banco e farmácia!' },
+    steps: ['mission','theory','activity','complete'],
+    mission: {
+      emoji:'🛍️',
+      title:'Missão: Sobreviver na Cidade!',
+      color:'var(--cyan)',
+      items:[
+        { icon:'🗣️', text:'Saber pedir ajuda, perguntar preço e agradecer são essenciais no dia a dia no Brasil!' },
+        { icon:'💳', text:'Hoje você vai aprender frases para usar em lojas, farmácias e restaurantes.' },
+        { icon:'🎯', text:'Meta: montar 10 diálogos completos de situações reais em português!' },
+      ]
+    },
+    theory: [
+      { title:'Frases essenciais do dia a dia 🗣️', items:[
+        { icon:'🙏', pt:'Com licença!',        es:'¡Con permiso/Disculpe!', ex:'Com licença, pode me ajudar?' },
+        { icon:'💛', pt:'Por favor…',           es:'Por favor…',             ex:'Por favor, onde fica o banco?' },
+        { icon:'❤️', pt:'Obrigada! / Obrigado!',es:'¡Gracias!',              ex:'Obrigada pela ajuda!' },
+        { icon:'😊', pt:'De nada!',             es:'¡De nada!',              ex:'De nada, foi um prazer!' },
+        { icon:'🙋', pt:'Pode me ajudar?',      es:'¿Puede ayudarme?',       ex:'Com licença, pode me ajudar?' },
+      ]},
+      { title:'Na loja e no restaurante 🛒', items:[
+        { icon:'🔍', pt:'Tem ___?',             es:'¿Tiene ___?',            ex:'Tem morango hoje?' },
+        { icon:'💰', pt:'Quanto custa?',         es:'¿Cuánto cuesta?',        ex:'Quanto custa este livro?' },
+        { icon:'💳', pt:'Posso pagar com cartão?', es:'¿Puedo pagar con tarjeta?', ex:'Posso pagar com cartão?' },
+        { icon:'🧾', pt:'A conta, por favor.',  es:'La cuenta, por favor.',  ex:'A conta, por favor. Obrigada!' },
+        { icon:'😋', pt:'Eu gostaria de…',      es:'Me gustaría…',           ex:'Eu gostaria de um suco.' },
+      ]},
+      { title:'Na farmácia e no hospital 💊', items:[
+        { icon:'🤒', pt:'Estou me sentindo mal.', es:'Me siento mal.',       ex:'Estou me sentindo mal hoje.' },
+        { icon:'💊', pt:'Tem remédio para ___?', es:'¿Tiene remedio para ___?', ex:'Tem remédio para dor de cabeça?' },
+        { icon:'🩺', pt:'Preciso de um médico.',  es:'Necesito un médico.',   ex:'Preciso de um médico, por favor.' },
+      ]}
+    ],
+    activity: {
+      type:'quiz',
+      questions:[
+        { q:'Como se diz "¡Con permiso!" em português?', trans:'"¡Con permiso!" en portugués', opts:['Obrigada','Com licença','Por favor','De nada'], correct:'Com licença', dica:'"Com licença" = con permiso/disculpe!' },
+        { q:'"Gracias" em português é…', trans:'"Gracias" en portugués', opts:['Por favor','Com licença','Obrigada','De nada'], correct:'Obrigada', dica:'"Obrigada" = gracias (fem.) / "Obrigado" (masc.)!' },
+        { q:'Como perguntar o preço?', trans:'"¿Cuánto cuesta?"', opts:['Tem isso?','Quanto custa?','Pode ajudar?','Obrigada!'], correct:'Quanto custa?', dica:'"Quanto custa?" = ¿cuánto cuesta?' },
+        { q:'Eu ___ de um suco de laranja.', trans:'"Me gustaría un jugo de naranja"', opts:['quero muito','gostaria','adoro','preciso'], correct:'gostaria', dica:'"Eu gostaria de…" = me gustaría. Mais formal!' },
+        { q:'"¿Tiene remedio para la tos?" em português:', trans:'"¿Tiene remedio para la tos?"', opts:['Tem remédio para tosse?','Preciso de médico','Estou mal','Quanto custa?'], correct:'Tem remédio para tosse?', dica:'"Tem ___?" = ¿Tiene ___? Bem fácil!' },
+        { q:'No restaurante: "A ___, por favor."', trans:'"La cuenta, por favor"', opts:['mesa','comida','conta','bebida'], correct:'conta', dica:'"A conta" = la cuenta. Quase igual!' },
+        { q:'"Posso pagar com ___?"', trans:'"¿Puedo pagar con tarjeta?"', opts:['dinheiro','cartão','cheque','pix'], correct:'cartão', dica:'"Cartão" = tarjeta de crédito/débito!' },
+        { q:'"Me siento mal" em português é…', trans:'"Me siento mal" en portugués', opts:['Estou com fome','Estou me sentindo mal','Preciso de ajuda','Estou com sede'], correct:'Estou me sentindo mal', dica:'"Estou me sentindo mal" = me siento mal!' },
+      ]
+    }
+  },
+
+  // ────────────────────────────────────────────────
+  //  SEMANA 10 — Transportes + Verbo IR
+  // ────────────────────────────────────────────────
+  s10a: {
+    id:'s10a', semana:'Semana 10A', titulo:'Meios de Transporte',
+    objetivo:'Nomear os transportes e dizer como vai a algum lugar!',
+    apostila:{ vol:2, paginas:'15', descricao:'Complete as frases: como ir de um lugar ao outro!' },
+    steps: ['mission','theory','activity','complete'],
+    mission: {
+      emoji:'🚌',
+      title:'Missão: Pegar o Ônibus!',
+      color:'var(--yellow)',
+      items:[
+        { icon:'✈️', text:'De avião, de ônibus, de metrô ou a pé — como você prefere se mover pela cidade?' },
+        { icon:'🇧🇷', text:'No Brasil, ônibus = colectivo (AR). Metrô = subte. Avião = avión. Bem parecidos!' },
+        { icon:'🎯', text:'Meta: nomear 8 transportes e dizer como você vai a cada lugar!' },
+      ]
+    },
+    theory: [
+      { title:'Meios de transporte 🚌', items:[
+        { icon:'🚌', pt:'Ônibus',      es:'Colectivo/Autobús', ex:'Eu vou de ônibus para a escola.' },
+        { icon:'🚇', pt:'Metrô',       es:'Subte/Metro',       ex:'O metrô é muito rápido.' },
+        { icon:'🚕', pt:'Táxi',        es:'Taxi',              ex:'Chamei um táxi.' },
+        { icon:'🚗', pt:'Carro',       es:'Auto/Coche',        ex:'Meu pai vai de carro.' },
+        { icon:'🚲', pt:'Bicicleta',   es:'Bicicleta',         ex:'Eu ando de bicicleta no parque.' },
+        { icon:'✈️', pt:'Avião',       es:'Avión',             ex:'Viajamos de avião para o Brasil.' },
+        { icon:'🚂', pt:'Trem',        es:'Tren',              ex:'O trem é confortável.' },
+        { icon:'🚤', pt:'Barco',       es:'Barco',             ex:'Fomos de barco até a ilha.' },
+        { icon:'🏃', pt:'A pé',        es:'A pie/Caminando',   ex:'A escola é perto, vou a pé.' },
+      ]},
+      { title:'Verbo IR — presente 🔄', verbTable:true, verbs:[
+        { inf:'IR', eu:'vou', voce:'vai', ele:'vai' },
+      ]},
+      { title:'IR + transporte 🗺️', items:[
+        { icon:'🚌', pt:'Eu vou de ônibus.',    es:'Voy en colectivo.',      ex:'Eu vou de ônibus todo dia.' },
+        { icon:'🚗', pt:'Ela vai de carro.',    es:'Ella va en auto.',       ex:'Ela vai de carro ao trabalho.' },
+        { icon:'🏃', pt:'Nós vamos a pé.',      es:'Nosotros vamos a pie.',  ex:'Nós vamos a pé, é perto.' },
+        { icon:'⏱️', pt:'Leva ___ minutos.',    es:'Tarda ___ minutos.',     ex:'Leva 20 minutos de ônibus.' },
+      ]}
+    ],
+    activity: {
+      type:'wordBuilder',
+      questions:[
+        { prompt:'🚌 Como você vai para a escola?', hint:'"Voy en colectivo todos los días."', answer:['Eu','vou','de','ônibus','todo','dia','.'], pool:['Eu','vou','de','ônibus','metrô','todo','dia','semana','.'] },
+        { prompt:'✈️ Como viajaram?', hint:'"Viajamos en avión al Brasil."', answer:['Viajamos','de','avião','para','o','Brasil','.'], pool:['Viajamos','de','avião','barco','para','o','Brasil','Argentina','.'] },
+        { prompt:'🏃 É perto — vai como?', hint:'"La escuela está cerca, voy a pie."', answer:['A','escola','é','perto',',','vou','a','pé','.'], pool:['A','escola','é','perto','longe',',','vou','a','pé','ônibus','.'] },
+        { prompt:'⏱️ Quanto tempo leva?', hint:'"Tarda 20 minutos en colectivo."', answer:['Leva','20','minutos','de','ônibus','.'], pool:['Leva','20','minutos','de','ônibus','metrô','a','pé','.'] },
+        { prompt:'🚗 Como ela vai?', hint:'"Ella va en auto al trabajo."', answer:['Ela','vai','de','carro','ao','trabalho','.'], pool:['Ela','vai','de','carro','ônibus','ao','trabalho','parque','.'] },
+        { prompt:'🚇 E você?', hint:'"¿Cómo vas? Yo voy en subte."', answer:['Como','você','vai','?','Eu','vou','de','metrô','.'], pool:['Como','você','vai','?','Eu','vou','de','metrô','ônibus','.'] },
+        { prompt:'🚲 No parque!', hint:'"Ando en bicicleta en el parque."', answer:['Eu','ando','de','bicicleta','no','parque','.'], pool:['Eu','ando','de','bicicleta','ônibus','no','parque','shopping','.'] },
+        { prompt:'🚂 O trem!', hint:'"El tren es cómodo y rápido."', answer:['O','trem','é','confortável','e','rápido','.'], pool:['O','trem','é','confortável','lento','e','rápido','caro','.'] },
+        { prompt:'🚤 Viagem especial!', hint:'"Fuimos en barco hasta la isla."', answer:['Fomos','de','barco','até','a','ilha','.'], pool:['Fomos','de','barco','avião','até','a','ilha','cidade','.'] },
+        { prompt:'🗺️ Planeje sua viagem!', hint:'"¿Cómo llegas al hospital? Voy en taxi."', answer:['Como','chego','ao','hospital','?','Vou','de','táxi','.'], pool:['Como','chego','ao','hospital','banco','?','Vou','de','táxi','ônibus','.'] },
+      ]
+    }
+  },
+
+  s10b: {
+    id:'s10b', semana:'Semana 10B', titulo:'Futuro Próximo — Vou + Infinitivo',
+    objetivo:'Falar sobre planos e o que vai acontecer usando "vou + infinitivo"!',
+    apostila:{ vol:2, paginas:'16', descricao:'Complete a agenda da semana: na segunda vou…, no sábado vou…!' },
+    steps: ['mission','theory','activity','complete'],
+    mission: {
+      emoji:'📅',
+      title:'Missão: Planejar o Futuro!',
+      color:'var(--yellow)',
+      items:[
+        { icon:'🔮', text:'Em português, para falar de planos futuros usamos "vou + verbo". É igual ao espanhol "voy a + verbo"!' },
+        { icon:'🎮', text:'"Amanhã eu vou jogar Roblox." "No fim de semana nós vamos ao parque." Fácil, né?' },
+        { icon:'🎯', text:'Meta: montar 10 frases sobre planos usando vou + verbo sem nenhum erro!' },
+      ]
+    },
+    theory: [
+      { title:'Futuro próximo: VOU + infinitivo 🔮', items:[
+        { icon:'🎮', pt:'Eu vou jogar.',      es:'Voy a jugar.',      ex:'Amanhã eu vou jogar Roblox!' },
+        { icon:'📚', pt:'Ela vai estudar.',   es:'Ella va a estudiar.',ex:'Ela vai estudar português.' },
+        { icon:'🍕', pt:'Nós vamos comer.',   es:'Vamos a comer.',    ex:'Nós vamos comer pizza.' },
+        { icon:'✈️', pt:'Você vai viajar.',   es:'Vas a viajar.',     ex:'Você vai viajar de avião?' },
+        { icon:'😴', pt:'Ele vai dormir.',    es:'Él va a dormir.',   ex:'Ele vai dormir cedo hoje.' },
+      ]},
+      { title:'Quando? Marcadores de futuro ⏰', items:[
+        { icon:'🌅', pt:'Amanhã',             es:'Mañana',           ex:'Amanhã eu vou ao parque.' },
+        { icon:'📅', pt:'Semana que vem',     es:'La semana que viene',ex:'Semana que vem vou viajar.' },
+        { icon:'🎉', pt:'No fim de semana',   es:'El fin de semana', ex:'No fim de semana vou descansar.' },
+        { icon:'⏩', pt:'Logo / Depois',      es:'Luego / Después',  ex:'Logo vou comer.' },
+        { icon:'🌙', pt:'À noite',            es:'Esta noche',       ex:'À noite vou estudar.' },
+      ]},
+      { title:'Perguntando sobre planos ❓', items:[
+        { icon:'❓', pt:'O que você vai fazer?',    es:'¿Qué vas a hacer?',       ex:'O que você vai fazer amanhã?' },
+        { icon:'🗺️', pt:'Para onde você vai?',      es:'¿A dónde vas?',           ex:'Para onde você vai no fim de semana?' },
+        { icon:'🚫', pt:'Não vou ___.',             es:'No voy a ___.',           ex:'Hoje não vou estudar!' },
+      ]}
+    ],
+    activity: {
+      type:'wordBuilder',
+      questions:[
+        { prompt:'🎮 Plano para amanhã!', hint:'"Mañana voy a jugar Roblox."', answer:['Amanhã','eu','vou','jogar','Roblox','!'], pool:['Amanhã','eu','vou','jogar','estudar','Roblox','português','!'] },
+        { prompt:'🍕 Plano para o jantar!', hint:'"Esta noche vamos a comer pizza."', answer:['À','noite','nós','vamos','comer','pizza','.'], pool:['À','noite','nós','vamos','comer','pizza','sushi','estudar','.'] },
+        { prompt:'✈️ Viagem planejada!', hint:'"La semana que viene voy a viajar."', answer:['Semana','que','vem','eu','vou','viajar','.'], pool:['Semana','que','vem','eu','vou','viajar','estudar','amanhã','.'] },
+        { prompt:'📚 Plano de estudo!', hint:'"Esta noche ella va a estudiar portugués."', answer:['À','noite','ela','vai','estudar','português','.'], pool:['À','noite','ela','vai','estudar','português','espanhol','jogar','.'] },
+        { prompt:'🎉 Fim de semana!', hint:'"El fin de semana voy al parque."', answer:['No','fim','de','semana','eu','vou','ao','parque','.'], pool:['No','fim','de','semana','eu','vou','ao','parque','shopping','.'] },
+        { prompt:'❓ Faça a pergunta!', hint:'"¿Qué vas a hacer mañana?"', answer:['O','que','você','vai','fazer','amanhã','?'], pool:['O','que','você','vai','fazer','amanhã','hoje','?'] },
+        { prompt:'😴 Plano para dormir!', hint:'"Él va a dormir temprano hoy."', answer:['Ele','vai','dormir','cedo','hoje','.'], pool:['Ele','vai','dormir','cedo','tarde','hoje','amanhã','.'] },
+        { prompt:'🚫 Negativa!', hint:'"Hoy no voy a estudiar."', answer:['Hoje','não','vou','estudar','!'], pool:['Hoje','não','vou','estudar','jogar','amanhã','!'] },
+        { prompt:'🗺️ Para onde vai?', hint:'"¿A dónde vas el fin de semana?"', answer:['Para','onde','você','vai','no','fim','de','semana','?'], pool:['Para','onde','você','vai','no','fim','de','semana','amanhã','?'] },
+        { prompt:'🏆 Última — arrase!', hint:'"Mañana voy al shopping con mi mamá."', answer:['Amanhã','eu','vou','ao','shopping','com','a','minha','mãe','.'], pool:['Amanhã','eu','vou','ao','shopping','parque','com','a','minha','mãe','avó','.'] },
+      ]
+    }
+  },
+
+  // ────────────────────────────────────────────────
+  //  SEMANA 11 — Pretérito Perfeito
+  // ────────────────────────────────────────────────
+  s11a: {
+    id:'s11a', semana:'Semana 11A', titulo:'Pretérito Perfeito — Verbos Regulares',
+    objetivo:'Dizer o que você fez ontem e no fim de semana usando o passado!',
+    apostila:{ vol:2, paginas:'17', descricao:'Complete o diário da semana: na segunda eu…, na terça eu…!' },
+    steps: ['mission','theory','activity','complete'],
+    mission: {
+      emoji:'📖',
+      title:'Missão: Contar o Passado!',
+      color:'var(--pink)',
+      items:[
+        { icon:'⏮️', text:'Até agora você falou sobre o presente e o futuro. Hora de falar sobre o passado!' },
+        { icon:'🇧🇷', text:'O passado em português é muito parecido com o espanhol — você vai aprender rápido!' },
+        { icon:'🎯', text:'Meta: usar 5 verbos diferentes no passado para contar o que fez ontem!' },
+      ]
+    },
+    theory: [
+      { title:'Pretérito Perfeito -AR (verbos regulares) 📝', items:[
+        { icon:'🎮', pt:'Jogar → joguei / jogou',   es:'Jugar → jugué / jugó',     ex:'Ontem eu joguei Roblox!' },
+        { icon:'📚', pt:'Estudar → estudei / estudou',es:'Estudiar → estudié / estudió',ex:'Ela estudou muito hoje.' },
+        { icon:'🎵', pt:'Cantar → cantei / cantou',  es:'Cantar → canté / cantó',   ex:'Eu cantei na aula.' },
+        { icon:'🏃', pt:'Andar → andei / andou',     es:'Andar → anduve / anduvo',  ex:'Nós andamos no parque.' },
+        { icon:'☎️', pt:'Falar → falei / falou',     es:'Hablar → hablé / habló',   ex:'Eu falei com a Luna.' },
+      ]},
+      { title:'Pretérito Perfeito -ER/-IR 📝', items:[
+        { icon:'🍕', pt:'Comer → comi / comeu',      es:'Comer → comí / comió',     ex:'Eu comi pizza ontem.' },
+        { icon:'🥤', pt:'Beber → bebi / bebeu',      es:'Beber → bebí / bebió',     ex:'Ela bebeu suco de laranja.' },
+        { icon:'✍️', pt:'Escrever → escrevi / escreveu',es:'Escribir → escribí / escribió',ex:'Eu escrevi uma carta.' },
+        { icon:'🎨', pt:'Desenhar → desenhei / desenhou',es:'Dibujar → dibujé / dibujó',ex:'Ela desenhou um monstro roxo!' },
+        { icon:'📺', pt:'Assistir → assisti / assistiu',es:'Ver → vi / vio',          ex:'Eu assisti um filme.' },
+      ]},
+      { title:'Quando foi? Marcadores do passado ⏮️', items:[
+        { icon:'📅', pt:'Ontem',              es:'Ayer',                  ex:'Ontem eu joguei Roblox.' },
+        { icon:'📅', pt:'Anteontem',          es:'Anteayer',              ex:'Anteontem eu estudei muito.' },
+        { icon:'📅', pt:'No fim de semana passado', es:'El fin de semana pasado', ex:'No fim de semana passado fui ao parque.' },
+        { icon:'📅', pt:'Na semana passada',  es:'La semana pasada',      ex:'Na semana passada comi pizza.' },
+      ]}
+    ],
+    activity: {
+      type:'wordBuilder',
+      questions:[
+        { prompt:'🎮 O que você fez ontem?', hint:'"Ayer jugué Roblox."', answer:['Ontem','eu','joguei','Roblox','.'], pool:['Ontem','eu','joguei','estudei','Roblox','português','.'] },
+        { prompt:'🍕 O que você comeu?', hint:'"Anoche comí pizza con mi familia."', answer:['À','noite','eu','comi','pizza','com','a','minha','família','.'], pool:['À','noite','eu','comi','pizza','sushi','com','a','minha','família','.'] },
+        { prompt:'📚 Ela estudou!', hint:'"Ella estudió mucho hoy."', answer:['Ela','estudou','muito','hoje','.'], pool:['Ela','estudou','jogou','muito','hoje','ontem','.'] },
+        { prompt:'🥤 O que você bebeu?', hint:'"Bebí jugo de naranja en el desayuno."', answer:['Eu','bebi','suco','de','laranja','no','café','da','manhã','.'], pool:['Eu','bebi','suco','leite','de','laranja','no','café','da','manhã','.'] },
+        { prompt:'🎨 Ela desenhou!', hint:'"Ella dibujó un monstruo morado."', answer:['Ela','desenhou','um','monstro','roxo','!'], pool:['Ela','desenhou','um','monstro','roxo','azul','!'] },
+        { prompt:'☎️ Com quem você falou?', hint:'"Hablé con la Luna ayer."', answer:['Eu','falei','com','a','Luna','ontem','.'], pool:['Eu','falei','com','a','Luna','professora','ontem','.'] },
+        { prompt:'📺 Que filme!', hint:'"El fin de semana pasado vi una película."', answer:['No','fim','de','semana','passado','eu','assisti','um','filme','.'], pool:['No','fim','de','semana','passado','eu','assisti','joguei','um','filme','.'] },
+        { prompt:'✍️ O que você escreveu?', hint:'"Escribí una carta en portugués."', answer:['Eu','escrevi','uma','carta','em','português','.'], pool:['Eu','escrevi','uma','carta','história','em','português','espanhol','.'] },
+        { prompt:'🎵 Na aula de música!', hint:'"Canté en la clase de música."', answer:['Eu','cantei','na','aula','de','música','.'], pool:['Eu','cantei','desenhei','na','aula','de','música','arte','.'] },
+        { prompt:'🏆 Última!', hint:'"La semana pasada estudié y jugué mucho."', answer:['Na','semana','passada','eu','estudei','e','joguei','muito','.'], pool:['Na','semana','passada','eu','estudei','e','joguei','cantei','muito','.'] },
+      ]
+    }
+  },
+
+  s11b: {
+    id:'s11b', semana:'Semana 11B', titulo:'Pretérito Perfeito — Verbos Irregulares',
+    objetivo:'Usar os verbos irregulares mais comuns no passado com confiança!',
+    apostila:{ vol:2, paginas:'18', descricao:'Escreva uma mini-história sobre um dia especial usando 6 verbos no passado!' },
+    steps: ['mission','theory','activity','complete'],
+    mission: {
+      emoji:'⚡',
+      title:'Missão: Verbos Irregulares!',
+      color:'var(--pink)',
+      items:[
+        { icon:'⚠️', text:'Os verbos irregulares não seguem as regras normais — mas são os mais usados! Você precisa memorizá-los.' },
+        { icon:'💡', text:'"Fui" é a forma de IR e de SER no passado. Contexto ajuda a diferenciar.' },
+        { icon:'🎯', text:'Meta: usar fui, fiz, tive, vi e disse em frases completas sem consultar a tabela!' },
+      ]
+    },
+    theory: [
+      { title:'Irregulares essenciais ⚡', items:[
+        { icon:'🚶', pt:'IR/SER → fui / foi',    es:'IR/SER → fui / fue',      ex:'Eu fui ao parque. / A prova foi difícil.' },
+        { icon:'🛠️', pt:'FAZER → fiz / fez',     es:'HACER → hice / hizo',     ex:'Eu fiz o dever. Ela fez um bolo.' },
+        { icon:'👁️', pt:'VER → vi / viu',        es:'VER → vi / vio',          ex:'Eu vi um filme ontem.' },
+        { icon:'🗣️', pt:'DIZER → disse / disse', es:'DECIR → dije / dijo',     ex:'Ela disse "obrigada".' },
+        { icon:'💪', pt:'TER → tive / teve',     es:'TENER → tuve / tuvo',     ex:'Ontem eu tive aula de música.' },
+      ]},
+      { title:'Presente → Passado 🔄', items:[
+        { icon:'🔄', pt:'vou → fui',     es:'voy → fui',     ex:'Ontem eu fui ao shopping.' },
+        { icon:'🔄', pt:'faço → fiz',    es:'hago → hice',   ex:'Eu fiz o dever de casa.' },
+        { icon:'🔄', pt:'vejo → vi',     es:'veo → vi',      ex:'Eu vi a Luna ontem.' },
+        { icon:'🔄', pt:'tenho → tive',  es:'tengo → tuve',  ex:'Ontem eu tive português.' },
+        { icon:'🔄', pt:'digo → disse',  es:'digo → dije',   ex:'Eu disse "bom dia".' },
+      ]}
+    ],
+    activity: {
+      type:'wordBuilder',
+      questions:[
+        { prompt:'🚶 Para onde você foi?', hint:'"Ayer fui al parque con mi familia."', answer:['Ontem','eu','fui','ao','parque','com','a','minha','família','.'], pool:['Ontem','eu','fui','ao','parque','shopping','com','a','minha','família','.'] },
+        { prompt:'🛠️ O que você fez?', hint:'"Hice mi tarea en casa."', answer:['Eu','fiz','o','dever','de','casa','.'], pool:['Eu','fiz','o','dever','trabalho','de','casa','escola','.'] },
+        { prompt:'👁️ O que você viu?', hint:'"Vi una película muy buena."', answer:['Eu','vi','um','filme','muito','bom','.'], pool:['Eu','vi','um','filme','série','muito','bom','ruim','.'] },
+        { prompt:'🎂 Ela fez um bolo!', hint:'"Ella hizo una torta de chocolate."', answer:['Ela','fez','um','bolo','de','chocolate','.'], pool:['Ela','fez','um','bolo','pizza','de','chocolate','morango','.'] },
+        { prompt:'💪 Que aula difícil!', hint:'"Ayer tuve una clase muy difícil."', answer:['Ontem','eu','tive','uma','aula','muito','difícil','.'], pool:['Ontem','eu','tive','uma','aula','prova','muito','difícil','fácil','.'] },
+        { prompt:'🗣️ O que ela disse?', hint:'"Ella dijo: obrigada!"', answer:['Ela','disse','obrigada','!'], pool:['Ela','disse','falou','obrigada','por favor','!'] },
+        { prompt:'🏆 O jogo foi incrível!', hint:'"El partido fue increíble."', answer:['O','jogo','foi','incrível','!'], pool:['O','jogo','foi','incrível','difícil','chato','!'] },
+        { prompt:'👁️ Você viu a Luna?', hint:'"¿Viste a Luna ayer?"', answer:['Você','viu','a','Luna','ontem','?'], pool:['Você','viu','a','Luna','professora','ontem','hoje','?'] },
+        { prompt:'🛠️ O que você fez no fim de semana?', hint:'"¿Qué hiciste el fin de semana?"', answer:['O','que','você','fez','no','fim','de','semana','?'], pool:['O','que','você','fez','no','fim','de','semana','semana passada','?'] },
+        { prompt:'🏆 Última — mostre tudo!', hint:'"Ayer fui al shopping, vi una película y comí pizza."', answer:['Ontem','eu','fui','ao','shopping',',','vi','um','filme','e','comi','pizza','.'], pool:['Ontem','eu','fui','ao','shopping',',','vi','um','filme','série','e','comi','pizza','sushi','.'] },
+      ]
+    }
+  }
+
 
 
 
@@ -2020,6 +2487,7 @@ const LESSONS = {
 const CURRICULUM = [
   {
     id:'bloco1', label:'Bloco 1', sub:'Semanas 1–5', color:'#00F5D4',
+    revisao: { ids:['revisao_b1','prova_b1'], label:'Revisão + Prova — Bloco 1' },
     semanas:[
       { id:'s1', label:'Semana 1', sub:'Quem sou eu?',         aulas:['s1a','s1b'] },
       { id:'s2', label:'Semana 2', sub:'Números',              aulas:['s2a','s2b'] },
@@ -2030,6 +2498,7 @@ const CURRICULUM = [
   },
   {
     id:'bloco2', label:'Bloco 2', sub:'Semanas 6–8', color:'#7B2FFF',
+    revisao: { ids:['revisao_b2','prova_b2'], label:'Revisão + Prova — Bloco 2' },
     semanas:[
       { id:'s6', label:'Semana 6', sub:'Escola e Materiais',   aulas:['s6a','s6b'] },
       { id:'s7', label:'Semana 7', sub:'Família e Corpo',      aulas:['s7a','s7b'] },
@@ -2039,10 +2508,10 @@ const CURRICULUM = [
   {
     id:'bloco3', label:'Bloco 3', sub:'Semanas 9–12', color:'#FF3CAC',
     semanas:[
-      { id:'s9',  label:'Semana 9',  sub:'Revisão + Prova B2',   aulas:['s9a','s9b'] },
-      { id:'s10', label:'Semana 10', sub:'Lugares da Cidade',    aulas:[] },
-      { id:'s11', label:'Semana 11', sub:'Transportes',          aulas:[] },
-      { id:'s12', label:'Semana 12', sub:'Pretérito Perfeito',   aulas:[] },
+      { id:'s9',  label:'Semana 9',  sub:'Lugares da Cidade',   aulas:['s9a','s9b'] },
+      { id:'s10', label:'Semana 10', sub:'Transportes',         aulas:['s10a','s10b'] },
+      { id:'s11', label:'Semana 11', sub:'Pretérito Perfeito',  aulas:['s11a','s11b'] },
+      { id:'s12', label:'Semana 12', sub:'Saúde e Emoções',     aulas:[] },
     ]
   }
 ];
@@ -2522,7 +2991,7 @@ function renderHome() {
   const allLessons = Object.keys(LESSONS);
 
   // check if a lesson is accessible (prev done or first)
-  const ALWAYS_UNLOCKED = ['s1a','s1b','s2a','s2b','s3a','s3b','s4a','s4b','s5a','s5b','s6a','s6b','s7a','s7b','s8a','s8b','s9a','s9b'];
+  const ALWAYS_UNLOCKED = ['s1a','s1b','s2a','s2b','s3a','s3b','s4a','s4b','s5a','s5b','revisao_b1','prova_b1','s6a','s6b','s7a','s7b','s8a','s8b','revisao_b2','prova_b2','s9a','s9b','s10a','s10b','s11a','s11b'];
 
   function isUnlocked(id) {
     if (ALWAYS_UNLOCKED.includes(id)) return true;
@@ -2543,14 +3012,14 @@ function renderHome() {
   CURRICULUM.forEach(bloco => {
     const dot = `<span class="block-dot" style="background:${bloco.color}"></span>`;
     html += `<div class="block-section">
-      <div class="block-header">${dot}<span class="block-title">${bloco.label}</span><span class="block-sub">${bloco.sub}</span></div>
-      <div class="weeks-grid">`;
+      <div class="block-header">${dot}<span class="block-title">${bloco.label}</span><span class="block-sub">${bloco.sub}</span></div>`;
+
+    html += `<div class="weeks-grid">`;
 
     bloco.semanas.forEach(sem => {
       sem.aulas.forEach(lid => {
         const lesson = LESSONS[lid];
         if (!lesson) {
-          // placeholder
           html += `<div class="week-card locked">
             <span class="wk-emoji">🔒</span>
             <div class="wk-label">${sem.label}</div>
@@ -2572,30 +3041,34 @@ function renderHome() {
       });
     });
 
-    html += `</div></div>`;
+    html += `</div>`;
+
+    // Revisão + Prova at the BOTTOM of each bloco
+    if (bloco.revisao) {
+      const rids = bloco.revisao.ids;
+      html += `<div style="padding:0 16px 16px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;border-top:1px solid var(--border);margin-top:4px;padding-top:12px">
+        <span style="font-size:0.68rem;font-weight:900;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,60,172,0.8);width:100%;margin-bottom:4px">📋 Revisão + Prova</span>
+        ${rids.map(rid => {
+          const lesson = LESSONS[rid];
+          if (!lesson) return '';
+          const done = !!progress[rid]?.done;
+          const unlocked = isUnlocked(rid);
+          const cls = done ? 'done' : (unlocked ? '' : 'locked');
+          const emoji = done ? '✅' : (unlocked ? getEmoji(rid) : '🔒');
+          return `<div class="week-card ${cls}" style="min-width:140px;flex:1" onclick="${unlocked ? `openLesson('${rid}')` : ''}">
+            <span class="wk-emoji">${emoji}</span>
+            <div class="wk-label">${lesson.semana}</div>
+            <div class="wk-title">${lesson.titulo}</div>
+            ${progress[rid]?.score ? `<div style="font-size:0.65rem;color:var(--yellow);font-weight:900;margin-top:4px">${progress[rid].score} pts</div>` : ''}
+          </div>`;
+        }).join('')}
+      </div>`;
+    }
+
+    html += `</div>`;
   });
 
   html += `
-    </div>
-
-    <div class="block-section" style="border-color:rgba(255,214,10,0.3);background:rgba(255,214,10,0.04)">
-      <div class="block-header" style="border-color:rgba(255,214,10,0.2)">
-        <span class="block-dot" style="background:var(--yellow)"></span>
-        <span class="block-title" style="color:var(--yellow)">🏆 Prova Final</span>
-        <span class="block-sub">Semanas 1 a 7</span>
-      </div>
-      <div style="padding:16px">
-        <div onclick="openExtra('prova')" style="background:var(--surface2);border:2px solid var(--yellow);border-radius:16px;padding:20px 22px;cursor:pointer;display:flex;align-items:center;gap:18px;transition:transform 0.15s,box-shadow 0.15s"
-          onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 24px rgba(255,214,10,0.2)'"
-          onmouseout="this.style.transform='';this.style.boxShadow=''">
-          <span style="font-size:2.5rem">🏆</span>
-          <div>
-            <div style="font-family:var(--font-head);font-size:1.1rem;color:var(--yellow);margin-bottom:4px">Prova Final — Semanas 1 a 7</div>
-            <div style="font-size:0.78rem;font-weight:700;color:var(--muted)">Quiz + Combinação • 18 questões • Todo o conteúdo</div>
-          </div>
-          <span style="margin-left:auto;font-size:1.4rem;color:var(--yellow)">→</span>
-        </div>
-      </div>
     </div>
 
     <div class="block-section">
@@ -2651,7 +3124,7 @@ function renderHome() {
 }
 
 function getEmoji(id) {
-  const map = { s1a:'👋', s1b:'❤️', s2a:'🎮', s2b:'💰', s3a:'🎨', s3b:'⭐', s4a:'🏠', s4b:'⏰', s5a:'📍', s5b:'📖', s6a:'🎒', s6b:'✏️', s7a:'👨‍👩‍👧', s7b:'🦴', s8a:'🍎', s8b:'🗺️', s9a:'🔄', s9b:'📝' };
+  const map = { s1a:'👋', s1b:'❤️', s2a:'🎮', s2b:'💰', s3a:'🎨', s3b:'⭐', s4a:'🏠', s4b:'⏰', s5a:'📍', s5b:'📖', revisao_b1:'🔄', prova_b1:'📝', s6a:'🎒', s6b:'✏️', s7a:'👨‍👩‍👧', s7b:'🦴', s8a:'🍎', s8b:'🗺️', revisao_b2:'🔄', prova_b2:'📝', s9a:'🏙️', s9b:'🛍️', s10a:'🚌', s10b:'📅', s11a:'📖', s11b:'⚡' };
   return map[id] || '📚';
 }
 
