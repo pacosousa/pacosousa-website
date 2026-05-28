@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slides de Apoio: O Alquimista</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Poppins de alta legibilidade -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        :root {
+            --base-font-size: 26px; /* Tamanho base ultra-acessível para a Susana */
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0b0f19; /* Azul escuro quase preto para conforto ocular */
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+        .readable-text {
+            font-size: var(--base-font-size);
+            line-height: 1.6;
+        }
+        .slide-card {
+            background-color: #111827; /* Cinza grafite profundo */
+            border: 4px solid #facc15; /* Moldura amarela de alto contraste */
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
+        }
+        .highlight-yellow {
+            color: #facc15;
+            font-weight: 700;
+        }
+        .highlight-cyan {
+            color: #22d3ee;
+            font-weight: 700;
+        }
+        /* Transição suave de slides */
+        .slide-transition {
+            transition: all 0.3s ease-in-out;
+        }
+        /* Custom Focus para acessibilidade */
+        button:focus {
+            outline: 4px solid #22d3ee;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between p-4 md:p-8">
+
+    <!-- CABEÇALHO COM PAINEL DE ACESSIBILIDADE RÁPIDA -->
+    <header class="w-full max-w-6xl mx-auto flex flex-wrap justify-between items-center gap-4 mb-6 pb-4 border-b border-gray-800">
+        <div>
+            <span class="text-sm tracking-widest text-[#22d3ee] font-bold uppercase">Apoio Pedagógico Avançado</span>
+            <h1 class="text-2xl md:text-3xl font-extrabold text-[#facc15] flex items-center gap-2">
+                <i class="fa-solid fa-graduation-cap"></i> O Alquimista • Paulo Coelho
+            </h1>
+        </div>
+        
+        <!-- Controles para a Susana -->
+        <div class="flex items-center gap-3 bg-gray-900 p-2.5 rounded-xl border border-gray-700">
+            <span class="text-sm font-semibold text-gray-400 pl-1">Acessibilidade:</span>
+            
+            <!-- Controle de Zoom -->
+            <button onclick="adjustFont(-2)" class="w-10 h-10 bg-gray-800 hover:bg-gray-700 text-white rounded-lg flex items-center justify-center font-bold text-sm border border-gray-600 transition" title="Diminuir Texto">
+                A-
+            </button>
+            <span id="font-size-val" class="text-[#facc15] font-bold text-lg px-1">26px</span>
+            <button onclick="adjustFont(2)" class="w-10 h-10 bg-gray-800 hover:bg-gray-700 text-[#facc15] rounded-lg flex items-center justify-center font-bold text-lg border border-[#facc15] transition" title="Aumentar Texto">
+                A+
+            </button>
+
+            <!-- Leitor de Tela do Slide -->
+            <button onclick="speakSlide()" class="ml-2 px-3 py-2 bg-[#22d3ee] hover:bg-cyan-500 text-black rounded-lg flex items-center gap-1.5 font-bold text-sm transition" title="Ouvir Slide">
+                <i class="fa-solid fa-volume-high"></i> Ouvir
+            </button>
+        </div>
+    </header>
+
+    <!-- CONTAINER PRINCIPAL DOS SLIDES -->
+    <main class="flex-grow flex items-center justify-center w-full max-w-6xl mx-auto my-4">
+        <div id="slide-container" class="slide-card w-full rounded-2xl p-8 md:p-12 min-h-[500px] flex flex-col justify-between relative overflow-hidden slide-transition">
+            
+            <!-- Barra de Progresso Visual -->
+            <div class="absolute top-0 left-0 h-2 bg-[#22d3ee] transition-all duration-300" id="progress-bar" style="width: 14.28%;"></div>
+
+            <!-- Identificação do Slide -->
+            <div class="flex justify-between items-center mb-6">
+                <span class="text-[#22d3ee] font-bold tracking-widest text-sm uppercase" id="slide-category">Leitura Analítica</span>
+                <span class="bg-gray-800 text-white px-4 py-1.5 rounded-full text-base font-bold border border-gray-700" id="slide-counter">Slide 1 de 7</span>
+            </div>
+
+            <!-- Conteúdo Dinâmico do Slide (Injetado via JS) -->
+            <div id="slide-content" class="flex-grow flex flex-col justify-center readable-text text-gray-100">
+                <!-- Conteúdo do slide -->
+            </div>
+
+        </div>
+    </main>
+
+    <!-- CONTROLES DE NAVEGAÇÃO -->
+    <footer class="w-full max-w-6xl mx-auto flex justify-between items-center mt-6">
+        <button onclick="changeSlide(-1)" id="btn-prev" class="px-6 py-4 bg-gray-800 hover:bg-gray-700 text-white font-bold rounded-xl flex items-center gap-2 transition border border-gray-700 active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed text-lg">
+            <i class="fa-solid fa-arrow-left"></i> Anterior
+        </button>
+        
+        <!-- Indicadores de bolinha -->
+        <div class="hidden sm:flex gap-3" id="dots-container"></div>
+        
+        <button onclick="changeSlide(1)" id="btn-next" class="px-6 py-4 bg-[#facc15] hover:bg-yellow-500 text-black font-extrabold rounded-xl flex items-center gap-2 transition active:scale-95 text-lg">
+            Próximo <i class="fa-solid fa-arrow-right"></i>
+        </button>
+    </footer>
+
+    <script>
+        const slidesData = [
+            {
+                category: "Leitura Avançada",
+                title: "O Alquimista em Andaluzia",
+                content: `
+                    <div class="space-y-6 text-center">
+                        <p class="text-3xl md:text-4xl text-[#facc15] font-extrabold leading-snug">
+                            Bem-vinda à Jornada de Santiago
+                        </p>
+                        <p class="text-xl md:text-2xl text-gray-300">
+                            Nesta aula, analisaremos o <span class="highlight-cyan">Prólogo</span> e os desafios linguísticos práticos de transição do espanhol para o português de alto nível.
+                        </p>
+                        <div class="pt-4 flex justify-center gap-6">
+                            <span class="px-4 py-2 bg-gray-950 rounded-lg text-base border border-gray-800"><i class="fa-solid fa-book"></i> Foco Literário</span>
+                            <span class="px-4 py-2 bg-gray-950 rounded-lg text-base border border-gray-800"><i class="fa-solid fa-earth-americas"></i> Expansão Cultural</span>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                category: "Análise Crítica e Debate",
+                title: "O Narciso de Oscar Wilde",
+                content: `
+                    <div class="space-y-6">
+                        <p class="text-[#facc15] font-bold text-2xl md:text-3xl">A inversão do mito clássico:</p>
+                        <p class="text-gray-200">
+                            O lago chorava pela morte de Narciso porque, ao debruçar-se em suas margens, o lago podia ver, no fundo dos olhos dele, sua <span class="highlight-cyan">própria beleza refletida</span>.
+                        </p>
+                        <div class="bg-gray-950 p-6 rounded-xl border-l-8 border-[#22d3ee] mt-4">
+                            <p class="text-[#22d3ee] font-bold mb-2 text-xl"><i class="fa-solid fa-comments"></i> Para Pensar & Falar:</p>
+                            <p class="text-gray-300">Como você avalia essa perspectiva de "vaidade mútua"? Como ela se aplica às relações interpessoais de hoje?</p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                category: "Léxico e Gramática Fina",
+                title: "O Desafio dos Gêneros Divergentes",
+                content: `
+                    <div class="space-y-4">
+                        <p class="text-gray-300">
+                            Algumas palavras do texto possuem gêneros opostos ou traiçoeiros em relação ao espanhol. Note a precisão exigida:
+                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                            <div class="bg-gray-950 p-4 rounded-xl border border-gray-800">
+                                <p class="text-sm text-gray-400 uppercase">Masculino no Português</p>
+                                <ul class="space-y-2 mt-2">
+                                    <li>• <span class="highlight-yellow">O</span> volume <span class="text-gray-500 text-sm">(el volumen)</span></li>
+                                    <li>• <span class="highlight-yellow">O</span> travesseiro <span class="text-gray-500 text-sm">(la almohada)</span></li>
+                                    <li>• <span class="highlight-yellow">O</span> rebanho <span class="text-gray-500 text-sm">(el rebaño)</span></li>
+                                </ul>
+                            </div>
+                            <div class="bg-gray-950 p-4 rounded-xl border border-gray-800">
+                                <p class="text-sm text-gray-400 uppercase">Feminino no Português</p>
+                                <ul class="space-y-2 mt-2">
+                                    <li>• <span class="highlight-cyan">A</span> lenda <span class="text-gray-500 text-sm">(la leyenda)</span></li>
+                                    <li>• <span class="highlight-cyan">A</span> viagem <span class="text-gray-500 text-sm">(el viaje)</span></li>
+                                    <li>• <span class="highlight-cyan">A</span> dor <span class="text-gray-500 text-sm">(el dolor)</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                category: "Conexões Avançadas",
+                title: "Regência Preposicional",
+                content: `
+                    <div class="space-y-6">
+                        <p class="text-gray-200">
+                            A estrutura formal em português exige atenção redobrada aos conectores de dependência observados na história de Santiago:
+                        </p>
+                        <div class="space-y-4 bg-gray-950 p-6 rounded-xl border border-yellow-500">
+                            <div class="flex gap-3 items-start">
+                                <span class="bg-[#facc15] text-black rounded-full px-2 py-0.5 text-sm font-bold mt-1">1</span>
+                                <p><strong class="highlight-cyan">Acostumar-se a / com:</strong> <br><em>"Elas já se acostumaram <span class="underline">a mim</span>."</em> ou <em>"se acostumou <span class="underline">ao</span> horário."</em></p>
+                            </div>
+                            <div class="flex gap-3 items-start">
+                                <span class="bg-[#facc15] text-black rounded-full px-2 py-0.5 text-sm font-bold mt-1">2</span>
+                                <p><strong class="highlight-cyan">Capazes de:</strong> <br><em>"Sempre acreditara que as ovelhas eram capazes <span class="underline">de entender</span>."</em></p>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                category: "Polimento de Pronúncia",
+                title: "A Mecânica do Som",
+                content: `
+                    <div class="space-y-6">
+                        <p class="text-gray-300">
+                            Pratique as modulações fonéticas do texto para garantir um discurso polido:
+                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="bg-gray-950 p-4 rounded-lg">
+                                <h4 class="highlight-yellow text-lg font-bold mb-2">R Uvular (Garganta)</h4>
+                                <p class="text-sm text-gray-300">Som de "H" do inglês no início de palavras: <strong class="text-white">Rapaz, Região, Rebanho</strong>.</p>
+                            </div>
+                            <div class="bg-gray-950 p-4 rounded-lg">
+                                <h4 class="highlight-cyan text-lg font-bold mb-2">Vocalização do L</h4>
+                                <p class="text-sm text-gray-300">O "L" no fim de sílabas vira som puro de "U": <strong class="text-white">Alquimista, Papel, Sol</strong>.</p>
+                            </div>
+                            <div class="bg-gray-950 p-4 rounded-lg">
+                                <h4 class="highlight-yellow text-lg font-bold mb-2">S Intervocálico (/z/)</h4>
+                                <p class="text-sm text-gray-300">O som de abelha quando o S está entre vogais: <strong class="text-white">Narciso, Surpresa, Deusa</strong>.</p>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                category: "Conversação Intelectual",
+                title: "Empirismo vs. Sabedoria Formal",
+                content: `
+                    <div class="space-y-6">
+                        <div class="bg-gray-950 p-6 rounded-xl border border-cyan-400 italic text-center">
+                            <p class="text-2xl font-semibold text-white">
+                                "– É porque as ovelhas ensinam mais que os livros – respondeu o rapaz."
+                            </p>
+                        </div>
+                        <p class="text-gray-300 text-center">
+                            Até que ponto a sabedoria prática da vida no campo ou das viagens supera o conhecimento científico ou acadêmico? 
+                        </p>
+                        <p class="text-gray-400 text-center text-lg">
+                            Use conectores como <strong class="highlight-cyan">"do meu ponto de vista"</strong>, <strong class="highlight-cyan">"em contrapartida"</strong> ou <strong class="highlight-cyan">"visto que"</strong>.
+                        </p>
+                    </div>
+                `
+            },
+            {
+                category: "Tarefa de Consolidação",
+                title: "Desafio de Produção",
+                content: `
+                    <div class="space-y-4">
+                        <p class="highlight-yellow text-xl md:text-2xl font-bold"><i class="fa-solid fa-pen-clip"></i> Prática de Alta Performance:</p>
+                        <div class="bg-gray-950 p-6 rounded-xl space-y-3 border border-gray-800">
+                            <p class="text-gray-300">
+                                <strong>1.</strong> Grave uma análise em áudio (máximo 2 minutos) comparando as ambições de Santiago ao querer ser pastor com a rotina repetitiva da filha do comerciante.
+                            </p>
+                            <p class="text-gray-300">
+                                <strong>2.</strong> Escreva 3 frases autorais utilizando, de forma correta, as regências dos verbos <span class="highlight-cyan">"acostumar-se"</span> e <span class="highlight-cyan">"lembrar-se"</span>.
+                            </p>
+                        </div>
+                    </div>
+                `
+            }
+        ];
+
+        let currentSlide = 0;
+
+        function adjustFont(amount) {
+            let root = document.documentElement;
+            let currentSize = parseInt(getComputedStyle(root).getPropertyValue('--base-font-size'));
+            let newSize = currentSize + amount;
+            if (newSize >= 18 && newSize <= 45) {
+                root.style.setProperty('--base-font-size', newSize + 'px');
+                document.getElementById('font-size-val').innerText = newSize + 'px';
+            }
+        }
+
+        function renderSlide() {
+            const slide = slidesData[currentSlide];
+            const contentDiv = document.getElementById('slide-content');
+            
+            // Suaviza a transição ocultando
+            contentDiv.style.opacity = 0;
+            
+            setTimeout(() => {
+                document.getElementById('slide-category').innerText = slide.category;
+                document.getElementById('slide-counter').innerText = `Slide ${currentSlide + 1} de ${slidesData.length}`;
+                
+                contentDiv.innerHTML = `
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-[#facc15] mb-6 border-b border-gray-800 pb-2">${slide.title}</h2>
+                    <div class="space-y-4 text-xl md:text-2xl">${slide.content}</div>
+                `;
+                
+                // Exibe novamente
+                contentDiv.style.opacity = 1;
+                
+                // Atualiza barra de progresso
+                document.getElementById('progress-bar').style.width = `${((currentSlide + 1) / slidesData.length) * 100}%`;
+                
+                updateControls();
+                updateDots();
+            }, 200);
+        }
+
+        function changeSlide(direction) {
+            let nextIndex = currentSlide + direction;
+            if (nextIndex >= 0 && nextIndex < slidesData.length) {
+                currentSlide = nextIndex;
+                renderSlide();
+            }
+        }
+
+        function updateControls() {
+            const btnPrev = document.getElementById('btn-prev');
+            const btnNext = document.getElementById('btn-next');
+            
+            btnPrev.disabled = currentSlide === 0;
+            
+            if (currentSlide === slidesData.length - 1) {
+                btnNext.innerHTML = 'Concluir <i class="fa-solid fa-circle-check text-green-700"></i>';
+            } else {
+                btnNext.innerHTML = 'Próximo <i class="fa-solid fa-arrow-right"></i>';
+            }
+        }
+
+        function initDots() {
+            const container = document.getElementById('dots-container');
+            container.innerHTML = '';
+            slidesData.forEach((_, index) => {
+                const dot = document.createElement('button');
+                dot.className = `w-4 h-4 rounded-full border-2 transition-all ${index === currentSlide ? 'bg-[#facc15] border-[#facc15] scale-125' : 'bg-gray-800 border-gray-600'}`;
+                dot.onclick = () => {
+                    currentSlide = index;
+                    renderSlide();
+                };
+                container.appendChild(dot);
+            });
+        }
+
+        function updateDots() {
+            const dots = document.getElementById('dots-container').children;
+            for (let i = 0; i < dots.length; i++) {
+                if (i === currentSlide) {
+                    dots[i].className = "w-4 h-4 rounded-full border-2 bg-[#facc15] border-[#facc15] scale-125 transition-all";
+                } else {
+                    dots[i].className = "w-4 h-4 rounded-full border-2 bg-gray-800 border-gray-600 transition-all";
+                }
+            }
+        }
+
+        function speakSlide() {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel(); // Para leituras anteriores em andamento
+                
+                // Captura o texto do container para a leitura
+                const text = document.getElementById('slide-content').innerText;
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'pt-BR'; // Força sotaque brasileiro
+                utterance.rate = 0.95; // Velocidade ligeiramente mais lenta para facilitar o entendimento
+                
+                // Encontra voz em português
+                const voices = window.speechSynthesis.getVoices();
+                const ptVoice = voices.find(voice => voice.lang.includes('pt-BR'));
+                if (ptVoice) {
+                    utterance.voice = ptVoice;
+                }
+                
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        // Suporte a teclado (Setas Esquerda e Direita)
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') {
+                changeSlide(1);
+            } else if (e.key === 'ArrowLeft') {
+                changeSlide(-1);
+            }
+        });
+
+        // Inicialização do documento
+        window.onload = function() {
+            renderSlide();
+            initDots();
+        };
+    </script>
+</body>
+</html>
